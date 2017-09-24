@@ -1,0 +1,27 @@
+﻿<Window x:Class="app.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:app"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Width="80"
+        SizeToContent="Height"
+        Topmost="True"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Stylus.IsPressAndHoldEnabled="False"
+        Background="#7F000000"
+        PreviewMouseMove="Window_PreviewMouseMove"
+        PreviewTouchMove="Window_PreviewTouchMove"
+        PreviewStylusInAirMove="Window_PreviewStylusInAirMove">
+	<StackPanel Name="panel" Margin="0,0,0,0">
+		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="SPACE" Tag="SPACE" />
+		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="E" Tag="VK_E" />
+		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="I" Tag="VK_I" />
+		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="M" Tag="VK_M" />
+		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="TAB" Tag="~TAB" />
+		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="SAVE" Tag="~CONTROL+VK_S" />
+	</StackPanel>
+</Window>
