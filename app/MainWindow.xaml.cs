@@ -1,11 +1,12 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace app {
+namespace ArtTouchPanel {
 
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -15,6 +16,7 @@ namespace app {
 		private InputSimulatorHelper inputSimulator;
 		private GlobalMouseHook globalMouseHook;
 		private bool isPassthrough;
+		private Config config;
 
 		public MainWindow() {
 
@@ -22,62 +24,100 @@ namespace app {
 			inputSimulator = new InputSimulatorHelper();
 			globalMouseHook = new GlobalMouseHook(this);
 			globalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
-		}
 
-		private void LoadConfig() {
+			string errMsg = null;
+			try {
+				config = Config.Load();
+			} catch (FileNotFoundException e) {
+				errMsg = string.Format("{0}:\n{1}", "Config load error", e.Message);
+			} catch (FormatException e) {
+				errMsg = string.Format("{0}:\n{1}", "Config validation error", e.Message);
+			} catch (Newtonsoft.Json.JsonReaderException e) {
+				errMsg = string.Format("{0}:\n{1}", "Config syntax error", e.Message);
+			} catch (Exception e) {
+				errMsg = string.Format("{0}:\n{1}", e.GetType(), e.Message);
+			}
 
-		}
+			if (errMsg != null) {
 
-		private void SetPassthrough(float value) {
-
-			// Clamp value
-			if (value < 0) value = 0;
-			else if (value > 1) value = 1;
-
-			if (value == 0) {
-
-				SetPassthrough(true);
+				MessageBox.Show(errMsg, string.Format("{0} Error", Properties.Resources.AppName));
+				Application.Current.Shutdown(1);
 				return;
 			}
 
-			var isWanted = value != 1;
-			if (isWanted && !isPassthrough) {
-
-				this.Opacity = value;
-				Win32.SetWindowExTransparent(this, true);
-				isPassthrough = true;
-
-			} else if (!isWanted && isPassthrough) {
-
-				this.Opacity = value;
-				Win32.SetWindowExTransparent(this, false);
-				isPassthrough = false;
-			}
+			ReloadLayout();
 		}
 
+		private void ResetLayout() {
+
+			globalMouseHook.Disable();
+			SetPassthrough(false);
+		}
+
+		private void ReloadLayout() {
+
+			ResetLayout();
+
+			if (config == null)
+				return;
+
+			this.Visibility = Visibility.Visible;
+			this.Opacity = config.data.opacity;
+		}
+
+		/// <summary>
+		/// Enable or disable pass-though using config values for opacity.
+		/// </summary>
+		/// <param name="isWanted">Flag indicating if pass-through is wanted</param>
 		private void SetPassthrough(bool isWanted) {
+
+			float opacity = isWanted ?
+				config.data.opacityHide :
+				config.data.opacity;
+
+			SetPassthrough(isWanted, opacity);
+		}
+
+		/// <summary>
+		/// Enable or disable pass-though.
+		/// </summary>
+		/// <param name="isWanted">Flag indicating if pass-through is wanted</param>
+		/// <param name="opacity">Opacity value to set</param>
+		private void SetPassthrough(bool isWanted, float opacity) {
 
 			if (isWanted && !isPassthrough) {
 
-				this.Visibility = Visibility.Hidden;
+				if (opacity == 0)
+					this.Visibility = Visibility.Hidden;
+				else
+					this.Opacity = opacity;
+
+				Win32.SetWindowExTransparent(this, true);
 				isPassthrough = true;
+				globalMouseHook.Enable();
 
 			} else if (!isWanted && isPassthrough) {
 
+				this.Opacity = opacity;
 				this.Visibility = Visibility.Visible;
+
+				Win32.SetWindowExTransparent(this, false);
 				isPassthrough = false;
 			}
 		}
 
 		private void HandleMouseLeaveBoundaries(object sender, GlobalMouseHook.EventArgs e) {
 
+			globalMouseHook.Disable();
 			SetPassthrough(false);
 		}
 
 		protected override void OnClosing(CancelEventArgs e) {
 
 			base.OnClosing(e);
-			globalMouseHook.Dispose();
+
+			if (globalMouseHook != null)
+				globalMouseHook.Dispose();
 		}
 
 		protected override void OnActivated(EventArgs e) {
@@ -87,6 +127,8 @@ namespace app {
 		}
 
 		private void Button_TouchDown(object sender, TouchEventArgs e) {
+
+			e.Handled = true;
 
 			Button btn = (Button)sender;
 			btn.FontWeight = FontWeight.FromOpenTypeWeight(500);
@@ -98,11 +140,11 @@ namespace app {
 				inputSimulator.SimulateKeyPress(parsedKeyCommand.keyCodes);
 			else
 				inputSimulator.SimulateKeyDown(parsedKeyCommand.keyCodes);
-
-			e.Handled = true;
 		}
 
 		private void Button_TouchUp(object sender, TouchEventArgs e) {
+
+			e.Handled = true;
 
 			Button btn = (Button)sender;
 			btn.FontWeight = FontWeight.FromOpenTypeWeight(200);
@@ -112,8 +154,6 @@ namespace app {
 
 			if (!parsedKeyCommand.isPressWanted)
 				inputSimulator.SimulateKeyUp(parsedKeyCommand.keyCodes);
-
-			e.Handled = true;
 		}
 
 		private void Window_PreviewMouseMove(object sender, MouseEventArgs e) {
@@ -123,17 +163,23 @@ namespace app {
 			if (e.StylusDevice != null)
 				return;
 
-			Debug.WriteLine("Hide Panel (mouse)");
-			SetPassthrough(true);
+			if (!config.data.disableHide) {
+
+				Debug.WriteLine("Hide Panel (mouse)");
+				SetPassthrough(true);
+			}
 		}
 
 		private void Window_PreviewStylusInAirMove(object sender, StylusEventArgs e) {
 
-			Debug.WriteLine("Hide Panel (pen)");
-			SetPassthrough(true);
-
 			// Prevent mouse move event
 			e.Handled = true;
+
+			if (!config.data.disableHide) {
+
+				Debug.WriteLine("Hide Panel (pen)");
+				SetPassthrough(true);
+			}
 		}
 
 		private void Window_PreviewTouchMove(object sender, TouchEventArgs e) {

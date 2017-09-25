@@ -1,0 +1,119 @@
+{
+	"id": "http://flareburst.net/schemas/artist-touch-panel.json",
+	"type": "object",
+	"allOf": [
+		{ "$ref": "#/definitions/versionProp" },
+		{ "$ref": "#/definitions/sizeProp" },
+		{ "$ref": "#/definitions/alignmentProp" },
+		{ "$ref": "#/definitions/itemsProp" },
+		{
+			"properties": {
+				"opacity": {
+					"description": "Application opacity.",
+					"allOf": [
+						{"$ref": "#/definitions/opacityType"},
+						{"default": 1.0}
+					]
+				},
+				"opacityHide": {
+					"description": "Application opacity when hidden.",
+					"allOf": [
+						{"$ref": "#/definitions/opacityType"},
+						{"default": 0.0}
+					]
+				},
+				"disableHide": {
+					"description": "Flag indicating if mouse-over hide is wanted.",
+					"type": "boolean"
+				}
+			}
+		}
+	],
+	"required": ["version", "size", "alignment", "items"],
+
+	"definitions": {
+		"opacityType": {
+			"description": "Clamped from 0.0 to 1.0",
+			"type": "number"
+		},
+		"versionProp": {
+			"properties": {
+				"version": {
+					"type": "integer",
+					"enum": [1]
+				}
+			}
+		},
+		"sizeProp": {
+			"properties": {
+				"size": {
+					"description": "In pixel. Whether it's width or height depends on layout alignment.",
+					"type": "integer",
+				}
+			}
+		},
+		"alignmentProp": {
+			"properties": {
+				"alignment": {
+					"description": "Determine the alignment of items in panel.",
+					"type": "string",
+					"enum": [
+						"vertical",
+						"horizontal"
+					]
+				}
+			}
+		},
+		"itemsProp": {
+			"properties": {
+				"items": {
+					"type": "array",
+					"items": {
+						"oneOf": [
+							{ "$ref": "#/definitions/panelObj" },
+							{ "$ref": "#/definitions/buttonObj" }
+						]
+					}
+				}
+			}
+		},
+		"panelObj": {
+			"allOf": [
+				{"$ref": "#/definitions/sizeProp"},
+				{"$ref": "#/definitions/alignmentProp"},
+				{"$ref": "#/definitions/itemsProp" },
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": ["panel"]
+						}
+					},
+					"required": ["alignment", "items"]
+				}
+			]
+		},
+		"buttonObj": {
+			"allOf": [
+				{"$ref": "#/definitions/sizeProp"},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": ["button"]
+						},
+						"size": {
+							"$ref": "#/definitions/sizeProp"
+						},
+						"command": {
+							"type": "string"
+						}
+					},
+					"required": ["size", "command"]
+				}
+			]
+		},
+	}
+}

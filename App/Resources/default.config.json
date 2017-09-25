@@ -1,0 +1,46 @@
+{
+	"version": 1,
+	"opacity": 0.8,
+	"opacityHide": 0.1,
+	"disableHide": false,
+	"size": 80,
+	"alignment": "vertical",
+	"items": [{
+		"type": "button",
+		"size": 75,
+		"command": "SPACE"
+	}, {
+		"type": "button",
+		"size": 75,
+		"command": "VK_E"
+	}, {
+		"type": "button",
+		"size": 75,
+		"command": "VK_I"
+	}, {
+		"type": "button",
+		"size": 75,
+		"command": "VK_M"
+	}, {
+		"type": "button",
+		"size": 75,
+		"command": "~TAB"
+	}, {
+		"type": "button",
+		"size": 75,
+		"command": "~CONTROL+VK_S"
+	}, {
+		"type": "panel",
+		"alignment": "horizontal",
+		"size": 100,
+		"items": [{
+			"type": "button",
+			"size": 75,
+			"command": "VK_A"
+		}, {
+			"type": "button",
+			"size": 75,
+			"command": "VK_B"
+		}]
+	}]
+}

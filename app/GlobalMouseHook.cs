@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using static app.Win32;
+using static ArtTouchPanel.Win32;
 
-namespace app {
+namespace ArtTouchPanel {
 
 	internal class GlobalMouseHook : IDisposable {
 
@@ -15,7 +15,6 @@ namespace app {
 		}
 
 		public struct EventArgs {
-			public Point coords;
 			public EventSource source;
 		}
 
@@ -24,18 +23,36 @@ namespace app {
 		private Window appWindow;
 		private HookProc proc;
 		private IntPtr hookId = IntPtr.Zero;
+		private bool isInAppBoundaries;
 
 		public event GlobalMouseEventHandler OnMouseLeaveBoundaries;
 
 		public GlobalMouseHook(Window window) {
 
-			this.appWindow = window;
+			appWindow = window;
 			proc = HookCallback;
+		}
+
+		public void Enable() {
+
+			// Already hooked check
+			if (hookId != IntPtr.Zero)
+				return;
 
 			using (Process curProcess = Process.GetCurrentProcess())
 			using (ProcessModule curModule = curProcess.MainModule) {
 				hookId = SetWindowsHookEx(HookType.WH_MOUSE_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
 			}
+		}
+
+		public void Disable() {
+
+			// Hooked check
+			if (hookId == IntPtr.Zero)
+				return;
+
+			UnhookWindowsHookEx(hookId);
+			hookId = IntPtr.Zero;
 		}
 
 		private bool IsInAppBoundaries(Point screenCoords) {
@@ -67,22 +84,36 @@ namespace app {
 			return isTouch ? EventSource.Touch : EventSource.Pen;
 		}
 
+		/// <summary>
+		/// Intercepts mouse events, giving the option to change or swallow them.
+		/// This is gives extremely bad experience if/when the app hangs (i.e. debugger break),
+		/// as mouse events won't be processed, rendering mouse unusable until CallNextHookEx
+		/// is called. Fortunately, the OS will fix this by probably unregistering
+		/// the hook...
+		/// @TODO Minimize usage or find another way.
+		/// </summary>
+		/// <param name="code"></param>
+		/// <param name="wParam"></param>
+		/// <param name="lParam"></param>
+		/// <returns></returns>
 		private IntPtr HookCallback(int code, IntPtr wParam, IntPtr lParam) {
 
-			if (code >= 0 && WM.WM_MOUSEMOVE == (WM)wParam) {
+			if (OnMouseLeaveBoundaries != null && code >= 0 && WM.WM_MOUSEMOVE == (WM)wParam) {
 
 				MSLLHOOKSTRUCT hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
 				Point coords = new Point(hookStruct.pt.x, hookStruct.pt.y);
 
 				// Boundary check
-				if (!IsInAppBoundaries(coords)) {
+				var isNowInAppBoundaries = IsInAppBoundaries(coords);
+				if (isInAppBoundaries && !isNowInAppBoundaries) {
 
 					EventSource source = GetMouseEventSource(hookStruct);
 					OnMouseLeaveBoundaries.Invoke(null, new EventArgs {
-						coords = coords,
 						source = source
 					});
 				}
+
+				isInAppBoundaries = isNowInAppBoundaries;
 			}
 
 			return CallNextHookEx(hookId, code, wParam, lParam);
@@ -90,7 +121,7 @@ namespace app {
 
 		public void Dispose() {
 
-			UnhookWindowsHookEx(hookId);
+			Disable();
 		}
 	}
 }

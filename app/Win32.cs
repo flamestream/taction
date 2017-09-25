@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Interop;
 
-namespace app {
+namespace ArtTouchPanel {
 
 	internal static class Win32 {
 
