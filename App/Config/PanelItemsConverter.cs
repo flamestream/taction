@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace ArtTouchPanel {
 
@@ -38,11 +39,26 @@ namespace ArtTouchPanel {
 						switch (type) {
 
 							case "button":
-								o.Add(new ButtonSpecs());
+
+								o.Add(new ButtonSpecs {
+									size = item.Value<int>("size"),
+									keyCommand = item.Value<string>("command")
+								});
 								break;
 
 							case "panel":
-								o.Add(new PanelSpecs());
+
+								var orientation = serializer.Deserialize<Orientation>(new JTokenReader(item.GetValue("orientation")));
+
+								var r = new JTokenReader(item.GetValue("items"));
+								r.Read(); // Advance pointer to simulate behaviour
+								var items = (List<IPanelItemSpecs>)ReadJson(r, objectType, null, serializer);
+
+								o.Add(new PanelSpecs {
+									size = item.Value<int>("size"),
+									orientation = orientation,
+									items = items
+								});
 								break;
 						}
 					}

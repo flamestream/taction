@@ -37,11 +37,6 @@ namespace ArtTouchPanel {
 			public bool disableHide { get; set; }
 		}
 
-		public enum PanelAlignment {
-			Vertical,
-			Horizontal
-		}
-
 		public interface IPanelItemSpecs {
 
 			int size { get; set; }
@@ -57,8 +52,8 @@ namespace ArtTouchPanel {
 
 			public int size { get; set; }
 
-			[JsonConverter(typeof(PanelAlignmentConverter))]
-			public PanelAlignment alignment { get; set; }
+			[JsonConverter(typeof(PanelOrientationConverter))]
+			public System.Windows.Controls.Orientation orientation { get; set; }
 
 			[JsonConverter(typeof(PanelItemsConverter))]
 			public List<IPanelItemSpecs> items;

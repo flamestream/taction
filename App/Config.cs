@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ArtTouchPanel {
 
-	public partial class Config {
+	internal partial class Config {
 
 		/// <summary>
 		/// Loaded config data.

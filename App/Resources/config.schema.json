@@ -4,7 +4,7 @@
 	"allOf": [
 		{ "$ref": "#/definitions/versionProp" },
 		{ "$ref": "#/definitions/sizeProp" },
-		{ "$ref": "#/definitions/alignmentProp" },
+		{ "$ref": "#/definitions/orientationProp" },
 		{ "$ref": "#/definitions/itemsProp" },
 		{
 			"properties": {
@@ -29,7 +29,7 @@
 			}
 		}
 	],
-	"required": ["version", "size", "alignment", "items"],
+	"required": ["version", "size", "orientation", "items"],
 
 	"definitions": {
 		"opacityType": {
@@ -47,15 +47,15 @@
 		"sizeProp": {
 			"properties": {
 				"size": {
-					"description": "In pixel. Whether it's width or height depends on layout alignment.",
+					"description": "In pixel. Whether it's width or height depends on layout orientation.",
 					"type": "integer",
 				}
 			}
 		},
-		"alignmentProp": {
+		"orientationProp": {
 			"properties": {
-				"alignment": {
-					"description": "Determine the alignment of items in panel.",
+				"orientation": {
+					"description": "Determine the orientation of items in panel.",
 					"type": "string",
 					"enum": [
 						"vertical",
@@ -80,7 +80,7 @@
 		"panelObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
-				{"$ref": "#/definitions/alignmentProp"},
+				{"$ref": "#/definitions/orientationProp"},
 				{"$ref": "#/definitions/itemsProp" },
 				{
 					"type": "object",
@@ -90,7 +90,7 @@
 							"enum": ["panel"]
 						}
 					},
-					"required": ["alignment", "items"]
+					"required": ["orientation", "items"]
 				}
 			]
 		},

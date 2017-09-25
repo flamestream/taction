@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -13,10 +14,12 @@ namespace ArtTouchPanel {
 	/// </summary>
 	public partial class MainWindow : Window {
 
-		private InputSimulatorHelper inputSimulator;
-		private GlobalMouseHook globalMouseHook;
-		private bool isPassthrough;
-		private Config config;
+		private InputSimulatorHelper inputSimulator { get; set; }
+		private GlobalMouseHook globalMouseHook { get; set; }
+		private bool isPassthrough { get; set; }
+
+		private Config config { get; set; }
+		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
 
 		public MainWindow() {
 
@@ -24,6 +27,7 @@ namespace ArtTouchPanel {
 			inputSimulator = new InputSimulatorHelper();
 			globalMouseHook = new GlobalMouseHook(this);
 			globalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
+			buttonCommands = new Dictionary<Button, KeyCommand>();
 
 			string errMsg = null;
 			try {
@@ -52,6 +56,8 @@ namespace ArtTouchPanel {
 
 			globalMouseHook.Disable();
 			SetPassthrough(false);
+			panel.Children.Clear();
+			buttonCommands.Clear();
 		}
 
 		private void ReloadLayout() {
@@ -62,7 +68,7 @@ namespace ArtTouchPanel {
 				return;
 
 			this.Visibility = Visibility.Visible;
-			this.Opacity = config.data.opacity;
+			Designer.GenerateLayout(this);
 		}
 
 		/// <summary>
@@ -133,13 +139,14 @@ namespace ArtTouchPanel {
 			Button btn = (Button)sender;
 			btn.FontWeight = FontWeight.FromOpenTypeWeight(500);
 
-			var keyCommand = (string)btn.Tag;
-			var parsedKeyCommand = InputSimulatorHelper.ParseKeyCommand(keyCommand);
+			KeyCommand keyCommand;
+			if (!buttonCommands.TryGetValue(btn, out keyCommand))
+				return;
 
-			if (parsedKeyCommand.isPressWanted)
-				inputSimulator.SimulateKeyPress(parsedKeyCommand.keyCodes);
+			if (keyCommand.isPressWanted)
+				inputSimulator.SimulateKeyPress(keyCommand.keyCodes);
 			else
-				inputSimulator.SimulateKeyDown(parsedKeyCommand.keyCodes);
+				inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
 		}
 
 		private void Button_TouchUp(object sender, TouchEventArgs e) {
@@ -149,11 +156,12 @@ namespace ArtTouchPanel {
 			Button btn = (Button)sender;
 			btn.FontWeight = FontWeight.FromOpenTypeWeight(200);
 
-			var keyCommand = (string)btn.Tag;
-			var parsedKeyCommand = InputSimulatorHelper.ParseKeyCommand(keyCommand);
+			KeyCommand keyCommand;
+			if (!buttonCommands.TryGetValue(btn, out keyCommand))
+				return;
 
-			if (!parsedKeyCommand.isPressWanted)
-				inputSimulator.SimulateKeyUp(parsedKeyCommand.keyCodes);
+			if (!keyCommand.isPressWanted)
+				inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
 		}
 
 		private void Window_PreviewMouseMove(object sender, MouseEventArgs e) {

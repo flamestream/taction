@@ -23,5 +23,9 @@
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="M" Tag="VK_M" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="TAB" Tag="~TAB" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="SAVE" Tag="~CONTROL+VK_S" />
+		<StackPanel Orientation="Horizontal" Height="30">
+			<Button Width="40" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="TAB" Tag="~TAB" />
+			<Button Width="40" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="SAVE" Tag="~CONTROL+VK_S" />
+		</StackPanel>
 	</StackPanel>
 </Window>

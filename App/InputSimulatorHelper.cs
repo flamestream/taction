@@ -79,7 +79,7 @@ namespace ArtTouchPanel {
 		/// <returns>
 		/// A tuple containing a list of key codes and if KeyPress event is wanted (as opposed to KeyDown)
 		/// </returns>
-		public static ParsedKeyCommand ParseKeyCommand(string keyCommand) {
+		public static KeyCommand ParseKeyCommand(string keyCommand) {
 
 			var isPressWanted = false;
 			if (keyCommand.StartsWith("~")) {
@@ -101,14 +101,14 @@ namespace ArtTouchPanel {
 				keyCodes.Add(virtualKeyCode);
 			}
 
-			return new ParsedKeyCommand {
+			return new KeyCommand {
 				keyCodes = keyCodes,
 				isPressWanted = isPressWanted
 			};
 		}
 	}
 
-	internal struct ParsedKeyCommand {
+	public struct KeyCommand {
 		public List<VirtualKeyCode> keyCodes;
 		public bool isPressWanted;
 	}
