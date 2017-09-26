@@ -84,6 +84,23 @@ namespace ArtTouchPanel {
 						currentPanel.Children.Add(newPanel);
 
 						ProcessLayout(panelInfo.items, design, window, newPanel);
+
+					} else if (info is MoverSpecs) {
+
+						var buttonSpecs = (MoverSpecs)info;
+						var newButton = new Button {
+						};
+						newButton.TouchDown += window.Mover_TouchDown;
+						newButton.TouchUp += window.Mover_TouchUp;
+						// newButton.TouchLeave += window.Mover_TouchUp;
+						newButton.TouchMove += window.Mover_TouchMove;
+
+						if (currentPanel.Orientation == Orientation.Vertical)
+							newButton.Height = buttonSpecs.size;
+						else
+							newButton.Width = buttonSpecs.size;
+
+						currentPanel.Children.Add(newButton);
 					}
 				}
 			}

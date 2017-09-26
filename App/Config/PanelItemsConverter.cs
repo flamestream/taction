@@ -61,6 +61,13 @@ namespace ArtTouchPanel {
 									items = items
 								});
 								break;
+
+							case "mover":
+
+								o.Add(new MoverSpecs {
+									size = item.Value<int>("size")
+								});
+								break;
 						}
 					}
 				}

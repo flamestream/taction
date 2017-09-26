@@ -4,7 +4,7 @@
 	"opacityHide": 0.1,
 	"disableHide": false,
 	"size": 80,
-	"orientation": "horizontal",
+	"orientation": "vertical",
 	"items": [{
 		"type": "button",
 		"size": 75,
@@ -16,6 +16,9 @@
 		"text": "E",
 		"command": "VK_E"
 	}, {
+		"type": "mover",
+		"size": 30
+	},{
 		"type": "button",
 		"size": 75,
 		"command": "VK_I"
@@ -33,7 +36,7 @@
 		"command": "~CONTROL+VK_S"
 	}, {
 		"type": "panel",
-		"orientation": "vertical",
+		"orientation": "horizontal",
 		"size": 30,
 		"items": [{
 			"type": "button",

@@ -17,7 +17,8 @@ namespace ArtTouchPanel {
 		private InputSimulatorHelper inputSimulator { get; set; }
 		private GlobalMouseHook globalMouseHook { get; set; }
 		private bool isPassthrough { get; set; }
-
+		private bool isMoving { get; set; }
+		private Point moveStartPoint { get; set; }
 		private Config config { get; set; }
 		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
 
@@ -164,6 +165,25 @@ namespace ArtTouchPanel {
 				inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
 		}
 
+		private void Mover_TouchDown(object sender, TouchEventArgs e) {
+			isMoving = true;
+			moveStartPoint = e.GetTouchPoint(this).Position;
+		}
+
+		private void Mover_TouchUp(object sender, TouchEventArgs e) {
+			isMoving = false;
+		}
+
+		private void Mover_TouchMove(object sender, TouchEventArgs e) {
+
+			if (!isMoving)
+				return;
+
+			var p = e.GetTouchPoint(this).Position;
+			this.Left -= moveStartPoint.X - p.X;
+			this.Top -= moveStartPoint.Y - p.Y;
+		}
+
 		private void Window_PreviewMouseMove(object sender, MouseEventArgs e) {
 
 			// Touch/Pen promotion check
@@ -193,7 +213,7 @@ namespace ArtTouchPanel {
 		private void Window_PreviewTouchMove(object sender, TouchEventArgs e) {
 
 			// Doesn't prevent duplicate, but whatever...
-			e.Handled = true;
+			//e.Handled = true;
 		}
 	}
 }
