@@ -15,7 +15,6 @@
 		Stylus.IsPressAndHoldEnabled="False"
 		Background="#7F000000"
 		PreviewMouseMove="Window_PreviewMouseMove"
-		PreviewTouchMove="Window_PreviewTouchMove"
 		PreviewStylusInAirMove="Window_PreviewStylusInAirMove">
 	<StackPanel Name="panel" Margin="0,0,0,0">
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="SPACE" Tag="SPACE" />
