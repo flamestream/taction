@@ -70,6 +70,7 @@
     <Compile Include="Config\PanelOrientationConverter.cs" />
     <Compile Include="Config\PanelItemsConverter.cs" />
     <Compile Include="Designer.cs" />
+    <Compile Include="MoverButton.cs" />
     <Compile Include="Win32.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

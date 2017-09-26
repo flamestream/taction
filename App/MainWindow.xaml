@@ -3,9 +3,10 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:resx="clr-namespace:ArtTouchPanel.Properties"
+		xmlns:prop="clr-namespace:ArtTouchPanel.Properties"
+		xmlns:atp="clr-namespace:ArtTouchPanel"
 		mc:Ignorable="d"
-		Title="{x:Static resx:Resources.AppName}"
+		Title="{x:Static prop:Resources.AppName}"
 		Width="80"
 		SizeToContent="Height"
 		Topmost="True"
@@ -21,6 +22,7 @@
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="E" Tag="VK_E" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="I" Tag="VK_I" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="M" Tag="VK_M" />
+		<atp:MoverButton Height="30" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="TAB" Tag="~TAB" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="SAVE" Tag="~CONTROL+VK_S" />
 		<StackPanel Orientation="Horizontal" Height="30">

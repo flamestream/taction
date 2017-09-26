@@ -165,25 +165,6 @@ namespace ArtTouchPanel {
 				inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
 		}
 
-		private void Mover_TouchDown(object sender, TouchEventArgs e) {
-			isMoving = true;
-			moveStartPoint = e.GetTouchPoint(this).Position;
-		}
-
-		private void Mover_TouchUp(object sender, TouchEventArgs e) {
-			isMoving = false;
-		}
-
-		private void Mover_TouchMove(object sender, TouchEventArgs e) {
-
-			if (!isMoving)
-				return;
-
-			var p = e.GetTouchPoint(this).Position;
-			this.Left -= moveStartPoint.X - p.X;
-			this.Top -= moveStartPoint.Y - p.Y;
-		}
-
 		private void Window_PreviewMouseMove(object sender, MouseEventArgs e) {
 
 			// Touch/Pen promotion check

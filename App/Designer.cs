@@ -88,12 +88,9 @@ namespace ArtTouchPanel {
 					} else if (info is MoverSpecs) {
 
 						var buttonSpecs = (MoverSpecs)info;
-						var newButton = new Button {
+						var newButton = new MoverButton {
+							//Style = (Style)window.Resources["MoverButtonStyle"]
 						};
-						newButton.TouchDown += window.Mover_TouchDown;
-						newButton.TouchUp += window.Mover_TouchUp;
-						// newButton.TouchLeave += window.Mover_TouchUp;
-						newButton.TouchMove += window.Mover_TouchMove;
 
 						if (currentPanel.Orientation == Orientation.Vertical)
 							newButton.Height = buttonSpecs.size;
