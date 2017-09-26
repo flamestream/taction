@@ -17,7 +17,6 @@ namespace ArtTouchPanel {
 		private InputSimulatorHelper inputSimulator { get; set; }
 		private GlobalMouseHook globalMouseHook { get; set; }
 		private bool isPassthrough { get; set; }
-
 		private Config config { get; set; }
 		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
 
@@ -188,12 +187,6 @@ namespace ArtTouchPanel {
 				Debug.WriteLine("Hide Panel (pen)");
 				SetPassthrough(true);
 			}
-		}
-
-		private void Window_PreviewTouchMove(object sender, TouchEventArgs e) {
-
-			// Doesn't prevent duplicate, but whatever...
-			e.Handled = true;
 		}
 	}
 }

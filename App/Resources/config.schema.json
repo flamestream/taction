@@ -71,7 +71,8 @@
 					"items": {
 						"oneOf": [
 							{ "$ref": "#/definitions/panelObj" },
-							{ "$ref": "#/definitions/buttonObj" }
+							{ "$ref": "#/definitions/buttonObj" },
+							{ "$ref": "#/definitions/moverObj" }
 						]
 					}
 				}
@@ -115,6 +116,21 @@
 						}
 					},
 					"required": ["size", "command"]
+				}
+			]
+		},
+		"moverObj": {
+			"allOf": [
+				{"$ref": "#/definitions/sizeProp"},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": ["mover"]
+						}
+					},
+					"required": ["size"]
 				}
 			]
 		},

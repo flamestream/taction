@@ -59,5 +59,10 @@ namespace ArtTouchPanel {
 			[JsonConverter(typeof(PanelItemsConverter))]
 			public List<IPanelItemSpecs> items;
 		}
+
+		public class MoverSpecs : IPanelItemSpecs {
+
+			public int size { get; set; }
+		}
 	}
 }

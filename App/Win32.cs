@@ -119,5 +119,12 @@ namespace ArtTouchPanel {
 
 		[DllImport("user32.dll")]
 		public static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+		[DllImportAttribute("user32.dll")]
+		public static extern bool ReleaseCapture();
+
+		// For ReleaseCapture (user32)
+		[DllImport("User32.dll")]
+		private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, ref int lParam);
 	}
 }
