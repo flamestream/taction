@@ -45,6 +45,7 @@ namespace ArtTouchPanel {
 		public class ButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
+			public string text { get; set; }
 			public string keyCommand { get; set; }
 		}
 

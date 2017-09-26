@@ -42,7 +42,8 @@ namespace ArtTouchPanel {
 
 								o.Add(new ButtonSpecs {
 									size = item.Value<int>("size"),
-									keyCommand = item.Value<string>("command")
+									keyCommand = item.Value<string>("command"),
+									text = item.Value<string>("label")
 								});
 								break;
 

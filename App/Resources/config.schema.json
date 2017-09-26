@@ -109,6 +109,9 @@
 						},
 						"command": {
 							"type": "string"
+						},
+						"text": {
+							"type": "string"
 						}
 					},
 					"required": ["size", "command"]

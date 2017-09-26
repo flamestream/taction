@@ -4,14 +4,16 @@
 	"opacityHide": 0.1,
 	"disableHide": false,
 	"size": 80,
-	"orientation": "vertical",
+	"orientation": "horizontal",
 	"items": [{
 		"type": "button",
 		"size": 75,
-		"command": "SPACE"
+		"text": "ESC",
+		"command": "ESCAPE"
 	}, {
 		"type": "button",
 		"size": 75,
+		"text": "E",
 		"command": "VK_E"
 	}, {
 		"type": "button",
@@ -31,7 +33,7 @@
 		"command": "~CONTROL+VK_S"
 	}, {
 		"type": "panel",
-		"orientation": "horizontal",
+		"orientation": "vertical",
 		"size": 30,
 		"items": [{
 			"type": "button",

@@ -22,6 +22,17 @@ namespace ArtTouchPanel {
 				window.buttonCommands = design.buttonCommands;
 
 				// Make changes
+				if (configData.orientation == Orientation.Vertical) {
+
+					window.Width = configData.size;
+					window.SizeToContent = SizeToContent.Height;
+
+				} else {
+
+					window.Height = configData.size;
+					window.SizeToContent = SizeToContent.Width;
+				}
+
 				window.Opacity = configData.opacity;
 				window.panel.Children.Add(design.panel);
 			}
@@ -40,7 +51,9 @@ namespace ArtTouchPanel {
 
 						var buttonSpecs = (ButtonSpecs)info;
 						var newButton = new Button {
-							Content = buttonSpecs.keyCommand
+							Content = buttonSpecs.text != null ?
+								buttonSpecs.text :
+								buttonSpecs.keyCommand
 						};
 						newButton.TouchDown += window.Button_TouchDown;
 						newButton.TouchUp += window.Button_TouchUp;
