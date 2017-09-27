@@ -1,7 +1,5 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
 using System;
-using System.Drawing;
-using System.IO;
 using System.Windows;
 
 namespace ArtTouchPanel {
@@ -17,13 +15,12 @@ namespace ArtTouchPanel {
 
 			base.OnStartup(e);
 
-			var rd = new ResourceDictionary();
-			rd.Source = new Uri(@"pack://application:,,,/NotificationIcon.xaml");
-			var r = Resources["MainIcon"];
-
-			notificationIcon = (TaskbarIcon)rd["Definition"];
-			Icon i = ArtTouchPanel.Properties.Resources.Icon;
-			notificationIcon.Icon = i;
+			// Setup Notification icon
+			var res = new ResourceDictionary();
+			res.Source = new Uri(@"pack://application:,,,/NotificationIcon.xaml");
+			// @TODO There must be a way to do this in xaml
+			notificationIcon = (TaskbarIcon)res["Definition"];
+			notificationIcon.Icon = ArtTouchPanel.Properties.Resources.Icon;
 		}
 	}
 }

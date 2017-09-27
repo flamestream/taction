@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -35,6 +36,15 @@ namespace ArtTouchPanel {
 				return;
 
 			Window.GetWindow(this).DragMove();
+		}
+
+		protected override void OnMouseMove(MouseEventArgs e) {
+
+			base.OnMouseMove(e);
+			Debug.WriteLine("Move");
+
+			// Prevent hide due to mouse/pen cursor
+			e.Handled = true;
 		}
 	}
 }

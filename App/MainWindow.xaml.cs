@@ -163,18 +163,24 @@ namespace ArtTouchPanel {
 				inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
 		}
 
-		private void Window_PreviewMouseMove(object sender, MouseEventArgs e) {
+		private void Window_MouseMove(object sender, MouseEventArgs e) {
+
+			// Hide config check
+			if (config.data.disableHide)
+				return;
 
 			// Touch/Pen promotion check
-			// @NOTE Weirdly, handling PreviewTouchMove won't prevent this event from happening
 			if (e.StylusDevice != null)
 				return;
 
-			if (!config.data.disableHide) {
+			// When the window has stopped dragging, the position is reset to (0,0)
+			// Until it goes back to where the cursor resulted to. Ignore that case.
+			var p = e.GetPosition(this);
+			if (p.X == 0 && p.Y == 0)
+				return;
 
-				Debug.WriteLine("Hide Panel (mouse)");
-				SetPassthrough(true);
-			}
+			Debug.WriteLine("Hide Panel (mouse)");
+			SetPassthrough(true);
 		}
 
 		private void Window_PreviewStylusInAirMove(object sender, StylusEventArgs e) {

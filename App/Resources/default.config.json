@@ -2,7 +2,7 @@
 	"version": 1,
 	"opacity": 0.8,
 	"opacityHide": 0.1,
-	"disableHide": true,
+	"disableHide": false,
 	"size": 80,
 	"orientation": "vertical",
 	"items": [{
