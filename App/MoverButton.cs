@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -18,7 +17,7 @@ namespace ArtTouchPanel {
 				setter.Value = Cursors.SizeAll;
 
 				Trigger trigger = new Trigger();
-				trigger.Property = UIElement.IsMouseOverProperty;
+				trigger.Property = IsMouseOverProperty;
 				trigger.Value = true;
 				trigger.Setters.Add(setter);
 
@@ -41,7 +40,6 @@ namespace ArtTouchPanel {
 		protected override void OnMouseMove(MouseEventArgs e) {
 
 			base.OnMouseMove(e);
-			Debug.WriteLine("Move");
 
 			// Prevent hide due to mouse/pen cursor
 			e.Handled = true;

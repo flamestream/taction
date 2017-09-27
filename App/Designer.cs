@@ -5,11 +5,11 @@ using static ArtTouchPanel.Config;
 
 namespace ArtTouchPanel {
 
-	partial class MainWindow {
+	partial class TouchPanel {
 
 		internal static class Designer {
 
-			public static void GenerateLayout(MainWindow window) {
+			public static void GenerateLayout(TouchPanel window) {
 
 				var configData = window.config.data;
 
@@ -37,7 +37,7 @@ namespace ArtTouchPanel {
 				window.panel.Children.Add(design.panel);
 			}
 
-			private static void ProcessLayout(List<IPanelItemSpecs> specs, Design design, MainWindow window, StackPanel currentPanel = null) {
+			private static void ProcessLayout(List<IPanelItemSpecs> specs, Design design, TouchPanel window, StackPanel currentPanel = null) {
 
 				if (specs == null)
 					return;

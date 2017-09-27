@@ -12,7 +12,7 @@ namespace ArtTouchPanel {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class MainWindow : Window {
+	public partial class TouchPanel : Window {
 
 		private InputSimulatorHelper inputSimulator { get; set; }
 		private GlobalMouseHook globalMouseHook { get; set; }
@@ -20,7 +20,7 @@ namespace ArtTouchPanel {
 		private Config config { get; set; }
 		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
 
-		public MainWindow() {
+		public TouchPanel() {
 
 			InitializeComponent();
 			inputSimulator = new InputSimulatorHelper();

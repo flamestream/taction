@@ -82,7 +82,7 @@
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="Win32.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="TouchPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -92,8 +92,8 @@
     </Compile>
     <Compile Include="GlobalMouseHook.cs" />
     <Compile Include="InputSimulatorHelper.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="TouchPanel.xaml.cs">
+      <DependentUpon>TouchPanel.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NotificationIcon.xaml">
