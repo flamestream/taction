@@ -87,13 +87,15 @@ namespace ArtTouchPanel {
 
 					} else if (info is MoverSpecs) {
 
-						var buttonSpecs = (MoverSpecs)info;
-						var newButton = new MoverButton();
+						var moverSpecs = (MoverSpecs)info;
+						var newButton = new MoverButton {
+							Content = moverSpecs.text
+						};
 
 						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = buttonSpecs.size;
+							newButton.Height = moverSpecs.size;
 						else
-							newButton.Width = buttonSpecs.size;
+							newButton.Width = moverSpecs.size;
 
 						currentPanel.Children.Add(newButton);
 					}

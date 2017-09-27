@@ -3,8 +3,8 @@
 	"opacity": 0.9,
 	"opacityHide": 0.1,
 	"disableHide": false,
-	"fadeAnimationTime": 1000,
-	"disableFadeAnimation": true,
+	"fadeAnimationTime": 500,
+	"disableFadeAnimation": false,
 	"size": 80,
 	"orientation": "vertical",
 	"items": [{

@@ -40,33 +40,17 @@ namespace ArtTouchPanel {
 
 							case "button":
 
-								o.Add(new ButtonSpecs {
-									size = item.Value<int>("size"),
-									keyCommand = item.Value<string>("command"),
-									text = item.Value<string>("label")
-								});
+								o.Add(serializer.Deserialize<ButtonSpecs>(new JTokenReader(item)));
 								break;
 
 							case "panel":
 
-								var orientation = serializer.Deserialize<Orientation>(new JTokenReader(item.GetValue("orientation")));
-
-								var r = new JTokenReader(item.GetValue("items"));
-								r.Read(); // Advance pointer to simulate behaviour
-								var items = (List<IPanelItemSpecs>)ReadJson(r, objectType, null, serializer);
-
-								o.Add(new PanelSpecs {
-									size = item.Value<int>("size"),
-									orientation = orientation,
-									items = items
-								});
+								o.Add(serializer.Deserialize<PanelSpecs>(new JTokenReader(item)));
 								break;
 
 							case "mover":
 
-								o.Add(new MoverSpecs {
-									size = item.Value<int>("size")
-								});
+								o.Add(serializer.Deserialize<MoverSpecs>(new JTokenReader(item)));
 								break;
 						}
 					}

@@ -118,10 +118,12 @@ namespace ArtTouchPanel {
 			}
 		}
 
+		/// <summary>
+		/// Play panel fading animation.
+		/// </summary>
+		/// <param name="targetOpacity">Opacity end value.</param>
+		/// <param name="plannedInitialOpacity">Opacity start value assuming no interruption.</param>
 		private void PlayFadeAnimation(float targetOpacity, float plannedInitialOpacity) {
-
-			DoubleAnimation animation = new DoubleAnimation();
-			animation.To = targetOpacity;
 
 			// The animation may be interrupted and played in reverse.
 			// Shorten based on interruption value.
@@ -130,10 +132,13 @@ namespace ArtTouchPanel {
 				/ Math.Abs(plannedInitialOpacity - targetOpacity)
 				* config.data.fadeAnimationTime;
 
-			animation.Duration = TimeSpan.FromMilliseconds(duration);
-			animation.EasingFunction = new QuinticEase();
+			var animation = new DoubleAnimation {
+				To = targetOpacity,
+				Duration = TimeSpan.FromMilliseconds(duration),
+				EasingFunction = new QuinticEase()
+			};
 
-			Storyboard sb = new Storyboard();
+			var sb = new Storyboard();
 			sb.Children.Add(animation);
 			Storyboard.SetTarget(sb, this);
 			Storyboard.SetTargetProperty(sb, new PropertyPath(OpacityProperty));
@@ -168,8 +173,7 @@ namespace ArtTouchPanel {
 			Button btn = (Button)sender;
 			btn.FontWeight = FontWeight.FromOpenTypeWeight(500);
 
-			KeyCommand keyCommand;
-			if (!buttonCommands.TryGetValue(btn, out keyCommand))
+			if (!buttonCommands.TryGetValue(btn, out KeyCommand keyCommand))
 				return;
 
 			if (keyCommand.isPressWanted)
@@ -185,8 +189,7 @@ namespace ArtTouchPanel {
 			Button btn = (Button)sender;
 			btn.FontWeight = FontWeight.FromOpenTypeWeight(200);
 
-			KeyCommand keyCommand;
-			if (!buttonCommands.TryGetValue(btn, out keyCommand))
+			if (!buttonCommands.TryGetValue(btn, out KeyCommand keyCommand))
 				return;
 
 			if (!keyCommand.isPressWanted)

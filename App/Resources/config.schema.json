@@ -137,6 +137,10 @@
 						"type": {
 							"type": "string",
 							"enum": ["mover"]
+						},
+						"text": {
+							"type": "string",
+							"default": "☰☰"
 						}
 					},
 					"required": ["size"]

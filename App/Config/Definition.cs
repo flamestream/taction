@@ -61,6 +61,8 @@ namespace ArtTouchPanel {
 
 			public int size { get; set; }
 			public string text { get; set; }
+
+			[JsonProperty("command")]
 			public string keyCommand { get; set; }
 		}
 
@@ -78,6 +80,10 @@ namespace ArtTouchPanel {
 		public class MoverSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
+
+			[DefaultValue("☰☰")]
+			[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+			public string text { get; set; }
 		}
 	}
 }
