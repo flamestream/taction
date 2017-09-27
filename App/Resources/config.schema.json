@@ -25,6 +25,15 @@
 				"disableHide": {
 					"description": "Flag indicating if mouse-over hide is wanted.",
 					"type": "boolean"
+				},
+				"fadeAnimationTime": {
+					"description": "Time taken to complete fade animation in milliseconds.",
+					"type": "integer",
+					"default": 500
+				},
+				"disableFadeAnimation": {
+					"description": "Flag indicating if fade animation is wanted.",
+					"type": "boolean"
 				}
 			}
 		}

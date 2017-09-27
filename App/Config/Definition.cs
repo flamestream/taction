@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace ArtTouchPanel {
 
@@ -12,7 +13,9 @@ namespace ArtTouchPanel {
 
 			private float _opacity;
 			private float _opacityHide;
+			private uint _fadeAnimationTime;
 
+			[DefaultValue(1)]
 			[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
 			public float opacity {
 				get => _opacity;
@@ -23,6 +26,7 @@ namespace ArtTouchPanel {
 				}
 			}
 
+			[DefaultValue(0)]
 			[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
 			public float opacityHide {
 				get => _opacityHide;
@@ -33,8 +37,19 @@ namespace ArtTouchPanel {
 				}
 			}
 
-			[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
 			public bool disableHide { get; set; }
+
+			[DefaultValue(500)]
+			[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
+			public uint fadeAnimationTime {
+				get => _fadeAnimationTime;
+				set {
+					if (value < 0) value = 0;
+					_fadeAnimationTime = value;
+				}
+			}
+
+			public bool disableFadeAnimation { get; set; }
 		}
 
 		public interface IPanelItemSpecs {

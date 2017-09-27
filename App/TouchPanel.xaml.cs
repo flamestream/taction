@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace ArtTouchPanel {
 
@@ -92,23 +93,52 @@ namespace ArtTouchPanel {
 
 			if (isWanted && !isPassthrough) {
 
-				if (opacity == 0)
-					this.Visibility = Visibility.Hidden;
-				else
-					this.Opacity = opacity;
-
 				Win32.SetWindowExTransparent(this, true);
 				isPassthrough = true;
 				globalMouseHook.Enable();
 
+				if (!config.data.disableFadeAnimation)
+					PlayFadeAnimation(opacity, config.data.opacity);
+				else if (opacity == 0)
+					this.Visibility = Visibility.Hidden;
+				else
+					this.Opacity = opacity;
+
 			} else if (!isWanted && isPassthrough) {
 
-				this.Opacity = opacity;
 				this.Visibility = Visibility.Visible;
 
 				Win32.SetWindowExTransparent(this, false);
 				isPassthrough = false;
+
+				if (!config.data.disableFadeAnimation)
+					PlayFadeAnimation(opacity, config.data.opacityHide);
+				else
+					this.Opacity = opacity;
 			}
+		}
+
+		private void PlayFadeAnimation(float targetOpacity, float plannedInitialOpacity) {
+
+			DoubleAnimation animation = new DoubleAnimation();
+			animation.To = targetOpacity;
+
+			// The animation may be interrupted and played in reverse.
+			// Shorten based on interruption value.
+			var duration = config.data.fadeAnimationTime
+				- Math.Abs(this.Opacity - plannedInitialOpacity)
+				/ Math.Abs(plannedInitialOpacity - targetOpacity)
+				* config.data.fadeAnimationTime;
+
+			animation.Duration = TimeSpan.FromMilliseconds(duration);
+			animation.EasingFunction = new QuinticEase();
+
+			Storyboard sb = new Storyboard();
+			sb.Children.Add(animation);
+			Storyboard.SetTarget(sb, this);
+			Storyboard.SetTargetProperty(sb, new PropertyPath(OpacityProperty));
+
+			sb.Begin();
 		}
 
 		private void HandleMouseLeaveBoundaries(object sender, GlobalMouseHook.EventArgs e) {
