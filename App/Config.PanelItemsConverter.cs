@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
 
 namespace ArtTouchPanel {
 
@@ -32,27 +31,23 @@ namespace ArtTouchPanel {
 
 				if (reader.TokenType == JsonToken.StartArray) {
 
+					// Prepare valid types
+					// @TODO Would be nice to have to do this only once
+					var panelItemSpecsType = new Dictionary<string, Type>();
+					var candidatesAttr = (JsonPanelItemCandidatesAttribute)typeof(IPanelItemSpecs).GetCustomAttributes(typeof(JsonPanelItemCandidatesAttribute), true)[0];
+					foreach (var t in candidatesAttr.values) {
+
+						var typeAttr = (JsonPanelItemTypeAttribute)t.GetCustomAttributes(typeof(JsonPanelItemTypeAttribute), true)[0];
+						var typeStr = typeAttr.value;
+						panelItemSpecsType.Add(typeStr, t);
+					}
+
 					List<JObject> jsonArray = serializer.Deserialize<List<JObject>>(reader);
 					foreach (var item in jsonArray) {
 
-						string type = item.Value<string>("type");
-						switch (type) {
-
-							case "button":
-
-								o.Add(serializer.Deserialize<ButtonSpecs>(new JTokenReader(item)));
-								break;
-
-							case "panel":
-
-								o.Add(serializer.Deserialize<PanelSpecs>(new JTokenReader(item)));
-								break;
-
-							case "mover":
-
-								o.Add(serializer.Deserialize<MoverSpecs>(new JTokenReader(item)));
-								break;
-						}
+						var type = panelItemSpecsType[item.Value<string>("type")];
+						if (type != null)
+							o.Add((IPanelItemSpecs)serializer.Deserialize(new JTokenReader(item), type));
 					}
 				}
 

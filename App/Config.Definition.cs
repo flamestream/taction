@@ -52,11 +52,13 @@ namespace ArtTouchPanel {
 			public bool disableFadeAnimation { get; set; }
 		}
 
+		[JsonPanelItemCandidates(typeof(ButtonSpecs), typeof(PanelSpecs), typeof(MoverSpecs))]
 		public interface IPanelItemSpecs {
 
 			int size { get; set; }
 		}
 
+		[JsonPanelItemType("button")]
 		public class ButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
@@ -66,6 +68,7 @@ namespace ArtTouchPanel {
 			public string keyCommand { get; set; }
 		}
 
+		[JsonPanelItemType("panel")]
 		public class PanelSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
@@ -77,6 +80,7 @@ namespace ArtTouchPanel {
 			public List<IPanelItemSpecs> items;
 		}
 
+		[JsonPanelItemType("mover")]
 		public class MoverSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }

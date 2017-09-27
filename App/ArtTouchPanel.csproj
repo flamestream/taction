@@ -73,10 +73,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Config.cs" />
-    <Compile Include="Config\Definition.cs" />
-    <Compile Include="Config\PanelOrientationConverter.cs" />
-    <Compile Include="Config\PanelItemsConverter.cs" />
+    <Compile Include="Config.Definition.cs" />
+    <Compile Include="Config.PanelOrientationConverter.cs" />
+    <Compile Include="Config.PanelItemsConverter.cs" />
     <Compile Include="Designer.cs" />
+    <Compile Include="JsonPanelItemCandidates.cs" />
+    <Compile Include="JsonPanelItemTypeAttribute.cs" />
     <Compile Include="MoverButton.cs" />
     <Compile Include="NotificationIcon.xaml.cs">
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
