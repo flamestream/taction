@@ -6,6 +6,7 @@
 	<tb:TaskbarIcon x:Key="Definition" ToolTipText="{x:Static prop:Resources.AppName}">
 		<tb:TaskbarIcon.ContextMenu>
 			<ContextMenu>
+				<MenuItem Name="ResetPosition" Header="Reset Position" Click="ResetPosition_Click" />
 				<MenuItem Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click" />
 			</ContextMenu>
 		</tb:TaskbarIcon.ContextMenu>

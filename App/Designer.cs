@@ -11,30 +11,36 @@ namespace Taction {
 
 			public static void GenerateLayout(MainPanel window) {
 
-				var configData = window.config.data;
+				var layoutData = window.config.layout;
+				var stateData = window.config.state;
 
 				// Prepare intent
 				var design = new Design();
-				design.panel.Orientation = window.config.data.orientation;
-				ProcessLayout(configData.items, design, window);
+				design.panel.Orientation = window.config.layout.orientation;
+				ProcessLayout(layoutData.items, design, window);
 
 				// Setup
 				window.buttonCommands = design.buttonCommands;
 
 				// Make changes
-				if (configData.orientation == Orientation.Vertical) {
+				if (layoutData.orientation == Orientation.Vertical) {
 
-					window.Width = configData.size;
+					window.Width = layoutData.size;
 					window.SizeToContent = SizeToContent.Height;
 
 				} else {
 
-					window.Height = configData.size;
+					window.Height = layoutData.size;
 					window.SizeToContent = SizeToContent.Width;
 				}
 
-				window.Opacity = configData.opacity;
+				window.Opacity = layoutData.opacity;
 				window.panel.Children.Add(design.panel);
+
+				// Set position
+				window.Left = stateData.x;
+				window.Top = stateData.y;
+				WindowManipulator.FitToNearestDesktop(window);
 			}
 
 			private static void ProcessLayout(List<IPanelItemSpecs> specs, Design design, MainPanel window, StackPanel currentPanel = null) {

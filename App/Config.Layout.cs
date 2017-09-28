@@ -1,15 +1,73 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 
 namespace Taction {
 
 	partial class Config {
 
 		/// <summary>
+		/// Cached file path of the config layout file.
+		/// </summary>
+		public static string FileLayoutPath {
+			get {
+				if (_FileLayoutPath == null) {
+
+					_FileLayoutPath = string.Format(@"{0}\{1}",
+						App.AppDataDir,
+						Properties.Resources.ConfigLayoutFileName
+					);
+				}
+
+				return _FileLayoutPath;
+			}
+		}
+
+		public void LoadLayout(string path = null) {
+
+			JObject json;
+			if (File.Exists(FileLayoutPath)) {
+
+				using (var reader = File.OpenText(FileLayoutPath))
+				using (var jsonReader = new JsonTextReader(reader)) {
+
+					// @TODO File load error, etc
+					json = JObject.Load(jsonReader);
+				}
+
+			} else {
+
+				// Load default config (Guaranteed)
+				json = JObject.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.DefaultConfigJson));
+			}
+
+			// Load schema
+			if (schema == null)
+				schema = JSchema.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.ConfigJsonSchema));
+
+			// Validation check
+			if (!json.IsValid(schema, out IList<ValidationError> errors)) {
+
+				var errMsgs = new List<string>();
+				foreach (var error in errors)
+					errMsgs.Add(ParseError(error));
+
+				var errMsg = string.Join(Environment.NewLine, errMsgs);
+
+				throw new FormatException(errMsg);
+			}
+
+			this.layout = Layout.Load(json);
+		}
+
+		/// <summary>
 		/// Configuration root definition
 		/// </summary>
-		public class Data : PanelSpecs {
+		public class Layout : PanelSpecs {
 
 			private float _opacity;
 			private float _opacityHide;
@@ -50,6 +108,11 @@ namespace Taction {
 			}
 
 			public bool disableFadeAnimation { get; set; }
+
+			public static Layout Load(JObject json) {
+
+				return JsonConvert.DeserializeObject<Layout>(JsonConvert.SerializeObject(json));
+			}
 		}
 
 		[JsonPanelItemCandidates(typeof(ButtonSpecs), typeof(PanelSpecs), typeof(MoverSpecs))]

@@ -40,6 +40,9 @@ namespace Taction {
 			windowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
 
 			ReloadLayout();
+
+			Debug.WriteLine(string.Format("Position({0}, {1})", this.Left, this.Top));
+			Debug.WriteLine(string.Format("Size: {0}, {1}", this.Width, this.Height));
 		}
 
 		private void ResetLayout() {
@@ -57,6 +60,7 @@ namespace Taction {
 			if (config == null)
 				return;
 
+			// Set layout
 			this.Visibility = Visibility.Visible;
 			Designer.GenerateLayout(this);
 		}
@@ -68,8 +72,8 @@ namespace Taction {
 		private void SetPassthrough(bool isWanted) {
 
 			float opacity = isWanted ?
-				config.data.opacityHide :
-				config.data.opacity;
+				config.layout.opacityHide :
+				config.layout.opacity;
 
 			SetPassthrough(isWanted, opacity);
 		}
@@ -87,8 +91,8 @@ namespace Taction {
 				isPassthrough = true;
 				globalMouseHook.Enable();
 
-				if (!config.data.disableFadeAnimation)
-					PlayFadeAnimation(opacity, config.data.opacity);
+				if (!config.layout.disableFadeAnimation)
+					PlayFadeAnimation(opacity, config.layout.opacity);
 				else if (opacity == 0)
 					this.Visibility = Visibility.Hidden;
 				else
@@ -101,8 +105,8 @@ namespace Taction {
 				Win32.SetWindowExTransparent(this, false);
 				isPassthrough = false;
 
-				if (!config.data.disableFadeAnimation)
-					PlayFadeAnimation(opacity, config.data.opacityHide);
+				if (!config.layout.disableFadeAnimation)
+					PlayFadeAnimation(opacity, config.layout.opacityHide);
 				else
 					this.Opacity = opacity;
 			}
@@ -117,10 +121,10 @@ namespace Taction {
 
 			// The animation may be interrupted and played in reverse.
 			// Shorten based on interruption value.
-			var duration = config.data.fadeAnimationTime
+			var duration = config.layout.fadeAnimationTime
 				- Math.Abs(this.Opacity - plannedInitialOpacity)
 				/ Math.Abs(plannedInitialOpacity - targetOpacity)
-				* config.data.fadeAnimationTime;
+				* config.layout.fadeAnimationTime;
 
 			var animation = new DoubleAnimation {
 				To = targetOpacity,
@@ -145,6 +149,10 @@ namespace Taction {
 		private void HandleExitSizeMove(object sender, EventArgs e) {
 
 			WindowManipulator.FitToNearestDesktop(this);
+			config.state.x = this.Left;
+			config.state.y = this.Top;
+			config.Save();
+			Debug.WriteLine(string.Format("{0}, {1}", this.Left, this.Top));
 		}
 
 		protected override void OnClosing(CancelEventArgs e) {
@@ -194,7 +202,7 @@ namespace Taction {
 		private void Window_MouseMove(object sender, MouseEventArgs e) {
 
 			// Hide config check
-			if (config.data.disableHide)
+			if (config.layout.disableHide)
 				return;
 
 			// Touch/Pen promotion check
@@ -216,7 +224,7 @@ namespace Taction {
 			// Prevent mouse move event
 			e.Handled = true;
 
-			if (!config.data.disableHide) {
+			if (!config.layout.disableHide) {
 
 				Debug.WriteLine("Hide Panel (pen)");
 				SetPassthrough(true);

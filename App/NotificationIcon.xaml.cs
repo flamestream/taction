@@ -8,5 +8,12 @@ namespace Taction {
 
 			Application.Current.Shutdown(0);
 		}
+
+		private void ResetPosition_Click(object sender, RoutedEventArgs e) {
+
+			var panel = (MainPanel)Application.Current.MainWindow;
+			panel.Left = 0;
+			panel.Top = 0;
+		}
 	}
 }

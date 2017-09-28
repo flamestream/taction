@@ -79,21 +79,30 @@ namespace Taction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to config.json.
-        /// </summary>
-        public static string ConfigFileName {
-            get {
-                return ResourceManager.GetString("ConfigFileName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] ConfigJsonSchema {
             get {
                 object obj = ResourceManager.GetObject("ConfigJsonSchema", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to layout.json.
+        /// </summary>
+        public static string ConfigLayoutFileName {
+            get {
+                return ResourceManager.GetString("ConfigLayoutFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to state.json.
+        /// </summary>
+        public static string ConfigStateFileName {
+            get {
+                return ResourceManager.GetString("ConfigStateFileName", resourceCulture);
             }
         }
         
