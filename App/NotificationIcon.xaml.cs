@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	partial class NotificationIcon {
 

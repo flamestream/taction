@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	internal class JsonPanelItemCandidatesAttribute : Attribute {
 

@@ -5,7 +5,7 @@ using System.Linq;
 using WindowsInput;
 using VirtualKeyCode = WindowsInput.Native.VirtualKeyCode;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	internal class InputSimulatorHelper {
 

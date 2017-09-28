@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using static ArtTouchPanel.Win32;
+using static Taction.Win32;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	internal class GlobalMouseHook : IDisposable {
 

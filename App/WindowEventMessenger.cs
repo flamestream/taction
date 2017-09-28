@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Interop;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	/// <summary>
 	/// A helper to react to window messages not provided by WPF.

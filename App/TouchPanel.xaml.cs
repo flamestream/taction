@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml

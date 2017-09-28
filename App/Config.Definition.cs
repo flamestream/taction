@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	partial class Config {
 

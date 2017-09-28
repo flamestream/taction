@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	internal class MoverButton : Button {
 

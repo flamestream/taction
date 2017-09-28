@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using static ArtTouchPanel.Config;
+using static Taction.Config;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	partial class TouchPanel {
 

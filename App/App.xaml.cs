@@ -2,7 +2,7 @@
 using System;
 using System.Windows;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	/// <summary>
 	/// Interaction logic for App.xaml
@@ -20,7 +20,7 @@ namespace ArtTouchPanel {
 			res.Source = new Uri(@"pack://application:,,,/NotificationIcon.xaml");
 			// @TODO There must be a way to do this in xaml
 			notificationIcon = (TaskbarIcon)res["Definition"];
-			notificationIcon.Icon = ArtTouchPanel.Properties.Resources.Icon;
+			notificationIcon.Icon = Taction.Properties.Resources.Icon;
 		}
 	}
 }

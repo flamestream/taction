@@ -2,7 +2,7 @@
 using System;
 using System.Windows.Controls;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	partial class Config {
 

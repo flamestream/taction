@@ -2,7 +2,7 @@
 using System.Windows;
 using WpfScreenHelper;
 
-namespace ArtTouchPanel {
+namespace Taction {
 
 	internal static class WindowManipulator {
 
