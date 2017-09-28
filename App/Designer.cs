@@ -5,11 +5,11 @@ using static Taction.Config;
 
 namespace Taction {
 
-	partial class TouchPanel {
+	partial class MainPanel {
 
 		internal static class Designer {
 
-			public static void GenerateLayout(TouchPanel window) {
+			public static void GenerateLayout(MainPanel window) {
 
 				var configData = window.config.data;
 
@@ -37,7 +37,7 @@ namespace Taction {
 				window.panel.Children.Add(design.panel);
 			}
 
-			private static void ProcessLayout(List<IPanelItemSpecs> specs, Design design, TouchPanel window, StackPanel currentPanel = null) {
+			private static void ProcessLayout(List<IPanelItemSpecs> specs, Design design, MainPanel window, StackPanel currentPanel = null) {
 
 				if (specs == null)
 					return;

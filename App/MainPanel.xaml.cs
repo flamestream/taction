@@ -13,16 +13,21 @@ namespace Taction {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class TouchPanel : Window {
+	public partial class MainPanel : Window {
 
 		private InputSimulatorHelper inputSimulator { get; set; }
 		private GlobalMouseHook globalMouseHook { get; set; }
 		private bool isPassthrough { get; set; }
-		private Config config { get; set; }
 		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
 		private WindowEventMessenger windowEventMessenger;
 
-		public TouchPanel() {
+		private Config config {
+			get {
+				return ((App)Application.Current).config;
+			}
+		}
+
+		public MainPanel() {
 
 			InitializeComponent();
 			inputSimulator = new InputSimulatorHelper();
@@ -33,26 +38,6 @@ namespace Taction {
 
 			windowEventMessenger = new WindowEventMessenger(this);
 			windowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
-
-			string errMsg = null;
-			try {
-				config = Config.Load();
-			} catch (FileNotFoundException e) {
-				errMsg = string.Format("{0}:\n{1}", "Config load error", e.Message);
-			} catch (FormatException e) {
-				errMsg = string.Format("{0}:\n{1}", "Config validation error", e.Message);
-			} catch (Newtonsoft.Json.JsonReaderException e) {
-				errMsg = string.Format("{0}:\n{1}", "Config syntax error", e.Message);
-			} catch (Exception e) {
-				errMsg = string.Format("{0}:\n{1}", e.GetType(), e.Message);
-			}
-
-			if (errMsg != null) {
-
-				MessageBox.Show(errMsg, string.Format("{0} Error", Properties.Resources.AppName));
-				Application.Current.Shutdown(1);
-				return;
-			}
 
 			ReloadLayout();
 		}

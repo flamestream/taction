@@ -61,11 +61,29 @@ namespace Taction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Art Touch Panel.
+        ///   Looks up a localized string similar to Taction.
         /// </summary>
         public static string AppName {
             get {
                 return ResourceManager.GetString("AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to error.log.
+        /// </summary>
+        public static string ConfigErrorFileName {
+            get {
+                return ResourceManager.GetString("ConfigErrorFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to config.json.
+        /// </summary>
+        public static string ConfigFileName {
+            get {
+                return ResourceManager.GetString("ConfigFileName", resourceCulture);
             }
         }
         
@@ -86,6 +104,24 @@ namespace Taction.Properties {
             get {
                 object obj = ResourceManager.GetObject("DefaultConfigJson", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click here to find out more.
+        /// </summary>
+        public static string DefaultNotificationBubbleErrorMessage {
+            get {
+                return ResourceManager.GetString("DefaultNotificationBubbleErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An Error Occured.
+        /// </summary>
+        public static string DefaultNotificationBubbleErrorTitle {
+            get {
+                return ResourceManager.GetString("DefaultNotificationBubbleErrorTitle", resourceCulture);
             }
         }
         
