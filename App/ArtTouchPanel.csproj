@@ -66,6 +66,9 @@
     <Reference Include="WindowsInput, Version=1.0.4.0, Culture=neutral, PublicKeyToken=9b287f7dc5073cad, processorArchitecture=MSIL">
       <HintPath>..\packages\InputSimulator.1.0.4.0\lib\net20\WindowsInput.dll</HintPath>
     </Reference>
+    <Reference Include="WpfScreenHelper, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WpfScreenHelper.0.3.0.0\lib\net40\WpfScreenHelper.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -84,6 +87,8 @@
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="Win32.cs" />
+    <Compile Include="WindowEventMessenger.cs" />
+    <Compile Include="WindowManipulator.cs" />
     <Page Include="TouchPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
