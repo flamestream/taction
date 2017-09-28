@@ -12,13 +12,15 @@ namespace ArtTouchPanel {
 
 			// Display move cursor on mouse over
 			{
-				Setter setter = new Setter();
-				setter.Property = CursorProperty;
-				setter.Value = Cursors.SizeAll;
+				Setter setter = new Setter {
+					Property = CursorProperty,
+					Value = Cursors.SizeAll
+				};
 
-				Trigger trigger = new Trigger();
-				trigger.Property = IsMouseOverProperty;
-				trigger.Value = true;
+				Trigger trigger = new Trigger {
+					Property = IsMouseOverProperty,
+					Value = true
+				};
 				trigger.Setters.Add(setter);
 
 				style.Triggers.Add(trigger);
@@ -35,6 +37,8 @@ namespace ArtTouchPanel {
 				return;
 
 			Window.GetWindow(this).DragMove();
+
+			e.Handled = true;
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e) {

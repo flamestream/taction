@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Interop;
 
 namespace ArtTouchPanel {
@@ -13,10 +10,9 @@ namespace ArtTouchPanel {
 		/// <summary>
 		/// Leave focus on the current app.
 		/// </summary>
-		public static void CancelActivation(System.Windows.Window window) {
+		public static void CancelActivation(Window window) {
 
-			var helper = new WindowInteropHelper(window);
-			var handle = helper.Handle;
+			var handle = GetHandle(window);
 			var style = GetWindowLong(handle, (int)GetWindowLongPtr.GWL_EXSTYLE);
 			style |= (int)WindowStyles.WS_EX_NOACTIVATE;
 			SetWindowLong(handle, (int)GetWindowLongPtr.GWL_EXSTYLE, style);
@@ -27,10 +23,9 @@ namespace ArtTouchPanel {
 		/// </summary>
 		/// <param name="window"></param>
 		/// <param name="isTransparent"></param>
-		public static void SetWindowExTransparent(System.Windows.Window window, bool isTransparent) {
+		public static void SetWindowExTransparent(Window window, bool isTransparent) {
 
-			var helper = new WindowInteropHelper(window);
-			var handle = helper.Handle;
+			var handle = GetHandle(window);
 			var style = GetWindowLong(handle, (int)GetWindowLongPtr.GWL_EXSTYLE);
 			if (isTransparent)
 				style |= (int)WindowStyles.WS_EX_TRANSPARENT;
@@ -38,6 +33,12 @@ namespace ArtTouchPanel {
 				style &= ~(int)WindowStyles.WS_EX_TRANSPARENT;
 
 			SetWindowLong(handle, (int)GetWindowLongPtr.GWL_EXSTYLE, style);
+		}
+
+		public static IntPtr GetHandle(Window window) {
+
+			var handle = new WindowInteropHelper(window).EnsureHandle();
+			return handle;
 		}
 
 		/**
@@ -69,6 +70,8 @@ namespace ArtTouchPanel {
 			WM_MOUSEWHEEL = 0x020A,
 			WM_RBUTTONDOWN = 0x0204,
 			WM_RBUTTONUP = 0x0205,
+			WM_ENTERSIZEMOVE = 0x0231,
+			WM_EXITSIZEMOVE = 0x0232,
 			WM_POINTERUPDATE = 0x0245,
 		}
 

@@ -7,6 +7,8 @@
 		xmlns:atp="clr-namespace:ArtTouchPanel"
 		mc:Ignorable="d"
 		Title="{x:Static prop:Resources.AppName}"
+		ResizeMode="NoResize"
+		ShowInTaskbar="False"
 		Width="80"
 		SizeToContent="Height"
 		Topmost="True"

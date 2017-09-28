@@ -20,14 +20,19 @@ namespace ArtTouchPanel {
 		private bool isPassthrough { get; set; }
 		private Config config { get; set; }
 		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
+		private WindowEventMessenger windowEventMessenger;
 
 		public TouchPanel() {
 
 			InitializeComponent();
 			inputSimulator = new InputSimulatorHelper();
+			buttonCommands = new Dictionary<Button, KeyCommand>();
+
 			globalMouseHook = new GlobalMouseHook(this);
 			globalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
-			buttonCommands = new Dictionary<Button, KeyCommand>();
+
+			windowEventMessenger = new WindowEventMessenger(this);
+			windowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
 
 			string errMsg = null;
 			try {
@@ -150,6 +155,11 @@ namespace ArtTouchPanel {
 
 			globalMouseHook.Disable();
 			SetPassthrough(false);
+		}
+
+		private void HandleExitSizeMove(object sender, EventArgs e) {
+
+			WindowManipulator.FitToNearestDesktop(this);
 		}
 
 		protected override void OnClosing(CancelEventArgs e) {
