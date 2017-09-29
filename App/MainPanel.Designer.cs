@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using static Taction.Config;
 
 namespace Taction {
@@ -73,6 +74,24 @@ namespace Taction {
 						currentPanel.Children.Add(newButton);
 						design.buttonCommands.Add(newButton, InputSimulatorHelper.ParseKeyCommand(buttonSpecs.keyCommand));
 
+					} else if (info is ToggleSpecs) {
+
+						var toggleSpecs = (ToggleSpecs)info;
+						var newButton = new ToggleButton {
+							Content = toggleSpecs.text != null ?
+								toggleSpecs.text :
+								toggleSpecs.keyCommand
+						};
+						newButton.TouchDown += window.ToggleButton_TouchDown;
+
+						if (currentPanel.Orientation == Orientation.Vertical)
+							newButton.Height = toggleSpecs.size;
+						else
+							newButton.Width = toggleSpecs.size;
+
+						currentPanel.Children.Add(newButton);
+						design.buttonCommands.Add(newButton, InputSimulatorHelper.ParseKeyCommand(toggleSpecs.keyCommand));
+
 					} else if (info is PivotSpecs) {
 
 						var panelInfo = (PivotSpecs)info;
@@ -113,12 +132,12 @@ namespace Taction {
 
 			public class Design {
 
-				public Dictionary<Button, KeyCommand> buttonCommands;
+				public Dictionary<ButtonBase, KeyCommand> buttonCommands;
 				public StackPanel panel;
 
 				public Design() {
 
-					buttonCommands = new Dictionary<Button, KeyCommand>();
+					buttonCommands = new Dictionary<ButtonBase, KeyCommand>();
 					panel = new StackPanel();
 				}
 			}

@@ -81,6 +81,7 @@
 						"oneOf": [
 							{ "$ref": "#/definitions/pivotObj" },
 							{ "$ref": "#/definitions/buttonObj" },
+							{ "$ref": "#/definitions/toggleObj" },
 							{ "$ref": "#/definitions/moverObj" }
 						]
 					}
@@ -112,6 +113,30 @@
 						"type": {
 							"type": "string",
 							"enum": ["button"]
+						},
+						"size": {
+							"$ref": "#/definitions/sizeProp"
+						},
+						"command": {
+							"type": "string"
+						},
+						"text": {
+							"type": "string"
+						}
+					},
+					"required": ["size", "command"]
+				}
+			]
+		},
+		"toggleObj": {
+			"allOf": [
+				{"$ref": "#/definitions/sizeProp"},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": ["toggle"]
 						},
 						"size": {
 							"$ref": "#/definitions/sizeProp"

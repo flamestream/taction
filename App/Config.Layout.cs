@@ -24,16 +24,6 @@ namespace Taction {
 				path = FileLayoutPath;
 			}
 
-			if (!File.Exists(path)) {
-
-				((App)App.Current).notificationIcon.ShowBalloonTip(
-					"Error",
-					Taction.Properties.Resources.DefaultNotificationBubbleErrorMessage,
-					Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Error
-				);
-				return;
-			}
-
 			JObject json;
 			using (var reader = File.OpenText(path))
 			using (var jsonReader = new JsonTextReader(reader)) {
@@ -138,7 +128,7 @@ namespace Taction {
 			public bool disableFadeAnimation { get; set; }
 		}
 
-		[JsonPanelItemCandidates(typeof(ButtonSpecs), typeof(PivotSpecs), typeof(MoverSpecs))]
+		[JsonPanelItemCandidates(typeof(ButtonSpecs), typeof(ToggleSpecs), typeof(PivotSpecs), typeof(MoverSpecs))]
 		public interface IPanelItemSpecs {
 
 			int size { get; set; }
@@ -149,6 +139,17 @@ namespace Taction {
 
 		[JsonPanelItemType("button")]
 		public class ButtonSpecs : IPanelItemSpecs {
+
+			public int size { get; set; }
+			public string text { get; set; }
+			public List<IPanelItemSpecs> items { get; set; }
+
+			[JsonProperty("command")]
+			public string keyCommand { get; set; }
+		}
+
+		[JsonPanelItemType("toggle")]
+		public class ToggleSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
 			public string text { get; set; }

@@ -23,6 +23,7 @@
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="E" Tag="VK_E" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="I" Tag="VK_I" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="M" Tag="VK_M" />
+		<ToggleButton Height="75" TouchDown="ToggleButton_TouchDown" Content="CTRL" Tag="CONTROL" />
 		<atp:MoverButton Height="30" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="TAB" Tag="~TAB" />
 		<Button Height="75" TouchDown="Button_TouchDown" TouchUp="Button_TouchUp" Content="SAVE" Tag="~CONTROL+VK_S" />

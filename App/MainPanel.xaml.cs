@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
@@ -17,14 +18,14 @@ namespace Taction {
 		private Config config => app.config;
 
 		private bool isPassthrough { get; set; }
-		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
+		private Dictionary<ButtonBase, KeyCommand> buttonCommands { get; set; }
 		private WindowEventNotifier windowEventMessenger { get; set; }
 
 		public MainPanel() {
 
 			InitializeComponent();
 
-			buttonCommands = new Dictionary<Button, KeyCommand>();
+			buttonCommands = new Dictionary<ButtonBase, KeyCommand>();
 			windowEventMessenger = new WindowEventNotifier(this);
 
 			// Add event handlers
@@ -179,6 +180,22 @@ namespace Taction {
 
 			if (!keyCommand.isPressWanted)
 				app.inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
+		}
+
+		private void ToggleButton_TouchDown(object sender, TouchEventArgs e) {
+
+			e.Handled = true;
+
+			ToggleButton btn = (ToggleButton)sender;
+
+			if (!buttonCommands.TryGetValue(btn, out KeyCommand keyCommand))
+				return;
+
+			if (btn.IsChecked ?? false) {
+				app.inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
+			} else {
+				app.inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
+			}
 		}
 
 		private void Window_MouseMove(object sender, MouseEventArgs e) {
