@@ -73,12 +73,14 @@ namespace Taction {
 						currentPanel.Children.Add(newButton);
 						design.buttonCommands.Add(newButton, InputSimulatorHelper.ParseKeyCommand(buttonSpecs.keyCommand));
 
-					} else if (info is PanelSpecs) {
+					} else if (info is PivotSpecs) {
 
-						var panelInfo = (PanelSpecs)info;
+						var panelInfo = (PivotSpecs)info;
 
 						var newPanel = new StackPanel {
-							Orientation = panelInfo.orientation
+							Orientation = currentPanel.Orientation == Orientation.Horizontal ?
+								Orientation.Vertical :
+								Orientation.Horizontal
 						};
 
 						if (newPanel.Orientation != currentPanel.Orientation) {

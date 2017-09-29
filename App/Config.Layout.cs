@@ -12,8 +12,17 @@ namespace Taction {
 
 		public void LoadLayout(string path = null) {
 
-			if (path == null)
+			if (path == null) {
+
+				if (!File.Exists(FileLayoutPath)) {
+
+					var encoding = System.Text.Encoding.UTF8;
+					var text = encoding.GetString(Properties.Resources.DefaultConfigLayoutJson);
+					File.WriteAllText(FileLayoutPath, text, encoding);
+				}
+
 				path = FileLayoutPath;
+			}
 
 			if (!File.Exists(path)) {
 
@@ -80,11 +89,17 @@ namespace Taction {
 		/// <summary>
 		/// Configuration root definition
 		/// </summary>
-		public class Layout : PanelSpecs {
+		public class Layout : IPanelItemSpecs {
 
 			private float _opacity;
 			private float _opacityHide;
 			private uint _fadeAnimationTime;
+
+			public int size { get; set; }
+			public List<IPanelItemSpecs> items { get; set; }
+
+			[JsonConverter(typeof(PanelOrientationConverter))]
+			public System.Windows.Controls.Orientation orientation { get; set; }
 
 			[DefaultValue(1)]
 			[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
@@ -123,10 +138,13 @@ namespace Taction {
 			public bool disableFadeAnimation { get; set; }
 		}
 
-		[JsonPanelItemCandidates(typeof(ButtonSpecs), typeof(PanelSpecs), typeof(MoverSpecs))]
+		[JsonPanelItemCandidates(typeof(ButtonSpecs), typeof(PivotSpecs), typeof(MoverSpecs))]
 		public interface IPanelItemSpecs {
 
 			int size { get; set; }
+
+			[JsonConverter(typeof(PanelItemsConverter))]
+			List<IPanelItemSpecs> items { get; set; }
 		}
 
 		[JsonPanelItemType("button")]
@@ -134,27 +152,24 @@ namespace Taction {
 
 			public int size { get; set; }
 			public string text { get; set; }
+			public List<IPanelItemSpecs> items { get; set; }
 
 			[JsonProperty("command")]
 			public string keyCommand { get; set; }
 		}
 
-		[JsonPanelItemType("panel")]
-		public class PanelSpecs : IPanelItemSpecs {
+		[JsonPanelItemType("pivot")]
+		public class PivotSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
-
-			[JsonConverter(typeof(PanelOrientationConverter))]
-			public System.Windows.Controls.Orientation orientation { get; set; }
-
-			[JsonConverter(typeof(PanelItemsConverter))]
-			public List<IPanelItemSpecs> items;
+			public List<IPanelItemSpecs> items { get; set; }
 		}
 
 		[JsonPanelItemType("mover")]
 		public class MoverSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
+			public List<IPanelItemSpecs> items { get; set; }
 
 			[DefaultValue("☰☰")]
 			[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]

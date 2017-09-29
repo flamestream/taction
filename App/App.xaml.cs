@@ -92,7 +92,8 @@ namespace Taction {
 		public void LoadDefaultLayout() {
 
 			var encoding = System.Text.Encoding.UTF8;
-			var json = JObject.Parse(encoding.GetString(Taction.Properties.Resources.DefaultConfigLayoutJson));
+			var text = encoding.GetString(Taction.Properties.Resources.DefaultConfigLayoutJson);
+			var json = JObject.Parse(text);
 
 			// Load and validate
 			this.config.LoadLayout(json);
@@ -101,7 +102,7 @@ namespace Taction {
 			this.panel.ReloadLayout();
 
 			// Persist for later
-			File.WriteAllText(Config.FileLayoutPath, json.ToString(), encoding);
+			File.WriteAllText(Config.FileLayoutPath, text, encoding);
 		}
 
 		public void LoadLayout(string path) {

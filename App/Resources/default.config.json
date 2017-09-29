@@ -37,8 +37,7 @@
 		"size": 75,
 		"command": "~CONTROL+VK_S"
 	}, {
-		"type": "panel",
-		"orientation": "horizontal",
+		"type": "pivot",
 		"size": 30,
 		"items": [{
 			"type": "button",
