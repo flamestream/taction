@@ -81,14 +81,14 @@
     <Compile Include="Config.PanelItemsConverter.cs" />
     <Compile Include="Config.State.cs" />
     <Compile Include="MainPanel.Designer.cs" />
-    <Compile Include="JsonPanelItemCandidates.cs" />
+    <Compile Include="JsonPanelItemCandidatesAttribute.cs" />
     <Compile Include="JsonPanelItemTypeAttribute.cs" />
     <Compile Include="MoverButton.cs" />
     <Compile Include="NotificationIcon.xaml.cs">
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="WinApi.cs" />
-    <Compile Include="WindowEventMessenger.cs" />
+    <Compile Include="WindowEventNotifier.cs" />
     <Compile Include="WindowManipulator.cs" />
     <Page Include="MainPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
