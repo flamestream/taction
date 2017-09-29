@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Generic;
@@ -9,68 +8,55 @@ namespace Taction {
 
 	internal partial class Config {
 
-		/// <summary>
-		/// Loaded config data.
-		/// </summary>
-		public Data data { get; private set; }
+		private static JSchema _layoutJsonSchema;
 
 		/// <summary>
-		/// Cached schema
+		/// Loaded config layout data.
 		/// </summary>
-		private static JSchema schema;
+		public Layout layout { get; private set; }
+
+		/// <summary>
+		/// Loaded config state data.
+		/// </summary>
+		public State state { get; private set; }
+
+		/// <summary>
+		/// Cached schema.
+		/// </summary>
+		public static JSchema layoutJsonSchema {
+			get {
+
+				if (_layoutJsonSchema == null)
+					_layoutJsonSchema = JSchema.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.ConfigLayoutJsonSchema));
+
+				return _layoutJsonSchema;
+			}
+		}
 
 		/// <summary>
 		/// Use Load instead.
 		/// </summary>
-		private Config() { }
+		public Config() {
 
-		/// <summary>
-		/// Load configuration.
-		/// </summary>
-		/// <param name="configFile">Path to config file</param>
-		/// <returns></returns>
-		public static Config Load(string configFile = null) {
+			layout = new Layout();
+			state = new State();
+		}
 
-			// Read file
-			JObject json;
-			if (configFile != null) {
+		public void Load() {
 
-				using (var reader = File.OpenText(Environment.ExpandEnvironmentVariables(configFile)))
-				using (var jsonReader = new JsonTextReader(reader)) {
+			LoadState();
+			LoadLayout();
+		}
 
-					json = JObject.Load(jsonReader);
-				}
+		public void Save() {
 
-			} else {
-				// Load default config
-				json = JObject.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.DefaultConfigJson));
+			using (StreamWriter file = File.CreateText(fileStatePath)) {
+
+				JsonSerializer serializer = new JsonSerializer {
+					Formatting = Formatting.Indented
+				};
+				serializer.Serialize(file, this.state);
 			}
-
-			// Load schema
-			if (schema == null)
-				schema = JSchema.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.ConfigJsonSchema));
-
-			// Validation check
-			if (!json.IsValid(schema, out IList<ValidationError> errors)) {
-
-				var errMsgs = new List<string>();
-				foreach (var error in errors)
-					errMsgs.Add(ParseError(error));
-
-				var errMsg = string.Join("\n", errMsgs);
-
-				// Prevent generated message to overflow due to abuse
-				if (errMsg.Length > 512)
-					errMsg = errMsg.Substring(0, 512) + "...";
-
-				throw new FormatException(errMsg);
-			}
-
-			// Load data
-			var config = new Config();
-			config.data = JsonConvert.DeserializeObject<Data>(JsonConvert.SerializeObject(json));
-
-			return config;
 		}
 
 		private static string ParseError(ValidationError error) {
@@ -82,7 +68,7 @@ namespace Taction {
 			foreach (var e in error.ChildErrors)
 				errMsgs.Add(ParseError(e));
 
-			return string.Join("\n", errMsgs);
+			return string.Join(Environment.NewLine, errMsgs);
 		}
 	}
 }

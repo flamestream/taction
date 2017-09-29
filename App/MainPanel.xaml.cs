@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,78 +11,54 @@ namespace Taction {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
-	public partial class TouchPanel : Window {
+	public partial class MainPanel : Window {
 
-		private InputSimulatorHelper inputSimulator { get; set; }
-		private GlobalMouseHook globalMouseHook { get; set; }
+		private App app => (App)Application.Current;
+		private Config config => app.config;
+
 		private bool isPassthrough { get; set; }
-		private Config config { get; set; }
 		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
-		private WindowEventMessenger windowEventMessenger;
+		private WindowEventNotifier windowEventMessenger { get; set; }
 
-		public TouchPanel() {
+		public MainPanel() {
 
 			InitializeComponent();
-			inputSimulator = new InputSimulatorHelper();
+
 			buttonCommands = new Dictionary<Button, KeyCommand>();
+			windowEventMessenger = new WindowEventNotifier(this);
 
-			globalMouseHook = new GlobalMouseHook(this);
-			globalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
-
-			windowEventMessenger = new WindowEventMessenger(this);
+			// Add event handlers
+			this.SizeChanged += HandleSizeChanged;
+			app.globalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
 			windowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
-
-			string errMsg = null;
-			try {
-				config = Config.Load();
-			} catch (FileNotFoundException e) {
-				errMsg = string.Format("{0}:\n{1}", "Config load error", e.Message);
-			} catch (FormatException e) {
-				errMsg = string.Format("{0}:\n{1}", "Config validation error", e.Message);
-			} catch (Newtonsoft.Json.JsonReaderException e) {
-				errMsg = string.Format("{0}:\n{1}", "Config syntax error", e.Message);
-			} catch (Exception e) {
-				errMsg = string.Format("{0}:\n{1}", e.GetType(), e.Message);
-			}
-
-			if (errMsg != null) {
-
-				MessageBox.Show(errMsg, string.Format("{0} Error", Properties.Resources.AppName));
-				Application.Current.Shutdown(1);
-				return;
-			}
 
 			ReloadLayout();
 		}
 
-		private void ResetLayout() {
+		public void ReloadLayout() {
 
-			globalMouseHook.Disable();
-			SetPassthrough(false);
-			panel.Children.Clear();
-			buttonCommands.Clear();
+			ClearLayout();
+			Designer.GenerateLayout(this);
+			WindowManipulator.FitToNearestDesktop(this);
 		}
 
-		private void ReloadLayout() {
+		private void ClearLayout() {
 
-			ResetLayout();
-
-			if (config == null)
-				return;
-
-			this.Visibility = Visibility.Visible;
-			Designer.GenerateLayout(this);
+			panel.Children.Clear();
+			buttonCommands.Clear();
+			SetPassthrough(false);
+			Visibility = Visibility.Visible;
 		}
 
 		/// <summary>
-		/// Enable or disable pass-though using config values for opacity.
+		/// Enable or disable pass-through using config values for opacity.
 		/// </summary>
 		/// <param name="isWanted">Flag indicating if pass-through is wanted</param>
 		private void SetPassthrough(bool isWanted) {
 
 			float opacity = isWanted ?
-				config.data.opacityHide :
-				config.data.opacity;
+				config.layout.opacityHide :
+				config.layout.opacity;
 
 			SetPassthrough(isWanted, opacity);
 		}
@@ -98,12 +72,12 @@ namespace Taction {
 
 			if (isWanted && !isPassthrough) {
 
-				Win32.SetWindowExTransparent(this, true);
+				WinApi.SetWindowExTransparent(this, true);
 				isPassthrough = true;
-				globalMouseHook.Enable();
+				app.globalMouseHook.Enable();
 
-				if (!config.data.disableFadeAnimation)
-					PlayFadeAnimation(opacity, config.data.opacity);
+				if (!config.layout.disableFadeAnimation)
+					PlayFadeAnimation(opacity, config.layout.opacity);
 				else if (opacity == 0)
 					this.Visibility = Visibility.Hidden;
 				else
@@ -113,11 +87,11 @@ namespace Taction {
 
 				this.Visibility = Visibility.Visible;
 
-				Win32.SetWindowExTransparent(this, false);
+				WinApi.SetWindowExTransparent(this, false);
 				isPassthrough = false;
 
-				if (!config.data.disableFadeAnimation)
-					PlayFadeAnimation(opacity, config.data.opacityHide);
+				if (!config.layout.disableFadeAnimation)
+					PlayFadeAnimation(opacity, config.layout.opacityHide);
 				else
 					this.Opacity = opacity;
 			}
@@ -132,10 +106,10 @@ namespace Taction {
 
 			// The animation may be interrupted and played in reverse.
 			// Shorten based on interruption value.
-			var duration = config.data.fadeAnimationTime
+			var duration = config.layout.fadeAnimationTime
 				- Math.Abs(this.Opacity - plannedInitialOpacity)
 				/ Math.Abs(plannedInitialOpacity - targetOpacity)
-				* config.data.fadeAnimationTime;
+				* config.layout.fadeAnimationTime;
 
 			var animation = new DoubleAnimation {
 				To = targetOpacity,
@@ -153,27 +127,28 @@ namespace Taction {
 
 		private void HandleMouseLeaveBoundaries(object sender, GlobalMouseHook.EventArgs e) {
 
-			globalMouseHook.Disable();
+			app.globalMouseHook.Disable();
 			SetPassthrough(false);
 		}
 
 		private void HandleExitSizeMove(object sender, EventArgs e) {
 
 			WindowManipulator.FitToNearestDesktop(this);
+			config.state.x = this.Left;
+			config.state.y = this.Top;
+			config.Save();
+			Debug.WriteLine(string.Format("{0}, {1}", this.Left, this.Top));
 		}
 
-		protected override void OnClosing(CancelEventArgs e) {
+		private void HandleSizeChanged(object sender, SizeChangedEventArgs e) {
 
-			base.OnClosing(e);
-
-			if (globalMouseHook != null)
-				globalMouseHook.Dispose();
+			WindowManipulator.FitToNearestDesktop(this, e.NewSize);
 		}
 
 		protected override void OnActivated(EventArgs e) {
 
 			base.OnActivated(e);
-			Win32.CancelActivation(this);
+			WinApi.CancelActivation(this);
 		}
 
 		private void Button_TouchDown(object sender, TouchEventArgs e) {
@@ -187,9 +162,9 @@ namespace Taction {
 				return;
 
 			if (keyCommand.isPressWanted)
-				inputSimulator.SimulateKeyPress(keyCommand.keyCodes);
+				app.inputSimulator.SimulateKeyPress(keyCommand.keyCodes);
 			else
-				inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
+				app.inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
 		}
 
 		private void Button_TouchUp(object sender, TouchEventArgs e) {
@@ -203,13 +178,13 @@ namespace Taction {
 				return;
 
 			if (!keyCommand.isPressWanted)
-				inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
+				app.inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
 		}
 
 		private void Window_MouseMove(object sender, MouseEventArgs e) {
 
 			// Hide config check
-			if (config.data.disableHide)
+			if (config.layout.disableHide)
 				return;
 
 			// Touch/Pen promotion check
@@ -231,7 +206,7 @@ namespace Taction {
 			// Prevent mouse move event
 			e.Handled = true;
 
-			if (!config.data.disableHide) {
+			if (!config.layout.disableHide) {
 
 				Debug.WriteLine("Hide Panel (pen)");
 				SetPassthrough(true);

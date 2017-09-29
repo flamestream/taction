@@ -6,6 +6,8 @@
 	<tb:TaskbarIcon x:Key="Definition" ToolTipText="{x:Static prop:Resources.AppName}">
 		<tb:TaskbarIcon.ContextMenu>
 			<ContextMenu>
+				<MenuItem Name="LoadLayoutMenuItem" Header="Load Layout" Click="LoadLayoutMenuItem_Click" />
+				<MenuItem Name="ResetLayoutMenuItem" Header="Reset Layout" Click="ResetLayoutMenuItem_Click" />
 				<MenuItem Name="ExitMenuItem" Header="Exit" Click="ExitMenuItem_Click" />
 			</ContextMenu>
 		</tb:TaskbarIcon.ContextMenu>

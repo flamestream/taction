@@ -5,7 +5,7 @@ using System.Windows.Interop;
 
 namespace Taction {
 
-	internal static class Win32 {
+	internal static class WinApi {
 
 		/// <summary>
 		/// Leave focus on the current app.

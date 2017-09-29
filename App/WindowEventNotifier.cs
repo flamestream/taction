@@ -7,11 +7,11 @@ namespace Taction {
 	/// <summary>
 	/// A helper to react to window messages not provided by WPF.
 	/// </summary>
-	internal class WindowEventMessenger {
+	internal class WindowEventNotifier {
 
 		public event EventHandler OnExitSizeMove;
 
-		public WindowEventMessenger(Window window) {
+		public WindowEventNotifier(Window window) {
 
 			var handle = new WindowInteropHelper(window).EnsureHandle();
 			var source = HwndSource.FromHwnd(handle);
@@ -20,9 +20,9 @@ namespace Taction {
 
 		private IntPtr HandleMessage(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
 
-			switch ((Win32.WM)msg) {
+			switch ((WinApi.WM)msg) {
 
-				case Win32.WM.WM_EXITSIZEMOVE:
+				case WinApi.WM.WM_EXITSIZEMOVE:
 					if (OnExitSizeMove != null)
 						OnExitSizeMove.Invoke(this, EventArgs.Empty);
 					break;

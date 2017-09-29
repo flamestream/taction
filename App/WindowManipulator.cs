@@ -8,7 +8,18 @@ namespace Taction {
 
 		public static void FitToNearestDesktop(Window window) {
 
-			var screen = Screen.FromHandle(Win32.GetHandle(window));
+			// Use current size
+			var size = new Size {
+				Width = window.Width,
+				Height = window.Height
+			};
+
+			FitToNearestDesktop(window, size);
+		}
+
+		public static void FitToNearestDesktop(Window window, Size newSize) {
+
+			var screen = Screen.FromHandle(WinApi.GetHandle(window));
 			var desktop = screen.WorkingArea;
 
 			var dWidth = desktop.Width;
@@ -18,8 +29,8 @@ namespace Taction {
 			var dRight = desktop.Right;
 			var dBottom = desktop.Bottom;
 
-			var wWidth = window.Width;
-			var wHeight = window.Height;
+			var wWidth = newSize.Width;
+			var wHeight = newSize.Height;
 			var wTop = window.Top;
 			var wLeft = window.Left;
 			var wRight = wLeft + wWidth;

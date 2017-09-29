@@ -5,39 +5,46 @@ using static Taction.Config;
 
 namespace Taction {
 
-	partial class TouchPanel {
+	partial class MainPanel {
 
 		internal static class Designer {
 
-			public static void GenerateLayout(TouchPanel window) {
+			public static void GenerateLayout(MainPanel window) {
 
-				var configData = window.config.data;
+				var config = ((App)App.Current).config;
+
+				var layoutData = config.layout;
+				var stateData = config.state;
 
 				// Prepare intent
 				var design = new Design();
-				design.panel.Orientation = window.config.data.orientation;
-				ProcessLayout(configData.items, design, window);
+				design.panel.Orientation = config.layout.orientation;
+				ProcessLayout(layoutData.items, design, window);
 
 				// Setup
 				window.buttonCommands = design.buttonCommands;
 
 				// Make changes
-				if (configData.orientation == Orientation.Vertical) {
+				if (layoutData.orientation == Orientation.Vertical) {
 
-					window.Width = configData.size;
+					window.Width = layoutData.size;
 					window.SizeToContent = SizeToContent.Height;
 
 				} else {
 
-					window.Height = configData.size;
+					window.Height = layoutData.size;
 					window.SizeToContent = SizeToContent.Width;
 				}
 
-				window.Opacity = configData.opacity;
+				window.Opacity = layoutData.opacity;
 				window.panel.Children.Add(design.panel);
+
+				// Set position
+				window.Left = stateData.x;
+				window.Top = stateData.y;
 			}
 
-			private static void ProcessLayout(List<IPanelItemSpecs> specs, Design design, TouchPanel window, StackPanel currentPanel = null) {
+			private static void ProcessLayout(List<IPanelItemSpecs> specs, Design design, MainPanel window, StackPanel currentPanel = null) {
 
 				if (specs == null)
 					return;

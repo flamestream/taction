@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using static Taction.Win32;
 
 namespace Taction {
 
@@ -18,20 +17,14 @@ namespace Taction {
 			public EventSource source;
 		}
 
-		public delegate void GlobalMouseEventHandler(object sender, EventArgs args);
-
-		private Window appWindow;
-		private HookProc proc;
+		private App app => (App)Application.Current;
+		private WinApi.HookProc proc => HookCallback;
 		private IntPtr hookId = IntPtr.Zero;
 		private bool isInAppBoundaries;
 
+		public delegate void GlobalMouseEventHandler(object sender, EventArgs args);
+
 		public event GlobalMouseEventHandler OnMouseLeaveBoundaries;
-
-		public GlobalMouseHook(Window window) {
-
-			appWindow = window;
-			proc = HookCallback;
-		}
 
 		public void Enable() {
 
@@ -41,7 +34,7 @@ namespace Taction {
 
 			using (Process curProcess = Process.GetCurrentProcess())
 			using (ProcessModule curModule = curProcess.MainModule) {
-				hookId = SetWindowsHookEx(HookType.WH_MOUSE_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
+				hookId = WinApi.SetWindowsHookEx(WinApi.HookType.WH_MOUSE_LL, proc, WinApi.GetModuleHandle(curModule.ModuleName), 0);
 			}
 		}
 
@@ -51,11 +44,15 @@ namespace Taction {
 			if (hookId == IntPtr.Zero)
 				return;
 
-			UnhookWindowsHookEx(hookId);
+			WinApi.UnhookWindowsHookEx(hookId);
 			hookId = IntPtr.Zero;
 		}
 
 		private bool IsInAppBoundaries(Point screenCoords) {
+
+			var appWindow = app.MainWindow;
+			if (appWindow == null)
+				return false;
 
 			var appWidth = appWindow.Width;
 			var appHeight = appWindow.Height;
@@ -72,7 +69,7 @@ namespace Taction {
 		/// </summary>
 		/// <param name="hookData">Hook data to check</param>
 		/// <returns>Identified mouse event source</returns>
-		private static EventSource GetMouseEventSource(MSLLHOOKSTRUCT hookData) {
+		private static EventSource GetMouseEventSource(WinApi.MSLLHOOKSTRUCT hookData) {
 
 			uint extra = (uint)hookData.dwExtraInfo;
 			bool isTouchOrPen = ((extra & 0xFFFFFF00) == 0xFF515700);
@@ -90,7 +87,7 @@ namespace Taction {
 		/// as mouse events won't be processed, rendering mouse unusable until CallNextHookEx
 		/// is called. Fortunately, the OS will fix this by probably unregistering
 		/// the hook...
-		/// @TODO Minimize usage or find another way.
+		/// @TODO Minimize usage or find anternative.
 		/// </summary>
 		/// <param name="code"></param>
 		/// <param name="wParam"></param>
@@ -98,9 +95,9 @@ namespace Taction {
 		/// <returns></returns>
 		private IntPtr HookCallback(int code, IntPtr wParam, IntPtr lParam) {
 
-			if (OnMouseLeaveBoundaries != null && code >= 0 && WM.WM_MOUSEMOVE == (WM)wParam) {
+			if (OnMouseLeaveBoundaries != null && code >= 0 && WinApi.WM.WM_MOUSEMOVE == (WinApi.WM)wParam) {
 
-				MSLLHOOKSTRUCT hookStruct = (MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(MSLLHOOKSTRUCT));
+				WinApi.MSLLHOOKSTRUCT hookStruct = (WinApi.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(WinApi.MSLLHOOKSTRUCT));
 				Point coords = new Point(hookStruct.pt.x, hookStruct.pt.y);
 
 				// Boundary check
@@ -116,7 +113,7 @@ namespace Taction {
 				isInAppBoundaries = isNowInAppBoundaries;
 			}
 
-			return CallNextHookEx(hookId, code, wParam, lParam);
+			return WinApi.CallNextHookEx(hookId, code, wParam, lParam);
 		}
 
 		public void Dispose() {

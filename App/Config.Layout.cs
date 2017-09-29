@@ -1,15 +1,86 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 
 namespace Taction {
 
 	partial class Config {
 
+		public void LoadLayout(string path = null) {
+
+			if (path == null)
+				path = FileLayoutPath;
+
+			if (!File.Exists(path)) {
+
+				((App)App.Current).notificationIcon.ShowBalloonTip(
+					"Error",
+					Taction.Properties.Resources.DefaultNotificationBubbleErrorMessage,
+					Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Error
+				);
+				return;
+			}
+
+			JObject json;
+			using (var reader = File.OpenText(path))
+			using (var jsonReader = new JsonTextReader(reader)) {
+
+				// @TODO File load error, etc
+				json = JObject.Load(jsonReader);
+			}
+
+			LoadLayout(json);
+		}
+
+		public void LoadLayout(JObject json) {
+
+			// Validation check
+			if (!json.IsValid(layoutJsonSchema, out IList<ValidationError> errors)) {
+
+				var errMsgs = new List<string>();
+				foreach (var error in errors)
+					errMsgs.Add(ParseError(error));
+
+				var errMsg = string.Join(Environment.NewLine, errMsgs);
+
+				throw new FormatException(errMsg);
+			}
+
+			// Populate
+			this.layout = JsonConvert.DeserializeObject<Layout>(JsonConvert.SerializeObject(json));
+		}
+
+		// -- STATIC MEMBERS -- //
+
+		private static string _FileLayoutPath;
+
+		/// <summary>
+		/// Cached file path of the config layout file.
+		/// </summary>
+		public static string FileLayoutPath {
+			get {
+				if (_FileLayoutPath == null) {
+
+					_FileLayoutPath = string.Format(@"{0}\{1}",
+						App.AppDataDir,
+						Properties.Resources.ConfigLayoutFileName
+					);
+				}
+
+				return _FileLayoutPath;
+			}
+		}
+
+		// -- INTERNAL CLASSES -- //
+
 		/// <summary>
 		/// Configuration root definition
 		/// </summary>
-		public class Data : PanelSpecs {
+		public class Layout : PanelSpecs {
 
 			private float _opacity;
 			private float _opacityHide;

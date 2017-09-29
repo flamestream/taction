@@ -61,7 +61,7 @@ namespace Taction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Art Touch Panel.
+        ///   Looks up a localized string similar to Taction.
         /// </summary>
         public static string AppName {
             get {
@@ -70,22 +70,67 @@ namespace Taction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Looks up a localized string similar to error.log.
         /// </summary>
-        public static byte[] ConfigJsonSchema {
+        public static string ConfigErrorFileName {
             get {
-                object obj = ResourceManager.GetObject("ConfigJsonSchema", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("ConfigErrorFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to layout.json.
+        /// </summary>
+        public static string ConfigLayoutFileName {
+            get {
+                return ResourceManager.GetString("ConfigLayoutFileName", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] DefaultConfigJson {
+        public static byte[] ConfigLayoutJsonSchema {
             get {
-                object obj = ResourceManager.GetObject("DefaultConfigJson", resourceCulture);
+                object obj = ResourceManager.GetObject("ConfigLayoutJsonSchema", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to state.json.
+        /// </summary>
+        public static string ConfigStateFileName {
+            get {
+                return ResourceManager.GetString("ConfigStateFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] DefaultConfigLayoutJson {
+            get {
+                object obj = ResourceManager.GetObject("DefaultConfigLayoutJson", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click here to find out more.
+        /// </summary>
+        public static string DefaultNotificationBubbleErrorMessage {
+            get {
+                return ResourceManager.GetString("DefaultNotificationBubbleErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An Error Occured.
+        /// </summary>
+        public static string DefaultNotificationBubbleErrorTitle {
+            get {
+                return ResourceManager.GetString("DefaultNotificationBubbleErrorTitle", resourceCulture);
             }
         }
         

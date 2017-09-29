@@ -7,7 +7,7 @@
     <ProjectGuid>{131F7D20-010C-40D4-BF70-98709BB37D2C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Taction</RootNamespace>
-    <AssemblyName>art-touch-panel</AssemblyName>
+    <AssemblyName>taction</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -76,20 +76,21 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Config.cs" />
-    <Compile Include="Config.Definition.cs" />
+    <Compile Include="Config.Layout.cs" />
     <Compile Include="Config.PanelOrientationConverter.cs" />
     <Compile Include="Config.PanelItemsConverter.cs" />
-    <Compile Include="Designer.cs" />
-    <Compile Include="JsonPanelItemCandidates.cs" />
+    <Compile Include="Config.State.cs" />
+    <Compile Include="MainPanel.Designer.cs" />
+    <Compile Include="JsonPanelItemCandidatesAttribute.cs" />
     <Compile Include="JsonPanelItemTypeAttribute.cs" />
     <Compile Include="MoverButton.cs" />
     <Compile Include="NotificationIcon.xaml.cs">
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Win32.cs" />
-    <Compile Include="WindowEventMessenger.cs" />
+    <Compile Include="WinApi.cs" />
+    <Compile Include="WindowEventNotifier.cs" />
     <Compile Include="WindowManipulator.cs" />
-    <Page Include="TouchPanel.xaml">
+    <Page Include="MainPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -99,8 +100,8 @@
     </Compile>
     <Compile Include="GlobalMouseHook.cs" />
     <Compile Include="InputSimulatorHelper.cs" />
-    <Compile Include="TouchPanel.xaml.cs">
-      <DependentUpon>TouchPanel.xaml</DependentUpon>
+    <Compile Include="MainPanel.xaml.cs">
+      <DependentUpon>MainPanel.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="NotificationIcon.xaml">
