@@ -79,7 +79,7 @@
 					"type": "array",
 					"items": {
 						"oneOf": [
-							{ "$ref": "#/definitions/panelObj" },
+							{ "$ref": "#/definitions/pivotObj" },
 							{ "$ref": "#/definitions/buttonObj" },
 							{ "$ref": "#/definitions/moverObj" }
 						]
@@ -87,20 +87,19 @@
 				}
 			}
 		},
-		"panelObj": {
+		"pivotObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
-				{"$ref": "#/definitions/orientationProp"},
 				{"$ref": "#/definitions/itemsProp" },
 				{
 					"type": "object",
 					"properties": {
 						"type": {
 							"type": "string",
-							"enum": ["panel"]
+							"enum": ["pivot"]
 						}
 					},
-					"required": ["orientation", "items"]
+					"required": ["size", "items"]
 				}
 			]
 		},
