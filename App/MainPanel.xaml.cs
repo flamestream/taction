@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,58 +13,45 @@ namespace Taction {
 	/// </summary>
 	public partial class MainPanel : Window {
 
-		private InputSimulatorHelper inputSimulator { get; set; }
-		private GlobalMouseHook globalMouseHook { get; set; }
+		private App app => (App)Application.Current;
+		private Config config => app.config;
+
 		private bool isPassthrough { get; set; }
 		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
-		private WindowEventMessenger windowEventMessenger;
-
-		private Config config {
-			get {
-				return ((App)Application.Current).config;
-			}
-		}
+		private WindowEventNotifier windowEventMessenger { get; set; }
 
 		public MainPanel() {
 
 			InitializeComponent();
-			inputSimulator = new InputSimulatorHelper();
+
 			buttonCommands = new Dictionary<Button, KeyCommand>();
+			windowEventMessenger = new WindowEventNotifier(this);
 
-			globalMouseHook = new GlobalMouseHook(this);
-			globalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
-
-			windowEventMessenger = new WindowEventMessenger(this);
+			// Add event handlers
+			this.SizeChanged += HandleSizeChanged;
+			app.globalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
 			windowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
 
 			ReloadLayout();
-
-			Debug.WriteLine(string.Format("Position({0}, {1})", this.Left, this.Top));
-			Debug.WriteLine(string.Format("Size: {0}, {1}", this.Width, this.Height));
 		}
 
-		private void ResetLayout() {
+		public void ReloadLayout() {
 
-			globalMouseHook.Disable();
-			SetPassthrough(false);
+			ClearLayout();
+			Designer.GenerateLayout(this);
+			WindowManipulator.FitToNearestDesktop(this);
+		}
+
+		private void ClearLayout() {
+
 			panel.Children.Clear();
 			buttonCommands.Clear();
-		}
-
-		private void ReloadLayout() {
-
-			ResetLayout();
-
-			if (config == null)
-				return;
-
-			// Set layout
-			this.Visibility = Visibility.Visible;
-			Designer.GenerateLayout(this);
+			SetPassthrough(false);
+			Visibility = Visibility.Visible;
 		}
 
 		/// <summary>
-		/// Enable or disable pass-though using config values for opacity.
+		/// Enable or disable pass-through using config values for opacity.
 		/// </summary>
 		/// <param name="isWanted">Flag indicating if pass-through is wanted</param>
 		private void SetPassthrough(bool isWanted) {
@@ -87,9 +72,9 @@ namespace Taction {
 
 			if (isWanted && !isPassthrough) {
 
-				Win32.SetWindowExTransparent(this, true);
+				WinApi.SetWindowExTransparent(this, true);
 				isPassthrough = true;
-				globalMouseHook.Enable();
+				app.globalMouseHook.Enable();
 
 				if (!config.layout.disableFadeAnimation)
 					PlayFadeAnimation(opacity, config.layout.opacity);
@@ -102,7 +87,7 @@ namespace Taction {
 
 				this.Visibility = Visibility.Visible;
 
-				Win32.SetWindowExTransparent(this, false);
+				WinApi.SetWindowExTransparent(this, false);
 				isPassthrough = false;
 
 				if (!config.layout.disableFadeAnimation)
@@ -142,7 +127,7 @@ namespace Taction {
 
 		private void HandleMouseLeaveBoundaries(object sender, GlobalMouseHook.EventArgs e) {
 
-			globalMouseHook.Disable();
+			app.globalMouseHook.Disable();
 			SetPassthrough(false);
 		}
 
@@ -155,18 +140,15 @@ namespace Taction {
 			Debug.WriteLine(string.Format("{0}, {1}", this.Left, this.Top));
 		}
 
-		protected override void OnClosing(CancelEventArgs e) {
+		private void HandleSizeChanged(object sender, SizeChangedEventArgs e) {
 
-			base.OnClosing(e);
-
-			if (globalMouseHook != null)
-				globalMouseHook.Dispose();
+			WindowManipulator.FitToNearestDesktop(this, e.NewSize);
 		}
 
 		protected override void OnActivated(EventArgs e) {
 
 			base.OnActivated(e);
-			Win32.CancelActivation(this);
+			WinApi.CancelActivation(this);
 		}
 
 		private void Button_TouchDown(object sender, TouchEventArgs e) {
@@ -180,9 +162,9 @@ namespace Taction {
 				return;
 
 			if (keyCommand.isPressWanted)
-				inputSimulator.SimulateKeyPress(keyCommand.keyCodes);
+				app.inputSimulator.SimulateKeyPress(keyCommand.keyCodes);
 			else
-				inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
+				app.inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
 		}
 
 		private void Button_TouchUp(object sender, TouchEventArgs e) {
@@ -196,7 +178,7 @@ namespace Taction {
 				return;
 
 			if (!keyCommand.isPressWanted)
-				inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
+				app.inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
 		}
 
 		private void Window_MouseMove(object sender, MouseEventArgs e) {

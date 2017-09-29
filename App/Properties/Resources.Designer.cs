@@ -79,21 +79,21 @@ namespace Taction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        public static byte[] ConfigJsonSchema {
-            get {
-                object obj = ResourceManager.GetObject("ConfigJsonSchema", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to layout.json.
         /// </summary>
         public static string ConfigLayoutFileName {
             get {
                 return ResourceManager.GetString("ConfigLayoutFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        public static byte[] ConfigLayoutJsonSchema {
+            get {
+                object obj = ResourceManager.GetObject("ConfigLayoutJsonSchema", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         
@@ -109,9 +109,9 @@ namespace Taction.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        public static byte[] DefaultConfigJson {
+        public static byte[] DefaultConfigLayoutJson {
             get {
-                object obj = ResourceManager.GetObject("DefaultConfigJson", resourceCulture);
+                object obj = ResourceManager.GetObject("DefaultConfigLayoutJson", resourceCulture);
                 return ((byte[])(obj));
             }
         }

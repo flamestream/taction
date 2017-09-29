@@ -10,6 +10,54 @@ namespace Taction {
 
 	partial class Config {
 
+		public void LoadLayout(string path = null) {
+
+			if (path == null)
+				path = FileLayoutPath;
+
+			if (!File.Exists(path)) {
+
+				((App)App.Current).notificationIcon.ShowBalloonTip(
+					"Error",
+					Taction.Properties.Resources.DefaultNotificationBubbleErrorMessage,
+					Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Error
+				);
+				return;
+			}
+
+			JObject json;
+			using (var reader = File.OpenText(path))
+			using (var jsonReader = new JsonTextReader(reader)) {
+
+				// @TODO File load error, etc
+				json = JObject.Load(jsonReader);
+			}
+
+			LoadLayout(json);
+		}
+
+		public void LoadLayout(JObject json) {
+
+			// Validation check
+			if (!json.IsValid(layoutJsonSchema, out IList<ValidationError> errors)) {
+
+				var errMsgs = new List<string>();
+				foreach (var error in errors)
+					errMsgs.Add(ParseError(error));
+
+				var errMsg = string.Join(Environment.NewLine, errMsgs);
+
+				throw new FormatException(errMsg);
+			}
+
+			// Populate
+			this.layout = JsonConvert.DeserializeObject<Layout>(JsonConvert.SerializeObject(json));
+		}
+
+		// -- STATIC MEMBERS -- //
+
+		private static string _FileLayoutPath;
+
 		/// <summary>
 		/// Cached file path of the config layout file.
 		/// </summary>
@@ -27,42 +75,7 @@ namespace Taction {
 			}
 		}
 
-		public void LoadLayout(string path = null) {
-
-			JObject json;
-			if (File.Exists(FileLayoutPath)) {
-
-				using (var reader = File.OpenText(FileLayoutPath))
-				using (var jsonReader = new JsonTextReader(reader)) {
-
-					// @TODO File load error, etc
-					json = JObject.Load(jsonReader);
-				}
-
-			} else {
-
-				// Load default config (Guaranteed)
-				json = JObject.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.DefaultConfigJson));
-			}
-
-			// Load schema
-			if (schema == null)
-				schema = JSchema.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.ConfigJsonSchema));
-
-			// Validation check
-			if (!json.IsValid(schema, out IList<ValidationError> errors)) {
-
-				var errMsgs = new List<string>();
-				foreach (var error in errors)
-					errMsgs.Add(ParseError(error));
-
-				var errMsg = string.Join(Environment.NewLine, errMsgs);
-
-				throw new FormatException(errMsg);
-			}
-
-			this.layout = Layout.Load(json);
-		}
+		// -- INTERNAL CLASSES -- //
 
 		/// <summary>
 		/// Configuration root definition
@@ -108,11 +121,6 @@ namespace Taction {
 			}
 
 			public bool disableFadeAnimation { get; set; }
-
-			public static Layout Load(JObject json) {
-
-				return JsonConvert.DeserializeObject<Layout>(JsonConvert.SerializeObject(json));
-			}
 		}
 
 		[JsonPanelItemCandidates(typeof(ButtonSpecs), typeof(PanelSpecs), typeof(MoverSpecs))]

@@ -123,17 +123,17 @@
   <data name="ConfigErrorFileName" xml:space="preserve">
     <value>error.log</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="ConfigJsonSchema" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\config.schema.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="ConfigLayoutFileName" xml:space="preserve">
     <value>layout.json</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="ConfigLayoutJsonSchema" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\config.schema.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="ConfigStateFileName" xml:space="preserve">
     <value>state.json</value>
   </data>
-  <data name="DefaultConfigJson" type="System.Resources.ResXFileRef, System.Windows.Forms">
+  <data name="DefaultConfigLayoutJson" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\default.config.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="DefaultNotificationBubbleErrorMessage" xml:space="preserve">

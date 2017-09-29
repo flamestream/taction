@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Generic;
@@ -9,8 +8,7 @@ namespace Taction {
 
 	internal partial class Config {
 
-		private static string _FileLayoutPath;
-		private static string _FileStatePath;
+		private static JSchema _layoutJsonSchema;
 
 		/// <summary>
 		/// Loaded config layout data.
@@ -25,7 +23,15 @@ namespace Taction {
 		/// <summary>
 		/// Cached schema.
 		/// </summary>
-		private static JSchema schema;
+		public static JSchema layoutJsonSchema {
+			get {
+
+				if (_layoutJsonSchema == null)
+					_layoutJsonSchema = JSchema.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.ConfigLayoutJsonSchema));
+
+				return _layoutJsonSchema;
+			}
+		}
 
 		/// <summary>
 		/// Use Load instead.
@@ -44,7 +50,7 @@ namespace Taction {
 
 		public void Save() {
 
-			using (StreamWriter file = File.CreateText(FileStatePath)) {
+			using (StreamWriter file = File.CreateText(fileStatePath)) {
 
 				JsonSerializer serializer = new JsonSerializer {
 					Formatting = Formatting.Indented

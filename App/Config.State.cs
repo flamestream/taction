@@ -1,75 +1,53 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Schema;
 using System.IO;
 
 namespace Taction {
 
 	partial class Config {
 
+		private static string _fileStatePath;
+
 		/// <summary>
 		/// Cached file path of the config state file.
 		/// </summary>
-		public static string FileStatePath {
+		public static string fileStatePath {
 			get {
-				if (_FileStatePath == null) {
+				if (_fileStatePath == null) {
 
-					_FileStatePath = string.Format(@"{0}\{1}",
+					_fileStatePath = string.Format(@"{0}\{1}",
 						App.AppDataDir,
 						Properties.Resources.ConfigStateFileName
 					);
 				}
 
-				return _FileStatePath;
+				return _fileStatePath;
 			}
 		}
 
-		public void LoadState(string path = null) {
+		public void LoadState() {
+
+			// Existence check
+			// @NOTE Load default one here if there are any
+			if (!File.Exists(fileStatePath))
+				return;
 
 			JObject json;
-			if (File.Exists(FileStatePath)) {
+			using (var reader = File.OpenText(fileStatePath))
+			using (var jsonReader = new JsonTextReader(reader)) {
 
-				using (var reader = File.OpenText(FileLayoutPath))
-				using (var jsonReader = new JsonTextReader(reader)) {
-
-					// @TODO File load error, etc
-					json = JObject.Load(jsonReader);
-				}
-
-			} else {
-
-				// Load default config (Guaranteed)
-				json = JObject.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.DefaultConfigJson));
+				// @TODO File load error, etc
+				json = JObject.Load(jsonReader);
 			}
 
-			// Load schema
-			if (schema == null)
-				schema = JSchema.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.ConfigJsonSchema));
-
-			// Validation check
-			//if (!json.IsValid(schema, out IList<ValidationError> errors)) {
-
-			//	var errMsgs = new List<string>();
-			//	foreach (var error in errors)
-			//		errMsgs.Add(ParseError(error));
-
-			//	var errMsg = string.Join(Environment.NewLine, errMsgs);
-
-			//	throw new FormatException(errMsg);
-			//}
-
-			this.state = State.Load(json);
+			// Populate
+			this.state = JsonConvert.DeserializeObject<State>(JsonConvert.SerializeObject(json));
 		}
 
 		public class State {
 
 			public double x;
 			public double y;
-
-			public static State Load(JObject json) {
-
-				return JsonConvert.DeserializeObject<State>(JsonConvert.SerializeObject(json));
-			}
 		}
 	}
 }

@@ -11,12 +11,14 @@ namespace Taction {
 
 			public static void GenerateLayout(MainPanel window) {
 
-				var layoutData = window.config.layout;
-				var stateData = window.config.state;
+				var config = ((App)App.Current).config;
+
+				var layoutData = config.layout;
+				var stateData = config.state;
 
 				// Prepare intent
 				var design = new Design();
-				design.panel.Orientation = window.config.layout.orientation;
+				design.panel.Orientation = config.layout.orientation;
 				ProcessLayout(layoutData.items, design, window);
 
 				// Setup
@@ -40,7 +42,6 @@ namespace Taction {
 				// Set position
 				window.Left = stateData.x;
 				window.Top = stateData.y;
-				WindowManipulator.FitToNearestDesktop(window);
 			}
 
 			private static void ProcessLayout(List<IPanelItemSpecs> specs, Design design, MainPanel window, StackPanel currentPanel = null) {
