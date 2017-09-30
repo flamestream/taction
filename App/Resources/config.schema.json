@@ -53,6 +53,22 @@
 				}
 			}
 		},
+		"commandProp": {
+			"properties": {
+				"command": {
+					"description": "Key command associated with button.",
+					"type": "string",
+				}
+			}
+		},
+		"textProp": {
+			"properties": {
+				"text": {
+					"description": "Label associated with button.",
+					"type": "string",
+				}
+			}
+		},
 		"sizeProp": {
 			"properties": {
 				"size": {
@@ -108,21 +124,14 @@
 		"holdObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
+				{"$ref": "#/definitions/textProp"},
+				{"$ref": "#/definitions/commandProp"},
 				{
 					"type": "object",
 					"properties": {
 						"type": {
 							"type": "string",
 							"enum": ["hold"]
-						},
-						"size": {
-							"$ref": "#/definitions/sizeProp"
-						},
-						"command": {
-							"type": "string"
-						},
-						"text": {
-							"type": "string"
 						}
 					},
 					"required": ["size", "command"]
@@ -132,21 +141,14 @@
 		"tapObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
+				{"$ref": "#/definitions/textProp"},
+				{"$ref": "#/definitions/commandProp"},
 				{
 					"type": "object",
 					"properties": {
 						"type": {
 							"type": "string",
 							"enum": ["tap"]
-						},
-						"size": {
-							"$ref": "#/definitions/sizeProp"
-						},
-						"command": {
-							"type": "string"
-						},
-						"text": {
-							"type": "string"
 						}
 					},
 					"required": ["size", "command"]
@@ -156,21 +158,14 @@
 		"toggleObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
+				{"$ref": "#/definitions/textProp"},
+				{"$ref": "#/definitions/commandProp"},
 				{
 					"type": "object",
 					"properties": {
 						"type": {
 							"type": "string",
 							"enum": ["toggle"]
-						},
-						"size": {
-							"$ref": "#/definitions/sizeProp"
-						},
-						"command": {
-							"type": "string"
-						},
-						"text": {
-							"type": "string"
 						}
 					},
 					"required": ["size", "command"]
@@ -180,6 +175,7 @@
 		"moveObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
+				{"$ref": "#/definitions/textProp"},
 				{
 					"type": "object",
 					"properties": {
@@ -188,7 +184,6 @@
 							"enum": ["move"]
 						},
 						"text": {
-							"type": "string",
 							"default": "☰☰"
 						}
 					},
