@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using Taction.CustomAttribute;
 using static Taction.Config;
 
 namespace Taction {
@@ -17,12 +19,10 @@ namespace Taction {
 				var stateData = config.state;
 
 				// Prepare intent
-				var design = new Design();
-				design.panel.Orientation = config.layout.orientation;
-				ProcessLayout(layoutData.items, design, window);
-
-				// Setup
-				window.buttonCommands = design.buttonCommands;
+				var panel = new StackPanel {
+					Orientation = config.layout.orientation
+				};
+				ProcessLayout(layoutData.items, panel);
 
 				// Make changes
 				if (layoutData.orientation == Orientation.Vertical) {
@@ -37,89 +37,30 @@ namespace Taction {
 				}
 
 				window.Opacity = layoutData.opacity;
-				window.panel.Children.Add(design.panel);
+				window.container.Children.Add(panel);
 
 				// Set position
 				window.Left = stateData.x;
 				window.Top = stateData.y;
 			}
 
-			private static void ProcessLayout(List<IPanelItemSpecs> specs, Design design, MainPanel window, StackPanel currentPanel = null) {
+			private static void ProcessLayout(List<IPanelItemSpecs> specsList, StackPanel currentPanel) {
 
-				if (specs == null)
+				if (specsList == null)
 					return;
 
-				if (currentPanel == null)
-					currentPanel = design.panel;
+				foreach (var specs in specsList) {
 
-				foreach (var info in specs) {
+					var specsType = specs.GetType();
+					var attr = (AssociatedClassAttribute)specsType.GetCustomAttributes(typeof(AssociatedClassAttribute), true)[0];
+					var itemType = attr.value;
+					var item = (UIElement)Activator.CreateInstance(itemType, specs, currentPanel);
 
-					if (info is ButtonSpecs) {
+					currentPanel.Children.Add(item);
 
-						var buttonSpecs = (ButtonSpecs)info;
-						var newButton = new Button {
-							Content = buttonSpecs.text != null ?
-								buttonSpecs.text :
-								buttonSpecs.keyCommand
-						};
-						newButton.TouchDown += window.Button_TouchDown;
-						newButton.TouchUp += window.Button_TouchUp;
-
-						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = buttonSpecs.size;
-						else
-							newButton.Width = buttonSpecs.size;
-
-						currentPanel.Children.Add(newButton);
-						design.buttonCommands.Add(newButton, InputSimulatorHelper.ParseKeyCommand(buttonSpecs.keyCommand));
-
-					} else if (info is PivotSpecs) {
-
-						var panelInfo = (PivotSpecs)info;
-
-						var newPanel = new StackPanel {
-							Orientation = currentPanel.Orientation == Orientation.Horizontal ?
-								Orientation.Vertical :
-								Orientation.Horizontal
-						};
-
-						if (newPanel.Orientation != currentPanel.Orientation) {
-							if (currentPanel.Orientation == Orientation.Vertical)
-								newPanel.Height = panelInfo.size;
-							else
-								newPanel.Width = panelInfo.size;
-						}
-
-						currentPanel.Children.Add(newPanel);
-
-						ProcessLayout(panelInfo.items, design, window, newPanel);
-
-					} else if (info is MoverSpecs) {
-
-						var moverSpecs = (MoverSpecs)info;
-						var newButton = new MoverButton {
-							Content = moverSpecs.text
-						};
-
-						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = moverSpecs.size;
-						else
-							newButton.Width = moverSpecs.size;
-
-						currentPanel.Children.Add(newButton);
-					}
-				}
-			}
-
-			public class Design {
-
-				public Dictionary<Button, KeyCommand> buttonCommands;
-				public StackPanel panel;
-
-				public Design() {
-
-					buttonCommands = new Dictionary<Button, KeyCommand>();
-					panel = new StackPanel();
+					// Special when panel
+					if (item is StackPanel)
+						ProcessLayout(((PivotSpecs)specs).items, (StackPanel)item);
 				}
 			}
 		}

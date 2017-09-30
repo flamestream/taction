@@ -81,12 +81,16 @@
     <Compile Include="Config.PanelItemsConverter.cs" />
     <Compile Include="Config.State.cs" />
     <Compile Include="MainPanel.Designer.cs" />
-    <Compile Include="JsonPanelItemCandidatesAttribute.cs" />
-    <Compile Include="JsonPanelItemTypeAttribute.cs" />
-    <Compile Include="MoverButton.cs" />
+    <Compile Include="CustomAttribute\AssosicatedClassAttribute.cs" />
+    <Compile Include="CustomAttribute\JsonStringTypeValueAttribute.cs" />
+    <Compile Include="CustomUIElement\MoveButton.cs" />
     <Compile Include="NotificationIcon.xaml.cs">
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CustomUIElement\CustomStackPanel.cs" />
+    <Compile Include="CustomUIElement\TapButton.cs" />
+    <Compile Include="CustomUIElement\CustomToggleButton.cs" />
+    <Compile Include="CustomUIElement\HoldButton.cs" />
     <Compile Include="WinApi.cs" />
     <Compile Include="WindowEventNotifier.cs" />
     <Compile Include="WindowManipulator.cs" />
@@ -141,6 +145,7 @@
   <ItemGroup>
     <None Include="Resources\icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == "Release" "$(ProjectDir)merge-bins.bat" "$(TargetDir)" "$(TargetFileName)"</PostBuildEvent>

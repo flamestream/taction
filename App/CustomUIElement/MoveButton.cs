@@ -1,12 +1,22 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static Taction.Config;
 
-namespace Taction {
+namespace Taction.CustomUIElement {
 
-	internal class MoverButton : Button {
+	internal class MoveButton : Button {
 
-		public MoverButton() {
+		public MoveButton(IPanelItemSpecs specs, StackPanel panel = null) {
+
+			var s = (MoveButtonSpecs)specs;
+
+			this.Content = s.text;
+
+			if (panel == null || panel.Orientation == Orientation.Vertical)
+				this.Height = s.size;
+			else
+				this.Width = s.size;
 
 			Style style = new Style();
 

@@ -117,7 +117,7 @@ namespace Taction {
 			File.Copy(path, Config.FileLayoutPath, true);
 		}
 
-		// -- STATIC PROPERTIES --
+		// -- STATIC PROPERTIES -- //
 
 		private static string _AppDataDir;
 		private static string _ErrorFilePath;

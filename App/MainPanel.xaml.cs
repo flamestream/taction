@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 
@@ -17,14 +18,12 @@ namespace Taction {
 		private Config config => app.config;
 
 		private bool isPassthrough { get; set; }
-		private Dictionary<Button, KeyCommand> buttonCommands { get; set; }
 		private WindowEventNotifier windowEventMessenger { get; set; }
 
 		public MainPanel() {
 
 			InitializeComponent();
 
-			buttonCommands = new Dictionary<Button, KeyCommand>();
 			windowEventMessenger = new WindowEventNotifier(this);
 
 			// Add event handlers
@@ -44,8 +43,7 @@ namespace Taction {
 
 		private void ClearLayout() {
 
-			panel.Children.Clear();
-			buttonCommands.Clear();
+			this.container.Children.Clear();
 			SetPassthrough(false);
 			Visibility = Visibility.Visible;
 		}
@@ -149,36 +147,6 @@ namespace Taction {
 
 			base.OnActivated(e);
 			WinApi.CancelActivation(this);
-		}
-
-		private void Button_TouchDown(object sender, TouchEventArgs e) {
-
-			e.Handled = true;
-
-			Button btn = (Button)sender;
-			btn.FontWeight = FontWeight.FromOpenTypeWeight(500);
-
-			if (!buttonCommands.TryGetValue(btn, out KeyCommand keyCommand))
-				return;
-
-			if (keyCommand.isPressWanted)
-				app.inputSimulator.SimulateKeyPress(keyCommand.keyCodes);
-			else
-				app.inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
-		}
-
-		private void Button_TouchUp(object sender, TouchEventArgs e) {
-
-			e.Handled = true;
-
-			Button btn = (Button)sender;
-			btn.FontWeight = FontWeight.FromOpenTypeWeight(200);
-
-			if (!buttonCommands.TryGetValue(btn, out KeyCommand keyCommand))
-				return;
-
-			if (!keyCommand.isPressWanted)
-				app.inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
 		}
 
 		private void Window_MouseMove(object sender, MouseEventArgs e) {

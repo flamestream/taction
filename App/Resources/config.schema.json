@@ -1,5 +1,5 @@
 {
-	"id": "http://flareburst.net/schemas/artist-touch-panel.json",
+	"id": "http://flareburst.net/taction/layout.schema.json",
 	"type": "object",
 	"allOf": [
 		{ "$ref": "#/definitions/versionProp" },
@@ -53,6 +53,22 @@
 				}
 			}
 		},
+		"commandProp": {
+			"properties": {
+				"command": {
+					"description": "Key command associated with button.",
+					"type": "string",
+				}
+			}
+		},
+		"textProp": {
+			"properties": {
+				"text": {
+					"description": "Label associated with button.",
+					"type": "string",
+				}
+			}
+		},
 		"sizeProp": {
 			"properties": {
 				"size": {
@@ -80,8 +96,10 @@
 					"items": {
 						"oneOf": [
 							{ "$ref": "#/definitions/pivotObj" },
-							{ "$ref": "#/definitions/buttonObj" },
-							{ "$ref": "#/definitions/moverObj" }
+							{ "$ref": "#/definitions/holdObj" },
+							{ "$ref": "#/definitions/tapObj" },
+							{ "$ref": "#/definitions/toggleObj" },
+							{ "$ref": "#/definitions/moveObj" }
 						]
 					}
 				}
@@ -103,42 +121,69 @@
 				}
 			]
 		},
-		"buttonObj": {
+		"holdObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
+				{"$ref": "#/definitions/textProp"},
+				{"$ref": "#/definitions/commandProp"},
 				{
 					"type": "object",
 					"properties": {
 						"type": {
 							"type": "string",
-							"enum": ["button"]
-						},
-						"size": {
-							"$ref": "#/definitions/sizeProp"
-						},
-						"command": {
-							"type": "string"
-						},
-						"text": {
-							"type": "string"
+							"enum": ["hold"]
 						}
 					},
 					"required": ["size", "command"]
 				}
 			]
 		},
-		"moverObj": {
+		"tapObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
+				{"$ref": "#/definitions/textProp"},
+				{"$ref": "#/definitions/commandProp"},
 				{
 					"type": "object",
 					"properties": {
 						"type": {
 							"type": "string",
-							"enum": ["mover"]
+							"enum": ["tap"]
+						}
+					},
+					"required": ["size", "command"]
+				}
+			]
+		},
+		"toggleObj": {
+			"allOf": [
+				{"$ref": "#/definitions/sizeProp"},
+				{"$ref": "#/definitions/textProp"},
+				{"$ref": "#/definitions/commandProp"},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": ["toggle"]
+						}
+					},
+					"required": ["size", "command"]
+				}
+			]
+		},
+		"moveObj": {
+			"allOf": [
+				{"$ref": "#/definitions/sizeProp"},
+				{"$ref": "#/definitions/textProp"},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": ["move"]
 						},
 						"text": {
-							"type": "string",
 							"default": "☰☰"
 						}
 					},

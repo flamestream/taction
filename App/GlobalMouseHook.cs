@@ -18,13 +18,19 @@ namespace Taction {
 		}
 
 		private App app => (App)Application.Current;
-		private WinApi.HookProc proc => HookCallback;
-		private IntPtr hookId = IntPtr.Zero;
 		private bool isInAppBoundaries;
+		private IntPtr hookId = IntPtr.Zero;
+		private WinApi.HookProc HookProcDelegate;
 
 		public delegate void GlobalMouseEventHandler(object sender, EventArgs args);
 
 		public event GlobalMouseEventHandler OnMouseLeaveBoundaries;
+
+		public GlobalMouseHook() {
+
+			// Ensure this is not garbage collected
+			HookProcDelegate = HookCallback;
+		}
 
 		public void Enable() {
 
@@ -34,7 +40,7 @@ namespace Taction {
 
 			using (Process curProcess = Process.GetCurrentProcess())
 			using (ProcessModule curModule = curProcess.MainModule) {
-				hookId = WinApi.SetWindowsHookEx(WinApi.HookType.WH_MOUSE_LL, proc, WinApi.GetModuleHandle(curModule.ModuleName), 0);
+				hookId = WinApi.SetWindowsHookEx(WinApi.HookType.WH_MOUSE_LL, HookProcDelegate, WinApi.GetModuleHandle(curModule.ModuleName), 0);
 			}
 		}
 
