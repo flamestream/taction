@@ -80,17 +80,17 @@
     <Compile Include="Config.PanelOrientationConverter.cs" />
     <Compile Include="Config.PanelItemsConverter.cs" />
     <Compile Include="Config.State.cs" />
-    <Compile Include="JsonPanelItemSpecsClassAttribute.cs" />
+    <Compile Include="Attributes\JsonPanelItemSpecsClassAttribute.cs" />
     <Compile Include="MainPanel.Designer.cs" />
-    <Compile Include="JsonPanelItemCandidatesAttribute.cs" />
-    <Compile Include="JsonPanelItemTypeAttribute.cs" />
-    <Compile Include="MoveButton.cs" />
+    <Compile Include="Attributes\JsonPanelItemCandidatesAttribute.cs" />
+    <Compile Include="Attributes\JsonPanelItemTypeAttribute.cs" />
+    <Compile Include="Content Controls\MoveButton.cs" />
     <Compile Include="NotificationIcon.xaml.cs">
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TapButton.cs" />
-    <Compile Include="ToggleButton.cs" />
-    <Compile Include="HoldButton.cs" />
+    <Compile Include="Content Controls\TapButton.cs" />
+    <Compile Include="Content Controls\ToggleButton.cs" />
+    <Compile Include="Content Controls\HoldButton.cs" />
     <Compile Include="WinApi.cs" />
     <Compile Include="WindowEventNotifier.cs" />
     <Compile Include="WindowManipulator.cs" />
@@ -145,6 +145,7 @@
   <ItemGroup>
     <None Include="Resources\icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == "Release" "$(ProjectDir)merge-bins.bat" "$(TargetDir)" "$(TargetFileName)"</PostBuildEvent>
