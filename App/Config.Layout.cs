@@ -143,6 +143,7 @@ namespace Taction {
 			List<IPanelItemSpecs> items { get; set; }
 		}
 
+		[JsonPanelItemSpecsClass(typeof(HoldButton))]
 		[JsonPanelItemType("hold")]
 		public class HoldButtonSpecs : IPanelItemSpecs {
 
@@ -154,6 +155,7 @@ namespace Taction {
 			public string keyCommand { get; set; }
 		}
 
+		[JsonPanelItemSpecsClass(typeof(TapButton))]
 		[JsonPanelItemType("tap")]
 		public class TapButtonSpecs : IPanelItemSpecs {
 
@@ -165,6 +167,7 @@ namespace Taction {
 			public string keyCommand { get; set; }
 		}
 
+		[JsonPanelItemSpecsClass(typeof(ToggleButton))]
 		[JsonPanelItemType("toggle")]
 		public class ToggleButtonSpecs : IPanelItemSpecs {
 
@@ -183,6 +186,7 @@ namespace Taction {
 			public List<IPanelItemSpecs> items { get; set; }
 		}
 
+		[JsonPanelItemSpecsClass(typeof(MoveButton))]
 		[JsonPanelItemType("move")]
 		public class MoveButtonSpecs : IPanelItemSpecs {
 

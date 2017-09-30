@@ -80,6 +80,7 @@
     <Compile Include="Config.PanelOrientationConverter.cs" />
     <Compile Include="Config.PanelItemsConverter.cs" />
     <Compile Include="Config.State.cs" />
+    <Compile Include="JsonPanelItemSpecsClassAttribute.cs" />
     <Compile Include="MainPanel.Designer.cs" />
     <Compile Include="JsonPanelItemCandidatesAttribute.cs" />
     <Compile Include="JsonPanelItemTypeAttribute.cs" />

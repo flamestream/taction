@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -55,58 +57,16 @@ namespace Taction {
 
 				foreach (var info in specs) {
 
-					if (info is HoldButtonSpecs) {
+					//var type = typeof(IPanelItemSpecs);
+					//var types = AppDomain.CurrentDomain.GetAssemblies()
+					//	.SelectMany(s => s.GetTypes())
+					//	.Where(p => p.IsClass && type.IsAssignableFrom(p));
 
-						var spec = (HoldButtonSpecs)info;
-						var newButton = new HoldButton {
-							Content = spec.text != null ?
-								spec.text :
-								spec.keyCommand,
-							KeyCommand = InputSimulatorHelper.ParseKeyCommand(spec.keyCommand)
-						};
+					var type = info.GetType();
 
-						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = spec.size;
-						else
-							newButton.Width = spec.size;
-
-						currentPanel.Children.Add(newButton);
-
-					} else if (info is TapButtonSpecs) {
-
-						var spec = (TapButtonSpecs)info;
-						var newButton = new TapButton {
-							Content = spec.text != null ?
-								spec.text :
-								spec.keyCommand,
-							KeyCommand = InputSimulatorHelper.ParseKeyCommand(spec.keyCommand)
-						};
-
-						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = spec.size;
-						else
-							newButton.Width = spec.size;
-
-						currentPanel.Children.Add(newButton);
-
-					} else if (info is ToggleButtonSpecs) {
-
-						var spec = (ToggleButtonSpecs)info;
-						var newButton = new ToggleButton {
-							Content = spec.text != null ?
-								spec.text :
-								spec.keyCommand,
-							KeyCommand = InputSimulatorHelper.ParseKeyCommand(spec.keyCommand)
-						};
-
-						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = spec.size;
-						else
-							newButton.Width = spec.size;
-
-						currentPanel.Children.Add(newButton);
-
-					} else if (info is PivotSpecs) {
+					// SPECIAL CASE
+					// @NOTE No direct link from button and panel
+					if (type == typeof(PivotSpecs)) {
 
 						var spec = (PivotSpecs)info;
 
@@ -126,21 +86,14 @@ namespace Taction {
 						currentPanel.Children.Add(newPanel);
 
 						ProcessLayout(spec.items, design, window, newPanel);
-
-					} else if (info is MoveButtonSpecs) {
-
-						var spec = (MoveButtonSpecs)info;
-						var newButton = new MoveButton {
-							Content = spec.text
-						};
-
-						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = spec.size;
-						else
-							newButton.Width = spec.size;
-
-						currentPanel.Children.Add(newButton);
+						return;
 					}
+
+					// Generic handling; Expect content control
+					var attr = (JsonPanelItemSpecsClassAttribute)type.GetCustomAttributes(typeof(JsonPanelItemSpecsClassAttribute), true)[0];
+					var item = (ContentControl)Activator.CreateInstance(attr.value, info, currentPanel);
+
+					currentPanel.Children.Add(item);
 				}
 			}
 

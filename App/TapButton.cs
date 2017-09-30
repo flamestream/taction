@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using static Taction.Config;
 
 namespace Taction {
 
@@ -12,6 +13,22 @@ namespace Taction {
 
 		private App App => (App)Application.Current;
 		internal KeyCommand KeyCommand { set; get; }
+
+		public TapButton(IPanelItemSpecs specs, StackPanel panel = null) {
+
+			var s = (TapButtonSpecs)specs;
+
+			this.KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
+
+			this.Content = s.text != null ?
+				s.text :
+				s.keyCommand;
+
+			if (panel == null || panel.Orientation == Orientation.Vertical)
+				this.Height = s.size;
+			else
+				this.Width = s.size;
+		}
 
 		protected override async void OnTouchDown(TouchEventArgs e) {
 
