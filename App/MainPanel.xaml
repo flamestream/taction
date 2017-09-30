@@ -18,7 +18,7 @@
 		Background="#7F000000"
 		MouseMove="Window_MouseMove"
 		PreviewStylusInAirMove="Window_PreviewStylusInAirMove">
-	<StackPanel Name="panel" Margin="0,0,0,0">
+	<StackPanel Name="container" Margin="0,0,0,0">
 		<Button Height="75" Content="SPACE" Tag="SPACE" />
 		<Button Height="75" Content="SPACE" Tag="SPACE" />
 		<Button Height="75" Content="E" Tag="VK_E" />

@@ -18,14 +18,12 @@ namespace Taction {
 		private Config config => app.config;
 
 		private bool isPassthrough { get; set; }
-		private Dictionary<ButtonBase, KeyCommand> buttonCommands { get; set; }
 		private WindowEventNotifier windowEventMessenger { get; set; }
 
 		public MainPanel() {
 
 			InitializeComponent();
 
-			buttonCommands = new Dictionary<ButtonBase, KeyCommand>();
 			windowEventMessenger = new WindowEventNotifier(this);
 
 			// Add event handlers
@@ -45,8 +43,7 @@ namespace Taction {
 
 		private void ClearLayout() {
 
-			panel.Children.Clear();
-			buttonCommands.Clear();
+			this.container.Children.Clear();
 			SetPassthrough(false);
 			Visibility = Visibility.Visible;
 		}

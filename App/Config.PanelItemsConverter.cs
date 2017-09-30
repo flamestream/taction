@@ -31,23 +31,17 @@ namespace Taction {
 
 				if (reader.TokenType == JsonToken.StartArray) {
 
-					// Prepare valid types
-					// @TODO Would be nice to have to do this only once
-					var panelItemSpecsType = new Dictionary<string, Type>();
-					var candidatesAttr = (JsonPanelItemCandidatesAttribute)typeof(IPanelItemSpecs).GetCustomAttributes(typeof(JsonPanelItemCandidatesAttribute), true)[0];
-					foreach (var t in candidatesAttr.values) {
-
-						var typeAttr = (JsonPanelItemTypeAttribute)t.GetCustomAttributes(typeof(JsonPanelItemTypeAttribute), true)[0];
-						var typeStr = typeAttr.value;
-						panelItemSpecsType.Add(typeStr, t);
-					}
+					// Use getter once
+					var stringVsPanelItemSpecs = StringVsPanelItemSpecs;
 
 					List<JObject> jsonArray = serializer.Deserialize<List<JObject>>(reader);
 					foreach (var item in jsonArray) {
 
-						var type = panelItemSpecsType[item.Value<string>("type")];
-						if (type != null)
+						var typeStr = item.Value<string>("type");
+						if (stringVsPanelItemSpecs.ContainsKey(typeStr)) {
+							var type = stringVsPanelItemSpecs[typeStr];
 							o.Add((IPanelItemSpecs)serializer.Deserialize(new JTokenReader(item), type));
+						}
 					}
 				}
 

@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
+using Taction.CustomAttribute;
+using Taction.CustomUIElement;
 
 namespace Taction {
 
@@ -56,6 +59,7 @@ namespace Taction {
 		// -- STATIC MEMBERS -- //
 
 		private static string _FileLayoutPath;
+		private static Dictionary<string, Type> _StringVsPanelItemSpecs;
 
 		/// <summary>
 		/// Cached file path of the config layout file.
@@ -71,6 +75,34 @@ namespace Taction {
 				}
 
 				return _FileLayoutPath;
+			}
+		}
+
+		public static Dictionary<string, Type> StringVsPanelItemSpecs {
+			get {
+				if (_StringVsPanelItemSpecs == null) {
+
+					_StringVsPanelItemSpecs = new Dictionary<string, Type>();
+
+					// List implemented PanelItemSpecs
+					var specsTypes = AppDomain.CurrentDomain.GetAssemblies()
+						.SelectMany(s => s.GetTypes())
+						.Where(p => p.IsClass && typeof(IPanelItemSpecs).IsAssignableFrom(p));
+
+					// Create associations
+					foreach (var specsType in specsTypes) {
+
+						var typeAttrs = specsType.GetCustomAttributes(typeof(JsonStringTypeValueAttribute), true);
+						if (typeAttrs.Length == 0)
+							continue;
+
+						var typeStr = ((JsonStringTypeValueAttribute)typeAttrs[0]).value;
+						_StringVsPanelItemSpecs.Add(typeStr, specsType);
+					}
+				}
+
+				// Return copy
+				return new Dictionary<string, Type>(_StringVsPanelItemSpecs);
 			}
 		}
 
@@ -128,13 +160,6 @@ namespace Taction {
 			public bool disableFadeAnimation { get; set; }
 		}
 
-		[JsonPanelItemCandidates(
-			typeof(HoldButtonSpecs),
-			typeof(TapButtonSpecs),
-			typeof(ToggleButtonSpecs),
-			typeof(PivotSpecs),
-			typeof(MoveButtonSpecs)
-		)]
 		public interface IPanelItemSpecs {
 
 			int size { get; set; }
@@ -143,8 +168,8 @@ namespace Taction {
 			List<IPanelItemSpecs> items { get; set; }
 		}
 
-		[JsonPanelItemSpecsClass(typeof(HoldButton))]
-		[JsonPanelItemType("hold")]
+		[AssociatedClass(typeof(HoldButton))]
+		[JsonStringTypeValue("hold")]
 		public class HoldButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
@@ -155,8 +180,8 @@ namespace Taction {
 			public string keyCommand { get; set; }
 		}
 
-		[JsonPanelItemSpecsClass(typeof(TapButton))]
-		[JsonPanelItemType("tap")]
+		[AssociatedClass(typeof(TapButton))]
+		[JsonStringTypeValue("tap")]
 		public class TapButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
@@ -167,8 +192,8 @@ namespace Taction {
 			public string keyCommand { get; set; }
 		}
 
-		[JsonPanelItemSpecsClass(typeof(ToggleButton))]
-		[JsonPanelItemType("toggle")]
+		[AssociatedClass(typeof(CustomToggleButton))]
+		[JsonStringTypeValue("toggle")]
 		public class ToggleButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
@@ -179,15 +204,16 @@ namespace Taction {
 			public string keyCommand { get; set; }
 		}
 
-		[JsonPanelItemType("pivot")]
+		[AssociatedClass(typeof(CustomStackPanel))]
+		[JsonStringTypeValue("pivot")]
 		public class PivotSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
 		}
 
-		[JsonPanelItemSpecsClass(typeof(MoveButton))]
-		[JsonPanelItemType("move")]
+		[AssociatedClass(typeof(MoveButton))]
+		[JsonStringTypeValue("move")]
 		public class MoveButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }

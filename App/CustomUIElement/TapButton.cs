@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using static Taction.Config;
 
-namespace Taction {
+namespace Taction.CustomUIElement {
 
 	/// <summary>
 	/// A button that executes key command only once.

@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using static Taction.Config;
 
-namespace Taction {
+namespace Taction.CustomUIElement {
 
 	/// <summary>
 	/// A button that executes key command only once.
 	/// </summary>
-	internal class ToggleButton : System.Windows.Controls.Primitives.ToggleButton {
+	internal class CustomToggleButton : ToggleButton {
 
 		private App App => (App)Application.Current;
 		internal KeyCommand KeyCommand { set; get; }
 
-		public ToggleButton(IPanelItemSpecs specs, StackPanel panel = null) {
+		public CustomToggleButton(IPanelItemSpecs specs, StackPanel panel = null) {
 
 			var s = (ToggleButtonSpecs)specs;
 
