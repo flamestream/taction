@@ -83,10 +83,13 @@
     <Compile Include="MainPanel.Designer.cs" />
     <Compile Include="JsonPanelItemCandidatesAttribute.cs" />
     <Compile Include="JsonPanelItemTypeAttribute.cs" />
-    <Compile Include="MoverButton.cs" />
+    <Compile Include="MoveButton.cs" />
     <Compile Include="NotificationIcon.xaml.cs">
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TapButton.cs" />
+    <Compile Include="ToggleButton.cs" />
+    <Compile Include="HoldButton.cs" />
     <Compile Include="WinApi.cs" />
     <Compile Include="WindowEventNotifier.cs" />
     <Compile Include="WindowManipulator.cs" />

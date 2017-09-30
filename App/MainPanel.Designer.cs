@@ -55,46 +55,60 @@ namespace Taction {
 
 				foreach (var info in specs) {
 
-					if (info is ButtonSpecs) {
+					if (info is HoldButtonSpecs) {
 
-						var buttonSpecs = (ButtonSpecs)info;
-						var newButton = new Button {
-							Content = buttonSpecs.text != null ?
-								buttonSpecs.text :
-								buttonSpecs.keyCommand
+						var spec = (HoldButtonSpecs)info;
+						var newButton = new HoldButton {
+							Content = spec.text != null ?
+								spec.text :
+								spec.keyCommand,
+							KeyCommand = InputSimulatorHelper.ParseKeyCommand(spec.keyCommand)
 						};
-						newButton.TouchDown += window.Button_TouchOn;
-						newButton.TouchLeave += window.Button_TouchOff;
 
 						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = buttonSpecs.size;
+							newButton.Height = spec.size;
 						else
-							newButton.Width = buttonSpecs.size;
+							newButton.Width = spec.size;
 
 						currentPanel.Children.Add(newButton);
-						design.buttonCommands.Add(newButton, InputSimulatorHelper.ParseKeyCommand(buttonSpecs.keyCommand));
 
-					} else if (info is ToggleSpecs) {
+					} else if (info is TapButtonSpecs) {
 
-						var toggleSpecs = (ToggleSpecs)info;
+						var spec = (TapButtonSpecs)info;
+						var newButton = new TapButton {
+							Content = spec.text != null ?
+								spec.text :
+								spec.keyCommand,
+							KeyCommand = InputSimulatorHelper.ParseKeyCommand(spec.keyCommand)
+						};
+
+						if (currentPanel.Orientation == Orientation.Vertical)
+							newButton.Height = spec.size;
+						else
+							newButton.Width = spec.size;
+
+						currentPanel.Children.Add(newButton);
+
+					} else if (info is ToggleButtonSpecs) {
+
+						var spec = (ToggleButtonSpecs)info;
 						var newButton = new ToggleButton {
-							Content = toggleSpecs.text != null ?
-								toggleSpecs.text :
-								toggleSpecs.keyCommand
+							Content = spec.text != null ?
+								spec.text :
+								spec.keyCommand,
+							KeyCommand = InputSimulatorHelper.ParseKeyCommand(spec.keyCommand)
 						};
-						newButton.TouchDown += window.ToggleButton_TouchDown;
 
 						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = toggleSpecs.size;
+							newButton.Height = spec.size;
 						else
-							newButton.Width = toggleSpecs.size;
+							newButton.Width = spec.size;
 
 						currentPanel.Children.Add(newButton);
-						design.buttonCommands.Add(newButton, InputSimulatorHelper.ParseKeyCommand(toggleSpecs.keyCommand));
 
 					} else if (info is PivotSpecs) {
 
-						var panelInfo = (PivotSpecs)info;
+						var spec = (PivotSpecs)info;
 
 						var newPanel = new StackPanel {
 							Orientation = currentPanel.Orientation == Orientation.Horizontal ?
@@ -104,26 +118,26 @@ namespace Taction {
 
 						if (newPanel.Orientation != currentPanel.Orientation) {
 							if (currentPanel.Orientation == Orientation.Vertical)
-								newPanel.Height = panelInfo.size;
+								newPanel.Height = spec.size;
 							else
-								newPanel.Width = panelInfo.size;
+								newPanel.Width = spec.size;
 						}
 
 						currentPanel.Children.Add(newPanel);
 
-						ProcessLayout(panelInfo.items, design, window, newPanel);
+						ProcessLayout(spec.items, design, window, newPanel);
 
-					} else if (info is MoverSpecs) {
+					} else if (info is MoveButtonSpecs) {
 
-						var moverSpecs = (MoverSpecs)info;
-						var newButton = new MoverButton {
-							Content = moverSpecs.text
+						var spec = (MoveButtonSpecs)info;
+						var newButton = new MoveButton {
+							Content = spec.text
 						};
 
 						if (currentPanel.Orientation == Orientation.Vertical)
-							newButton.Height = moverSpecs.size;
+							newButton.Height = spec.size;
 						else
-							newButton.Width = moverSpecs.size;
+							newButton.Width = spec.size;
 
 						currentPanel.Children.Add(newButton);
 					}

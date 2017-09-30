@@ -8,43 +8,48 @@
 	"size": 80,
 	"orientation": "vertical",
 	"items": [{
-		"type": "button",
+		"type": "hold",
 		"size": 75,
 		"text": "ESC",
 		"command": "ESCAPE"
 	}, {
-		"type": "button",
+		"type": "hold",
 		"size": 75,
 		"text": "E",
 		"command": "VK_E"
 	}, {
-		"type": "mover",
+		"type": "hold",
+		"size": 75,
+		"text": "F",
+		"command": "VK_F"
+	}, {
+		"type": "move",
 		"size": 30
 	},{
-		"type": "button",
+		"type": "hold",
 		"size": 75,
 		"command": "VK_I"
 	}, {
-		"type": "button",
+		"type": "toggle",
 		"size": 75,
-		"command": "VK_M"
+		"command": "SHIFT"
 	}, {
-		"type": "button",
+		"type": "tap",
 		"size": 75,
-		"command": "~TAB"
+		"command": "TAB"
 	}, {
-		"type": "button",
+		"type": "tap",
 		"size": 75,
-		"command": "~CONTROL+VK_S"
+		"command": "CONTROL+VK_S"
 	}, {
 		"type": "pivot",
 		"size": 30,
 		"items": [{
-			"type": "button",
+			"type": "hold",
 			"size": 40,
 			"command": "VK_A"
 		}, {
-			"type": "button",
+			"type": "hold",
 			"size": 40,
 			"command": "VK_B"
 		}]

@@ -4,9 +4,9 @@ using System.Windows.Input;
 
 namespace Taction {
 
-	internal class MoverButton : Button {
+	internal class MoveButton : Button {
 
-		public MoverButton() {
+		public MoveButton() {
 
 			Style style = new Style();
 

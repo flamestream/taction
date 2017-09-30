@@ -18,7 +18,6 @@ namespace Taction {
 		}
 
 		private App app => (App)Application.Current;
-		private WinApi.HookProc proc => HookCallback;
 		private IntPtr hookId = IntPtr.Zero;
 		private bool isInAppBoundaries;
 
@@ -34,7 +33,7 @@ namespace Taction {
 
 			using (Process curProcess = Process.GetCurrentProcess())
 			using (ProcessModule curModule = curProcess.MainModule) {
-				hookId = WinApi.SetWindowsHookEx(WinApi.HookType.WH_MOUSE_LL, proc, WinApi.GetModuleHandle(curModule.ModuleName), 0);
+				hookId = WinApi.SetWindowsHookEx(WinApi.HookType.WH_MOUSE_LL, HookCallback, WinApi.GetModuleHandle(curModule.ModuleName), 0);
 			}
 		}
 

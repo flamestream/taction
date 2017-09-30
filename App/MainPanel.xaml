@@ -19,17 +19,18 @@
 		MouseMove="Window_MouseMove"
 		PreviewStylusInAirMove="Window_PreviewStylusInAirMove">
 	<StackPanel Name="panel" Margin="0,0,0,0">
-		<Button Height="75" TouchDown="Button_TouchOn" TouchLeave="Button_TouchOff" Content="SPACE" Tag="SPACE" />
-		<Button Height="75" TouchDown="Button_TouchOn" TouchLeave="Button_TouchOff" Content="E" Tag="VK_E" />
-		<Button Height="75" TouchDown="Button_TouchOn" TouchLeave="Button_TouchOff" Content="I" Tag="VK_I" />
-		<Button Height="75" TouchDown="Button_TouchOn" TouchLeave="Button_TouchOff" Content="M" Tag="VK_M" />
-		<ToggleButton Height="75" TouchDown="ToggleButton_TouchDown" Content="CTRL" Tag="CONTROL" />
-		<atp:MoverButton Height="30" />
-		<Button Height="75" TouchDown="Button_TouchOn" TouchLeave="Button_TouchOff" Content="TAB" Tag="~TAB" />
-		<Button Height="75" TouchDown="Button_TouchOn" TouchLeave="Button_TouchOff" Content="SAVE" Tag="~CONTROL+VK_S" />
+		<Button Height="75" Content="SPACE" Tag="SPACE" />
+		<atp:HoldButton Height="75" Content="SPACE" Tag="SPACE" />
+		<atp:HoldButton Height="75" Content="E" Tag="VK_E" />
+		<atp:HoldButton Height="75" Content="I" Tag="VK_I" />
+		<atp:HoldButton Height="75" Content="M" Tag="VK_M" />
+		<atp:ToggleButton Height="75" Content="CTRL" Tag="CONTROL" />
+		<atp:MoveButton Height="30" />
+		<atp:HoldButton Height="75" Content="TAB" Tag="~TAB" />
+		<atp:HoldButton Height="75" Content="SAVE" Tag="~CONTROL+VK_S" />
 		<StackPanel Orientation="Horizontal" Height="30">
-			<Button Width="40" TouchDown="Button_TouchOn" TouchLeave="Button_TouchOff" Content="TAB" Tag="~TAB" />
-			<Button Width="40" TouchDown="Button_TouchOn" TouchLeave="Button_TouchOff" Content="SAVE" Tag="~CONTROL+VK_S" />
+			<atp:HoldButton Width="40" Content="TAB" Tag="~TAB" />
+			<atp:HoldButton Width="40" Content="SAVE" Tag="~CONTROL+VK_S" />
 		</StackPanel>
 	</StackPanel>
 </Window>

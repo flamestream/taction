@@ -34,7 +34,14 @@ namespace Taction {
 		/// Simulate KeyPress events of passed key code list.
 		/// </summary>
 		/// <param name="keyCodes">List of key codes to simulate event</param>
-		public void SimulateKeyPress(List<VirtualKeyCode> keyCodes) {
+		public void SimulateKeyPress(KeyCommand keyCommand) {
+
+			if (keyCommand == null)
+				return;
+
+			var keyCodes = keyCommand.keyCodes;
+			if (keyCodes == null)
+				return;
 
 			var modifierKeyCodes = keyCodes.Intersect(ModifierKeyCodes);
 			var normalKeyCodes = keyCodes.Except(modifierKeyCodes);
@@ -47,7 +54,14 @@ namespace Taction {
 		/// Simulate KeyDown events of passed key code list.
 		/// </summary>
 		/// <param name="keyCodes">List of key codes to simulate event</param>
-		public void SimulateKeyDown(List<VirtualKeyCode> keyCodes) {
+		public void SimulateKeyDown(KeyCommand keyCommand) {
+
+			if (keyCommand == null)
+				return;
+
+			var keyCodes = keyCommand.keyCodes;
+			if (keyCodes == null)
+				return;
 
 			foreach (var keyCode in keyCodes) {
 
@@ -61,7 +75,14 @@ namespace Taction {
 		/// Note that the list is processed in reverse order.
 		/// </summary>
 		/// <param name="keyCodes">List of key codes to simulate event</param>
-		public void SimulateKeyUp(List<VirtualKeyCode> keyCodes) {
+		public void SimulateKeyUp(KeyCommand keyCommand) {
+
+			if (keyCommand == null)
+				return;
+
+			var keyCodes = keyCommand.keyCodes;
+			if (keyCodes == null)
+				return;
 
 			for (var i = keyCodes.Count; --i >= 0;) {
 
@@ -77,15 +98,9 @@ namespace Taction {
 		/// </summary>
 		/// <param name="keyCommand">User-inputted key command</param>
 		/// <returns>
-		/// A tuple containing a list of key codes and if KeyPress event is wanted (as opposed to KeyDown)
+		/// A KeyCommand object, or null if invalid.
 		/// </returns>
 		public static KeyCommand ParseKeyCommand(string keyCommand) {
-
-			var isPressWanted = false;
-			if (keyCommand.StartsWith("~")) {
-				isPressWanted = true;
-				keyCommand = keyCommand.Substring(1);
-			}
 
 			var keyCodes = new List<VirtualKeyCode>();
 			var keyIds = keyCommand.Split('+');
@@ -95,21 +110,19 @@ namespace Taction {
 				// Valid Key ID check
 				var enumType = typeof(VirtualKeyCode);
 				if (!Enum.IsDefined(enumType, keyId))
-					throw new FormatException(string.Format("Key ID {0} not valid in command {1}", keyId, keyCommand));
+					return null;
 
 				var virtualKeyCode = (VirtualKeyCode)Enum.Parse(enumType, keyId);
 				keyCodes.Add(virtualKeyCode);
 			}
 
 			return new KeyCommand {
-				keyCodes = keyCodes,
-				isPressWanted = isPressWanted
+				keyCodes = keyCodes
 			};
 		}
 	}
 
-	public struct KeyCommand {
+	internal class KeyCommand {
 		public List<VirtualKeyCode> keyCodes;
-		public bool isPressWanted;
 	}
 }

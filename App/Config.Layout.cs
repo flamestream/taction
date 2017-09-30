@@ -128,7 +128,13 @@ namespace Taction {
 			public bool disableFadeAnimation { get; set; }
 		}
 
-		[JsonPanelItemCandidates(typeof(ButtonSpecs), typeof(ToggleSpecs), typeof(PivotSpecs), typeof(MoverSpecs))]
+		[JsonPanelItemCandidates(
+			typeof(HoldButtonSpecs),
+			typeof(TapButtonSpecs),
+			typeof(ToggleButtonSpecs),
+			typeof(PivotSpecs),
+			typeof(MoveButtonSpecs)
+		)]
 		public interface IPanelItemSpecs {
 
 			int size { get; set; }
@@ -137,8 +143,19 @@ namespace Taction {
 			List<IPanelItemSpecs> items { get; set; }
 		}
 
-		[JsonPanelItemType("button")]
-		public class ButtonSpecs : IPanelItemSpecs {
+		[JsonPanelItemType("hold")]
+		public class HoldButtonSpecs : IPanelItemSpecs {
+
+			public int size { get; set; }
+			public string text { get; set; }
+			public List<IPanelItemSpecs> items { get; set; }
+
+			[JsonProperty("command")]
+			public string keyCommand { get; set; }
+		}
+
+		[JsonPanelItemType("tap")]
+		public class TapButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
 			public string text { get; set; }
@@ -149,7 +166,7 @@ namespace Taction {
 		}
 
 		[JsonPanelItemType("toggle")]
-		public class ToggleSpecs : IPanelItemSpecs {
+		public class ToggleButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
 			public string text { get; set; }
@@ -166,8 +183,8 @@ namespace Taction {
 			public List<IPanelItemSpecs> items { get; set; }
 		}
 
-		[JsonPanelItemType("mover")]
-		public class MoverSpecs : IPanelItemSpecs {
+		[JsonPanelItemType("move")]
+		public class MoveButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }

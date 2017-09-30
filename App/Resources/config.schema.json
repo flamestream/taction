@@ -1,5 +1,5 @@
 {
-	"id": "http://flareburst.net/schemas/artist-touch-panel.json",
+	"id": "http://flareburst.net/taction/layout.schema.json",
 	"type": "object",
 	"allOf": [
 		{ "$ref": "#/definitions/versionProp" },
@@ -80,9 +80,10 @@
 					"items": {
 						"oneOf": [
 							{ "$ref": "#/definitions/pivotObj" },
-							{ "$ref": "#/definitions/buttonObj" },
+							{ "$ref": "#/definitions/holdObj" },
+							{ "$ref": "#/definitions/tapObj" },
 							{ "$ref": "#/definitions/toggleObj" },
-							{ "$ref": "#/definitions/moverObj" }
+							{ "$ref": "#/definitions/moveObj" }
 						]
 					}
 				}
@@ -104,7 +105,7 @@
 				}
 			]
 		},
-		"buttonObj": {
+		"holdObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
 				{
@@ -112,7 +113,31 @@
 					"properties": {
 						"type": {
 							"type": "string",
-							"enum": ["button"]
+							"enum": ["hold"]
+						},
+						"size": {
+							"$ref": "#/definitions/sizeProp"
+						},
+						"command": {
+							"type": "string"
+						},
+						"text": {
+							"type": "string"
+						}
+					},
+					"required": ["size", "command"]
+				}
+			]
+		},
+		"tapObj": {
+			"allOf": [
+				{"$ref": "#/definitions/sizeProp"},
+				{
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string",
+							"enum": ["tap"]
 						},
 						"size": {
 							"$ref": "#/definitions/sizeProp"
@@ -152,7 +177,7 @@
 				}
 			]
 		},
-		"moverObj": {
+		"moveObj": {
 			"allOf": [
 				{"$ref": "#/definitions/sizeProp"},
 				{
@@ -160,7 +185,7 @@
 					"properties": {
 						"type": {
 							"type": "string",
-							"enum": ["mover"]
+							"enum": ["move"]
 						},
 						"text": {
 							"type": "string",
