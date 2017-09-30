@@ -152,11 +152,12 @@ namespace Taction {
 			WinApi.CancelActivation(this);
 		}
 
-		private void Button_TouchDown(object sender, TouchEventArgs e) {
+		private void Button_TouchOn(object sender, TouchEventArgs e) {
 
 			e.Handled = true;
 
 			Button btn = (Button)sender;
+			btn.Tag = true;
 			btn.FontWeight = FontWeight.FromOpenTypeWeight(500);
 
 			if (!buttonCommands.TryGetValue(btn, out KeyCommand keyCommand))
@@ -168,11 +169,14 @@ namespace Taction {
 				app.inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
 		}
 
-		private void Button_TouchUp(object sender, TouchEventArgs e) {
+		private void Button_TouchOff(object sender, TouchEventArgs e) {
 
 			e.Handled = true;
 
 			Button btn = (Button)sender;
+			if (btn.Tag == null) return;
+
+			btn.Tag = null;
 			btn.FontWeight = FontWeight.FromOpenTypeWeight(200);
 
 			if (!buttonCommands.TryGetValue(btn, out KeyCommand keyCommand))
@@ -192,9 +196,9 @@ namespace Taction {
 				return;
 
 			if (btn.IsChecked ?? false) {
-				app.inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
-			} else {
 				app.inputSimulator.SimulateKeyUp(keyCommand.keyCodes);
+			} else {
+				app.inputSimulator.SimulateKeyDown(keyCommand.keyCodes);
 			}
 		}
 

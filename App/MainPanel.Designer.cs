@@ -63,8 +63,8 @@ namespace Taction {
 								buttonSpecs.text :
 								buttonSpecs.keyCommand
 						};
-						newButton.TouchDown += window.Button_TouchDown;
-						newButton.TouchUp += window.Button_TouchUp;
+						newButton.TouchDown += window.Button_TouchOn;
+						newButton.TouchLeave += window.Button_TouchOff;
 
 						if (currentPanel.Orientation == Orientation.Vertical)
 							newButton.Height = buttonSpecs.size;
