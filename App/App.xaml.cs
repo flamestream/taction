@@ -15,14 +15,14 @@ namespace Taction {
 	/// </summary>
 	public partial class App : Application {
 
-		#region -- Application Constants --
+		#region -- Application Settings/Constants --
 
 		internal const int NotificationToastCloseDelayTime = 5000;
 		internal const int NotificationToastSecondaryCloseDelayTime = 500;
 		internal const int MaxErrorLogSize = 2 * 1024;
 		internal const int ErrorLogTrimLineCount = 500;
 
-		#endregion -- Application Constants --
+		#endregion -- Application Settings/Constants --
 
 		#region -- Static Properties --
 
@@ -180,13 +180,20 @@ namespace Taction {
 
 		public void PromptLoadLayout() {
 
+			var initialDir = config.state.fileDialogInitialDirectory;
+			if (initialDir == null || !Directory.Exists(initialDir))
+				initialDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
 			var openFileDialog = new OpenFileDialog {
-				InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+				InitialDirectory = initialDir,
 				Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
 			};
 
 			if (openFileDialog.ShowDialog(Application.Current.MainWindow) != true)
 				return;
+
+			config.state.fileDialogInitialDirectory = Path.GetDirectoryName(openFileDialog.FileName);
+			config.Save();
 
 			LoadLayout(openFileDialog.FileName);
 		}

@@ -64,6 +64,7 @@ namespace Taction {
 
 			public double x;
 			public double y;
+			public string fileDialogInitialDirectory;
 		}
 	}
 }
