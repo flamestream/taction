@@ -50,7 +50,7 @@ namespace Taction.CustomUIElement {
 			this.Tag = null;
 
 			// Style change
-			this.FontWeight = FontWeight.FromOpenTypeWeight(200);
+			this.FontWeight = FontWeight.FromOpenTypeWeight(300);
 
 			App.inputSimulator.SimulateKeyUp(this.KeyCommand);
 		}
