@@ -23,6 +23,11 @@
 	}, {
 		"type": "hold",
 		"size": 75,
+		"text": "Eraser",
+		"command": "VK_E"
+	}, {
+		"type": "hold",
+		"size": 75,
 		"text": "Marquee",
 		"command": "VK_M"
 	}, {
