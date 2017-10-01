@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 using System.IO;
 
 namespace Taction {
@@ -7,6 +8,8 @@ namespace Taction {
 	partial class Config {
 
 		private static string _fileStatePath;
+
+		private App App => (App)App.Current;
 
 		/// <summary>
 		/// Cached file path of the config state file.
@@ -32,16 +35,29 @@ namespace Taction {
 			if (!File.Exists(fileStatePath))
 				return;
 
-			JObject json;
-			using (var reader = File.OpenText(fileStatePath))
-			using (var jsonReader = new JsonTextReader(reader)) {
+			try {
 
-				// @TODO File load error, etc
-				json = JObject.Load(jsonReader);
+				JObject json;
+				using (var reader = File.OpenText(fileStatePath))
+				using (var jsonReader = new JsonTextReader(reader)) {
+
+					json = JObject.Load(jsonReader);
+				}
+
+				// Populate
+				this.state = JsonConvert.DeserializeObject<State>(JsonConvert.SerializeObject(json));
+
+			} catch (Exception e) {
+
+				// Load error, but continue with default state
+				App.errorLogger.Log(string.Format("Failed to load state: {0}\n{1}", e.Message, e.StackTrace));
+				ResetState();
 			}
+		}
 
-			// Populate
-			this.state = JsonConvert.DeserializeObject<State>(JsonConvert.SerializeObject(json));
+		public void ResetState() {
+
+			File.Delete(fileStatePath);
 		}
 
 		public class State {

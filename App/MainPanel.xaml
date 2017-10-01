@@ -4,7 +4,6 @@
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:prop="clr-namespace:Taction.Properties"
-		xmlns:atp="clr-namespace:Taction"
 		mc:Ignorable="d"
 		Title="{x:Static prop:Resources.AppName}"
 		ResizeMode="NoResize"

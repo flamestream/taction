@@ -1,8 +1,12 @@
 ﻿using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls.Primitives;
+using Taction.CustomUIElement;
 
 namespace Taction {
 
@@ -11,113 +15,16 @@ namespace Taction {
 	/// </summary>
 	public partial class App : Application {
 
-		internal Config config;
-		internal MainPanel panel => (MainPanel)MainWindow;
-		internal TaskbarIcon notificationIcon { get; private set; }
-		internal GlobalMouseHook globalMouseHook { get; private set; }
-		internal InputSimulatorHelper inputSimulator { get; set; }
+		#region -- Application Constants --
 
-		protected override void OnStartup(StartupEventArgs e) {
+		internal const int NotificationToastCloseDelayTime = 5000;
+		internal const int NotificationToastSecondaryCloseDelayTime = 500;
+		internal const int MaxErrorLogSize = 2 * 1024;
+		internal const int ErrorLogTrimLineCount = 500;
 
-			base.OnStartup(e);
+		#endregion -- Application Constants --
 
-			// Ensure app data directory
-			Directory.CreateDirectory(AppDataDir);
-
-			// Initialize basic stuff
-			globalMouseHook = new GlobalMouseHook();
-			inputSimulator = new InputSimulatorHelper();
-			config = new Config();
-
-			// Setup Notification icon
-			{
-				var res = new ResourceDictionary {
-					Source = new Uri(@"pack://application:,,,/NotificationIcon.xaml")
-				};
-				// @TODO There must be a way to do this in xaml
-				notificationIcon = (TaskbarIcon)res["Definition"];
-				notificationIcon.Icon = Taction.Properties.Resources.Icon;
-			}
-
-			// Load config
-			string errTitle = Taction.Properties.Resources.DefaultNotificationBubbleErrorTitle;
-			string errMsg = null;
-			try {
-				config.Load();
-			} catch (FileNotFoundException err) {
-				errTitle = "Config load error";
-				errMsg = err.Message;
-			} catch (FormatException err) {
-				errTitle = "Config validation error";
-				errMsg = err.Message;
-			} catch (Newtonsoft.Json.JsonReaderException err) {
-				errTitle = "Config syntax error";
-				errMsg = err.Message;
-			} catch (Exception err) {
-				errMsg = string.Format(err.Message);
-			}
-
-			if (errMsg != null) {
-
-				// Display alert
-				notificationIcon.ShowBalloonTip(
-					errTitle,
-					Taction.Properties.Resources.DefaultNotificationBubbleErrorMessage,
-					BalloonIcon.Error
-				);
-
-				using (var file = new StreamWriter(ErrorFilePath, true)) {
-
-					file.WriteLine(string.Format(@"[{0}]", DateTime.Now));
-					file.WriteLine(errMsg);
-					file.Close();
-				}
-			}
-		}
-
-		protected override void OnExit(ExitEventArgs e) {
-
-			globalMouseHook.Dispose();
-		}
-
-		public void MoveTo(double x, double y) {
-
-			panel.Left = 0;
-			panel.Top = 0;
-			WindowManipulator.FitToNearestDesktop(panel);
-
-			config.Save();
-		}
-
-		public void LoadDefaultLayout() {
-
-			var encoding = System.Text.Encoding.UTF8;
-			var text = encoding.GetString(Taction.Properties.Resources.DefaultConfigLayoutJson);
-			var json = JObject.Parse(text);
-
-			// Load and validate
-			this.config.LoadLayout(json);
-
-			// Update UI
-			this.panel.ReloadLayout();
-
-			// Persist for later
-			File.WriteAllText(Config.FileLayoutPath, text, encoding);
-		}
-
-		public void LoadLayout(string path) {
-
-			// Load and validate
-			this.config.LoadLayout(path);
-
-			// Update UI
-			this.panel.ReloadLayout();
-
-			// Persist for later
-			File.Copy(path, Config.FileLayoutPath, true);
-		}
-
-		// -- STATIC PROPERTIES -- //
+		#region -- Static Properties --
 
 		private static string _AppDataDir;
 		private static string _ErrorFilePath;
@@ -153,6 +60,194 @@ namespace Taction {
 				}
 
 				return _ErrorFilePath;
+			}
+		}
+
+		#endregion -- Static Properties --
+
+		internal Config config;
+		internal ErrorLogger errorLogger;
+		internal MainPanel panel => (MainPanel)MainWindow;
+		internal TaskbarIcon notificationIcon { get; private set; }
+		internal GlobalMouseHook globalMouseHook { get; private set; }
+		internal InputSimulatorHelper inputSimulator { get; set; }
+
+		protected override void OnStartup(StartupEventArgs e) {
+
+			base.OnStartup(e);
+
+			// Ensure app data directory
+			Directory.CreateDirectory(AppDataDir);
+
+			// Initialize basic stuff
+			globalMouseHook = new GlobalMouseHook();
+			inputSimulator = new InputSimulatorHelper();
+			config = new Config();
+			errorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
+
+			// Setup Notification icon
+			{
+				var res = new ResourceDictionary {
+					Source = new Uri(@"pack://application:,,,/NotificationIcon.xaml")
+				};
+				notificationIcon = (TaskbarIcon)res["Definition"];
+			}
+
+			config.LoadState();
+			LoadSavedLayout(true);
+		}
+
+		protected override void OnExit(ExitEventArgs e) {
+
+			globalMouseHook.Dispose();
+		}
+
+		public void ToggleEnable() {
+
+			if (panel.Visibility == Visibility.Visible) {
+
+				panel.Visibility = Visibility.Hidden;
+				globalMouseHook.Disable();
+
+			} else {
+
+				panel.Visibility = Visibility.Visible;
+			}
+		}
+
+		public void ShowToast(string body, string title, EventHandler clickHandler = null) {
+
+			var toast = new NotificationToast {
+				Title = title,
+				Body = body,
+				SecondaryCloseDelayTime = NotificationToastSecondaryCloseDelayTime
+			};
+
+			if (clickHandler != null)
+				toast.Click += clickHandler;
+
+			notificationIcon.ShowCustomBalloon(toast, PopupAnimation.Fade, NotificationToastCloseDelayTime);
+		}
+
+		public void ShowErrorToast(string body, string title = null) {
+
+			if (title == null)
+				title = Taction.Properties.Resources.DefaultErrorToastTitle;
+
+			body = string.Format("{0} {1}", body, Taction.Properties.Resources.ToastErrorBodySuffix);
+
+			ShowToast(body, title, (src, e) => Process.Start(ErrorFilePath));
+		}
+
+		public void MoveTo(double x, double y) {
+
+			panel.Left = x;
+			panel.Top = y;
+			WindowManipulator.FitToNearestDesktop(panel);
+
+			config.Save();
+		}
+
+		public void LoadDefaultLayout(bool prompt = false) {
+
+			if (prompt) {
+
+				var res = System.Windows.MessageBox.Show(
+					panel,
+					"This will reset your current layout.",
+					Taction.Properties.Resources.AppName,
+					MessageBoxButton.OKCancel
+				);
+
+				if (res != MessageBoxResult.OK)
+					return;
+			}
+
+			var encoding = System.Text.Encoding.UTF8;
+			var text = encoding.GetString(Taction.Properties.Resources.DefaultConfigLayoutJson);
+			var json = JObject.Parse(text);
+
+			// Load and validate
+			this.config.LoadLayout(json);
+
+			// Update UI
+			if (this.panel != null)
+				this.panel.ReloadLayout();
+
+			// Persist for later
+			File.WriteAllText(Config.FileLayoutPath, text, encoding);
+		}
+
+		public void PromptLoadLayout() {
+
+			var openFileDialog = new OpenFileDialog {
+				InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+				Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+			};
+
+			if (openFileDialog.ShowDialog(Application.Current.MainWindow) != true)
+				return;
+
+			LoadLayout(openFileDialog.FileName);
+		}
+
+		public void LoadSavedLayout(bool useFallback = false) {
+
+			if (File.Exists(Config.FileLayoutPath)) {
+
+				config.LoadLayout(Config.FileLayoutPath);
+
+			} else if (useFallback) {
+
+				LoadDefaultLayout();
+
+			} else {
+
+				ShowToast("Could not load saved layout.", Taction.Properties.Resources.DefaultErrorToastTitle);
+			}
+		}
+
+		public void LoadLayout(string path) {
+
+			string errSummary = null;
+			string errDetails = null;
+			try {
+
+				// Load and validate
+				this.config.LoadLayout(path);
+
+				// Update UI
+				this.panel.ReloadLayout();
+
+				// Persist for later
+				File.Copy(path, Config.FileLayoutPath, true);
+
+			} catch (FileNotFoundException err) {
+
+				errSummary = "Config load error.";
+				errDetails = err.Message;
+
+			} catch (FormatException err) {
+
+				errSummary = "Config validation error.";
+				errDetails = err.Message;
+
+			} catch (Newtonsoft.Json.JsonReaderException err) {
+
+				errSummary = "Config syntax error.";
+				errDetails = err.Message;
+
+			} catch (Exception err) {
+
+				errDetails = err.ToString();
+			}
+
+			if (errDetails != null) {
+
+				string[] logEntries = { errSummary, errDetails };
+				this.errorLogger.Log(string.Join(Environment.NewLine, logEntries));
+
+				this.ShowErrorToast(errSummary);
 			}
 		}
 	}

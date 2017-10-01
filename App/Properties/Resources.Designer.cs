@@ -117,20 +117,11 @@ namespace Taction.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click here to find out more.
-        /// </summary>
-        public static string DefaultNotificationBubbleErrorMessage {
-            get {
-                return ResourceManager.GetString("DefaultNotificationBubbleErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to An Error Occured.
         /// </summary>
-        public static string DefaultNotificationBubbleErrorTitle {
+        public static string DefaultErrorToastTitle {
             get {
-                return ResourceManager.GetString("DefaultNotificationBubbleErrorTitle", resourceCulture);
+                return ResourceManager.GetString("DefaultErrorToastTitle", resourceCulture);
             }
         }
         
@@ -141,6 +132,15 @@ namespace Taction.Properties {
             get {
                 object obj = ResourceManager.GetObject("Icon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click here to open error details file..
+        /// </summary>
+        public static string ToastErrorBodySuffix {
+            get {
+                return ResourceManager.GetString("ToastErrorBodySuffix", resourceCulture);
             }
         }
     }
