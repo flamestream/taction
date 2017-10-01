@@ -13,19 +13,10 @@ namespace Taction {
 
 	partial class Config {
 
-		public void LoadLayout(string path = null) {
+		public void LoadLayout(string path) {
 
-			if (path == null) {
-
-				if (!File.Exists(FileLayoutPath)) {
-
-					var encoding = System.Text.Encoding.UTF8;
-					var text = encoding.GetString(Properties.Resources.DefaultConfigLayoutJson);
-					File.WriteAllText(FileLayoutPath, text, encoding);
-				}
-
-				path = FileLayoutPath;
-			}
+			if (path == null)
+				throw new ArgumentNullException("LoadLayout may not receive null path");
 
 			JObject json;
 			using (var reader = File.OpenText(path))

@@ -136,13 +136,13 @@
   <data name="DefaultConfigLayoutJson" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\default.config.json;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="DefaultNotificationBubbleErrorMessage" xml:space="preserve">
-    <value>Click here to find out more</value>
-  </data>
-  <data name="DefaultNotificationBubbleErrorTitle" xml:space="preserve">
+  <data name="DefaultErrorToastTitle" xml:space="preserve">
     <value>An Error Occured</value>
   </data>
   <data name="Icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\icon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="ToastErrorBodySuffix" xml:space="preserve">
+    <value>Click here to open error details file.</value>
   </data>
 </root>

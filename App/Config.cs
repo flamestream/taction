@@ -42,12 +42,6 @@ namespace Taction {
 			state = new State();
 		}
 
-		public void Load() {
-
-			LoadState();
-			LoadLayout();
-		}
-
 		public void Save() {
 
 			using (StreamWriter file = File.CreateText(fileStatePath)) {

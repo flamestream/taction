@@ -3,7 +3,10 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:prop="clr-namespace:Taction.Properties"
 		xmlns:tb="http://www.hardcodet.net/taskbar">
-	<tb:TaskbarIcon x:Key="Definition" ToolTipText="{x:Static prop:Resources.AppName}">
+	<tb:TaskbarIcon x:Key="Definition"
+			ToolTipText="{x:Static prop:Resources.AppName}"
+			Icon="{x:Static prop:Resources.Icon}"
+			TrayLeftMouseDown="TaskbarIcon_TrayLeftMouseDown">
 		<tb:TaskbarIcon.ContextMenu>
 			<ContextMenu>
 				<MenuItem Name="LoadLayoutMenuItem" Header="Load Layout" Click="LoadLayoutMenuItem_Click" />
