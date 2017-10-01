@@ -36,11 +36,13 @@ namespace Taction.CustomUIElement {
 
 		protected void HandleChecked(Object sender, RoutedEventArgs e) {
 
+			this.FontWeight = FontWeights.Bold;
 			App.inputSimulator.SimulateKeyDown(KeyCommand);
 		}
 
 		protected void HandleUnchecked(Object sender, RoutedEventArgs e) {
 
+			this.FontWeight = FontWeights.Normal;
 			App.inputSimulator.SimulateKeyUp(KeyCommand);
 		}
 	}

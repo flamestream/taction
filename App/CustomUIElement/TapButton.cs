@@ -35,7 +35,7 @@ namespace Taction.CustomUIElement {
 			base.OnTouchDown(e);
 
 			// Style change
-			this.FontWeight = FontWeight.FromOpenTypeWeight(500);
+			this.FontWeight = FontWeights.Bold;
 
 			// Set activation flag
 			this.Tag = true;
@@ -48,7 +48,7 @@ namespace Taction.CustomUIElement {
 			await Task.Delay(100);
 
 			// Style change
-			this.FontWeight = FontWeight.FromOpenTypeWeight(200);
+			this.FontWeight = FontWeights.Normal;
 		}
 	}
 }

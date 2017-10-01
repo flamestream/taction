@@ -156,7 +156,8 @@ namespace Taction {
 					panel,
 					"This will reset your current layout.",
 					Taction.Properties.Resources.AppName,
-					MessageBoxButton.OKCancel
+					MessageBoxButton.OKCancel,
+					MessageBoxImage.Asterisk
 				);
 
 				if (res != MessageBoxResult.OK)
