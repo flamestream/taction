@@ -147,7 +147,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\default.config.json" />
+    <None Include="Resources\default.layout.json" />
     <None Include="Resources\config.schema.json" />
   </ItemGroup>
   <ItemGroup>
