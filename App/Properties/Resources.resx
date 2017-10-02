@@ -120,6 +120,12 @@
   <data name="AppName" xml:space="preserve">
     <value>Taction</value>
   </data>
+  <data name="ConfigBundleFileBaseName" xml:space="preserve">
+    <value>current</value>
+  </data>
+  <data name="ConfigBundleFileExtension" xml:space="preserve">
+    <value>.taction-bundle</value>
+  </data>
   <data name="ConfigErrorFileName" xml:space="preserve">
     <value>error.log</value>
   </data>

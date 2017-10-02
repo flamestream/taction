@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using Taction.CustomAttribute;
 using Taction.CustomUIElement;
@@ -19,11 +20,35 @@ namespace Taction {
 				throw new ArgumentNullException("LoadLayout may not receive null path");
 
 			JObject json;
-			using (var reader = File.OpenText(path))
-			using (var jsonReader = new JsonTextReader(reader)) {
 
-				// @TODO File load error, etc
-				json = JObject.Load(jsonReader);
+			var ext = Path.GetExtension(path);
+			if (ext == Properties.Resources.ConfigBundleFileExtension) {
+
+				using (var zip = ZipFile.Open(path, ZipArchiveMode.Read)) {
+
+					// Layout existence check
+					var entry = zip.Entries.First(e => e.Name == Properties.Resources.ConfigLayoutFileName);
+					if (entry == null)
+						throw new FileFormatException("Malformed config bundle");
+
+					using (var streamReader = new StreamReader(entry.Open()))
+					using (var jsonReader = new JsonTextReader(streamReader)) {
+
+						json = JObject.Load(jsonReader);
+					}
+				}
+
+			} else if (ext == ".json") {
+
+				using (var reader = File.OpenText(path))
+				using (var jsonReader = new JsonTextReader(reader)) {
+
+					json = JObject.Load(jsonReader);
+				}
+
+			} else {
+
+				throw new FileFormatException(string.Format("Unsupported format {0}", ext));
 			}
 
 			LoadLayout(json);
@@ -47,14 +72,13 @@ namespace Taction {
 			this.layout = JsonConvert.DeserializeObject<Layout>(JsonConvert.SerializeObject(json));
 		}
 
-		// -- STATIC MEMBERS -- //
+		#region -- Cached Generated values --
 
 		private static string _FileLayoutPath;
+		private static string _FileBundleName;
+		private static string _FileBundlePath;
 		private static Dictionary<string, Type> _StringVsPanelItemSpecs;
 
-		/// <summary>
-		/// Cached file path of the config layout file.
-		/// </summary>
 		public static string FileLayoutPath {
 			get {
 				if (_FileLayoutPath == null) {
@@ -66,6 +90,32 @@ namespace Taction {
 				}
 
 				return _FileLayoutPath;
+			}
+		}
+
+		public static string FileBundlePath {
+			get {
+				if (_FileBundlePath == null) {
+
+					_FileBundlePath = string.Format(@"{0}\{1}",
+						App.AppDataDir,
+						FileBundleName
+					);
+				}
+
+				return _FileBundlePath;
+			}
+		}
+
+		public static string FileBundleName {
+			get {
+				if (_FileBundleName == null) {
+
+					_FileBundleName = Properties.Resources.ConfigBundleFileBaseName
+						+ Properties.Resources.ConfigBundleFileExtension;
+				}
+
+				return _FileBundleName;
 			}
 		}
 
@@ -97,7 +147,9 @@ namespace Taction {
 			}
 		}
 
-		// -- INTERNAL CLASSES -- //
+		#endregion -- Cached Generated values --
+
+		#region -- Internal Classes (Layout POJO) --
 
 		/// <summary>
 		/// Configuration root definition
@@ -215,4 +267,6 @@ namespace Taction {
 			public string text { get; set; }
 		}
 	}
+
+	#endregion -- Internal Classes (Layout POJO) --
 }

@@ -22,8 +22,7 @@ namespace Taction {
 			using (var file = new StreamWriter(this.FilePath, true, Encoding.UTF8)) {
 
 				// Add header
-				file.WriteLine(string.Format(@"[{0}]", DateTime.Now));
-				file.WriteLine(message);
+				file.WriteLine(string.Format(@"[{0}] {1}", DateTime.Now, message));
 				file.Close();
 			}
 

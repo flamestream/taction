@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 using static Taction.Config;
 
 namespace Taction.CustomUIElement {
@@ -27,6 +29,14 @@ namespace Taction.CustomUIElement {
 				this.Height = s.size;
 			else
 				this.Width = s.size;
+
+			var icon = Properties.Resources.Icon;
+			var src = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+			var brush = new System.Windows.Media.ImageBrush {
+				Stretch = System.Windows.Media.Stretch.None,
+				ImageSource = src
+			};
+			this.Background = brush;
 		}
 
 		protected override void OnTouchDown(TouchEventArgs e) {

@@ -70,6 +70,24 @@ namespace Taction.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to current.
+        /// </summary>
+        public static string ConfigBundleFileBaseName {
+            get {
+                return ResourceManager.GetString("ConfigBundleFileBaseName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .taction-bundle.
+        /// </summary>
+        public static string ConfigBundleFileExtension {
+            get {
+                return ResourceManager.GetString("ConfigBundleFileExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to error.log.
         /// </summary>
         public static string ConfigErrorFileName {

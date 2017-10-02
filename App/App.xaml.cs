@@ -152,7 +152,7 @@ namespace Taction {
 
 			if (prompt) {
 
-				var res = System.Windows.MessageBox.Show(
+				var res = MessageBox.Show(
 					panel,
 					"This will reset your current layout.",
 					Taction.Properties.Resources.AppName,
@@ -187,7 +187,10 @@ namespace Taction {
 
 			var openFileDialog = new OpenFileDialog {
 				InitialDirectory = initialDir,
-				Filter = "JSON files (*.json)|*.json|All files (*.*)|*.*"
+				Filter = string.Format(
+					"Taction Config (*{0})|*{0}|JSON files (*.json)|*.json",
+					Taction.Properties.Resources.ConfigBundleFileExtension
+				)
 			};
 
 			if (openFileDialog.ShowDialog(Application.Current.MainWindow) != true)
@@ -201,9 +204,25 @@ namespace Taction {
 
 		public void LoadSavedLayout(bool useFallback = false) {
 
-			if (File.Exists(Config.FileLayoutPath)) {
+			string targetFile = (File.Exists(Config.FileBundlePath)) ?
+				Config.FileBundlePath :
+				(File.Exists(Config.FileLayoutPath)) ?
+					Config.FileLayoutPath :
+					null;
 
-				config.LoadLayout(Config.FileLayoutPath);
+			if (targetFile != null) {
+
+				try {
+
+					config.LoadLayout(targetFile);
+
+				} catch (Exception e) {
+
+					errorLogger.Log(e.ToString());
+					LoadDefaultLayout();
+					File.Move(targetFile, targetFile + ".bak");
+					ShowErrorToast("Problem loading saved layout. Reverting to default.");
+				}
 
 			} else if (useFallback) {
 
@@ -217,7 +236,7 @@ namespace Taction {
 
 		public void LoadLayout(string path) {
 
-			string errSummary = null;
+			string errSummary = "Config load error.";
 			string errDetails = null;
 			try {
 
@@ -228,22 +247,21 @@ namespace Taction {
 				this.panel.ReloadLayout();
 
 				// Persist for later
-				File.Copy(path, Config.FileLayoutPath, true);
+				var targetFile = (Path.GetExtension(path) == Taction.Properties.Resources.ConfigBundleFileExtension) ?
+					Config.FileBundlePath :
+					Config.FileBundleName;
 
-			} catch (FileNotFoundException err) {
+				File.Copy(path, targetFile, true);
 
-				errSummary = "Config load error.";
-				errDetails = err.Message;
-
-			} catch (FormatException err) {
+			} catch (FormatException e) {
 
 				errSummary = "Config validation error.";
-				errDetails = err.Message;
+				errDetails = e.Message;
 
-			} catch (Newtonsoft.Json.JsonReaderException err) {
+			} catch (Newtonsoft.Json.JsonReaderException e) {
 
 				errSummary = "Config syntax error.";
-				errDetails = err.Message;
+				errDetails = e.Message;
 
 			} catch (Exception err) {
 
@@ -252,9 +270,9 @@ namespace Taction {
 
 			if (errDetails != null) {
 
-				string[] logEntries = { errSummary, errDetails };
-				this.errorLogger.Log(string.Join(Environment.NewLine, logEntries));
+				var msg = errSummary + Environment.NewLine + errDetails;
 
+				this.errorLogger.Log(msg);
 				this.ShowErrorToast(errSummary);
 			}
 		}
