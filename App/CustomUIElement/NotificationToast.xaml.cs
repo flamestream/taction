@@ -7,6 +7,8 @@ using System.Windows.Media;
 using Hardcodet.Wpf.TaskbarNotification;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace Taction.CustomUIElement {
 
@@ -16,8 +18,6 @@ namespace Taction.CustomUIElement {
 		// which is different from the close delay used when the
 		// toast has first appeared (Set from TaskBarIcon.ShowCustomBalloon)
 		public int SecondaryCloseDelayTime { get; set; }
-
-		public ImageSource IconImage { get; set; }
 
 		public event EventHandler Click;
 
@@ -50,11 +50,9 @@ namespace Taction.CustomUIElement {
 			InitializeComponent();
 
 			// Initialize icon
-			if (this.IconImage == null) {
-
-				//var icon = System.Drawing.Icon.ExtractAssociatedIcon(fileName);
-				//var bmp = icon.Handle;
-			}
+			var icon = Taction.Properties.Resources.Icon;
+			var src = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+			IconImage.Source = src;
 
 			TaskbarIcon.AddBalloonClosingHandler(this, OnBalloonClosing);
 		}
