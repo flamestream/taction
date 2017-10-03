@@ -188,7 +188,7 @@ namespace Taction {
 			var openFileDialog = new OpenFileDialog {
 				InitialDirectory = initialDir,
 				Filter = string.Format(
-					"Taction Config (*{0})|*{0}|JSON files (*.json)|*.json",
+					"Supported files|*{0};*.json|Taction bundle|*{0}|JSON layout|*.json",
 					Taction.Properties.Resources.ConfigBundleFileExtension
 				)
 			};
