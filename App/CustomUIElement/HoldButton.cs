@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static Taction.Config;
 
@@ -34,8 +35,13 @@ namespace Taction.CustomUIElement {
 			var src = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
 			var brush = new System.Windows.Media.ImageBrush {
 				Stretch = System.Windows.Media.Stretch.None,
-				ImageSource = src
+				ImageSource = src,
+				TileMode = System.Windows.Media.TileMode.Tile,
 			};
+
+			this.FontFamily = new FontFamily("Tahoma");
+			this.FontSize
+
 			this.Background = brush;
 		}
 

@@ -216,11 +216,17 @@ namespace Taction {
 		public class HoldButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
-			public string text { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
+			public TextSpecs text { get; set; }
 
 			[JsonProperty("command")]
 			public string keyCommand { get; set; }
+
+			[JsonConverter(typeof(BrushConverter))]
+			public System.Windows.Media.Brush color { get; set; }
+
+			[JsonConverter(typeof(BorderSpecsConverter))]
+			public BorderSpecs border { get; set; }
 		}
 
 		[AssociatedClass(typeof(TapButton))]
@@ -228,11 +234,17 @@ namespace Taction {
 		public class TapButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
-			public string text { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
+			public TextSpecs text { get; set; }
 
 			[JsonProperty("command")]
 			public string keyCommand { get; set; }
+
+			[JsonConverter(typeof(BrushConverter))]
+			public System.Windows.Media.Brush color { get; set; }
+
+			[JsonConverter(typeof(BorderSpecsConverter))]
+			public BorderSpecs border { get; set; }
 		}
 
 		[AssociatedClass(typeof(CustomToggleButton))]
@@ -240,11 +252,17 @@ namespace Taction {
 		public class ToggleButtonSpecs : IPanelItemSpecs {
 
 			public int size { get; set; }
-			public string text { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
+			public TextSpecs text { get; set; }
 
 			[JsonProperty("command")]
 			public string keyCommand { get; set; }
+
+			[JsonConverter(typeof(BrushConverter))]
+			public System.Windows.Media.Brush color { get; set; }
+
+			[JsonConverter(typeof(BorderSpecsConverter))]
+			public BorderSpecs border { get; set; }
 		}
 
 		[AssociatedClass(typeof(CustomStackPanel))]
@@ -261,10 +279,25 @@ namespace Taction {
 
 			public int size { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
+			public TextSpecs text { get; set; }
 
-			[DefaultValue("☰☰")]
-			[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-			public string text { get; set; }
+			[JsonConverter(typeof(BrushConverter))]
+			public System.Windows.Media.Brush color { get; set; }
+
+			[JsonConverter(typeof(BorderSpecsConverter))]
+			public BorderSpecs border { get; set; }
+		}
+
+		public class TextSpecs {
+
+			public string value { get; set; }
+			public double size { get; set; }
+
+			[JsonConverter(typeof(BrushConverter))]
+			public System.Windows.Media.Brush color { get; set; }
+
+			[JsonConverter(typeof(FontFamilyConverter))]
+			public System.Windows.Media.FontFamily font { get; set; }
 		}
 	}
 
