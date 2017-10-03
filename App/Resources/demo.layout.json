@@ -24,7 +24,7 @@
 			"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
 		},
 		"border": {
-			"thickness": "10 5 1 20 ",
+			"thickness": "10 5 1 20",
 			"color": {
 				"type": "gradient",
 				"values": ["1 #FFFF0000", "0.5 #FF00FF00", "0 #FF0000FF"]

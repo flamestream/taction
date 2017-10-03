@@ -9,6 +9,7 @@ using System.IO.Compression;
 using System.Linq;
 using Taction.CustomAttribute;
 using Taction.CustomUIElement;
+using Taction.JsonConverter;
 
 namespace Taction {
 
@@ -163,7 +164,7 @@ namespace Taction {
 			public int size { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
 
-			[JsonConverter(typeof(PanelOrientationConverter))]
+			[JsonConverter(typeof(OrientationConverter))]
 			public System.Windows.Controls.Orientation orientation { get; set; }
 
 			[DefaultValue(1)]
