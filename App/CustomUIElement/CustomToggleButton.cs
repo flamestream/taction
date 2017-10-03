@@ -21,7 +21,7 @@ namespace Taction.CustomUIElement {
 			this.KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
 
 			this.Content = s.text != null ?
-				s.text :
+				s.text.value :
 				s.keyCommand;
 
 			if (panel == null || panel.Orientation == Orientation.Vertical)

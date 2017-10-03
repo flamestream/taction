@@ -246,10 +246,14 @@ namespace Taction {
 				// Update UI
 				this.panel.ReloadLayout();
 
-				// Persist for later
+				// Remove previous file(s)
+				File.Delete(Config.FileLayoutPath);
+				File.Delete(Config.FileBundlePath);
+
+				// Persist for resume
 				var targetFile = (Path.GetExtension(path) == Taction.Properties.Resources.ConfigBundleFileExtension) ?
 					Config.FileBundlePath :
-					Config.FileBundleName;
+					Config.FileLayoutPath;
 
 				File.Copy(path, targetFile, true);
 

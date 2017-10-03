@@ -1,5 +1,5 @@
 {
-	"version": 1,
+	"version": 2,
 	"opacity": 0.9,
 	"opacityHide": 0.1,
 	"disableHide": false,
@@ -13,32 +13,44 @@
 	}, {
 		"type": "tap",
 		"size": 75,
-		"text": "ESC",
+		"text": {
+			"value": "ESC",
+		},
 		"command": "ESCAPE"
 	}, {
 		"type": "tap",
 		"size": 75,
-		"text": "Tab",
+		"text": {
+			"value": "Tab",
+		},
 		"command": "TAB"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"text": "Eyedropper",
+		"text": {
+			"value": "Eyedropper",
+		},
 		"command": "VK_I"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"text": "Eraser",
+		"text": {
+			"value": "Eraser",
+		},
 		"command": "VK_E"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"text": "Marquee",
+		"text": {
+			"value": "Marquee",
+		},
 		"command": "VK_M"
 	}, {
 		"type": "tap",
 		"size": 75,
-		"text": "Save",
+		"text": {
+			"value": "Save",
+		},
 		"command": "CONTROL+VK_S"
 	}, {
 		"type": "pivot",
@@ -46,7 +58,9 @@
 		"items": [{
 			"type": "toggle",
 			"size": 40,
-			"text": "CTRL",
+			"text": {
+				"value": "CTRL",
+			},
 			"command": "CONTROL"
 		}, {
 			"type": "toggle",

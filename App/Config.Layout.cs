@@ -218,15 +218,13 @@ namespace Taction {
 			public int size { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
 			public TextSpecs text { get; set; }
+			public BorderSpecs border { get; set; }
 
 			[JsonProperty("command")]
 			public string keyCommand { get; set; }
 
 			[JsonConverter(typeof(BrushConverter))]
 			public System.Windows.Media.Brush color { get; set; }
-
-			[JsonConverter(typeof(BorderSpecsConverter))]
-			public BorderSpecs border { get; set; }
 		}
 
 		[AssociatedClass(typeof(TapButton))]
@@ -236,15 +234,13 @@ namespace Taction {
 			public int size { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
 			public TextSpecs text { get; set; }
+			public BorderSpecs border { get; set; }
 
 			[JsonProperty("command")]
 			public string keyCommand { get; set; }
 
 			[JsonConverter(typeof(BrushConverter))]
 			public System.Windows.Media.Brush color { get; set; }
-
-			[JsonConverter(typeof(BorderSpecsConverter))]
-			public BorderSpecs border { get; set; }
 		}
 
 		[AssociatedClass(typeof(CustomToggleButton))]
@@ -254,15 +250,13 @@ namespace Taction {
 			public int size { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
 			public TextSpecs text { get; set; }
+			public BorderSpecs border { get; set; }
 
 			[JsonProperty("command")]
 			public string keyCommand { get; set; }
 
 			[JsonConverter(typeof(BrushConverter))]
 			public System.Windows.Media.Brush color { get; set; }
-
-			[JsonConverter(typeof(BorderSpecsConverter))]
-			public BorderSpecs border { get; set; }
 		}
 
 		[AssociatedClass(typeof(CustomStackPanel))]
@@ -280,12 +274,10 @@ namespace Taction {
 			public int size { get; set; }
 			public List<IPanelItemSpecs> items { get; set; }
 			public TextSpecs text { get; set; }
+			public BorderSpecs border { get; set; }
 
 			[JsonConverter(typeof(BrushConverter))]
 			public System.Windows.Media.Brush color { get; set; }
-
-			[JsonConverter(typeof(BorderSpecsConverter))]
-			public BorderSpecs border { get; set; }
 		}
 
 		public class TextSpecs {
@@ -298,6 +290,15 @@ namespace Taction {
 
 			[JsonConverter(typeof(FontFamilyConverter))]
 			public System.Windows.Media.FontFamily font { get; set; }
+		}
+
+		public class BorderSpecs {
+
+			[JsonConverter(typeof(BrushConverter))]
+			public System.Windows.Media.Brush color { get; set; }
+
+			[JsonConverter(typeof(ThicknessConverter))]
+			public System.Windows.Thickness thickness { get; set; }
 		}
 	}
 

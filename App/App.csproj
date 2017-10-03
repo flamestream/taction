@@ -79,6 +79,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Config.cs" />
+    <Compile Include="Config.ThicknessConverter.cs" />
     <Compile Include="Config.Layout.cs" />
     <Compile Include="Config.FontFamilyConverter.cs" />
     <Compile Include="Config.BrushConverter.cs" />

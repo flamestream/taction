@@ -18,7 +18,15 @@
 		MouseMove="Window_MouseMove"
 		PreviewStylusInAirMove="Window_PreviewStylusInAirMove">
 	<StackPanel Name="container" Margin="0,0,0,0">
-		<Button Height="75" Content="SPACE" Tag="SPACE" />
+		<Button Height="75" Content="SPACE" Tag="SPACE">
+			<Button.Background>
+				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+					<GradientStop Color="#FFFF0000" Offset="0" />
+					<GradientStop Color="#FF00FF00" Offset="0.5" />
+					<GradientStop Color="#FF0000FF" Offset="1" />
+				</LinearGradientBrush>
+			</Button.Background>
+		</Button>
 		<Button Height="75" Content="SPACE" Tag="SPACE" />
 		<Button Height="75" Content="E" Tag="VK_E" />
 		<Button Height="75" Content="I" Tag="VK_I" />

@@ -59,11 +59,11 @@ namespace Taction {
 					case "gradient":
 
 						var brush = new LinearGradientBrush {
-							EndPoint = new Point(0, 0),
-							StartPoint = new Point(0, 1),
+							EndPoint = new Point(0, 1),
+							StartPoint = new Point(0, 0),
 						};
 
-						var values = json.Value<List<string>>("values");
+						var values = json.Value<JToken>("values").Values<string>();
 						foreach (var v in values) {
 
 							// @TODO compile errors

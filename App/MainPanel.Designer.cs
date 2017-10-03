@@ -55,7 +55,6 @@ namespace Taction {
 					var attr = (AssociatedClassAttribute)specsType.GetCustomAttributes(typeof(AssociatedClassAttribute), true)[0];
 					var itemType = attr.value;
 					var item = (UIElement)Activator.CreateInstance(itemType, specs, currentPanel);
-
 					currentPanel.Children.Add(item);
 
 					// Special when panel

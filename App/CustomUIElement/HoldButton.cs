@@ -23,26 +23,13 @@ namespace Taction.CustomUIElement {
 			this.KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
 
 			this.Content = s.text != null ?
-				s.text :
+				s.text.value :
 				s.keyCommand;
 
 			if (panel == null || panel.Orientation == Orientation.Vertical)
 				this.Height = s.size;
 			else
 				this.Width = s.size;
-
-			var icon = Properties.Resources.Icon;
-			var src = Imaging.CreateBitmapSourceFromHIcon(icon.Handle, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-			var brush = new System.Windows.Media.ImageBrush {
-				Stretch = System.Windows.Media.Stretch.None,
-				ImageSource = src,
-				TileMode = System.Windows.Media.TileMode.Tile,
-			};
-
-			this.FontFamily = new FontFamily("Tahoma");
-			this.FontSize
-
-			this.Background = brush;
 		}
 
 		protected override void OnTouchDown(TouchEventArgs e) {
