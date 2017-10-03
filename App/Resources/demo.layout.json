@@ -9,84 +9,66 @@
 	"orientation": "vertical",
 	"items": [{
 		"type": "move",
-		"size": 30,
-		"color": {
-			"type": "image",
-			"source": "1.png",
-			"stretch": "none",
-			"tile": "normal"
-		}
-	}, {
-		"type": "tap",
-		"size": 75,
+		"size": 40,
 		"text": {
 			"value": "ESC",
-			"fontFamily": "Segoe UI Black",
-			"fontSize": 16,
-			"color": {
-				"type": "solid",
-				"value": "#FFFFFF"
-			}
+			"font": "Segoe UI Black",
+			"size": 16,
 		},
-		"command": "ESCAPE",
 		"color": {
 			"type": "gradient",
-			"colors": [{
-				"value": "#FF0000",
-				"offset": 0,
-				"opacity": 0.5
-			}, {
-				"value": "#00FF00",
-				"offset": 0
-			}],
-			"opacity": 0.5
-		},
-		"border": {
-			"color": {},
-			"thickness": "2, 3, 4, 5"
+			"values": ["0.1#FFFF0000", "0.2#FFFF0000", "0.3#FFFF0000"]
 		}
 	}, {
 		"type": "tap",
 		"size": 75,
-		"text": "Tab",
-		"command": "TAB",
+		"command": "ESCAPE",
+		"text": {
+			"value": "ESC",
+			"font": "Segoe UI Black",
+			"size": 16,
+		},
 		"color": {
 			"type": "solid",
-			"color": "#FF0000",
-			"opacity": 0.5
+			"value": "#FFFFFF"
 		}
 	}, {
 		"type": "hold",
 		"size": 75,
-		"text": "Eyedropper",
-		"command": "VK_I"
+		"command": "I",
+		"text": {
+			"value": "Eyedropper (I)",
+		},
+		"color": {
+			"type": "image",
+			"source": "1.png"
+		}
 	}, {
-		"type": "hold",
+		"type": "toggle",
 		"size": 75,
-		"text": "Eraser",
-		"command": "VK_E"
-	}, {
-		"type": "hold",
-		"size": 75,
-		"text": "Marquee",
-		"command": "VK_M"
+		"command": "CONTROL",
+		"text": {
+			"value": "CTRL",
+			"color": {
+				"type": "gradient",
+				"values": ["0.1#FFFF0000", "0.2#FFFF0000", "0.3#FFFF0000"]
+			}
+		}
 	}, {
 		"type": "tap",
 		"size": 75,
-		"text": "Save",
-		"command": "CONTROL+VK_S"
-	}, {
-		"type": "pivot",
-		"size": 50,
-		"items": [{
-			"type": "toggle",
-			"size": 40,
-			"text": "CTRL",
-			"command": "CONTROL"
-		}, {
-			"type": "toggle",
-			"size": 40,
-			"command": "SHIFT"
-		}]
+		"command": "CONTROL+VK_S",
+		"border": {
+			"thickness": {
+				"top": 1,
+				"right": 2,
+				"bottom": 3,
+				"left": 4,
+			},
+			"color": {
+				"type": "gradient",
+				"values": ["0.1#FFFF0000", "0.2#FFFF0000", "0.3#FFFF0000"]
+			}
+		}
 	}]
 }

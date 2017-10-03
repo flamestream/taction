@@ -1,195 +1,208 @@
 {
 	"id": "http://flareburst.net/taction/layout.schema.json",
 	"type": "object",
-	"allOf": [
-		{ "$ref": "#/definitions/versionProp" },
-		{ "$ref": "#/definitions/sizeProp" },
-		{ "$ref": "#/definitions/orientationProp" },
-		{ "$ref": "#/definitions/itemsProp" },
-		{
-			"properties": {
-				"opacity": {
-					"description": "Application opacity.",
-					"allOf": [
-						{"$ref": "#/definitions/opacityType"},
-						{"default": 1.0}
-					]
-				},
-				"opacityHide": {
-					"description": "Application opacity when hidden.",
-					"allOf": [
-						{"$ref": "#/definitions/opacityType"},
-						{"default": 0.0}
-					]
-				},
-				"disableHide": {
-					"description": "Flag indicating if mouse-over hide is wanted.",
-					"type": "boolean"
-				},
-				"fadeAnimationTime": {
-					"description": "Time taken to complete fade animation in milliseconds.",
-					"type": "integer",
-					"default": 500
-				},
-				"disableFadeAnimation": {
-					"description": "Flag indicating if fade animation is wanted.",
-					"type": "boolean"
-				}
-			}
-		}
-	],
+	"properties": {
+		"opacity": {
+			"type": "number",
+			"default": 1.0
+		},
+		"opacityHide": {
+			"type": "number",
+			"default": 0.0
+		},
+		"fadeAnimationTime": {
+			"type": "integer",
+			"default": 500
+		},
+		"version": {"type": "integer"},
+		"size": {"type": "integer"},
+		"disableFadeAnimation": {"type": "boolean"},
+		"disableHide": {"type": "boolean"},
+		"orientation": {"$ref": "#/definitions/orientationType"},
+		"items": {"$ref": "#/definitions/itemsType"}
+	},
+	"additionalProperties": false,
 	"required": ["version", "size", "orientation", "items"],
 
 	"definitions": {
-		"opacityType": {
-			"description": "Clamped from 0.0 to 1.0",
-			"type": "number"
+		"orientationType": {
+			"type": "string",
+			"enum": ["vertical", "horizontal"]
 		},
-		"versionProp": {
+		"borderThicknessType": {
+			"type": "object",
 			"properties": {
-				"version": {
-					"type": "integer",
-					"enum": [1]
-				}
+				"top": {"type": "number"},
+				"right": {"type": "number"},
+				"bottom": {"type": "number"},
+				"left": {"type": "number"},
+			},
+		},
+		"borderType": {
+			"type": "object",
+			"properties": {
+				"thickness": {"$ref": "#/definitions/borderThicknessType"},
+				"color": {"$ref": "#/definitions/colorType"}
+			},
+			"additionalProperties": false,
+		},
+		"textType": {
+			"type": "object",
+			"properties": {
+				"value": {"type": "string"},
+				"size": {"type": "integer"},
+				"font": {"type": "string"},
+				"color": {"$ref": "#/definitions/colorType"},
+			},
+			"additionalProperties": false,
+			"required": ["value"]
+		},
+		"itemsType": {
+			"type": "array",
+			"items": {
+				"oneOf": [
+					{"$ref": "#/definitions/pivotItemType"},
+					{"$ref": "#/definitions/holdItemType"},
+					{"$ref": "#/definitions/tapItemType"},
+					{"$ref": "#/definitions/toggleItemType"},
+					{"$ref": "#/definitions/moveItemType"}
+				]
 			}
 		},
-		"commandProp": {
+		"pivotItemType": {
+			"type": "object",
 			"properties": {
-				"command": {
-					"description": "Key command associated with button.",
+				"type": {
 					"type": "string",
-				}
-			}
+					"enum": ["pivot"]
+				},
+				"size": {"type": "integer"},
+				"items": {"$ref": "#/definitions/itemsType"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "size", "items"]
 		},
-		"textProp": {
+		"holdItemType": {
+			"type": "object",
 			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["hold"]
+				},
+				"size": {"type": "integer"},
+				"command": {"type": "string"},
+				"text": {"$ref": "#/definitions/textType"},
+				"color": {"$ref": "#/definitions/colorType"},
+				"border": {"$ref": "#/definitions/borderType"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "size", "command"]
+		},
+		"tapItemType": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["tap"]
+				},
+				"size": {"type": "integer"},
+				"command": {"type": "string"},
+				"text": {"$ref": "#/definitions/textType"},
+				"color": {"$ref": "#/definitions/colorType"},
+				"border": {"$ref": "#/definitions/borderType"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "size", "command"]
+		},
+		"toggleItemType": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["toggle"]
+				},
+				"size": {"type": "integer"},
+				"command": {"type": "string"},
+				"text": {"$ref": "#/definitions/textType"},
+				"color": {"$ref": "#/definitions/colorType"},
+				"border": {"$ref": "#/definitions/borderType"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "size", "command"]
+		},
+		"moveItemType": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["move"]
+				},
+				"size": {"type": "integer"},
 				"text": {
-					"description": "Label associated with button.",
+					"$ref": "#/definitions/textType",
+					"default": "☰☰"
+				},
+				"color": {"$ref": "#/definitions/colorType"},
+				"border": {"$ref": "#/definitions/borderType"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "size"]
+		},
+		"colorType": {
+			"oneOf": [
+				{"$ref": "#/definitions/imageColorType"},
+				{"$ref": "#/definitions/solidColorType"},
+				{"$ref": "#/definitions/gradientColorType"}
+			]
+		},
+		"imageColorType": {
+			"type": "object",
+			"properties": {
+				"type": {
 					"type": "string",
-				}
-			}
-		},
-		"sizeProp": {
-			"properties": {
-				"size": {
-					"description": "In pixel. Whether it's width or height depends on layout orientation.",
-					"type": "integer",
-				}
-			}
-		},
-		"orientationProp": {
-			"properties": {
-				"orientation": {
-					"description": "Determine the orientation of items in panel.",
+					"enum": ["image"]
+				},
+				"source": {"type": "string"},
+				"tile": {
 					"type": "string",
-					"enum": [
-						"vertical",
-						"horizontal"
-					]
+					"enum": ["none", "normal", "flipX", "flipY", "FlipXY"]
+				},
+				"stretch": {
+					"type": "string",
+					"enum": ["none", "fill", "uniform", "uniformFill"]
 				}
-			}
+			},
+			"additionalProperties": false,
+			"required": ["type", "source"]
 		},
-		"itemsProp": {
+		"solidColorType": {
+			"type": "object",
 			"properties": {
-				"items": {
+				"type": {
+					"type": "string",
+					"enum": ["solid"]
+				},
+				"value": {"type": "string"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "value"]
+		},
+		"gradientColorType": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["gradient"]
+				},
+				"values": {
 					"type": "array",
 					"items": {
-						"oneOf": [
-							{ "$ref": "#/definitions/pivotObj" },
-							{ "$ref": "#/definitions/holdObj" },
-							{ "$ref": "#/definitions/tapObj" },
-							{ "$ref": "#/definitions/toggleObj" },
-							{ "$ref": "#/definitions/moveObj" }
-						]
+						"type": "string",
 					}
-				}
-			}
-		},
-		"pivotObj": {
-			"allOf": [
-				{"$ref": "#/definitions/sizeProp"},
-				{"$ref": "#/definitions/itemsProp" },
-				{
-					"type": "object",
-					"properties": {
-						"type": {
-							"type": "string",
-							"enum": ["pivot"]
-						}
-					},
-					"required": ["size", "items"]
-				}
-			]
-		},
-		"holdObj": {
-			"allOf": [
-				{"$ref": "#/definitions/sizeProp"},
-				{"$ref": "#/definitions/textProp"},
-				{"$ref": "#/definitions/commandProp"},
-				{
-					"type": "object",
-					"properties": {
-						"type": {
-							"type": "string",
-							"enum": ["hold"]
-						}
-					},
-					"required": ["size", "command"]
-				}
-			]
-		},
-		"tapObj": {
-			"allOf": [
-				{"$ref": "#/definitions/sizeProp"},
-				{"$ref": "#/definitions/textProp"},
-				{"$ref": "#/definitions/commandProp"},
-				{
-					"type": "object",
-					"properties": {
-						"type": {
-							"type": "string",
-							"enum": ["tap"]
-						}
-					},
-					"required": ["size", "command"]
-				}
-			]
-		},
-		"toggleObj": {
-			"allOf": [
-				{"$ref": "#/definitions/sizeProp"},
-				{"$ref": "#/definitions/textProp"},
-				{"$ref": "#/definitions/commandProp"},
-				{
-					"type": "object",
-					"properties": {
-						"type": {
-							"type": "string",
-							"enum": ["toggle"]
-						}
-					},
-					"required": ["size", "command"]
-				}
-			]
-		},
-		"moveObj": {
-			"allOf": [
-				{"$ref": "#/definitions/sizeProp"},
-				{"$ref": "#/definitions/textProp"},
-				{
-					"type": "object",
-					"properties": {
-						"type": {
-							"type": "string",
-							"enum": ["move"]
-						},
-						"text": {
-							"default": "☰☰"
-						}
-					},
-					"required": ["size"]
-				}
-			]
-		},
+				},
+			},
+			"additionalProperties": false,
+			"required": ["type", "values"]
+		}
 	}
 }
