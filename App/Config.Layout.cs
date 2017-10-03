@@ -155,13 +155,15 @@ namespace Taction {
 		/// <summary>
 		/// Configuration root definition
 		/// </summary>
-		public class Layout : IPanelItemSpecs {
+		public class Layout {
 
 			private float _opacity;
 			private float _opacityHide;
 			private uint _fadeAnimationTime;
 
 			public int size { get; set; }
+
+			[JsonConverter(typeof(PanelItemsConverter))]
 			public List<IPanelItemSpecs> items { get; set; }
 
 			[JsonConverter(typeof(OrientationConverter))]
@@ -207,33 +209,49 @@ namespace Taction {
 		public interface IPanelItemSpecs {
 
 			int size { get; set; }
+		}
+
+		public interface IButtonSpecs : IPanelItemSpecs {
+
+			TextSpecs text { get; set; }
+			BorderSpecs border { get; set; }
+
+			[JsonConverter(typeof(BrushConverter))]
+			System.Windows.Media.Brush color { get; set; }
+		}
+
+		public interface ICommandButtonSpecs : IButtonSpecs {
+
+			[JsonProperty("command")]
+			string keyCommand { get; set; }
+		}
+
+		[AssociatedClass(typeof(StackPanel))]
+		[JsonStringTypeValue("pivot")]
+		public class PivotSpecs : IPanelItemSpecs {
+
+			public int size { get; set; }
 
 			[JsonConverter(typeof(PanelItemsConverter))]
-			List<IPanelItemSpecs> items { get; set; }
+			public List<IPanelItemSpecs> items { get; set; }
 		}
 
 		[AssociatedClass(typeof(HoldButton))]
 		[JsonStringTypeValue("hold")]
-		public class HoldButtonSpecs : IPanelItemSpecs {
+		public class HoldButtonSpecs : ICommandButtonSpecs {
 
 			public int size { get; set; }
-			public List<IPanelItemSpecs> items { get; set; }
 			public TextSpecs text { get; set; }
 			public BorderSpecs border { get; set; }
-
-			[JsonProperty("command")]
 			public string keyCommand { get; set; }
-
-			[JsonConverter(typeof(BrushConverter))]
 			public System.Windows.Media.Brush color { get; set; }
 		}
 
 		[AssociatedClass(typeof(TapButton))]
 		[JsonStringTypeValue("tap")]
-		public class TapButtonSpecs : IPanelItemSpecs {
+		public class TapButtonSpecs : ICommandButtonSpecs {
 
 			public int size { get; set; }
-			public List<IPanelItemSpecs> items { get; set; }
 			public TextSpecs text { get; set; }
 			public BorderSpecs border { get; set; }
 
@@ -246,10 +264,9 @@ namespace Taction {
 
 		[AssociatedClass(typeof(ToggleButton))]
 		[JsonStringTypeValue("toggle")]
-		public class ToggleButtonSpecs : IPanelItemSpecs {
+		public class ToggleButtonSpecs : ICommandButtonSpecs {
 
 			public int size { get; set; }
-			public List<IPanelItemSpecs> items { get; set; }
 			public TextSpecs text { get; set; }
 			public BorderSpecs border { get; set; }
 
@@ -260,20 +277,11 @@ namespace Taction {
 			public System.Windows.Media.Brush color { get; set; }
 		}
 
-		[AssociatedClass(typeof(StackPanel))]
-		[JsonStringTypeValue("pivot")]
-		public class PivotSpecs : IPanelItemSpecs {
-
-			public int size { get; set; }
-			public List<IPanelItemSpecs> items { get; set; }
-		}
-
 		[AssociatedClass(typeof(MoveButton))]
 		[JsonStringTypeValue("move")]
-		public class MoveButtonSpecs : IPanelItemSpecs {
+		public class MoveButtonSpecs : IButtonSpecs {
 
 			public int size { get; set; }
-			public List<IPanelItemSpecs> items { get; set; }
 			public TextSpecs text { get; set; }
 			public BorderSpecs border { get; set; }
 

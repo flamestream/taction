@@ -54,12 +54,59 @@ namespace Taction {
 					var specsType = specs.GetType();
 					var attr = (AssociatedClassAttribute)specsType.GetCustomAttributes(typeof(AssociatedClassAttribute), true)[0];
 					var itemType = attr.value;
-					var item = (System.Windows.UIElement)Activator.CreateInstance(itemType, specs, currentPanel);
+					var item = (FrameworkElement)Activator.CreateInstance(itemType, specs);
+
+					// Set size
+					if (currentPanel == null || currentPanel.Orientation == Orientation.Vertical)
+						item.Height = specs.size;
+					else
+						item.Width = specs.size;
+
+					// Set button-exclusive properties
+					if (specs is IButtonSpecs)
+						ApplyStyle((System.Windows.Controls.ContentControl)item, (IButtonSpecs)specs, currentPanel);
+
+					// Add to tree
 					currentPanel.Children.Add(item);
 
-					// Special when panel
-					if (item is StackPanel)
-						ProcessLayout(((PivotSpecs)specs).items, (StackPanel)item);
+					// Special: Panel handling
+					if (item is StackPanel) {
+
+						var childPanel = (StackPanel)item;
+						childPanel.Orientation = currentPanel.Orientation == Orientation.Horizontal ?
+							Orientation.Vertical :
+							Orientation.Horizontal;
+
+						// Process Children
+						ProcessLayout(((PivotSpecs)specs).items, childPanel);
+					}
+				}
+			}
+
+			private static void ApplyStyle(System.Windows.Controls.ContentControl item, IButtonSpecs specs, StackPanel panel) {
+
+				// Set Text
+				if (specs.text != null) {
+
+					item.Content = specs.text.value;
+
+					if (specs.text.color != null)
+						item.Foreground = specs.text.color;
+
+				}
+
+				// Set background
+				if (specs.color != null)
+					item.Background = specs.color;
+
+				// Set border
+				if (specs.border != null) {
+
+					if (specs.border.thickness != null)
+						item.BorderThickness = specs.border.thickness;
+
+					if (specs.border.color != null)
+						item.BorderBrush = specs.border.color;
 				}
 			}
 		}

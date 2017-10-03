@@ -13,20 +13,11 @@ namespace Taction.UIElement {
 		private App App => (App)Application.Current;
 		internal KeyCommand KeyCommand { set; get; }
 
-		public ToggleButton(IPanelItemSpecs specs, System.Windows.Controls.StackPanel panel = null) {
+		public ToggleButton(IPanelItemSpecs specs) {
 
 			var s = (ToggleButtonSpecs)specs;
 
 			this.KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
-
-			this.Content = s.text != null ?
-				s.text.value :
-				s.keyCommand;
-
-			if (panel == null || panel.Orientation == Orientation.Vertical)
-				this.Height = s.size;
-			else
-				this.Width = s.size;
 
 			// Event binding
 			this.Checked += HandleChecked;

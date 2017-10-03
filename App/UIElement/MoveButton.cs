@@ -7,42 +7,11 @@ namespace Taction.UIElement {
 
 	internal class MoveButton : Button {
 
-		public MoveButton(IPanelItemSpecs specs, System.Windows.Controls.StackPanel panel = null) {
+		public MoveButton(IPanelItemSpecs specs) {
 
-			var s = (MoveButtonSpecs)specs;
-
-			// Set Text
-			if (s.text != null) {
-
-				this.Content = s.text.value;
-
-				if (s.text.color != null)
-					this.Foreground = s.text.color;
-
-			} else {
-
-				this.Content = "==";
-			}
-
-			// Set background
-			if (s.color != null)
-				Background = s.color;
-
-			// Set border
-			if (s.border != null) {
-
-				if (s.border.thickness != null)
-					BorderThickness = s.border.thickness;
-
-				if (s.border.color != null)
-					BorderBrush = s.border.color;
-			}
-
-			// Set size
-			if (panel == null || panel.Orientation == Orientation.Vertical)
-				this.Height = s.size;
-			else
-				this.Width = s.size;
+			// Special default text
+			if (Content == null)
+				Content = "==";
 
 			// Set behaviours
 			Style style = new Style();
