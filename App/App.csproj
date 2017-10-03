@@ -86,25 +86,25 @@
     <Compile Include="JsonConverter\OrientationConverter.cs" />
     <Compile Include="JsonConverter\PanelItemsConverter.cs" />
     <Compile Include="Config.State.cs" />
-    <Compile Include="CustomUIElement\NotificationToast.xaml.cs">
+    <Compile Include="UIElement\NotificationToast.xaml.cs">
       <DependentUpon>NotificationToast.xaml</DependentUpon>
     </Compile>
     <Compile Include="ErrorLogger.cs" />
     <Compile Include="MainPanel.Designer.cs" />
-    <Compile Include="CustomAttribute\AssosicatedClassAttribute.cs" />
-    <Compile Include="CustomAttribute\JsonStringTypeValueAttribute.cs" />
-    <Compile Include="CustomUIElement\MoveButton.cs" />
+    <Compile Include="Attribute\AssosicatedClassAttribute.cs" />
+    <Compile Include="Attribute\JsonStringTypeValueAttribute.cs" />
+    <Compile Include="UIElement\MoveButton.cs" />
     <Compile Include="NotificationIcon.xaml.cs">
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CustomUIElement\CustomStackPanel.cs" />
-    <Compile Include="CustomUIElement\TapButton.cs" />
-    <Compile Include="CustomUIElement\CustomToggleButton.cs" />
-    <Compile Include="CustomUIElement\HoldButton.cs" />
+    <Compile Include="UIElement\StackPanel.cs" />
+    <Compile Include="UIElement\TapButton.cs" />
+    <Compile Include="UIElement\ToggleButton.cs" />
+    <Compile Include="UIElement\HoldButton.cs" />
     <Compile Include="WinApi.cs" />
     <Compile Include="WindowEventNotifier.cs" />
     <Compile Include="WindowManipulator.cs" />
-    <Page Include="CustomUIElement\NotificationToast.xaml">
+    <Page Include="UIElement\NotificationToast.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

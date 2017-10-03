@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Taction.CustomAttribute;
+using Taction.Attribute;
 using static Taction.Config;
 
 namespace Taction {
@@ -54,7 +54,7 @@ namespace Taction {
 					var specsType = specs.GetType();
 					var attr = (AssociatedClassAttribute)specsType.GetCustomAttributes(typeof(AssociatedClassAttribute), true)[0];
 					var itemType = attr.value;
-					var item = (UIElement)Activator.CreateInstance(itemType, specs, currentPanel);
+					var item = (System.Windows.UIElement)Activator.CreateInstance(itemType, specs, currentPanel);
 					currentPanel.Children.Add(item);
 
 					// Special when panel

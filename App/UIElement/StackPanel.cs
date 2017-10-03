@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using static Taction.Config;
 
-namespace Taction.CustomUIElement {
+namespace Taction.UIElement {
 
-	internal class CustomStackPanel : StackPanel {
+	internal class StackPanel : System.Windows.Controls.StackPanel {
 
-		public CustomStackPanel(IPanelItemSpecs specs, StackPanel panel = null) {
+		public StackPanel(IPanelItemSpecs specs, System.Windows.Controls.StackPanel panel = null) {
 
 			var s = (PivotSpecs)specs;
 

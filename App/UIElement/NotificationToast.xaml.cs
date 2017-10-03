@@ -10,7 +10,7 @@ using System.Windows.Threading;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace Taction.CustomUIElement {
+namespace Taction.UIElement {
 
 	public partial class NotificationToast : UserControl {
 

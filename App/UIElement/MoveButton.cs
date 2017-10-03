@@ -3,11 +3,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using static Taction.Config;
 
-namespace Taction.CustomUIElement {
+namespace Taction.UIElement {
 
 	internal class MoveButton : Button {
 
-		public MoveButton(IPanelItemSpecs specs, StackPanel panel = null) {
+		public MoveButton(IPanelItemSpecs specs, System.Windows.Controls.StackPanel panel = null) {
 
 			var s = (MoveButtonSpecs)specs;
 

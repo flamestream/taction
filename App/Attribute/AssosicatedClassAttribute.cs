@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Taction.CustomAttribute {
+namespace Taction.Attribute {
 
-	internal class AssociatedClassAttribute : Attribute {
+	internal class AssociatedClassAttribute : System.Attribute {
 
 		public Type value { get; private set; }
 

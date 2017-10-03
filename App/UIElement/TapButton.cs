@@ -1,22 +1,22 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using static Taction.Config;
 
-namespace Taction.CustomUIElement {
+namespace Taction.UIElement {
 
 	/// <summary>
 	/// A button that executes key command only once.
 	/// </summary>
-	internal class CustomToggleButton : ToggleButton {
+	internal class TapButton : Button {
 
 		private App App => (App)Application.Current;
 		internal KeyCommand KeyCommand { set; get; }
 
-		public CustomToggleButton(IPanelItemSpecs specs, StackPanel panel = null) {
+		public TapButton(IPanelItemSpecs specs, System.Windows.Controls.StackPanel panel = null) {
 
-			var s = (ToggleButtonSpecs)specs;
+			var s = (TapButtonSpecs)specs;
 
 			this.KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
 
@@ -28,22 +28,27 @@ namespace Taction.CustomUIElement {
 				this.Height = s.size;
 			else
 				this.Width = s.size;
-
-			// Event binding
-			this.Checked += HandleChecked;
-			this.Unchecked += HandleUnchecked;
 		}
 
-		protected void HandleChecked(Object sender, RoutedEventArgs e) {
+		protected override async void OnTouchDown(TouchEventArgs e) {
 
+			base.OnTouchDown(e);
+
+			// Style change
 			this.FontWeight = FontWeights.Bold;
-			App.inputSimulator.SimulateKeyDown(KeyCommand);
-		}
 
-		protected void HandleUnchecked(Object sender, RoutedEventArgs e) {
+			// Set activation flag
+			this.Tag = true;
 
+			if (this.KeyCommand == null)
+				return;
+
+			App.inputSimulator.SimulateKeyPress(KeyCommand);
+
+			await Task.Delay(100);
+
+			// Style change
 			this.FontWeight = FontWeights.Normal;
-			App.inputSimulator.SimulateKeyUp(KeyCommand);
 		}
 	}
 }

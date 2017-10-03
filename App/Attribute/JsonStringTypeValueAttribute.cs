@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Taction.CustomAttribute {
+namespace Taction.Attribute {
 
-	internal class JsonStringTypeValueAttribute : Attribute {
+	internal class JsonStringTypeValueAttribute : System.Attribute {
 
 		public string value { get; set; }
 

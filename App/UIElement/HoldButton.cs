@@ -1,22 +1,21 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using static Taction.Config;
 
-namespace Taction.CustomUIElement {
+namespace Taction.UIElement {
 
 	/// <summary>
-	/// A button that executes key command only once.
+	/// A button that supports holding down to execute key command.
 	/// </summary>
-	internal class TapButton : Button {
+	internal class HoldButton : Button {
 
 		private App App => (App)Application.Current;
 		internal KeyCommand KeyCommand { set; get; }
 
-		public TapButton(IPanelItemSpecs specs, StackPanel panel = null) {
+		public HoldButton(IPanelItemSpecs specs, System.Windows.Controls.StackPanel panel = null) {
 
-			var s = (TapButtonSpecs)specs;
+			var s = (HoldButtonSpecs)specs;
 
 			this.KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
 
@@ -30,7 +29,7 @@ namespace Taction.CustomUIElement {
 				this.Width = s.size;
 		}
 
-		protected override async void OnTouchDown(TouchEventArgs e) {
+		protected override void OnTouchDown(TouchEventArgs e) {
 
 			base.OnTouchDown(e);
 
@@ -40,15 +39,21 @@ namespace Taction.CustomUIElement {
 			// Set activation flag
 			this.Tag = true;
 
-			if (this.KeyCommand == null)
-				return;
+			App.inputSimulator.SimulateKeyDown(this.KeyCommand);
+		}
 
-			App.inputSimulator.SimulateKeyPress(KeyCommand);
+		protected override void OnTouchLeave(TouchEventArgs e) {
 
-			await Task.Delay(100);
+			// Activation flag check
+			// @NOTE Needed because TouchLeave can be triggered without TouchDown
+			if (this.Tag == null) return;
+			this.Tag = null;
 
 			// Style change
 			this.FontWeight = FontWeights.Normal;
+
+			App.inputSimulator.SimulateKeyUp(this.KeyCommand);
 		}
+
 	}
 }

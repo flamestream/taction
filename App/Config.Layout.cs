@@ -7,8 +7,8 @@ using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using Taction.CustomAttribute;
-using Taction.CustomUIElement;
+using Taction.Attribute;
+using Taction.UIElement;
 using Taction.JsonConverter;
 
 namespace Taction {
@@ -244,7 +244,7 @@ namespace Taction {
 			public System.Windows.Media.Brush color { get; set; }
 		}
 
-		[AssociatedClass(typeof(CustomToggleButton))]
+		[AssociatedClass(typeof(ToggleButton))]
 		[JsonStringTypeValue("toggle")]
 		public class ToggleButtonSpecs : IPanelItemSpecs {
 
@@ -260,7 +260,7 @@ namespace Taction {
 			public System.Windows.Media.Brush color { get; set; }
 		}
 
-		[AssociatedClass(typeof(CustomStackPanel))]
+		[AssociatedClass(typeof(StackPanel))]
 		[JsonStringTypeValue("pivot")]
 		public class PivotSpecs : IPanelItemSpecs {
 
