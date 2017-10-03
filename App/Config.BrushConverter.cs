@@ -152,10 +152,10 @@ namespace Taction {
 				if (parts.Length != 2)
 					return false;
 
-				var color = GetColor(parts[0]);
-
-				if (!double.TryParse(parts[1], out var offset))
+				if (!double.TryParse(parts[0], out var offset))
 					return false;
+
+				var color = GetColor(parts[1]);
 
 				o = new GradientStop() {
 					Color = color,

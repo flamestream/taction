@@ -16,18 +16,18 @@
 			"size": 16,
 			"color": {
 				"type": "gradient",
-				"values": ["#FFFF0000 0", "#FF00FF00 0.5", "#FF0000FF 1"]
+				"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
 			}
 		},
 		"color": {
 			"type": "gradient",
-			"values": ["#FFFF0000 0", "#FF00FF00 0.5", "#FF0000FF 1"]
+			"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
 		},
 		"border": {
 			"thickness": "10 5 1 20 ",
 			"color": {
 				"type": "gradient",
-				"values": ["#FFFF0000 1", "#FF00FF00 0.5", "#FF0000FF 0"]
+				"values": ["1 #FFFF0000", "0.5 #FF00FF00", "0 #FF0000FF"]
 			}
 		}
 	}, {
@@ -62,7 +62,7 @@
 			"value": "CTRL",
 			"color": {
 				"type": "gradient",
-				"values": ["#FFFF0000 0", "#FF00FF00 0.5", "#FF0000FF 1"]
+				"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
 			}
 		}
 	}, {
@@ -73,7 +73,7 @@
 			"thickness": "1 2 3 4",
 			"color": {
 				"type": "gradient",
-				"values": ["#FFFF0000 0", "#FF00FF00 0.5", "#FF0000FF 1"]
+				"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
 			}
 		}
 	}]
