@@ -220,7 +220,10 @@ namespace Taction {
 
 					errorLogger.Log(e.ToString());
 					LoadDefaultLayout();
-					File.Move(targetFile, targetFile + ".bak");
+
+					var backupFile = targetFile + ".bak";
+					File.Delete(backupFile);
+					File.Move(targetFile, backupFile);
 					ShowErrorToast("Problem loading saved layout. Reverting to default.");
 				}
 

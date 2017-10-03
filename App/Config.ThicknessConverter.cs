@@ -25,21 +25,29 @@ namespace Taction {
 
 			public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
 
-				var value = serializer.Deserialize<JObject>(reader);
+				var o = default(Thickness);
 
-				var o = new Thickness();
+				// Parse value
+				var value = serializer.Deserialize<string>(reader);
+				var values = value.Split(' ');
 
-				if (value.TryGetValue("top", out var top))
-					o.Top = (double)top;
+				// Valid check
+				if (values.Length == 0 || values.Length > 4)
+					return o;
 
-				if (value.TryGetValue("right", out var right))
-					o.Right = (double)right;
+				if (!double.TryParse(values[0], out var top))
+					return o;
 
-				if (value.TryGetValue("bottom", out var bottom))
-					o.Bottom = (double)bottom;
+				if (values.Length <= 1 || !double.TryParse(values[1], out var right))
+					right = top;
 
-				if (value.TryGetValue("left", out var left))
-					o.Left = (double)left;
+				if (values.Length <= 2 || !double.TryParse(values[2], out var bottom))
+					bottom = top;
+
+				if (values.Length <= 3 || !double.TryParse(values[3], out var left))
+					left = right;
+
+				o = new Thickness(left, top, right, bottom);
 
 				return o;
 			}

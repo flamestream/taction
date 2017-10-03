@@ -148,7 +148,7 @@ namespace Taction {
 				o = default(GradientStop);
 
 				// Format check
-				var parts = id.Split(';');
+				var parts = id.Split(' ');
 				if (parts.Length != 2)
 					return false;
 

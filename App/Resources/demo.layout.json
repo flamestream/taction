@@ -16,23 +16,18 @@
 			"size": 16,
 			"color": {
 				"type": "gradient",
-				"values": ["#FFFF0000;0", "#FF00FF00;0.5", "#FF0000FF;1"]
+				"values": ["#FFFF0000 0", "#FF00FF00 0.5", "#FF0000FF 1"]
 			}
 		},
 		"color": {
 			"type": "gradient",
-			"values": ["#FFFF0000;0", "#FF00FF00;0.5", "#FF0000FF;1"]
+			"values": ["#FFFF0000 0", "#FF00FF00 0.5", "#FF0000FF 1"]
 		},
 		"border": {
-			"thickness": {
-				"top": 4,
-				"bottom": 4,
-				"left": 4,
-				"right": 4
-			},
+			"thickness": "10 5 1 20 ",
 			"color": {
 				"type": "gradient",
-				"values": ["#FFFF0000;1", "#FF00FF00;0.5", "#FF0000FF;0"]
+				"values": ["#FFFF0000 1", "#FF00FF00 0.5", "#FF0000FF 0"]
 			}
 		}
 	}, {
@@ -67,7 +62,7 @@
 			"value": "CTRL",
 			"color": {
 				"type": "gradient",
-				"values": ["#FFFF0000;0", "#FF00FF00;0.5", "#FF0000FF;1"]
+				"values": ["#FFFF0000 0", "#FF00FF00 0.5", "#FF0000FF 1"]
 			}
 		}
 	}, {
@@ -75,15 +70,10 @@
 		"size": 75,
 		"command": "CONTROL+VK_S",
 		"border": {
-			"thickness": {
-				"top": 1,
-				"right": 2,
-				"bottom": 3,
-				"left": 4,
-			},
+			"thickness": "1 2 3 4",
 			"color": {
 				"type": "gradient",
-				"values": ["#FFFF0000;0", "#FF00FF00;0.5", "#FF0000FF;1"]
+				"values": ["#FFFF0000 0", "#FF00FF00 0.5", "#FF0000FF 1"]
 			}
 		}
 	}]

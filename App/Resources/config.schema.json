@@ -41,7 +41,7 @@
 		"borderType": {
 			"type": "object",
 			"properties": {
-				"thickness": {"$ref": "#/definitions/borderThicknessType"},
+				"thickness": {"type": "string"},
 				"color": {"$ref": "#/definitions/colorType"}
 			},
 			"additionalProperties": false,
