@@ -51,7 +51,7 @@
 		"text": {
 			"value": "Save",
 		},
-		"command": "CONTROL+VK_S"
+		"command": "CONTROL VK_S"
 	}, {
 		"type": "pivot",
 		"size": 50,

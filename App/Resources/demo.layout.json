@@ -68,7 +68,7 @@
 	}, {
 		"type": "tap",
 		"size": 75,
-		"command": "CONTROL+VK_S",
+		"command": "CONTROL VK_S",
 		"border": {
 			"thickness": "1 2 3 4",
 			"color": {

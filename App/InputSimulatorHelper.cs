@@ -103,7 +103,7 @@ namespace Taction {
 		public static KeyCommand ParseKeyCommand(string keyCommand) {
 
 			var keyCodes = new List<VirtualKeyCode>();
-			var keyIds = keyCommand.Split('+');
+			var keyIds = keyCommand.Split(' ');
 
 			foreach (var keyId in keyIds) {
 
