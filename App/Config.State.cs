@@ -45,12 +45,12 @@ namespace Taction {
 				}
 
 				// Populate
-				this.state = JsonConvert.DeserializeObject<State>(JsonConvert.SerializeObject(json));
+				State = JsonConvert.DeserializeObject<ConfigState>(JsonConvert.SerializeObject(json));
 
 			} catch (Exception e) {
 
 				// Load error, but continue with default state
-				App.errorLogger.Log(string.Format("Failed to load state: {0}\n{1}", e.Message, e.StackTrace));
+				App.ErrorLogger.Log(string.Format("Failed to load state: {0}\n{1}", e.Message, e.StackTrace));
 				ResetState();
 			}
 		}
@@ -58,13 +58,6 @@ namespace Taction {
 		public void ResetState() {
 
 			File.Delete(fileStatePath);
-		}
-
-		public class State {
-
-			public double x;
-			public double y;
-			public string fileDialogInitialDirectory;
 		}
 	}
 }

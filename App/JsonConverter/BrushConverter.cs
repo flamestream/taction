@@ -3,7 +3,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Windows;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 
 namespace Taction.JsonConverter {
 
@@ -38,7 +37,7 @@ namespace Taction.JsonConverter {
 					var source = json.Value<string>("source");
 
 					// Read from zip
-					var zip = ((App)App.Current).loadedZip;
+					var zip = ((App)App.Current).LoadedZip;
 					if (zip == null)
 						break;
 

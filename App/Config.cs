@@ -13,17 +13,17 @@ namespace Taction {
 		/// <summary>
 		/// Loaded config layout data.
 		/// </summary>
-		public Layout layout { get; private set; }
+		public ConfigLayout Layout { get; private set; }
 
 		/// <summary>
 		/// Loaded config state data.
 		/// </summary>
-		public State state { get; private set; }
+		public ConfigState State { get; private set; }
 
 		/// <summary>
 		/// Cached schema.
 		/// </summary>
-		public static JSchema layoutJsonSchema {
+		public static JSchema LayoutJsonSchema {
 			get {
 
 				if (_layoutJsonSchema == null)
@@ -38,8 +38,8 @@ namespace Taction {
 		/// </summary>
 		public Config() {
 
-			layout = new Layout();
-			state = new State();
+			Layout = new ConfigLayout();
+			State = new ConfigState();
 		}
 
 		public void Save() {
@@ -49,7 +49,7 @@ namespace Taction {
 				JsonSerializer serializer = new JsonSerializer {
 					Formatting = Formatting.Indented
 				};
-				serializer.Serialize(file, this.state);
+				serializer.Serialize(file, State);
 			}
 		}
 

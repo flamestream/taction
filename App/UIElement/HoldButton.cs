@@ -17,7 +17,7 @@ namespace Taction.UIElement {
 
 			var s = (HoldButtonSpecs)specs;
 
-			this.KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
+			 KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
 		}
 
 		protected override void OnTouchDown(TouchEventArgs e) {
@@ -25,25 +25,25 @@ namespace Taction.UIElement {
 			base.OnTouchDown(e);
 
 			// Style change
-			this.FontWeight = FontWeights.Bold;
+			 FontWeight = FontWeights.Bold;
 
 			// Set activation flag
-			this.Tag = true;
+			 Tag = true;
 
-			App.inputSimulator.SimulateKeyDown(this.KeyCommand);
+			App.InputSimulator.SimulateKeyDown( KeyCommand);
 		}
 
 		protected override void OnTouchLeave(TouchEventArgs e) {
 
 			// Activation flag check
 			// @NOTE Needed because TouchLeave can be triggered without TouchDown
-			if (this.Tag == null) return;
-			this.Tag = null;
+			if ( Tag == null) return;
+			 Tag = null;
 
 			// Style change
-			this.FontWeight = FontWeights.Normal;
+			 FontWeight = FontWeights.Normal;
 
-			App.inputSimulator.SimulateKeyUp(this.KeyCommand);
+			App.InputSimulator.SimulateKeyUp( KeyCommand);
 		}
 
 	}

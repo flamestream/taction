@@ -17,9 +17,9 @@ namespace Taction {
 			public EventSource source;
 		}
 
-		private App app => (App)Application.Current;
-		private bool isInAppBoundaries;
-		private IntPtr hookId = IntPtr.Zero;
+		private App App => (App)Application.Current;
+		private bool _isInAppBoundaries;
+		private IntPtr HookId = IntPtr.Zero;
 		private WinApi.HookProc HookProcDelegate;
 
 		public delegate void GlobalMouseEventHandler(object sender, EventArgs args);
@@ -35,28 +35,28 @@ namespace Taction {
 		public void Enable() {
 
 			// Already hooked check
-			if (hookId != IntPtr.Zero)
+			if (HookId != IntPtr.Zero)
 				return;
 
 			using (Process curProcess = Process.GetCurrentProcess())
 			using (ProcessModule curModule = curProcess.MainModule) {
-				hookId = WinApi.SetWindowsHookEx(WinApi.HookType.WH_MOUSE_LL, HookProcDelegate, WinApi.GetModuleHandle(curModule.ModuleName), 0);
+				HookId = WinApi.SetWindowsHookEx(WinApi.HookType.WH_MOUSE_LL, HookProcDelegate, WinApi.GetModuleHandle(curModule.ModuleName), 0);
 			}
 		}
 
 		public void Disable() {
 
 			// Hooked check
-			if (hookId == IntPtr.Zero)
+			if (HookId == IntPtr.Zero)
 				return;
 
-			WinApi.UnhookWindowsHookEx(hookId);
-			hookId = IntPtr.Zero;
+			WinApi.UnhookWindowsHookEx(HookId);
+			HookId = IntPtr.Zero;
 		}
 
 		private bool IsInAppBoundaries(Point screenCoords) {
 
-			var appWindow = app.MainWindow;
+			var appWindow = App.MainWindow;
 			if (appWindow == null)
 				return false;
 
@@ -108,7 +108,7 @@ namespace Taction {
 
 				// Boundary check
 				var isNowInAppBoundaries = IsInAppBoundaries(coords);
-				if (isInAppBoundaries && !isNowInAppBoundaries) {
+				if (_isInAppBoundaries && !isNowInAppBoundaries) {
 
 					EventSource source = GetMouseEventSource(hookStruct);
 					OnMouseLeaveBoundaries.Invoke(null, new EventArgs {
@@ -116,10 +116,10 @@ namespace Taction {
 					});
 				}
 
-				isInAppBoundaries = isNowInAppBoundaries;
+				_isInAppBoundaries = isNowInAppBoundaries;
 			}
 
-			return WinApi.CallNextHookEx(hookId, code, wParam, lParam);
+			return WinApi.CallNextHookEx(HookId, code, wParam, lParam);
 		}
 
 		public void Dispose() {

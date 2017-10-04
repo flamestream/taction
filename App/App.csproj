@@ -79,6 +79,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Config.cs" />
+    <Compile Include="ConfigLayout.cs" />
+    <Compile Include="ConfigState.cs" />
     <Compile Include="JsonConverter\ThicknessConverter.cs" />
     <Compile Include="Config.Layout.cs" />
     <Compile Include="JsonConverter\FontFamilyConverter.cs" />

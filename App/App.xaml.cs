@@ -66,13 +66,13 @@ namespace Taction {
 
 		#endregion -- Static Properties --
 
-		internal Config config;
-		internal ErrorLogger errorLogger;
-		internal MainPanel panel => (MainPanel)MainWindow;
-		internal TaskbarIcon notificationIcon { get; private set; }
-		internal GlobalMouseHook globalMouseHook { get; private set; }
-		internal InputSimulatorHelper inputSimulator { get; set; }
-		internal ZipArchive loadedZip { set; get; }
+		internal Config Config;
+		internal ErrorLogger ErrorLogger;
+		internal MainPanel MainPanel => (MainPanel)MainWindow;
+		internal TaskbarIcon NotificationIcon { get; private set; }
+		internal GlobalMouseHook GlobalMouseHook { get; private set; }
+		internal InputSimulatorHelper InputSimulator { get; set; }
+		internal ZipArchive LoadedZip { set; get; }
 
 		protected override void OnStartup(StartupEventArgs e) {
 
@@ -82,38 +82,38 @@ namespace Taction {
 			Directory.CreateDirectory(AppDataDir);
 
 			// Initialize basic stuff
-			globalMouseHook = new GlobalMouseHook();
-			inputSimulator = new InputSimulatorHelper();
-			config = new Config();
-			errorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
+			GlobalMouseHook = new GlobalMouseHook();
+			InputSimulator = new InputSimulatorHelper();
+			Config = new Config();
+			ErrorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
 
 			// Setup Notification icon
 			{
 				var res = new ResourceDictionary {
 					Source = new Uri(@"pack://application:,,,/NotificationIcon.xaml")
 				};
-				notificationIcon = (TaskbarIcon)res["Definition"];
+				NotificationIcon = (TaskbarIcon)res["Definition"];
 			}
 
-			config.LoadState();
+			Config.LoadState();
 			LoadSavedLayout(true);
 		}
 
 		protected override void OnExit(ExitEventArgs e) {
 
-			globalMouseHook.Dispose();
+			GlobalMouseHook.Dispose();
 		}
 
 		public void ToggleEnable() {
 
-			if (panel.Visibility == Visibility.Visible) {
+			if (MainPanel.Visibility == Visibility.Visible) {
 
-				panel.Visibility = Visibility.Hidden;
-				globalMouseHook.Disable();
+				MainPanel.Visibility = Visibility.Hidden;
+				GlobalMouseHook.Disable();
 
 			} else {
 
-				panel.Visibility = Visibility.Visible;
+				MainPanel.Visibility = Visibility.Visible;
 			}
 		}
 
@@ -128,7 +128,7 @@ namespace Taction {
 			if (clickHandler != null)
 				toast.Click += clickHandler;
 
-			notificationIcon.ShowCustomBalloon(toast, PopupAnimation.Fade, NotificationToastCloseDelayTime);
+			NotificationIcon.ShowCustomBalloon(toast, PopupAnimation.Fade, NotificationToastCloseDelayTime);
 		}
 
 		public void ShowErrorToast(string body, string title = null) {
@@ -143,11 +143,11 @@ namespace Taction {
 
 		public void MoveTo(double x, double y) {
 
-			panel.Left = x;
-			panel.Top = y;
-			WindowManipulator.FitToNearestDesktop(panel);
+			MainPanel.Left = x;
+			MainPanel.Top = y;
+			WindowManipulator.FitToNearestDesktop(MainPanel);
 
-			config.Save();
+			Config.Save();
 		}
 
 		public void LoadDefaultLayout(bool prompt = false) {
@@ -155,7 +155,7 @@ namespace Taction {
 			if (prompt) {
 
 				var res = MessageBox.Show(
-					panel,
+					MainPanel,
 					"This will reset your current layout.",
 					Taction.Properties.Resources.AppName,
 					MessageBoxButton.OKCancel,
@@ -171,11 +171,11 @@ namespace Taction {
 			var json = JObject.Parse(text);
 
 			// Load and validate
-			this.config.LoadLayout(json);
+			Config.LoadLayout(json);
 
 			// Update UI
-			if (this.panel != null)
-				this.panel.ReloadLayout();
+			if (MainPanel != null)
+				MainPanel.ReloadLayout();
 
 			// Persist for later
 			File.WriteAllText(Config.FileLayoutPath, text, encoding);
@@ -183,7 +183,7 @@ namespace Taction {
 
 		public void PromptLoadLayout() {
 
-			var initialDir = config.state.fileDialogInitialDirectory;
+			var initialDir = Config.State.fileDialogInitialDirectory;
 			if (initialDir == null || !Directory.Exists(initialDir))
 				initialDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
@@ -198,8 +198,8 @@ namespace Taction {
 			if (openFileDialog.ShowDialog(Application.Current.MainWindow) != true)
 				return;
 
-			config.state.fileDialogInitialDirectory = Path.GetDirectoryName(openFileDialog.FileName);
-			config.Save();
+			Config.State.fileDialogInitialDirectory = Path.GetDirectoryName(openFileDialog.FileName);
+			Config.Save();
 
 			LoadLayout(openFileDialog.FileName);
 		}
@@ -216,11 +216,11 @@ namespace Taction {
 
 				try {
 
-					config.LoadLayout(targetFile);
+					Config.LoadLayout(targetFile);
 
 				} catch (Exception e) {
 
-					errorLogger.Log(e.ToString());
+					ErrorLogger.Log(e.ToString());
 					LoadDefaultLayout();
 
 					var backupFile = targetFile + ".bak";
@@ -246,10 +246,10 @@ namespace Taction {
 			try {
 
 				// Load and validate
-				this.config.LoadLayout(path);
+				Config.LoadLayout(path);
 
 				// Update UI
-				this.panel.ReloadLayout();
+				MainPanel.ReloadLayout();
 
 				// Remove previous file(s)
 				File.Delete(Config.FileLayoutPath);
@@ -281,8 +281,8 @@ namespace Taction {
 
 				var msg = errSummary + Environment.NewLine + errDetails;
 
-				this.errorLogger.Log(msg);
-				this.ShowErrorToast(errSummary);
+				ErrorLogger.Log(msg);
+				ShowErrorToast(errSummary);
 			}
 		}
 	}

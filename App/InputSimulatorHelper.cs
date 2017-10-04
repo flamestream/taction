@@ -23,11 +23,11 @@ namespace Taction {
 			VirtualKeyCode.RWIN
 		};
 
-		private InputSimulator inputSimulator;
+		private InputSimulator InputSimulatorInstance;
 
 		public InputSimulatorHelper() {
 
-			inputSimulator = new InputSimulator();
+			InputSimulatorInstance = new InputSimulator();
 		}
 
 		/// <summary>
@@ -47,7 +47,7 @@ namespace Taction {
 			var normalKeyCodes = keyCodes.Except(modifierKeyCodes);
 
 			Debug.WriteLine(string.Format("KEY PRESS {0}", string.Join("+", keyCodes)));
-			inputSimulator.Keyboard.ModifiedKeyStroke(modifierKeyCodes, normalKeyCodes);
+			InputSimulatorInstance.Keyboard.ModifiedKeyStroke(modifierKeyCodes, normalKeyCodes);
 		}
 
 		/// <summary>
@@ -66,7 +66,7 @@ namespace Taction {
 			foreach (var keyCode in keyCodes) {
 
 				Debug.WriteLine(string.Format("KEY DOWN {0}", keyCode));
-				inputSimulator.Keyboard.KeyDown(keyCode);
+				InputSimulatorInstance.Keyboard.KeyDown(keyCode);
 			}
 		}
 
@@ -88,7 +88,7 @@ namespace Taction {
 
 				var keyCode = keyCodes[i];
 				Debug.WriteLine(string.Format("KEY UP {0}", keyCode));
-				inputSimulator.Keyboard.KeyUp(keyCode);
+				InputSimulatorInstance.Keyboard.KeyUp(keyCode);
 			}
 		}
 

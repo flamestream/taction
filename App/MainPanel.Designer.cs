@@ -13,14 +13,14 @@ namespace Taction {
 
 			public static void GenerateLayout(MainPanel window) {
 
-				var config = ((App)App.Current).config;
+				var config = ((App)App.Current).Config;
 
-				var layoutData = config.layout;
-				var stateData = config.state;
+				var layoutData = config.Layout;
+				var stateData = config.State;
 
 				// Prepare intent
 				var panel = new StackPanel {
-					Orientation = config.layout.orientation
+					Orientation = config.Layout.orientation
 				};
 				ProcessLayout(layoutData.items, panel);
 
@@ -53,7 +53,7 @@ namespace Taction {
 
 					var specsType = specs.GetType();
 					var attr = (AssociatedClassAttribute)specsType.GetCustomAttributes(typeof(AssociatedClassAttribute), true)[0];
-					var itemType = attr.value;
+					var itemType = attr.Value;
 					var item = (FrameworkElement)Activator.CreateInstance(itemType, specs);
 
 					// Set size
