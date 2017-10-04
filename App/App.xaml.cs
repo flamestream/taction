@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using Taction.UIElement;
@@ -71,6 +72,7 @@ namespace Taction {
 		internal TaskbarIcon notificationIcon { get; private set; }
 		internal GlobalMouseHook globalMouseHook { get; private set; }
 		internal InputSimulatorHelper inputSimulator { get; set; }
+		internal ZipArchive loadedZip { set; get; }
 
 		protected override void OnStartup(StartupEventArgs e) {
 

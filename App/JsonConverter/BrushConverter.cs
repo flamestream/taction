@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Taction.JsonConverter {
 
@@ -34,10 +35,24 @@ namespace Taction.JsonConverter {
 
 					var stretch = json.Value<string>("stretch");
 					var tile = json.Value<string>("tile");
+					var source = json.Value<string>("source");
+
+					// Read from zip
+					var zip = ((App)App.Current).loadedZip;
+					if (zip == null)
+						break;
+
+					var entry = zip.GetEntry(source);
+					if (entry == null)
+						break;
+
+					var stream = entry.Open();
+					// Create source
 
 					o = new ImageBrush {
 						Stretch = GetStretch(stretch),
-						TileMode = GetTileMode(tile)
+						TileMode = GetTileMode(tile),
+						//ImageSource = stream,
 					};
 					break;
 
