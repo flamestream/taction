@@ -39,8 +39,8 @@ namespace Taction {
 				window.container.Children.Add(panel);
 
 				// Set position
-				window.Left = stateData.x;
-				window.Top = stateData.y;
+				window.Left = stateData.X;
+				window.Top = stateData.Y;
 			}
 
 			private static void ProcessLayout(List<IPanelItemSpecs> specsList, StackPanel currentPanel) {

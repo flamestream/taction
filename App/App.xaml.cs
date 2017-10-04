@@ -133,7 +133,7 @@ namespace Taction {
 
 		public void PromptLoadLayout() {
 
-			var initialDir = Config.State.fileDialogInitialDirectory;
+			var initialDir = Config.State.FileDialogInitialDirectory;
 			if (initialDir == null || !Directory.Exists(initialDir))
 				initialDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
@@ -148,7 +148,7 @@ namespace Taction {
 			if (openFileDialog.ShowDialog(Application.Current.MainWindow) != true)
 				return;
 
-			Config.State.fileDialogInitialDirectory = Path.GetDirectoryName(openFileDialog.FileName);
+			Config.State.FileDialogInitialDirectory = Path.GetDirectoryName(openFileDialog.FileName);
 			Config.Save();
 
 			LoadLayout(openFileDialog.FileName);

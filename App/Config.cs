@@ -13,19 +13,9 @@ namespace Taction {
 
 		private static JSchema _layoutJsonSchema;
 
-		/// <summary>
-		/// Loaded config layout data.
-		/// </summary>
 		public ConfigLayout Layout { get; private set; }
-
-		/// <summary>
-		/// Loaded config state data.
-		/// </summary>
 		public ConfigState State { get; private set; }
 
-		/// <summary>
-		/// Cached schema.
-		/// </summary>
 		public static JSchema LayoutJsonSchema {
 			get {
 
@@ -36,9 +26,6 @@ namespace Taction {
 			}
 		}
 
-		/// <summary>
-		/// Use Load instead.
-		/// </summary>
 		public Config() {
 
 			Layout = new ConfigLayout();
@@ -96,7 +83,6 @@ namespace Taction {
 
 				throw new FileFormatException(string.Format("Unsupported format {0}", ext));
 			}
-
 		}
 
 		public void LoadLayout(JObject json) {

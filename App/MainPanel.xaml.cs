@@ -128,8 +128,8 @@ namespace Taction {
 		private void HandleExitSizeMove(object sender, EventArgs e) {
 
 			WindowManipulator.FitToNearestDesktop(this);
-			Config.State.x = Left;
-			Config.State.y = Top;
+			Config.State.X = Left;
+			Config.State.Y = Top;
 			Config.Save();
 			Debug.WriteLine(string.Format("{0}, {1}", Left, Top));
 		}
