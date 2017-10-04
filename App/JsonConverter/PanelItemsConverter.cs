@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using static Taction.Config;
 
 namespace Taction.JsonConverter {
 

@@ -82,7 +82,7 @@
     <Compile Include="ConfigLayout.cs" />
     <Compile Include="ConfigState.cs" />
     <Compile Include="JsonConverter\ThicknessConverter.cs" />
-    <Compile Include="ValueRegistry.cs" />
+    <Compile Include="App.ValueRegistry.cs" />
     <Compile Include="JsonConverter\FontFamilyConverter.cs" />
     <Compile Include="JsonConverter\BrushConverter.cs" />
     <Compile Include="JsonConverter\OrientationConverter.cs" />

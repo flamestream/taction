@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Taction.Attribute;
-using static Taction.Config;
 
 namespace Taction {
 
