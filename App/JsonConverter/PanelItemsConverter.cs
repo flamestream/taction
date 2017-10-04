@@ -28,7 +28,7 @@ namespace Taction.JsonConverter {
 			if (reader.TokenType == JsonToken.StartArray) {
 
 				// Use getter once
-				var stringVsPanelItemSpecs = StringVsPanelItemSpecs;
+				var stringVsPanelItemSpecs = App.StringVsPanelItemSpecs;
 
 				List<JObject> jsonArray = serializer.Deserialize<List<JObject>>(reader);
 				foreach (var item in jsonArray) {

@@ -16,56 +16,6 @@ namespace Taction {
 	/// </summary>
 	public partial class App : Application {
 
-		#region -- Application Settings/Constants --
-
-		internal const int NotificationToastCloseDelayTime = 5000;
-		internal const int NotificationToastSecondaryCloseDelayTime = 500;
-		internal const int MaxErrorLogSize = 2 * 1024;
-		internal const int ErrorLogTrimLineCount = 500;
-
-		#endregion -- Application Settings/Constants --
-
-		#region -- Static Properties --
-
-		private static string _AppDataDir;
-		private static string _ErrorFilePath;
-
-		/// <summary>
-		/// Cached app data directory
-		/// </summary>
-		public static string AppDataDir {
-			get {
-				if (_AppDataDir == null) {
-
-					_AppDataDir = string.Format(@"{0}\{1}",
-						Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-						Taction.Properties.Resources.AppName
-					);
-				}
-
-				return _AppDataDir;
-			}
-		}
-
-		/// <summary>
-		/// Cached error file path of the config file.
-		/// </summary>
-		public static string ErrorFilePath {
-			get {
-				if (_ErrorFilePath == null) {
-
-					_ErrorFilePath = string.Format(@"{0}\{1}",
-						App.AppDataDir,
-						Taction.Properties.Resources.ConfigErrorFileName
-					);
-				}
-
-				return _ErrorFilePath;
-			}
-		}
-
-		#endregion -- Static Properties --
-
 		internal Config Config;
 		internal ErrorLogger ErrorLogger;
 		internal MainPanel MainPanel => (MainPanel)MainWindow;
@@ -178,7 +128,7 @@ namespace Taction {
 				MainPanel.ReloadLayout();
 
 			// Persist for later
-			File.WriteAllText(Config.FileLayoutPath, text, encoding);
+			File.WriteAllText(App.FileLayoutPath, text, encoding);
 		}
 
 		public void PromptLoadLayout() {
@@ -206,10 +156,10 @@ namespace Taction {
 
 		public void LoadSavedLayout(bool useFallback = false) {
 
-			string targetFile = (File.Exists(Config.FileBundlePath)) ?
-				Config.FileBundlePath :
-				(File.Exists(Config.FileLayoutPath)) ?
-					Config.FileLayoutPath :
+			string targetFile = (File.Exists(App.FileBundlePath)) ?
+				App.FileBundlePath :
+				(File.Exists(App.FileLayoutPath)) ?
+					App.FileLayoutPath :
 					null;
 
 			if (targetFile != null) {
@@ -252,13 +202,13 @@ namespace Taction {
 				MainPanel.ReloadLayout();
 
 				// Remove previous file(s)
-				File.Delete(Config.FileLayoutPath);
-				File.Delete(Config.FileBundlePath);
+				File.Delete(App.FileLayoutPath);
+				File.Delete(App.FileBundlePath);
 
 				// Persist for resume
 				var targetFile = (Path.GetExtension(path) == Taction.Properties.Resources.ConfigBundleFileExtension) ?
-					Config.FileBundlePath :
-					Config.FileLayoutPath;
+					App.FileBundlePath :
+					App.FileLayoutPath;
 
 				File.Copy(path, targetFile, true);
 

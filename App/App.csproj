@@ -82,12 +82,11 @@
     <Compile Include="ConfigLayout.cs" />
     <Compile Include="ConfigState.cs" />
     <Compile Include="JsonConverter\ThicknessConverter.cs" />
-    <Compile Include="Config.Layout.cs" />
+    <Compile Include="ValueRegistry.cs" />
     <Compile Include="JsonConverter\FontFamilyConverter.cs" />
     <Compile Include="JsonConverter\BrushConverter.cs" />
     <Compile Include="JsonConverter\OrientationConverter.cs" />
     <Compile Include="JsonConverter\PanelItemsConverter.cs" />
-    <Compile Include="Config.State.cs" />
     <Compile Include="UIElement\NotificationToast.xaml.cs">
       <DependentUpon>NotificationToast.xaml</DependentUpon>
     </Compile>

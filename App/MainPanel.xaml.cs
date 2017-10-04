@@ -11,8 +11,7 @@ namespace Taction {
 	/// </summary>
 	public partial class MainPanel : Window {
 
-		private App App => (App)Application.Current;
-		private Config Config => App.Config;
+		private Config Config => App.Instance.Config;
 
 		private bool IsPassthrough { get; set; }
 		private WindowEventNotifier WindowEventMessenger { get; set; }
@@ -25,7 +24,7 @@ namespace Taction {
 
 			// Add event handlers
 			SizeChanged += HandleSizeChanged;
-			App.GlobalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
+			App.Instance.GlobalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
 			WindowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
 
 			ReloadLayout();
@@ -69,7 +68,7 @@ namespace Taction {
 
 				WinApi.SetWindowExTransparent(this, true);
 				IsPassthrough = true;
-				App.GlobalMouseHook.Enable();
+				App.Instance.GlobalMouseHook.Enable();
 
 				if (!Config.Layout.disableFadeAnimation)
 					PlayFadeAnimation(opacity, Config.Layout.opacity);
@@ -122,7 +121,7 @@ namespace Taction {
 
 		private void HandleMouseLeaveBoundaries(object sender, GlobalMouseHook.EventArgs e) {
 
-			App.GlobalMouseHook.Disable();
+			App.Instance.GlobalMouseHook.Disable();
 			SetPassthrough(false);
 		}
 

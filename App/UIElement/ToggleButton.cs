@@ -10,7 +10,6 @@ namespace Taction.UIElement {
 	/// </summary>
 	internal class ToggleButton : System.Windows.Controls.Primitives.ToggleButton {
 
-		private App App => (App)Application.Current;
 		internal KeyCommand KeyCommand { set; get; }
 
 		public ToggleButton(IPanelItemSpecs specs) {
@@ -27,13 +26,13 @@ namespace Taction.UIElement {
 		protected void HandleChecked(Object sender, RoutedEventArgs e) {
 
 			 FontWeight = FontWeights.Bold;
-			App.InputSimulator.SimulateKeyDown(KeyCommand);
+			App.Instance.InputSimulator.SimulateKeyDown(KeyCommand);
 		}
 
 		protected void HandleUnchecked(Object sender, RoutedEventArgs e) {
 
 			 FontWeight = FontWeights.Normal;
-			App.InputSimulator.SimulateKeyUp(KeyCommand);
+			App.Instance.InputSimulator.SimulateKeyUp(KeyCommand);
 		}
 	}
 }

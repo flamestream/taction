@@ -10,7 +10,6 @@ namespace Taction.UIElement {
 	/// </summary>
 	internal class HoldButton : Button {
 
-		private App App => (App)Application.Current;
 		internal KeyCommand KeyCommand { set; get; }
 
 		public HoldButton(IPanelItemSpecs specs) {
@@ -30,7 +29,7 @@ namespace Taction.UIElement {
 			// Set activation flag
 			 Tag = true;
 
-			App.InputSimulator.SimulateKeyDown( KeyCommand);
+			App.Instance.InputSimulator.SimulateKeyDown( KeyCommand);
 		}
 
 		protected override void OnTouchLeave(TouchEventArgs e) {
@@ -43,7 +42,7 @@ namespace Taction.UIElement {
 			// Style change
 			 FontWeight = FontWeights.Normal;
 
-			App.InputSimulator.SimulateKeyUp( KeyCommand);
+			App.Instance.InputSimulator.SimulateKeyUp( KeyCommand);
 		}
 
 	}

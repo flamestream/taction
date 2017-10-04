@@ -17,7 +17,6 @@ namespace Taction {
 			public EventSource source;
 		}
 
-		private App App => (App)Application.Current;
 		private bool _isInAppBoundaries;
 		private IntPtr HookId = IntPtr.Zero;
 		private WinApi.HookProc HookProcDelegate;
@@ -56,7 +55,7 @@ namespace Taction {
 
 		private bool IsInAppBoundaries(Point screenCoords) {
 
-			var appWindow = App.MainWindow;
+			var appWindow = App.Instance.MainWindow;
 			if (appWindow == null)
 				return false;
 

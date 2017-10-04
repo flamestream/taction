@@ -11,7 +11,6 @@ namespace Taction.UIElement {
 	/// </summary>
 	internal class TapButton : Button {
 
-		private App App => (App)Application.Current;
 		internal KeyCommand KeyCommand { set; get; }
 
 		public TapButton(IPanelItemSpecs specs) {
@@ -34,7 +33,7 @@ namespace Taction.UIElement {
 			if ( KeyCommand == null)
 				return;
 
-			App.InputSimulator.SimulateKeyPress(KeyCommand);
+			App.Instance.InputSimulator.SimulateKeyPress(KeyCommand);
 
 			await Task.Delay(100);
 
