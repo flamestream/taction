@@ -16,22 +16,22 @@ namespace Taction.UIElement {
 
 			var s = (ToggleButtonSpecs)specs;
 
-			 KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
+			KeyCommand = s.KeyCommand;
 
 			// Event binding
-			 Checked += HandleChecked;
-			 Unchecked += HandleUnchecked;
+			Checked += HandleChecked;
+			Unchecked += HandleUnchecked;
 		}
 
 		protected void HandleChecked(Object sender, RoutedEventArgs e) {
 
-			 FontWeight = FontWeights.Bold;
+			FontWeight = FontWeights.Bold;
 			App.Instance.InputSimulator.SimulateKeyDown(KeyCommand);
 		}
 
 		protected void HandleUnchecked(Object sender, RoutedEventArgs e) {
 
-			 FontWeight = FontWeights.Normal;
+			FontWeight = FontWeights.Normal;
 			App.Instance.InputSimulator.SimulateKeyUp(KeyCommand);
 		}
 	}

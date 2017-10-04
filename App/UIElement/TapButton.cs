@@ -17,7 +17,7 @@ namespace Taction.UIElement {
 
 			var s = (TapButtonSpecs)specs;
 
-			 KeyCommand = InputSimulatorHelper.ParseKeyCommand(s.keyCommand);
+			KeyCommand = s.KeyCommand;
 		}
 
 		protected override async void OnTouchDown(TouchEventArgs e) {
@@ -25,12 +25,12 @@ namespace Taction.UIElement {
 			base.OnTouchDown(e);
 
 			// Style change
-			 FontWeight = FontWeights.Bold;
+			FontWeight = FontWeights.Bold;
 
 			// Set activation flag
-			 Tag = true;
+			Tag = true;
 
-			if ( KeyCommand == null)
+			if (KeyCommand == null)
 				return;
 
 			App.Instance.InputSimulator.SimulateKeyPress(KeyCommand);
@@ -38,7 +38,7 @@ namespace Taction.UIElement {
 			await Task.Delay(100);
 
 			// Style change
-			 FontWeight = FontWeights.Normal;
+			FontWeight = FontWeights.Normal;
 		}
 	}
 }

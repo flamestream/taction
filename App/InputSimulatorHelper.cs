@@ -39,7 +39,7 @@ namespace Taction {
 			if (keyCommand == null)
 				return;
 
-			var keyCodes = keyCommand.keyCodes;
+			var keyCodes = keyCommand.KeyCodes;
 			if (keyCodes == null)
 				return;
 
@@ -59,7 +59,7 @@ namespace Taction {
 			if (keyCommand == null)
 				return;
 
-			var keyCodes = keyCommand.keyCodes;
+			var keyCodes = keyCommand.KeyCodes;
 			if (keyCodes == null)
 				return;
 
@@ -80,7 +80,7 @@ namespace Taction {
 			if (keyCommand == null)
 				return;
 
-			var keyCodes = keyCommand.keyCodes;
+			var keyCodes = keyCommand.KeyCodes;
 			if (keyCodes == null)
 				return;
 
@@ -91,38 +91,5 @@ namespace Taction {
 				InputSimulatorInstance.Keyboard.KeyUp(keyCode);
 			}
 		}
-
-		/// <summary>
-		/// Parse key comamand.
-		/// Throws if format is invalid.
-		/// </summary>
-		/// <param name="keyCommand">User-inputted key command</param>
-		/// <returns>
-		/// A KeyCommand object, or null if invalid.
-		/// </returns>
-		public static KeyCommand ParseKeyCommand(string keyCommand) {
-
-			var keyCodes = new List<VirtualKeyCode>();
-			var keyIds = keyCommand.Split(' ');
-
-			foreach (var keyId in keyIds) {
-
-				// Valid Key ID check
-				var enumType = typeof(VirtualKeyCode);
-				if (!Enum.IsDefined(enumType, keyId))
-					return null;
-
-				var virtualKeyCode = (VirtualKeyCode)Enum.Parse(enumType, keyId);
-				keyCodes.Add(virtualKeyCode);
-			}
-
-			return new KeyCommand {
-				keyCodes = keyCodes
-			};
-		}
-	}
-
-	internal class KeyCommand {
-		public List<VirtualKeyCode> keyCodes;
 	}
 }

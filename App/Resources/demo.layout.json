@@ -46,7 +46,7 @@
 	}, {
 		"type": "hold",
 		"size": 75,
-		"command": "I",
+		"command": "VK_I",
 		"text": {
 			"value": "Eyedropper (I)",
 		},

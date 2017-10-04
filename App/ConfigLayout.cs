@@ -4,6 +4,7 @@ using System.ComponentModel;
 using Taction.Attribute;
 using Taction.JsonConverter;
 using Taction.UIElement;
+using WindowsInput.Native;
 
 namespace Taction {
 
@@ -18,7 +19,7 @@ namespace Taction {
 
 		public int size { get; set; }
 
-		[JsonConverter(typeof(PanelItemsConverter))]
+		[JsonConverter(typeof(PanelItemListConverter))]
 		public List<IPanelItemSpecs> items { get; set; }
 
 		[JsonConverter(typeof(OrientationConverter))]
@@ -78,7 +79,8 @@ namespace Taction {
 	public interface ICommandButtonSpecs : IButtonSpecs {
 
 		[JsonProperty("command")]
-		string keyCommand { get; set; }
+		[JsonConverter(typeof(KeyCommandListConverter))]
+		KeyCommand KeyCommand { get; set; }
 	}
 
 	[AssociatedClass(typeof(StackPanel))]
@@ -87,7 +89,7 @@ namespace Taction {
 
 		public int size { get; set; }
 
-		[JsonConverter(typeof(PanelItemsConverter))]
+		[JsonConverter(typeof(PanelItemListConverter))]
 		public List<IPanelItemSpecs> items { get; set; }
 	}
 
@@ -98,8 +100,8 @@ namespace Taction {
 		public int size { get; set; }
 		public TextSpecs text { get; set; }
 		public BorderSpecs border { get; set; }
-		public string keyCommand { get; set; }
 		public System.Windows.Media.Brush color { get; set; }
+		public KeyCommand KeyCommand { get; set; }
 	}
 
 	[AssociatedClass(typeof(TapButton))]
@@ -109,12 +111,8 @@ namespace Taction {
 		public int size { get; set; }
 		public TextSpecs text { get; set; }
 		public BorderSpecs border { get; set; }
-
-		[JsonProperty("command")]
-		public string keyCommand { get; set; }
-
-		[JsonConverter(typeof(BrushConverter))]
 		public System.Windows.Media.Brush color { get; set; }
+		public KeyCommand KeyCommand { get; set; }
 	}
 
 	[AssociatedClass(typeof(ToggleButton))]
@@ -124,12 +122,8 @@ namespace Taction {
 		public int size { get; set; }
 		public TextSpecs text { get; set; }
 		public BorderSpecs border { get; set; }
-
-		[JsonProperty("command")]
-		public string keyCommand { get; set; }
-
-		[JsonConverter(typeof(BrushConverter))]
 		public System.Windows.Media.Brush color { get; set; }
+		public KeyCommand KeyCommand { get; set; }
 	}
 
 	[AssociatedClass(typeof(MoveButton))]
@@ -139,8 +133,6 @@ namespace Taction {
 		public int size { get; set; }
 		public TextSpecs text { get; set; }
 		public BorderSpecs border { get; set; }
-
-		[JsonConverter(typeof(BrushConverter))]
 		public System.Windows.Media.Brush color { get; set; }
 	}
 

@@ -37,7 +37,7 @@ namespace Taction.JsonConverter {
 					var source = json.Value<string>("source");
 
 					// Read from zip
-					var zip = ((App)App.Current).LoadedZip;
+					var zip = App.Instance.LoadedZip;
 					if (zip == null)
 						break;
 

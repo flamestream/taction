@@ -12,7 +12,7 @@ namespace Taction {
 
 			public static void GenerateLayout(MainPanel window) {
 
-				var config = ((App)App.Current).Config;
+				var config = App.Instance.Config;
 
 				var layoutData = config.Layout;
 				var stateData = config.State;
