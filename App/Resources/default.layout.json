@@ -1,10 +1,10 @@
 {
 	"version": 2,
 	"opacity": 0.9,
-	"opacityHide": 0.1,
-	"disableHide": false,
-	"fadeAnimationTime": 500,
-	"disableFadeAnimation": false,
+	"opacity-hide": 0.1,
+	"disable-hide": false,
+	"fade-animation-time": 500,
+	"disable-fade-animation": false,
 	"size": 80,
 	"orientation": "vertical",
 	"items": [{

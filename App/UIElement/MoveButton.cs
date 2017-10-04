@@ -11,7 +11,7 @@ namespace Taction.UIElement {
 
 			// Special default text
 			if (Content == null)
-				Content = "==";
+				Content = "☰☰";
 
 			// Set behaviours
 			Style style = new Style();

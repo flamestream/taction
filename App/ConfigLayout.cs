@@ -4,7 +4,6 @@ using System.ComponentModel;
 using Taction.Attribute;
 using Taction.JsonConverter;
 using Taction.UIElement;
-using WindowsInput.Native;
 
 namespace Taction {
 
@@ -17,17 +16,20 @@ namespace Taction {
 		private float _opacityHide;
 		private uint _fadeAnimationTime;
 
-		public int size { get; set; }
+		[JsonProperty("size")]
+		public int Size { get; set; }
 
+		[JsonProperty("items")]
 		[JsonConverter(typeof(PanelItemListConverter))]
-		public List<IPanelItemSpecs> items { get; set; }
+		public List<IPanelItemSpecs> Items { get; set; }
 
+		[JsonProperty("orientation")]
 		[JsonConverter(typeof(OrientationConverter))]
-		public System.Windows.Controls.Orientation orientation { get; set; }
+		public System.Windows.Controls.Orientation Orientation { get; set; }
 
 		[DefaultValue(1)]
-		[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-		public float opacity {
+		[JsonProperty("opacity", DefaultValueHandling = DefaultValueHandling.Populate)]
+		public float Opacity {
 			get => _opacity;
 			set {
 				if (value < 0) value = 0;
@@ -37,8 +39,8 @@ namespace Taction {
 		}
 
 		[DefaultValue(0)]
-		[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-		public float opacityHide {
+		[JsonProperty("opacity-hide", DefaultValueHandling = DefaultValueHandling.Populate)]
+		public float OpacityHide {
 			get => _opacityHide;
 			set {
 				if (value < 0) value = 0;
@@ -47,11 +49,12 @@ namespace Taction {
 			}
 		}
 
-		public bool disableHide { get; set; }
+		[JsonProperty("disable-hide")]
+		public bool DisableHide { get; set; }
 
 		[DefaultValue(500)]
-		[JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
-		public uint fadeAnimationTime {
+		[JsonProperty("fade-animation-time", DefaultValueHandling = DefaultValueHandling.Populate)]
+		public uint FadeAnimationTime {
 			get => _fadeAnimationTime;
 			set {
 				if (value < 0) value = 0;
@@ -59,21 +62,27 @@ namespace Taction {
 			}
 		}
 
-		public bool disableFadeAnimation { get; set; }
+		[JsonProperty("disable-fade-animation")]
+		public bool DisableFadeAnimation { get; set; }
 	}
 
 	public interface IPanelItemSpecs {
 
-		int size { get; set; }
+		[JsonProperty("size")]
+		int Size { get; set; }
 	}
 
 	public interface IButtonSpecs : IPanelItemSpecs {
 
-		TextSpecs text { get; set; }
-		BorderSpecs border { get; set; }
+		[JsonProperty("text")]
+		TextSpecs Text { get; set; }
 
+		[JsonProperty("border")]
+		BorderSpecs Border { get; set; }
+
+		[JsonProperty("color")]
 		[JsonConverter(typeof(BrushConverter))]
-		System.Windows.Media.Brush color { get; set; }
+		System.Windows.Media.Brush Color { get; set; }
 	}
 
 	public interface ICommandButtonSpecs : IButtonSpecs {
@@ -87,20 +96,21 @@ namespace Taction {
 	[JsonStringTypeValue("pivot")]
 	public class PivotSpecs : IPanelItemSpecs {
 
-		public int size { get; set; }
+		public int Size { get; set; }
 
+		[JsonProperty("items")]
 		[JsonConverter(typeof(PanelItemListConverter))]
-		public List<IPanelItemSpecs> items { get; set; }
+		public List<IPanelItemSpecs> Items { get; set; }
 	}
 
 	[AssociatedClass(typeof(HoldButton))]
 	[JsonStringTypeValue("hold")]
 	public class HoldButtonSpecs : ICommandButtonSpecs {
 
-		public int size { get; set; }
-		public TextSpecs text { get; set; }
-		public BorderSpecs border { get; set; }
-		public System.Windows.Media.Brush color { get; set; }
+		public int Size { get; set; }
+		public TextSpecs Text { get; set; }
+		public BorderSpecs Border { get; set; }
+		public System.Windows.Media.Brush Color { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -108,10 +118,10 @@ namespace Taction {
 	[JsonStringTypeValue("tap")]
 	public class TapButtonSpecs : ICommandButtonSpecs {
 
-		public int size { get; set; }
-		public TextSpecs text { get; set; }
-		public BorderSpecs border { get; set; }
-		public System.Windows.Media.Brush color { get; set; }
+		public int Size { get; set; }
+		public TextSpecs Text { get; set; }
+		public BorderSpecs Border { get; set; }
+		public System.Windows.Media.Brush Color { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -119,10 +129,10 @@ namespace Taction {
 	[JsonStringTypeValue("toggle")]
 	public class ToggleButtonSpecs : ICommandButtonSpecs {
 
-		public int size { get; set; }
-		public TextSpecs text { get; set; }
-		public BorderSpecs border { get; set; }
-		public System.Windows.Media.Brush color { get; set; }
+		public int Size { get; set; }
+		public TextSpecs Text { get; set; }
+		public BorderSpecs Border { get; set; }
+		public System.Windows.Media.Brush Color { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -130,30 +140,37 @@ namespace Taction {
 	[JsonStringTypeValue("move")]
 	public class MoveButtonSpecs : IButtonSpecs {
 
-		public int size { get; set; }
-		public TextSpecs text { get; set; }
-		public BorderSpecs border { get; set; }
-		public System.Windows.Media.Brush color { get; set; }
+		public int Size { get; set; }
+		public TextSpecs Text { get; set; }
+		public BorderSpecs Border { get; set; }
+		public System.Windows.Media.Brush Color { get; set; }
 	}
 
 	public class TextSpecs {
 
-		public string value { get; set; }
-		public double size { get; set; }
+		[JsonProperty("value")]
+		public string Value { get; set; }
 
+		[JsonProperty("size")]
+		public double Size { get; set; }
+
+		[JsonProperty("color")]
 		[JsonConverter(typeof(BrushConverter))]
-		public System.Windows.Media.Brush color { get; set; }
+		public System.Windows.Media.Brush Color { get; set; }
 
+		[JsonProperty("font")]
 		[JsonConverter(typeof(FontFamilyConverter))]
-		public System.Windows.Media.FontFamily font { get; set; }
+		public System.Windows.Media.FontFamily Font { get; set; }
 	}
 
 	public class BorderSpecs {
 
+		[JsonProperty("color")]
 		[JsonConverter(typeof(BrushConverter))]
-		public System.Windows.Media.Brush color { get; set; }
+		public System.Windows.Media.Brush Color { get; set; }
 
+		[JsonProperty("thickness")]
 		[JsonConverter(typeof(ThicknessConverter))]
-		public System.Windows.Thickness thickness { get; set; }
+		public System.Windows.Thickness Thickness { get; set; }
 	}
 }

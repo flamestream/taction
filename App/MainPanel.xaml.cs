@@ -51,8 +51,8 @@ namespace Taction {
 		private void SetPassthrough(bool isWanted) {
 
 			float opacity = isWanted ?
-				Config.Layout.opacityHide :
-				Config.Layout.opacity;
+				Config.Layout.OpacityHide :
+				Config.Layout.Opacity;
 
 			SetPassthrough(isWanted, opacity);
 		}
@@ -70,8 +70,8 @@ namespace Taction {
 				IsPassthrough = true;
 				App.Instance.GlobalMouseHook.Enable();
 
-				if (!Config.Layout.disableFadeAnimation)
-					PlayFadeAnimation(opacity, Config.Layout.opacity);
+				if (!Config.Layout.DisableFadeAnimation)
+					PlayFadeAnimation(opacity, Config.Layout.Opacity);
 				else if (opacity == 0)
 					Visibility = Visibility.Hidden;
 				else
@@ -84,8 +84,8 @@ namespace Taction {
 				WinApi.SetWindowExTransparent(this, false);
 				IsPassthrough = false;
 
-				if (!Config.Layout.disableFadeAnimation)
-					PlayFadeAnimation(opacity, Config.Layout.opacityHide);
+				if (!Config.Layout.DisableFadeAnimation)
+					PlayFadeAnimation(opacity, Config.Layout.OpacityHide);
 				else
 					Opacity = opacity;
 			}
@@ -100,10 +100,10 @@ namespace Taction {
 
 			// The animation may be interrupted and played in reverse.
 			// Shorten based on interruption value.
-			var duration = Config.Layout.fadeAnimationTime
+			var duration = Config.Layout.FadeAnimationTime
 				- Math.Abs(Opacity - plannedInitialOpacity)
 				/ Math.Abs(plannedInitialOpacity - targetOpacity)
-				* Config.Layout.fadeAnimationTime;
+				* Config.Layout.FadeAnimationTime;
 
 			var animation = new DoubleAnimation {
 				To = targetOpacity,
@@ -148,7 +148,7 @@ namespace Taction {
 		private void Window_MouseMove(object sender, MouseEventArgs e) {
 
 			// Hide config check
-			if (Config.Layout.disableHide)
+			if (Config.Layout.DisableHide)
 				return;
 
 			// Touch/Pen promotion check
@@ -170,7 +170,7 @@ namespace Taction {
 			// Prevent mouse move event
 			e.Handled = true;
 
-			if (!Config.Layout.disableHide) {
+			if (!Config.Layout.DisableHide) {
 
 				Debug.WriteLine("Hide Panel (pen)");
 				SetPassthrough(true);

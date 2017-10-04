@@ -19,23 +19,23 @@ namespace Taction {
 
 				// Prepare intent
 				var panel = new StackPanel {
-					Orientation = config.Layout.orientation
+					Orientation = config.Layout.Orientation
 				};
-				ProcessLayout(layoutData.items, panel);
+				ProcessLayout(layoutData.Items, panel);
 
 				// Make changes
-				if (layoutData.orientation == Orientation.Vertical) {
+				if (layoutData.Orientation == Orientation.Vertical) {
 
-					window.Width = layoutData.size;
+					window.Width = layoutData.Size;
 					window.SizeToContent = SizeToContent.Height;
 
 				} else {
 
-					window.Height = layoutData.size;
+					window.Height = layoutData.Size;
 					window.SizeToContent = SizeToContent.Width;
 				}
 
-				window.Opacity = layoutData.opacity;
+				window.Opacity = layoutData.Opacity;
 				window.container.Children.Add(panel);
 
 				// Set position
@@ -57,9 +57,9 @@ namespace Taction {
 
 					// Set size
 					if (currentPanel == null || currentPanel.Orientation == Orientation.Vertical)
-						item.Height = specs.size;
+						item.Height = specs.Size;
 					else
-						item.Width = specs.size;
+						item.Width = specs.Size;
 
 					// Set button-exclusive properties
 					if (specs is IButtonSpecs)
@@ -77,7 +77,7 @@ namespace Taction {
 							Orientation.Horizontal;
 
 						// Process Children
-						ProcessLayout(((PivotSpecs)specs).items, childPanel);
+						ProcessLayout(((PivotSpecs)specs).Items, childPanel);
 					}
 				}
 			}
@@ -85,27 +85,27 @@ namespace Taction {
 			private static void ApplyStyle(System.Windows.Controls.ContentControl item, IButtonSpecs specs, StackPanel panel) {
 
 				// Set Text
-				if (specs.text != null) {
+				if (specs.Text != null) {
 
-					item.Content = specs.text.value;
+					item.Content = specs.Text.Value;
 
-					if (specs.text.color != null)
-						item.Foreground = specs.text.color;
+					if (specs.Text.Color != null)
+						item.Foreground = specs.Text.Color;
 
 				}
 
 				// Set background
-				if (specs.color != null)
-					item.Background = specs.color;
+				if (specs.Color != null)
+					item.Background = specs.Color;
 
 				// Set border
-				if (specs.border != null) {
+				if (specs.Border != null) {
 
-					if (specs.border.thickness != null)
-						item.BorderThickness = specs.border.thickness;
+					if (specs.Border.Thickness != null)
+						item.BorderThickness = specs.Border.Thickness;
 
-					if (specs.border.color != null)
-						item.BorderBrush = specs.border.color;
+					if (specs.Border.Color != null)
+						item.BorderBrush = specs.Border.Color;
 				}
 			}
 		}

@@ -105,7 +105,7 @@ namespace Taction.JsonConverter {
 					o = Stretch.Uniform;
 					break;
 
-				case "uniformFill":
+				case "uniform-fill":
 					o = Stretch.UniformToFill;
 					break;
 			}
@@ -122,15 +122,15 @@ namespace Taction.JsonConverter {
 					o = TileMode.Tile;
 					break;
 
-				case "flipX":
+				case "flip-x":
 					o = TileMode.FlipX;
 					break;
 
-				case "flipY":
+				case "flip-y":
 					o = TileMode.FlipY;
 					break;
 
-				case "flipXY":
+				case "flip-xy":
 					o = TileMode.FlipXY;
 					break;
 			}

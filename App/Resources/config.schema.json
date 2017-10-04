@@ -6,18 +6,18 @@
 			"type": "number",
 			"default": 1.0
 		},
-		"opacityHide": {
+		"opacity-hide": {
 			"type": "number",
 			"default": 0.0
 		},
-		"fadeAnimationTime": {
+		"fade-animation-time": {
 			"type": "integer",
 			"default": 500
 		},
 		"version": {"type": "integer"},
 		"size": {"type": "integer"},
-		"disableFadeAnimation": {"type": "boolean"},
-		"disableHide": {"type": "boolean"},
+		"disable-fade-animation": {"type": "boolean"},
+		"disable-hide": {"type": "boolean"},
 		"orientation": {"$ref": "#/definitions/orientationType"},
 		"items": {"$ref": "#/definitions/itemsType"}
 	},
@@ -165,11 +165,11 @@
 				"source": {"type": "string"},
 				"tile": {
 					"type": "string",
-					"enum": ["none", "normal", "flipX", "flipY", "FlipXY"]
+					"enum": ["none", "normal", "flip-x", "flip-y", "flip-xy"]
 				},
 				"stretch": {
 					"type": "string",
-					"enum": ["none", "fill", "uniform", "uniformFill"]
+					"enum": ["none", "fill", "uniform", "uniform-fill"]
 				}
 			},
 			"additionalProperties": false,
