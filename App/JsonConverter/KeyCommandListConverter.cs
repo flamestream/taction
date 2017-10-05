@@ -35,7 +35,6 @@ namespace Taction.JsonConverter {
 			return o;
 		}
 
-		// @TODO List all invalids
 		public static bool TryParseValue(string input, out List<VirtualKeyCode> keyCodes) {
 
 			keyCodes = new List<VirtualKeyCode>();

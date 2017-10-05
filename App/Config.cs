@@ -6,30 +6,28 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Text;
 
 namespace Taction {
 
 	internal partial class Config {
 
-		private static JSchema _layoutJsonSchema;
-
+		public List<string> LoadLayoutErrors { get; private set; }
 		public ConfigLayout Layout { get; private set; }
 		public ConfigState State { get; private set; }
 
-		public static JSchema LayoutJsonSchema {
-			get {
-
-				if (_layoutJsonSchema == null)
-					_layoutJsonSchema = JSchema.Parse(System.Text.Encoding.UTF8.GetString(Properties.Resources.ConfigLayoutJsonSchema));
-
-				return _layoutJsonSchema;
-			}
-		}
+		public ZipArchive LoadedLayoutZip { get; private set; }
+		public Dictionary<string, MemoryStream> LoadingImageStreams { get; private set; }
+		public Dictionary<string, MemoryStream> LoadedImageStreams { get; private set; }
 
 		public Config() {
 
+			LoadLayoutErrors = new List<string>();
 			Layout = new ConfigLayout();
 			State = new ConfigState();
+
+			LoadedImageStreams = new Dictionary<string, MemoryStream>();
+			LoadingImageStreams = new Dictionary<string, MemoryStream>();
 		}
 
 		public void Save() {
@@ -49,6 +47,7 @@ namespace Taction {
 				throw new ArgumentNullException("LoadLayout may not receive null path");
 
 			JObject json;
+			LoadedLayoutZip = null;
 
 			var ext = Path.GetExtension(path);
 			if (ext == Properties.Resources.ConfigBundleFileExtension) {
@@ -65,8 +64,11 @@ namespace Taction {
 
 						json = JObject.Load(jsonReader);
 
-						App.Instance.LoadedZip = zip;
+						var app = App.Instance;
+
+						LoadedLayoutZip = zip;
 						LoadLayout(json);
+						LoadedLayoutZip = null;
 					}
 				}
 
@@ -88,7 +90,7 @@ namespace Taction {
 		public void LoadLayout(JObject json) {
 
 			// Validation check
-			if (!json.IsValid(LayoutJsonSchema, out IList<ValidationError> errors)) {
+			if (!json.IsValid(App.LayoutJsonSchema, out IList<ValidationError> errors)) {
 
 				var errMsgs = new List<string>();
 				foreach (var error in errors)
@@ -99,8 +101,24 @@ namespace Taction {
 				throw new FormatException(errMsg);
 			}
 
-			// Populate
-			Layout = JsonConvert.DeserializeObject<ConfigLayout>(JsonConvert.SerializeObject(json));
+			// Value check
+			LoadLayoutErrors.Clear();
+			var layoutCandidate = JsonConvert.DeserializeObject<ConfigLayout>(JsonConvert.SerializeObject(json));
+			if (LoadLayoutErrors.Count > 0) {
+
+				var errMsg = string.Join(Environment.NewLine, LoadLayoutErrors);
+				throw new FormatException(errMsg);
+			}
+
+			/// Populate
+			Layout = layoutCandidate;
+
+			var app = App.Instance;
+
+			// Clean up image streams
+			foreach (var stream in LoadedImageStreams.Values) stream.Dispose();
+			LoadedImageStreams = new Dictionary<string, MemoryStream>(LoadingImageStreams);
+			LoadingImageStreams.Clear();
 		}
 
 		public void LoadState() {

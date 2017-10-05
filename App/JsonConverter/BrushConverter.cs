@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Taction.JsonConverter {
 
@@ -36,22 +38,53 @@ namespace Taction.JsonConverter {
 					var tile = json.Value<string>("tile");
 					var source = json.Value<string>("source");
 
-					// Read from zip
-					var zip = App.Instance.LoadedZip;
-					if (zip == null)
-						break;
+					// Read file
+					var stream = new MemoryStream();
+					var loadingStreams = App.Instance.Config.LoadingImageStreams;
 
-					var entry = zip.GetEntry(source);
-					if (entry == null)
-						break;
+					// Already loading check
+					if (loadingStreams.ContainsKey(source)) {
 
-					var stream = entry.Open();
+						stream = loadingStreams[source];
+					} else {
+
+						var zip = App.Instance.Config.LoadedLayoutZip;
+						if (zip != null) { // Try zip
+
+							var entry = zip.GetEntry(source);
+							if (entry == null)
+								throw new Exception("Image file not found");
+
+							using (var s = entry.Open()) {
+
+								s.CopyTo(stream);
+							}
+
+						} else { // Try local
+
+							var file = Path.Combine(App.AppDataDir, source);
+							if (!File.Exists(file))
+								throw new Exception("Image file not found");
+
+							using (var s = File.Open(file, FileMode.Open, FileAccess.Read)) {
+
+								s.CopyTo(stream);
+							}
+						}
+
+						loadingStreams[source] = stream;
+					}
+
 					// Create source
+					var bitmap = new BitmapImage();
+					bitmap.BeginInit();
+					bitmap.StreamSource = stream;
+					bitmap.EndInit();
 
 					o = new ImageBrush {
 						Stretch = GetStretch(stretch),
 						TileMode = GetTileMode(tile),
-						//ImageSource = stream,
+						ImageSource = bitmap,
 					};
 					break;
 

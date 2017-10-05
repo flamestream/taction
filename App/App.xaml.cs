@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -21,8 +22,7 @@ namespace Taction {
 		internal MainPanel MainPanel => (MainPanel)MainWindow;
 		internal TaskbarIcon NotificationIcon { get; private set; }
 		internal GlobalMouseHook GlobalMouseHook { get; private set; }
-		internal InputSimulatorHelper InputSimulator { get; set; }
-		internal ZipArchive LoadedZip { set; get; }
+		internal InputSimulatorHelper InputSimulator { get; private set; }
 
 		protected override void OnStartup(StartupEventArgs e) {
 

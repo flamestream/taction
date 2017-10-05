@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Schema;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Taction.Attribute;
@@ -23,6 +24,7 @@ namespace Taction {
 		private static string _fileBundlePath;
 		private static string _fileStatePath;
 		private static Dictionary<string, Type> _stringVsPanelItemSpecs;
+		private static JSchema _layoutJsonSchema;
 
 		public static App Instance => (App)Current;
 
@@ -133,6 +135,16 @@ namespace Taction {
 				}
 
 				return _fileStatePath;
+			}
+		}
+
+		public static JSchema LayoutJsonSchema {
+			get {
+
+				if (_layoutJsonSchema == null)
+					_layoutJsonSchema = JSchema.Parse(System.Text.Encoding.UTF8.GetString(Taction.Properties.Resources.ConfigLayoutJsonSchema));
+
+				return _layoutJsonSchema;
 			}
 		}
 	}
