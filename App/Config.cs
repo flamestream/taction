@@ -66,11 +66,14 @@ namespace Taction {
 
 						var app = App.Instance;
 
+						// Make zip file available to converters
 						LoadedLayoutZip = zip;
+
 						LoadLayout(json);
-						LoadedLayoutZip = null;
 					}
 				}
+
+				LoadedLayoutZip = null;
 
 			} else if (ext == ".json") {
 
@@ -113,10 +116,8 @@ namespace Taction {
 				throw new FormatException(errMsg);
 			}
 
-			/// Populate
+			// Populate
 			Layout = layoutCandidate;
-
-			var app = App.Instance;
 
 			// Clean up image streams
 			foreach (var stream in LoadedImageStreams) stream.Dispose();

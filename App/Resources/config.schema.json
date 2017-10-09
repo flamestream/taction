@@ -15,6 +15,7 @@
 			"default": 500
 		},
 		"version": {"type": "integer"},
+		"name": {"type": "string"},
 		"size": {"type": "integer"},
 		"disable-fade-animation": {"type": "boolean"},
 		"disable-hide": {"type": "boolean"},

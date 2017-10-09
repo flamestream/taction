@@ -128,7 +128,7 @@ namespace Taction {
 				MainPanel.ReloadLayout();
 
 			// Persist for later
-			File.WriteAllText(App.FileLayoutPath, text, encoding);
+			File.WriteAllText(FileLayoutPath, text, encoding);
 		}
 
 		public void PromptLoadLayout() {
@@ -145,21 +145,25 @@ namespace Taction {
 				)
 			};
 
-			if (openFileDialog.ShowDialog(Application.Current.MainWindow) != true)
+			if (openFileDialog.ShowDialog(Current.MainWindow) != true)
 				return;
 
 			Config.State.FileDialogInitialDirectory = Path.GetDirectoryName(openFileDialog.FileName);
 			Config.Save();
 
-			LoadLayout(openFileDialog.FileName);
+			if (TryLoadLayout(openFileDialog.FileName)) {
+
+				var layoutName = Config.Layout.Name ?? Path.GetFileName(openFileDialog.FileName);
+				ShowToast(string.Format("{0} has been succesfully applied.", layoutName), "Layout Loaded");
+			}
 		}
 
 		public void LoadSavedLayout(bool useFallback = false) {
 
-			string targetFile = (File.Exists(App.FileBundlePath)) ?
-				App.FileBundlePath :
-				(File.Exists(App.FileLayoutPath)) ?
-					App.FileLayoutPath :
+			string targetFile = (File.Exists(FileBundlePath)) ?
+				FileBundlePath :
+				(File.Exists(FileLayoutPath)) ?
+					FileLayoutPath :
 					null;
 
 			if (targetFile != null) {
@@ -189,7 +193,7 @@ namespace Taction {
 			}
 		}
 
-		public void LoadLayout(string path) {
+		private bool TryLoadLayout(string path) {
 
 			string errSummary = "Config load error.";
 			string errDetails = null;
@@ -202,13 +206,13 @@ namespace Taction {
 				MainPanel.ReloadLayout();
 
 				// Remove previous file(s)
-				File.Delete(App.FileLayoutPath);
-				File.Delete(App.FileBundlePath);
+				File.Delete(FileLayoutPath);
+				File.Delete(FileBundlePath);
 
 				// Persist for resume
 				var targetFile = (Path.GetExtension(path) == Taction.Properties.Resources.ConfigBundleFileExtension) ?
-					App.FileBundlePath :
-					App.FileLayoutPath;
+					FileBundlePath :
+					FileLayoutPath;
 
 				File.Copy(path, targetFile, true);
 
@@ -233,7 +237,11 @@ namespace Taction {
 
 				ErrorLogger.Log(msg);
 				ShowErrorToast(errSummary);
+
+				return false;
 			}
+
+			return true;
 		}
 	}
 }

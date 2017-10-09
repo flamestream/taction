@@ -16,6 +16,9 @@ namespace Taction {
 		private float _opacityHide;
 		private uint _fadeAnimationTime;
 
+		[JsonProperty("name")]
+		public string Name { get; set; }
+
 		[JsonProperty("size")]
 		public int Size { get; set; }
 
