@@ -17,8 +17,8 @@ namespace Taction {
 		public ConfigState State { get; private set; }
 
 		public ZipArchive LoadedLayoutZip { get; private set; }
-		public Dictionary<string, MemoryStream> LoadingImageStreams { get; private set; }
-		public Dictionary<string, MemoryStream> LoadedImageStreams { get; private set; }
+		public List<MemoryStream> LoadingImageStreams { get; private set; }
+		public List<MemoryStream> LoadedImageStreams { get; private set; }
 
 		public Config() {
 
@@ -26,8 +26,8 @@ namespace Taction {
 			Layout = new ConfigLayout();
 			State = new ConfigState();
 
-			LoadedImageStreams = new Dictionary<string, MemoryStream>();
-			LoadingImageStreams = new Dictionary<string, MemoryStream>();
+			LoadedImageStreams = new List<MemoryStream>();
+			LoadingImageStreams = new List<MemoryStream>();
 		}
 
 		public void Save() {
@@ -101,8 +101,11 @@ namespace Taction {
 				throw new FormatException(errMsg);
 			}
 
-			// Value check
+			// Set up
+			LoadingImageStreams.Clear();
 			LoadLayoutErrors.Clear();
+
+			// Value check
 			var layoutCandidate = JsonConvert.DeserializeObject<ConfigLayout>(JsonConvert.SerializeObject(json));
 			if (LoadLayoutErrors.Count > 0) {
 
@@ -116,9 +119,8 @@ namespace Taction {
 			var app = App.Instance;
 
 			// Clean up image streams
-			foreach (var stream in LoadedImageStreams.Values) stream.Dispose();
-			LoadedImageStreams = new Dictionary<string, MemoryStream>(LoadingImageStreams);
-			LoadingImageStreams.Clear();
+			foreach (var stream in LoadedImageStreams) stream.Dispose();
+			LoadedImageStreams = new List<MemoryStream>(LoadingImageStreams);
 		}
 
 		public void LoadState() {

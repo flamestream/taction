@@ -42,44 +42,51 @@ namespace Taction.JsonConverter {
 					var stream = new MemoryStream();
 					var loadingStreams = App.Instance.Config.LoadingImageStreams;
 
-					// Already loading check
-					if (loadingStreams.ContainsKey(source)) {
+					var zip = App.Instance.Config.LoadedLayoutZip;
+					if (zip != null) { // Try zip
 
-						stream = loadingStreams[source];
-					} else {
+						var entry = zip.GetEntry(source);
+						if (entry == null) {
 
-						var zip = App.Instance.Config.LoadedLayoutZip;
-						if (zip != null) { // Try zip
-
-							var entry = zip.GetEntry(source);
-							if (entry == null)
-								throw new Exception("Image file not found");
-
-							using (var s = entry.Open()) {
-
-								s.CopyTo(stream);
-							}
-
-						} else { // Try local
-
-							var file = Path.Combine(App.AppDataDir, source);
-							if (!File.Exists(file))
-								throw new Exception("Image file not found");
-
-							using (var s = File.Open(file, FileMode.Open, FileAccess.Read)) {
-
-								s.CopyTo(stream);
-							}
+							App.Instance.Config.LoadLayoutErrors.Add(string.Format("Image '{0}': File is not found", source));
+							return o;
 						}
 
-						loadingStreams[source] = stream;
+						using (var s = entry.Open()) {
+
+							s.CopyTo(stream);
+						}
+
+					} else { // Try local
+
+						var file = Path.Combine(App.AppDataDir, source);
+						if (!File.Exists(file)) {
+
+							App.Instance.Config.LoadLayoutErrors.Add(string.Format("Image '{0}': File is not found", source));
+							return o;
+						}
+
+						using (var s = File.Open(file, FileMode.Open, FileAccess.Read)) {
+
+							s.CopyTo(stream);
+						}
 					}
+
+					loadingStreams.Add(stream);
 
 					// Create source
 					var bitmap = new BitmapImage();
-					bitmap.BeginInit();
-					bitmap.StreamSource = stream;
-					bitmap.EndInit();
+					try {
+
+						bitmap.BeginInit();
+						bitmap.StreamSource = stream;
+						bitmap.EndInit();
+
+					} catch (NotSupportedException e) {
+
+						App.Instance.Config.LoadLayoutErrors.Add(string.Format("Image '{0}': Format is not supported: {1}", source, e.Message));
+						return o;
+					}
 
 					o = new ImageBrush {
 						Stretch = GetStretch(stretch),
@@ -91,9 +98,14 @@ namespace Taction.JsonConverter {
 				case "solid":
 
 					var value = json.Value<string>("value");
+					if (!TryGetColor(value, out var color)) {
+
+						App.Instance.Config.LoadLayoutErrors.Add(string.Format("Solid color input '{0}': Invalid format", value));
+						return o;
+					}
 
 					o = new SolidColorBrush {
-						Color = GetColor(value)
+						Color = color
 					};
 					break;
 
@@ -107,16 +119,15 @@ namespace Taction.JsonConverter {
 					var values = json.Value<JToken>("values").Values<string>();
 					foreach (var v in values) {
 
-						// @TODO compile errors
-						if (!TryGetGradientStop(v, out var gs)) {
+						var errMsg = AttemptGetGradientStop(v, out var gs);
+						if (errMsg != null) {
 
+							App.Instance.Config.LoadLayoutErrors.Add(string.Format("Gradient color input '{0}': {1}", v, errMsg));
 							continue;
 						}
 
 						brush.GradientStops.Add(gs);
 					}
-
-					// @TODO compile errors
 
 					o = brush;
 					break;
@@ -171,39 +182,49 @@ namespace Taction.JsonConverter {
 			return o;
 		}
 
-		private Color GetColor(string id) {
+		private bool TryGetColor(string input, out Color color) {
 
-			// var o = default(Color);
+			color = default(Color);
 
-			// Named check
-			//var candidate = typeof(Colors).GetProperty(id, typeof(Color)).GetValue(null);
-			//if (candidate != null)
-			//	return (Color)candidate;
+			try {
 
-			// @TODO Color.Empty?
-			return (Color)ColorConverter.ConvertFromString(id);
+				color = (Color)ColorConverter.ConvertFromString(input);
+
+			} catch (Exception e) {
+
+				return false;
+			}
+
+			return true;
 		}
 
-		private bool TryGetGradientStop(string id, out GradientStop o) {
+		private string AttemptGetGradientStop(string input, out GradientStop o) {
 
 			o = default(GradientStop);
 
 			// Format check
-			var parts = id.Split(' ');
-			if (parts.Length != 2)
-				return false;
+			var parts = input.Split(' ');
+			if (parts.Length != 2) {
 
-			if (!double.TryParse(parts[0], out var offset))
-				return false;
+				return "Format should consist of two values";
+			}
 
-			var color = GetColor(parts[1]);
+			if (!double.TryParse(parts[0], out var offset)) {
+
+				return "First value should be a valid number";
+			}
+
+			if (!TryGetColor(parts[1], out var color)) {
+
+				return "Invalid color";
+			}
 
 			o = new GradientStop() {
 				Color = color,
 				Offset = offset
 			};
 
-			return true;
+			return null;
 		}
 	}
 }
