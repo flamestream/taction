@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Taction.Attribute;
 
 namespace Taction {
@@ -21,22 +22,24 @@ namespace Taction {
 				var panel = new StackPanel {
 					Orientation = config.Layout.Orientation
 				};
-				ProcessLayout(layoutData.Items, panel);
-
+				
 				// Make changes
 				if (layoutData.Orientation == Orientation.Vertical) {
 
-					window.Width = layoutData.Size;
+					window.Width = panel.Width = layoutData.Size;
 					window.SizeToContent = SizeToContent.Height;
 
 				} else {
 
-					window.Height = layoutData.Size;
+					window.Height = panel.Height = layoutData.Size;
 					window.SizeToContent = SizeToContent.Width;
 				}
 
 				window.Opacity = layoutData.Opacity;
-				window.container.Children.Add(panel);
+				window.Container.Children.Add(panel);
+
+				// Compute children items
+				ProcessLayout(layoutData.Items, panel);
 
 				// Set position
 				window.Left = stateData.X;
@@ -63,7 +66,7 @@ namespace Taction {
 
 					// Set button-exclusive properties
 					if (specs is IButtonSpecs)
-						ApplyStyle((System.Windows.Controls.ContentControl)item, (IButtonSpecs)specs, currentPanel);
+						ApplyStyle((ContentControl)item, (IButtonSpecs)specs, currentPanel);
 
 					// Add to tree
 					currentPanel.Children.Add(item);
@@ -82,7 +85,7 @@ namespace Taction {
 				}
 			}
 
-			private static void ApplyStyle(System.Windows.Controls.ContentControl item, IButtonSpecs specs, StackPanel panel) {
+			private static void ApplyStyle(ContentControl item, IButtonSpecs specs, StackPanel panel) {
 
 				// Set Text
 				if (specs.Text != null) {
@@ -95,8 +98,11 @@ namespace Taction {
 				}
 
 				// Set background
-				if (specs.Color != null)
+				if (specs.Color != null) {
+
 					item.Background = specs.Color;
+					AdjustGradientColor(item.Background, item, panel);
+				}
 
 				// Set border
 				if (specs.Border != null) {
@@ -104,9 +110,30 @@ namespace Taction {
 					if (specs.Border.Thickness != null)
 						item.BorderThickness = specs.Border.Thickness;
 
-					if (specs.Border.Color != null)
+					if (specs.Border.Color != null) {
+
 						item.BorderBrush = specs.Border.Color;
+						AdjustGradientColor(item.BorderBrush, item, panel);
+					}
 				}
+			}
+
+			private static void AdjustGradientColor(Brush brush, ContentControl item, StackPanel panel) {
+
+				// Type heck
+				if (!(brush is LinearGradientBrush))
+					return;
+
+				var gradientBrush = (LinearGradientBrush)brush;
+
+				var ratio = (panel.Orientation == Orientation.Vertical) ?
+					panel.Width / item.Height :
+					item.Width / panel.Height;
+				
+				var displacement = (ratio - 1) * 0.5;
+				
+				gradientBrush.StartPoint = new Point(gradientBrush.StartPoint.X, ratio * gradientBrush.StartPoint.Y - displacement);
+				gradientBrush.EndPoint = new Point(gradientBrush.EndPoint.X, ratio * gradientBrush.EndPoint.Y - displacement);
 			}
 		}
 	}

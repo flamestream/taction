@@ -111,9 +111,12 @@ namespace Taction.JsonConverter {
 
 				case "gradient":
 
+					var angle = json.Value<double>("angle");
+					var points = ConvertAngleToPoints(angle);
+
 					var brush = new LinearGradientBrush {
-						EndPoint = new Point(0, 1),
-						StartPoint = new Point(0, 0),
+						StartPoint = points.Item1,
+						EndPoint = points.Item2,
 					};
 
 					var values = json.Value<JToken>("values").Values<string>();
@@ -225,6 +228,41 @@ namespace Taction.JsonConverter {
 			};
 
 			return null;
+		}
+
+		private Tuple<Point, Point> ConvertAngleToPoints(double angle) {
+
+			// Simplify
+			while (angle < 0) angle += 360;
+			while (angle > 360) angle -= 360;
+
+			// Do operation on quadrant 1
+			var quadrantAngle = angle % 90;
+			var radAngle = quadrantAngle * Math.PI / 180;
+			var start = new Point(0, 1);
+			var end = (quadrantAngle <= 45) ?
+					new Point(Math.Tan(radAngle), 0) :
+					new Point(1, 1 - 1 / Math.Tan(radAngle));
+
+			// Rotate if needed
+			Point s, e;
+			if (angle < 90) {
+				s = start;
+				e = end;
+			} else if (angle < 180) {
+				s = new Point(end.Y, start.X);
+				e = new Point(start.Y, end.X);
+			} else if (angle < 270) {
+				s = new Point(1 - start.X, end.Y);
+				e = new Point(1 - end.X, start.Y);
+			} else {
+				s = new Point(start.Y, 1 - start.X);
+				e = new Point(end.Y, 1 - end.X);
+			}
+			start = s;
+			end = e;
+
+			return new Tuple<Point, Point>(start, end);
 		}
 	}
 }

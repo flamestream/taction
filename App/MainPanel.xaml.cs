@@ -39,7 +39,7 @@ namespace Taction {
 
 		private void ClearLayout() {
 
-			container.Children.Clear();
+			Container.Children.Clear();
 			SetPassthrough(false);
 			Visibility = Visibility.Visible;
 		}

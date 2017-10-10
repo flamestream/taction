@@ -195,6 +195,11 @@
 					"type": "string",
 					"enum": ["gradient"]
 				},
+				"angle": {
+					"description": "The gradient line's angle of direction. A value of 0 goes from bottom to top; increasing values rotate clockwise from there.",
+					"type": "number",
+					"default": 0
+				},
 				"values": {
 					"type": "array",
 					"items": {

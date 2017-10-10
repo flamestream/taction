@@ -17,7 +17,7 @@
 		Background="#7F000000"
 		MouseMove="Window_MouseMove"
 		PreviewStylusInAirMove="Window_PreviewStylusInAirMove">
-	<StackPanel Name="container" Margin="0,0,0,0">
+	<StackPanel Name="Container" Margin="0,0,0,0">
 		<Button Height="75" Content="SPACE" Tag="SPACE" BorderThickness="10,5">
 			<Button.Background>
 				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
