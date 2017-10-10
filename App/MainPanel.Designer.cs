@@ -28,15 +28,30 @@ namespace Taction {
 
 					window.Width = panel.Width = layoutData.Size;
 					window.SizeToContent = SizeToContent.Height;
+					
+					if (layoutData.Border != null && layoutData.Border.Thickness != null)
+						window.Width += layoutData.Border.Thickness.Left + layoutData.Border.Thickness.Right;
 
 				} else {
 
 					window.Height = panel.Height = layoutData.Size;
 					window.SizeToContent = SizeToContent.Width;
+
+					if (layoutData.Border != null && layoutData.Border.Thickness != null)
+						window.Height += layoutData.Border.Thickness.Top + layoutData.Border.Thickness.Bottom;
 				}
 
 				window.Opacity = layoutData.Opacity;
 				window.Container.Children.Add(panel);
+
+				if (layoutData.Border != null) {
+
+					if (layoutData.Border.Thickness != null)
+						window.BorderThickness = layoutData.Border.Thickness;
+
+					if (layoutData.Border.Color != null)
+						window.BorderBrush = layoutData.Border.Color;
+				}
 
 				// Compute children items
 				ProcessLayout(layoutData.Items, panel);

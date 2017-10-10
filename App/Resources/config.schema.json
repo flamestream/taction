@@ -19,6 +19,7 @@
 		"size": {"type": "integer"},
 		"disable-fade-animation": {"type": "boolean"},
 		"disable-hide": {"type": "boolean"},
+		"border": {"$ref": "#/definitions/borderType"},
 		"orientation": {"$ref": "#/definitions/orientationType"},
 		"items": {"$ref": "#/definitions/itemsType"}
 	},

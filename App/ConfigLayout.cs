@@ -22,6 +22,9 @@ namespace Taction {
 		[JsonProperty("size")]
 		public int Size { get; set; }
 
+		[JsonProperty("border")]
+		public BorderSpecs Border { get; set; }
+
 		[JsonProperty("items")]
 		[JsonConverter(typeof(PanelItemListConverter))]
 		public List<IPanelItemSpecs> Items { get; set; }

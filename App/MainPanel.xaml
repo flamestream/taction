@@ -19,6 +19,12 @@
 		PreviewStylusInAirMove="Window_PreviewStylusInAirMove">
 	<StackPanel Name="Container" Margin="0,0,0,0">
 		<Button Height="75" Content="SPACE" Tag="SPACE" BorderThickness="10,5">
+			<Button.BorderBrush>
+				<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+					<GradientStop Color="Black" Offset="0" />
+					<GradientStop Color="White" Offset="1" />
+				</LinearGradientBrush>
+			</Button.BorderBrush>
 			<Button.Background>
 				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
 					<GradientStop Color="#FFFF0000" Offset="0" />
