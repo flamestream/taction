@@ -13,6 +13,8 @@ namespace Taction {
 
 			public static void GenerateLayout(MainPanel window) {
 
+				App.Instance.OutBoundaries.Clear();
+
 				var config = App.Instance.Config;
 
 				var layoutData = config.Layout;
@@ -68,16 +70,23 @@ namespace Taction {
 
 				foreach (var specs in specsList) {
 
+					double width, height;
 					var specsType = specs.GetType();
 					var attr = (AssociatedClassAttribute)specsType.GetCustomAttributes(typeof(AssociatedClassAttribute), true)[0];
 					var itemType = attr.Value;
 					var item = (FrameworkElement)Activator.CreateInstance(itemType, specs);
 
 					// Set size
-					if (currentPanel == null || currentPanel.Orientation == Orientation.Vertical)
-						item.Height = specs.Size;
-					else
-						item.Width = specs.Size;
+					if (currentPanel.Orientation == Orientation.Vertical) {
+
+						width = currentPanel.Width;
+						height = item.Height = specs.Size;
+
+					} else {
+
+						width = item.Width = specs.Size;
+						height = currentPanel.Height;
+					}
 
 					// Set button-exclusive properties
 					if (specs is IButtonSpecs)
@@ -96,6 +105,13 @@ namespace Taction {
 
 						// Process Children
 						ProcessLayout(((PivotSpecs)specs).Items, childPanel);
+
+					} else if (item is UIElement.MoveButton) {
+
+						var origin = item.TranslatePoint(new Point(0.0, 0.0), null);
+						
+						var bounds = new Rect(origin.X, origin.Y, width, height);
+						App.Instance.OutBoundaries.Add(bounds);
 					}
 				}
 			}

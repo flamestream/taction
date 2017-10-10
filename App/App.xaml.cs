@@ -23,6 +23,7 @@ namespace Taction {
 		internal TaskbarIcon NotificationIcon { get; private set; }
 		internal GlobalMouseHook GlobalMouseHook { get; private set; }
 		internal InputSimulatorHelper InputSimulator { get; private set; }
+		internal List<Rect> OutBoundaries { get; private set; }
 
 		protected override void OnStartup(StartupEventArgs e) {
 
@@ -36,6 +37,7 @@ namespace Taction {
 			InputSimulator = new InputSimulatorHelper();
 			Config = new Config();
 			ErrorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
+			OutBoundaries = new List<Rect>();
 
 			// Setup Notification icon
 			{

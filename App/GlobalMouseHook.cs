@@ -37,6 +37,9 @@ namespace Taction {
 			if (HookId != IntPtr.Zero)
 				return;
 
+			// Activation is assumed to be in boundary
+			_isInAppBoundaries = true;
+
 			using (Process curProcess = Process.GetCurrentProcess())
 			using (ProcessModule curModule = curProcess.MainModule) {
 				HookId = WinApi.SetWindowsHookEx(WinApi.HookType.WH_MOUSE_LL, HookProcDelegate, WinApi.GetModuleHandle(curModule.ModuleName), 0);
@@ -65,7 +68,18 @@ namespace Taction {
 			var pointAppX = appCoords.X;
 			var pointAppY = appCoords.Y;
 
-			return !(pointAppX < 0 || pointAppY < 0 || pointAppX > appWidth || pointAppY > appHeight);
+			// App window boundary check
+			if (pointAppX < 0 || pointAppY < 0 || pointAppX > appWidth || pointAppY > appHeight)
+				return false;
+
+			// Special out boundary checks
+			foreach (var outBoundary in App.Instance.OutBoundaries) {
+
+				if (outBoundary.Contains(appCoords))
+					return false;
+			}
+
+			return true;
 		}
 
 		/// <summary>
