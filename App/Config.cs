@@ -60,27 +60,31 @@ namespace Taction {
 					LoadedFonts.Clear();
 
 					// Layout existence check
-					var entry = zip.Entries.First(e => e.Name == Properties.Resources.ConfigLayoutFileName);
+					var entry = zip.Entries.FirstOrDefault(e => e.Name == Properties.Resources.ConfigLayoutFileName);
 					if (entry == null)
-						throw new FileFormatException("Malformed config bundle");
+						throw new FileFormatException("Malformed config bundle: No layout found");
 
 					using (var streamReader = new StreamReader(entry.Open()))
 					using (var jsonReader = new JsonTextReader(streamReader)) {
 
-						json = JObject.Load(jsonReader);
-
-						var app = App.Instance;
-
 						// Make zip file available to converters
 						LoadedLayoutZip = zip;
 
+						json = JObject.Load(jsonReader);
 						LoadLayout(json);
 					}
 
 					// Remove fonts unrelated to layout
 					var fontFiles = Directory.GetFiles(App.FontDir);
 					var extraFontFiles = fontFiles.Except(LoadedFonts);
-					foreach (var f in extraFontFiles) File.Delete(f);
+					foreach (var f in extraFontFiles) {
+						try {
+							File.Delete(f);
+						} catch (Exception ex) {
+							// Silently log error
+							App.Instance.ErrorLogger.Log(ex.ToString());
+						}
+					}
 				}
 
 				LoadedLayoutZip = null;

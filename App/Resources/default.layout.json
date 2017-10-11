@@ -28,21 +28,21 @@
 		"type": "hold",
 		"size": 75,
 		"text": {
-			"value": "Eyedropper",
+			"value": "Eyedropper (I)",
 		},
 		"command": "VK_I"
 	}, {
 		"type": "hold",
 		"size": 75,
 		"text": {
-			"value": "Eraser",
+			"value": "Eraser (E)",
 		},
 		"command": "VK_E"
 	}, {
 		"type": "hold",
 		"size": 75,
 		"text": {
-			"value": "Marquee",
+			"value": "Marquee (M)",
 		},
 		"command": "VK_M"
 	}, {
@@ -53,19 +53,18 @@
 		},
 		"command": "CONTROL VK_S"
 	}, {
-		"type": "pivot",
-		"size": 50,
-		"items": [{
-			"type": "toggle",
-			"size": 40,
-			"text": {
-				"value": "CTRL",
-			},
-			"command": "CONTROL"
-		}, {
-			"type": "toggle",
-			"size": 40,
-			"command": "SHIFT"
-		}]
+		"type": "toggle",
+		"size": 40,
+		"text": {
+			"value": "CTRL",
+		},
+		"command": "CONTROL"
+	}, {
+		"type": "toggle",
+		"size": 40,
+		"command": "SHIFT",
+		"text": {
+			"value": "SHIFT",
+		}
 	}]
 }

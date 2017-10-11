@@ -66,7 +66,7 @@ namespace Taction.JsonConverter {
 				}
 
 				// Extract font from zip
-				var entry = zip.Entries.First(e => e.Name == name);
+				var entry = zip.Entries.FirstOrDefault(e => e.Name == name);
 				if (entry == null) {
 
 					config.LoadLayoutErrors.Add(string.Format("Font '{0}': File is not found in bundle", name));
@@ -80,14 +80,23 @@ namespace Taction.JsonConverter {
 			config.LoadedFonts.Add(fontFile);
 
 			// Get font family name
-			string fontName;
+			string fontName = null;
 			using (var pfc = new PrivateFontCollection()) {
 
 				pfc.AddFontFile(fontFile);
-				fontName = pfc.Families.First().Name;
+				var fontFamily = pfc.Families.FirstOrDefault();
+				if (fontFamily != null)
+					fontName = fontFamily.Name;
 			}
 			// Ensure release lock; .NET bug
 			WinApi.RemoveFontResourceEx(fontFile, (int)WinApi.FR.FR_PRIVATE, IntPtr.Zero);
+
+			// Valid font check
+			if (fontName == null) {
+
+				config.LoadLayoutErrors.Add(string.Format("Font '{0}': Could not load font", name));
+				return null;
+			}
 
 			// Create path
 			var localUri = new UriBuilder(new Uri(fontFile).AbsoluteUri) {
