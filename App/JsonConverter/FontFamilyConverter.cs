@@ -1,6 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Drawing.Text;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
@@ -25,56 +28,70 @@ namespace Taction.JsonConverter {
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
 
 			var value = serializer.Deserialize<string>(reader);
-			var o = new FontFamily(value);
 
-			return o;
+			// Compute all possible font name strings
+			var fontNames = new List<string>();
+			foreach (var entry in value.Split(','))
+				fontNames.Add(GetFontString(entry));
+
+			// Compute full font family string
+			var fontFamilyString = string.Join(", ", fontNames);
+
+			return new FontFamily(fontFamilyString);
 		}
 
-		private static bool TryLoadFont(string name, out FontFamily font) {
+		private static string GetFontString(string name) {
 
-			font = default(FontFamily);
+			// Sanity
+			name = name.Trim();
 
-			// In zip check
-			var zip = App.Instance.Config.LoadedLayoutZip;
-			if (zip != null) {
+			// Font name is file check
+			if (!name.StartsWith("./"))
+				return name; // Installed font
 
-				PrivateFontCollection pfc = null;
+			// Sanity
+			name = Path.GetFileName(name);
 
-				// Loaded check
-				var loadedFonts = App.Instance.Config.LoadedFonts;
-				if (loadedFonts.ContainsKey(name)) {
+			// File existence check
+			var config = App.Instance.Config;
+			var fontFile = Path.Combine(App.FontDir, name);
+			var zip = config.LoadedLayoutZip;
 
-					pfc = loadedFonts[name];
+			if (!File.Exists(fontFile)) {
 
-				} else {
+				// In zip check
+				if (zip == null) {
 
-					// Layout existence check
-					var entry = zip.Entries.First(e => e.Name == name);
-					if (entry != null) {
-
-						// From https://social.msdn.microsoft.com/Forums/vstudio/en-US/69d386f1-6a22-47ae-bf73-7002260374ce/c-wpf-load-a-fontfamily-from-a-byte-array-or-a-memory-stream?forum=wpf
-						var stream = entry.Open();
-						byte[] streamData = new byte[stream.Length];
-						stream.Read(streamData, 0, streamData.Length);
-
-						var data = Marshal.AllocCoTaskMem(streamData.Length);
-						Marshal.Copy(streamData, 0, data, streamData.Length);
-						pfc = new PrivateFontCollection();
-						pfc.AddMemoryFont(data, streamData.Length);
-						loadedFonts.Add(name, pfc);
-						Marshal.FreeCoTaskMem(data);
-					}
+					config.LoadLayoutErrors.Add(string.Format("Font '{0}': File is not found at {1}", name, fontFile));
+					return null;
 				}
 
-				if (pfc != null) {
+				// Extract font from zip
+				var entry = zip.Entries.First(e => e.Name == name);
+				if (entry == null) {
 
-					font = new FontFamily(pfc.Families[0].Name);
-					return true;
+					config.LoadLayoutErrors.Add(string.Format("Font '{0}': File is not found in bundle", name));
+					return null;
 				}
+
+				entry.ExtractToFile(fontFile);
+				config.LoadedFonts.Add(fontFile);
 			}
 
-			font = new FontFamily(name);
-			return true;
+			// Get font family name
+			string fontName;
+			using (var pfc = new PrivateFontCollection()) {
+
+				pfc.AddFontFile(fontFile);
+				fontName = pfc.Families.First().Name;
+			}
+
+			// Create path
+			var localUri = new UriBuilder(new Uri(fontFile).AbsoluteUri) {
+				Fragment = fontName
+			};
+
+			return localUri.ToString();
 		}
 	}
 }

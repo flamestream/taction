@@ -20,7 +20,7 @@ namespace Taction {
 		public ZipArchive LoadedLayoutZip { get; private set; }
 		public List<MemoryStream> LoadingImageStreams { get; private set; }
 		public List<MemoryStream> LoadedImageStreams { get; private set; }
-		public Dictionary<string, PrivateFontCollection> LoadedFonts { get; private set; }
+		public List<string> LoadedFonts { get; private set; }
 
 		public Config() {
 
@@ -30,7 +30,7 @@ namespace Taction {
 
 			LoadedImageStreams = new List<MemoryStream>();
 			LoadingImageStreams = new List<MemoryStream>();
-			LoadedFonts = new Dictionary<string, PrivateFontCollection>();
+			LoadedFonts = new List<string>();
 		}
 
 		public void Save() {
@@ -57,6 +57,8 @@ namespace Taction {
 
 				using (var zip = ZipFile.Open(path, ZipArchiveMode.Read)) {
 
+					LoadedFonts.Clear();
+
 					// Layout existence check
 					var entry = zip.Entries.First(e => e.Name == Properties.Resources.ConfigLayoutFileName);
 					if (entry == null)
@@ -74,6 +76,11 @@ namespace Taction {
 
 						LoadLayout(json);
 					}
+
+					// Remove fonts unrelated to layout
+					var fontFiles = Directory.GetFiles(App.FontDir);
+					var extraFontFiles = fontFiles.Except(LoadedFonts);
+					foreach (var f in extraFontFiles) File.Delete(f);
 				}
 
 				LoadedLayoutZip = null;
@@ -125,6 +132,9 @@ namespace Taction {
 			// Clean up image streams
 			foreach (var stream in LoadedImageStreams) stream.Dispose();
 			LoadedImageStreams = new List<MemoryStream>(LoadingImageStreams);
+
+			// Clean up loaded fonts
+			//foreach (var font in LoadedFonts) font.Dispose();
 		}
 
 		public void LoadState() {

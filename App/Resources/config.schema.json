@@ -61,7 +61,7 @@
 					"exclusiveMinimum": true
 				},
 				"value": {"type": "string"},
-				"font": {"type": "string"},
+				"font-family": {"type": "string"},
 				"color": {"$ref": "#/definitions/colorType"},
 			},
 			"additionalProperties": false,

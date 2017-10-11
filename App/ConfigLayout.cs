@@ -165,7 +165,7 @@ namespace Taction {
 		[JsonConverter(typeof(BrushConverter))]
 		public System.Windows.Media.Brush Color { get; set; }
 
-		[JsonProperty("font")]
+		[JsonProperty("font-family")]
 		[JsonConverter(typeof(FontFamilyConverter))]
 		public System.Windows.Media.FontFamily Font { get; set; }
 	}

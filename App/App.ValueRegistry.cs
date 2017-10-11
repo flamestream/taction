@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Taction.Attribute;
 
@@ -18,6 +19,7 @@ namespace Taction {
 		#endregion -- Application Settings/Constants --
 
 		private static string _appDataDir;
+		private static string _fontDir;
 		private static string _errorFilePath;
 		private static string _fileLayoutPath;
 		private static string _fileBundleName;
@@ -32,7 +34,7 @@ namespace Taction {
 			get {
 				if (_appDataDir == null) {
 
-					_appDataDir = string.Format(@"{0}\{1}",
+					_appDataDir = Path.Combine(
 						Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
 						Taction.Properties.Resources.AppName
 					);
@@ -42,11 +44,21 @@ namespace Taction {
 			}
 		}
 
+		public static string FontDir {
+			get {
+				if (_fontDir == null) {
+					_fontDir = Path.Combine(AppDataDir, "font");
+				}
+
+				return _fontDir;
+			}
+		}
+
 		public static string ErrorFilePath {
 			get {
 				if (_errorFilePath == null) {
 
-					_errorFilePath = string.Format(@"{0}\{1}",
+					_errorFilePath = Path.Combine(
 						AppDataDir,
 						Taction.Properties.Resources.ConfigErrorFileName
 					);
@@ -60,7 +72,7 @@ namespace Taction {
 			get {
 				if (_fileLayoutPath == null) {
 
-					_fileLayoutPath = string.Format(@"{0}\{1}",
+					_fileLayoutPath = Path.Combine(
 						AppDataDir,
 						Taction.Properties.Resources.ConfigLayoutFileName
 					);
@@ -74,7 +86,7 @@ namespace Taction {
 			get {
 				if (_fileBundlePath == null) {
 
-					_fileBundlePath = string.Format(@"{0}\{1}",
+					_fileBundlePath = Path.Combine(
 						AppDataDir,
 						FileBundleName
 					);
@@ -128,7 +140,7 @@ namespace Taction {
 			get {
 				if (_fileStatePath == null) {
 
-					_fileStatePath = string.Format(@"{0}\{1}",
+					_fileStatePath = Path.Combine(
 						AppDataDir,
 						Taction.Properties.Resources.ConfigStateFileName
 					);
