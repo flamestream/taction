@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Text;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Taction {
 		public ZipArchive LoadedLayoutZip { get; private set; }
 		public List<MemoryStream> LoadingImageStreams { get; private set; }
 		public List<MemoryStream> LoadedImageStreams { get; private set; }
+		public Dictionary<string, PrivateFontCollection> LoadedFonts { get; private set; }
 
 		public Config() {
 
@@ -28,6 +30,7 @@ namespace Taction {
 
 			LoadedImageStreams = new List<MemoryStream>();
 			LoadingImageStreams = new List<MemoryStream>();
+			LoadedFonts = new Dictionary<string, PrivateFontCollection>();
 		}
 
 		public void Save() {

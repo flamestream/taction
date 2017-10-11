@@ -20,7 +20,7 @@ namespace Taction {
 		public string Name { get; set; }
 
 		[JsonProperty("size")]
-		public int Size { get; set; }
+		public double Size { get; set; }
 
 		[JsonProperty("border")]
 		public BorderSpecs Border { get; set; }
@@ -75,7 +75,7 @@ namespace Taction {
 	public interface IPanelItemSpecs {
 
 		[JsonProperty("size")]
-		int Size { get; set; }
+		double Size { get; set; }
 	}
 
 	public interface IButtonSpecs : IPanelItemSpecs {
@@ -102,7 +102,7 @@ namespace Taction {
 	[JsonStringTypeValue("pivot")]
 	public class PivotSpecs : IPanelItemSpecs {
 
-		public int Size { get; set; }
+		public double Size { get; set; }
 
 		[JsonProperty("items")]
 		[JsonConverter(typeof(PanelItemListConverter))]
@@ -113,7 +113,7 @@ namespace Taction {
 	[JsonStringTypeValue("hold")]
 	public class HoldButtonSpecs : ICommandButtonSpecs {
 
-		public int Size { get; set; }
+		public double Size { get; set; }
 		public TextSpecs Text { get; set; }
 		public BorderSpecs Border { get; set; }
 		public System.Windows.Media.Brush Color { get; set; }
@@ -124,7 +124,7 @@ namespace Taction {
 	[JsonStringTypeValue("tap")]
 	public class TapButtonSpecs : ICommandButtonSpecs {
 
-		public int Size { get; set; }
+		public double Size { get; set; }
 		public TextSpecs Text { get; set; }
 		public BorderSpecs Border { get; set; }
 		public System.Windows.Media.Brush Color { get; set; }
@@ -135,7 +135,7 @@ namespace Taction {
 	[JsonStringTypeValue("toggle")]
 	public class ToggleButtonSpecs : ICommandButtonSpecs {
 
-		public int Size { get; set; }
+		public double Size { get; set; }
 		public TextSpecs Text { get; set; }
 		public BorderSpecs Border { get; set; }
 		public System.Windows.Media.Brush Color { get; set; }
@@ -146,7 +146,7 @@ namespace Taction {
 	[JsonStringTypeValue("move")]
 	public class MoveButtonSpecs : IButtonSpecs {
 
-		public int Size { get; set; }
+		public double Size { get; set; }
 		public TextSpecs Text { get; set; }
 		public BorderSpecs Border { get; set; }
 		public System.Windows.Media.Brush Color { get; set; }
@@ -157,7 +157,8 @@ namespace Taction {
 		[JsonProperty("value")]
 		public string Value { get; set; }
 
-		[JsonProperty("size")]
+		[DefaultValue(12.0)]
+		[JsonProperty("size", DefaultValueHandling = DefaultValueHandling.Populate)]
 		public double Size { get; set; }
 
 		[JsonProperty("color")]

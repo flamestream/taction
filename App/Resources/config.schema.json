@@ -14,9 +14,13 @@
 			"type": "integer",
 			"default": 500
 		},
+		"size": {
+			"type": "number",
+			"minimum": 0,
+			"exclusiveMinimum": true
+		},
 		"version": {"type": "integer"},
 		"name": {"type": "string"},
-		"size": {"type": "integer"},
 		"disable-fade-animation": {"type": "boolean"},
 		"disable-hide": {"type": "boolean"},
 		"border": {"$ref": "#/definitions/borderType"},
@@ -51,8 +55,12 @@
 		"textType": {
 			"type": "object",
 			"properties": {
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
 				"value": {"type": "string"},
-				"size": {"type": "integer"},
 				"font": {"type": "string"},
 				"color": {"$ref": "#/definitions/colorType"},
 			},
@@ -78,7 +86,11 @@
 					"type": "string",
 					"enum": ["pivot"]
 				},
-				"size": {"type": "integer"},
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
 				"items": {"$ref": "#/definitions/itemsType"},
 			},
 			"additionalProperties": false,
@@ -91,7 +103,11 @@
 					"type": "string",
 					"enum": ["hold"]
 				},
-				"size": {"type": "integer"},
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
 				"command": {"type": "string"},
 				"text": {"$ref": "#/definitions/textType"},
 				"color": {"$ref": "#/definitions/colorType"},
@@ -107,7 +123,11 @@
 					"type": "string",
 					"enum": ["tap"]
 				},
-				"size": {"type": "integer"},
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
 				"command": {"type": "string"},
 				"text": {"$ref": "#/definitions/textType"},
 				"color": {"$ref": "#/definitions/colorType"},
@@ -123,7 +143,11 @@
 					"type": "string",
 					"enum": ["toggle"]
 				},
-				"size": {"type": "integer"},
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
 				"command": {"type": "string"},
 				"text": {"$ref": "#/definitions/textType"},
 				"color": {"$ref": "#/definitions/colorType"},
@@ -139,7 +163,11 @@
 					"type": "string",
 					"enum": ["move"]
 				},
-				"size": {"type": "integer"},
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
 				"text": {
 					"$ref": "#/definitions/textType",
 					"default": "☰☰"

@@ -34,7 +34,7 @@
 			</Button.Background>
 		</Button>
 		<Button Height="75" Content="SPACE" Tag="SPACE" />
-		<Button Height="75" Content="E" Tag="VK_E" />
+		<Button Height="75" Content="E" Tag="VK_E" FontFamily="Segoe UI Black" FontSize="14" />
 		<Button Height="75" Content="I" Tag="VK_I" />
 		<Button Height="75" Content="M" Tag="VK_M" />
 		<Button Height="75" Content="CTRL" Tag="CONTROL" />

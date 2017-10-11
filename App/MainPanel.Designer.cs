@@ -108,8 +108,7 @@ namespace Taction {
 
 					} else if (item is UIElement.MoveButton) {
 
-						var origin = item.TranslatePoint(new Point(0.0, 0.0), null);
-						
+						var origin = item.TranslatePoint(new Point(), null);
 						var bounds = new Rect(origin.X, origin.Y, width, height);
 						App.Instance.OutBoundaries.Add(bounds);
 					}
@@ -122,10 +121,13 @@ namespace Taction {
 				if (specs.Text != null) {
 
 					item.Content = specs.Text.Value;
+					item.FontSize = specs.Text.Size;
 
 					if (specs.Text.Color != null)
 						item.Foreground = specs.Text.Color;
 
+					if (specs.Text.Font != null)
+						item.FontFamily = specs.Text.Font;
 				}
 
 				// Set background

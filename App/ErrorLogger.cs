@@ -12,29 +12,29 @@ namespace Taction {
 
 		public ErrorLogger(string filePath, int maxSize, int trimLineCount) {
 
-			 FilePath = filePath;
-			 MaxFileSize = maxSize;
-			 TrimLineCount = trimLineCount;
+			FilePath = filePath;
+			MaxFileSize = maxSize;
+			TrimLineCount = trimLineCount;
 		}
 
 		public void Log(string message) {
 
-			using (var file = new StreamWriter( FilePath, true, Encoding.UTF8)) {
+			using (var file = new StreamWriter(FilePath, true, Encoding.UTF8)) {
 
 				// Add header
 				file.WriteLine(string.Format(@"[{0}] {1}", DateTime.Now, message));
 				file.Close();
 			}
 
-			var fileInfo = new FileInfo( FilePath);
+			var fileInfo = new FileInfo(FilePath);
 			if (fileInfo.Length > MaxFileSize)
-				 Trim();
+				Trim();
 		}
 
 		protected void Trim() {
 
-			var lastLines = ReadEndTokens( FilePath, TrimLineCount, Encoding.UTF8, Environment.NewLine);
-			using (var file = new StreamWriter( FilePath, false, Encoding.UTF8)) {
+			var lastLines = ReadEndTokens(FilePath, TrimLineCount, Encoding.UTF8, Environment.NewLine);
+			using (var file = new StreamWriter(FilePath, false, Encoding.UTF8)) {
 
 				file.Write(lastLines);
 				file.Close();
