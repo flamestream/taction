@@ -57,6 +57,7 @@
 			"properties": {
 				"size": {
 					"type": "number",
+					"default": 12.0,
 					"minimum": 0,
 					"exclusiveMinimum": true
 				},

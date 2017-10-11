@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using Taction.UIElement;
@@ -31,6 +30,7 @@ namespace Taction {
 
 			// Ensure app data directory
 			Directory.CreateDirectory(AppDataDir);
+			Directory.CreateDirectory(FontDir);
 
 			// Initialize basic stuff
 			GlobalMouseHook = new GlobalMouseHook();

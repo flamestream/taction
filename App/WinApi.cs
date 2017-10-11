@@ -84,6 +84,10 @@ namespace Taction {
 			GWL_EXSTYLE = -20
 		}
 
+		public enum FR : int {
+			FR_PRIVATE = 16
+		}
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct POINT {
 			public int x;
@@ -129,5 +133,8 @@ namespace Taction {
 		// For ReleaseCapture (user32)
 		[DllImport("User32.dll")]
 		private static extern int SendMessage(IntPtr hWnd, int msg, int wParam, ref int lParam);
+
+		[DllImport("gdi32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+		public static extern int RemoveFontResourceEx(string lpszFilename, int fl, IntPtr pdv);
 	}
 }

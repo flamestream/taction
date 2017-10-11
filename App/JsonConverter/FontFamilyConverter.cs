@@ -5,7 +5,6 @@ using System.Drawing.Text;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows.Media;
 
 namespace Taction.JsonConverter {
@@ -75,8 +74,10 @@ namespace Taction.JsonConverter {
 				}
 
 				entry.ExtractToFile(fontFile);
-				config.LoadedFonts.Add(fontFile);
 			}
+
+			// Keep file on clean up step
+			config.LoadedFonts.Add(fontFile);
 
 			// Get font family name
 			string fontName;
@@ -85,6 +86,8 @@ namespace Taction.JsonConverter {
 				pfc.AddFontFile(fontFile);
 				fontName = pfc.Families.First().Name;
 			}
+			// Ensure release lock; .NET bug
+			WinApi.RemoveFontResourceEx(fontFile, (int)WinApi.FR.FR_PRIVATE, IntPtr.Zero);
 
 			// Create path
 			var localUri = new UriBuilder(new Uri(fontFile).AbsoluteUri) {
