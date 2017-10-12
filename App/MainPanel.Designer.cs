@@ -162,6 +162,10 @@ namespace Taction {
 
 				var gradientBrush = (LinearGradientBrush)brush;
 
+				// Angle check
+				if (Point.Subtract(gradientBrush.StartPoint, gradientBrush.EndPoint).Length == 1)
+					return;
+
 				var ratio = (panel.Orientation == Orientation.Vertical) ?
 					panel.Width / item.Height :
 					item.Width / panel.Height;
