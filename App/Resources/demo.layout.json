@@ -1,0 +1,80 @@
+{
+	"version": 2,
+	"opacity": 0.9,
+	"opacity-hide": 0.1,
+	"disable-hide": false,
+	"fade-animation-time": 500,
+	"disable-fade-animation": false,
+	"size": 80,
+	"orientation": "vertical",
+	"items": [{
+		"type": "move",
+		"size": 40,
+		"text": {
+			"value": "☰☰",
+			"font": "Segoe UI Black",
+			"size": 16,
+			"color": {
+				"type": "gradient",
+				"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
+			}
+		},
+		"color": {
+			"type": "gradient",
+			"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
+		},
+		"border": {
+			"thickness": "10 5 1 20",
+			"color": {
+				"type": "gradient",
+				"values": ["1 #FFFF0000", "0.5 #FF00FF00", "0 #FF0000FF"]
+			}
+		}
+	}, {
+		"type": "tap",
+		"size": 75,
+		"command": "ESCAPE",
+		"text": {
+			"value": "ESC",
+			"font": "Segoe UI Black",
+			"size": 16,
+		},
+		"color": {
+			"type": "solid",
+			"value": "#FFFFFF"
+		}
+	}, {
+		"type": "hold",
+		"size": 75,
+		"command": "VK_I",
+		"text": {
+			"value": "Eyedropper (I)",
+		},
+		"color": {
+			"type": "image",
+			"source": "1.png"
+		}
+	}, {
+		"type": "toggle",
+		"size": 75,
+		"command": "CONTROL",
+		"text": {
+			"value": "CTRL",
+			"color": {
+				"type": "gradient",
+				"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
+			}
+		}
+	}, {
+		"type": "tap",
+		"size": 75,
+		"command": "CONTROLS VK_S",
+		"border": {
+			"thickness": "1 2 3 4",
+			"color": {
+				"type": "gradient",
+				"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
+			}
+		}
+	}]
+}

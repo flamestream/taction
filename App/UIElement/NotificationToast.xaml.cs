@@ -3,14 +3,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using System.Windows.Media;
 using Hardcodet.Wpf.TaskbarNotification;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace Taction.CustomUIElement {
+namespace Taction.UIElement {
 
 	public partial class NotificationToast : UserControl {
 
@@ -62,11 +61,11 @@ namespace Taction.CustomUIElement {
 			Dispatcher.Invoke(new Action(async () => {
 
 				// Declare intent
-				this.CloseTime = DateTime.Now.AddMilliseconds(closeDelay);
+				CloseTime = DateTime.Now.AddMilliseconds(closeDelay);
 				await Task.Delay(closeDelay);
 
 				// Override check
-				if (this.CloseTime == null || DateTime.Now < this.CloseTime) return;
+				if (CloseTime == null || DateTime.Now < CloseTime) return;
 
 				ParentTaskbarIcon.CloseBalloon();
 
@@ -79,8 +78,8 @@ namespace Taction.CustomUIElement {
 
 			ParentTaskbarIcon.CloseBalloon();
 
-			if (this.Click != null && e.LeftButton == MouseButtonState.Pressed)
-				this.Click.Invoke(this, EventArgs.Empty);
+			if (Click != null && e.LeftButton == MouseButtonState.Pressed)
+				Click.Invoke(this, EventArgs.Empty);
 		}
 
 		protected override void OnMouseEnter(MouseEventArgs e) {
@@ -90,7 +89,7 @@ namespace Taction.CustomUIElement {
 			if (isClosing) return;
 
 			// Prevent closing
-			this.CloseTime = this.CloseTime.AddMilliseconds(SecondaryCloseDelayTime);
+			CloseTime = CloseTime.AddMilliseconds(SecondaryCloseDelayTime);
 			ParentTaskbarIcon.ResetBalloonCloseTimer();
 		}
 
@@ -99,7 +98,7 @@ namespace Taction.CustomUIElement {
 			base.OnMouseLeave(e);
 
 			// Start back close timer
-			this.ScheduleClose(this.SecondaryCloseDelayTime);
+			ScheduleClose(SecondaryCloseDelayTime);
 		}
 
 		private void OnBalloonClosing(object sender, RoutedEventArgs e) {

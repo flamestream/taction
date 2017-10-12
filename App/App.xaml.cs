@@ -2,11 +2,12 @@
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using Taction.CustomUIElement;
+using Taction.UIElement;
 
 namespace Taction {
 
@@ -15,62 +16,13 @@ namespace Taction {
 	/// </summary>
 	public partial class App : Application {
 
-		#region -- Application Settings/Constants --
-
-		internal const int NotificationToastCloseDelayTime = 5000;
-		internal const int NotificationToastSecondaryCloseDelayTime = 500;
-		internal const int MaxErrorLogSize = 2 * 1024;
-		internal const int ErrorLogTrimLineCount = 500;
-
-		#endregion -- Application Settings/Constants --
-
-		#region -- Static Properties --
-
-		private static string _AppDataDir;
-		private static string _ErrorFilePath;
-
-		/// <summary>
-		/// Cached app data directory
-		/// </summary>
-		public static string AppDataDir {
-			get {
-				if (_AppDataDir == null) {
-
-					_AppDataDir = string.Format(@"{0}\{1}",
-						Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-						Taction.Properties.Resources.AppName
-					);
-				}
-
-				return _AppDataDir;
-			}
-		}
-
-		/// <summary>
-		/// Cached error file path of the config file.
-		/// </summary>
-		public static string ErrorFilePath {
-			get {
-				if (_ErrorFilePath == null) {
-
-					_ErrorFilePath = string.Format(@"{0}\{1}",
-						App.AppDataDir,
-						Taction.Properties.Resources.ConfigErrorFileName
-					);
-				}
-
-				return _ErrorFilePath;
-			}
-		}
-
-		#endregion -- Static Properties --
-
-		internal Config config;
-		internal ErrorLogger errorLogger;
-		internal MainPanel panel => (MainPanel)MainWindow;
-		internal TaskbarIcon notificationIcon { get; private set; }
-		internal GlobalMouseHook globalMouseHook { get; private set; }
-		internal InputSimulatorHelper inputSimulator { get; set; }
+		internal Config Config;
+		internal ErrorLogger ErrorLogger;
+		internal MainPanel MainPanel => (MainPanel)MainWindow;
+		internal TaskbarIcon NotificationIcon { get; private set; }
+		internal GlobalMouseHook GlobalMouseHook { get; private set; }
+		internal InputSimulatorHelper InputSimulator { get; private set; }
+		internal List<Rect> OutBoundaries { get; private set; }
 
 		protected override void OnStartup(StartupEventArgs e) {
 
@@ -78,40 +30,43 @@ namespace Taction {
 
 			// Ensure app data directory
 			Directory.CreateDirectory(AppDataDir);
+			Directory.CreateDirectory(FontDir);
 
 			// Initialize basic stuff
-			globalMouseHook = new GlobalMouseHook();
-			inputSimulator = new InputSimulatorHelper();
-			config = new Config();
-			errorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
+			GlobalMouseHook = new GlobalMouseHook();
+			InputSimulator = new InputSimulatorHelper();
+			Config = new Config();
+			ErrorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
+			OutBoundaries = new List<Rect>();
 
 			// Setup Notification icon
 			{
 				var res = new ResourceDictionary {
 					Source = new Uri(@"pack://application:,,,/NotificationIcon.xaml")
 				};
-				notificationIcon = (TaskbarIcon)res["Definition"];
+				NotificationIcon = (TaskbarIcon)res["Definition"];
 			}
 
-			config.LoadState();
+			Config.LoadState();
 			LoadSavedLayout(true);
 		}
 
 		protected override void OnExit(ExitEventArgs e) {
 
-			globalMouseHook.Dispose();
+			GlobalMouseHook.Dispose();
+			NotificationIcon.Dispose();
 		}
 
 		public void ToggleEnable() {
 
-			if (panel.Visibility == Visibility.Visible) {
+			if (MainPanel.Visibility == Visibility.Visible) {
 
-				panel.Visibility = Visibility.Hidden;
-				globalMouseHook.Disable();
+				MainPanel.Visibility = Visibility.Hidden;
+				GlobalMouseHook.Disable();
 
 			} else {
 
-				panel.Visibility = Visibility.Visible;
+				MainPanel.Visibility = Visibility.Visible;
 			}
 		}
 
@@ -126,7 +81,7 @@ namespace Taction {
 			if (clickHandler != null)
 				toast.Click += clickHandler;
 
-			notificationIcon.ShowCustomBalloon(toast, PopupAnimation.Fade, NotificationToastCloseDelayTime);
+			NotificationIcon.ShowCustomBalloon(toast, PopupAnimation.Fade, NotificationToastCloseDelayTime);
 		}
 
 		public void ShowErrorToast(string body, string title = null) {
@@ -141,11 +96,11 @@ namespace Taction {
 
 		public void MoveTo(double x, double y) {
 
-			panel.Left = x;
-			panel.Top = y;
-			WindowManipulator.FitToNearestDesktop(panel);
+			MainPanel.Left = x;
+			MainPanel.Top = y;
+			WindowManipulator.FitToNearestDesktop(MainPanel);
 
-			config.Save();
+			Config.Save();
 		}
 
 		public void LoadDefaultLayout(bool prompt = false) {
@@ -153,7 +108,7 @@ namespace Taction {
 			if (prompt) {
 
 				var res = MessageBox.Show(
-					panel,
+					MainPanel,
 					"This will reset your current layout.",
 					Taction.Properties.Resources.AppName,
 					MessageBoxButton.OKCancel,
@@ -169,58 +124,65 @@ namespace Taction {
 			var json = JObject.Parse(text);
 
 			// Load and validate
-			this.config.LoadLayout(json);
+			Config.LoadLayout(json);
 
 			// Update UI
-			if (this.panel != null)
-				this.panel.ReloadLayout();
+			if (MainPanel != null)
+				MainPanel.ReloadLayout();
 
 			// Persist for later
-			File.WriteAllText(Config.FileLayoutPath, text, encoding);
+			File.WriteAllText(FileLayoutPath, text, encoding);
 		}
 
 		public void PromptLoadLayout() {
 
-			var initialDir = config.state.fileDialogInitialDirectory;
+			var initialDir = Config.State.FileDialogInitialDirectory;
 			if (initialDir == null || !Directory.Exists(initialDir))
 				initialDir = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
 			var openFileDialog = new OpenFileDialog {
 				InitialDirectory = initialDir,
 				Filter = string.Format(
-					"Taction Config (*{0})|*{0}|JSON files (*.json)|*.json",
+					"Supported files|*{0};*.json|Taction bundle|*{0}|JSON layout|*.json",
 					Taction.Properties.Resources.ConfigBundleFileExtension
 				)
 			};
 
-			if (openFileDialog.ShowDialog(Application.Current.MainWindow) != true)
+			if (openFileDialog.ShowDialog(Current.MainWindow) != true)
 				return;
 
-			config.state.fileDialogInitialDirectory = Path.GetDirectoryName(openFileDialog.FileName);
-			config.Save();
+			Config.State.FileDialogInitialDirectory = Path.GetDirectoryName(openFileDialog.FileName);
+			Config.Save();
 
-			LoadLayout(openFileDialog.FileName);
+			if (TryLoadLayout(openFileDialog.FileName)) {
+
+				var layoutName = Config.Layout.Name ?? Path.GetFileName(openFileDialog.FileName);
+				ShowToast(string.Format("{0} has been succesfully applied.", layoutName), "Layout Loaded");
+			}
 		}
 
 		public void LoadSavedLayout(bool useFallback = false) {
 
-			string targetFile = (File.Exists(Config.FileBundlePath)) ?
-				Config.FileBundlePath :
-				(File.Exists(Config.FileLayoutPath)) ?
-					Config.FileLayoutPath :
+			string targetFile = (File.Exists(FileBundlePath)) ?
+				FileBundlePath :
+				(File.Exists(FileLayoutPath)) ?
+					FileLayoutPath :
 					null;
 
 			if (targetFile != null) {
 
 				try {
 
-					config.LoadLayout(targetFile);
+					Config.LoadLayout(targetFile);
 
 				} catch (Exception e) {
 
-					errorLogger.Log(e.ToString());
+					ErrorLogger.Log(e.ToString());
 					LoadDefaultLayout();
-					File.Move(targetFile, targetFile + ".bak");
+
+					var backupFile = targetFile + ".bak";
+					File.Delete(backupFile);
+					File.Move(targetFile, backupFile);
 					ShowErrorToast("Problem loading saved layout. Reverting to default.");
 				}
 
@@ -234,22 +196,26 @@ namespace Taction {
 			}
 		}
 
-		public void LoadLayout(string path) {
+		private bool TryLoadLayout(string path) {
 
 			string errSummary = "Config load error.";
 			string errDetails = null;
 			try {
 
 				// Load and validate
-				this.config.LoadLayout(path);
+				Config.LoadLayout(path);
 
 				// Update UI
-				this.panel.ReloadLayout();
+				MainPanel.ReloadLayout();
 
-				// Persist for later
+				// Remove previous file(s)
+				File.Delete(FileLayoutPath);
+				File.Delete(FileBundlePath);
+
+				// Persist for resume
 				var targetFile = (Path.GetExtension(path) == Taction.Properties.Resources.ConfigBundleFileExtension) ?
-					Config.FileBundlePath :
-					Config.FileBundleName;
+					FileBundlePath :
+					FileLayoutPath;
 
 				File.Copy(path, targetFile, true);
 
@@ -272,9 +238,13 @@ namespace Taction {
 
 				var msg = errSummary + Environment.NewLine + errDetails;
 
-				this.errorLogger.Log(msg);
-				this.ShowErrorToast(errSummary);
+				ErrorLogger.Log(msg);
+				ShowErrorToast(errSummary);
+
+				return false;
 			}
+
+			return true;
 		}
 	}
 }

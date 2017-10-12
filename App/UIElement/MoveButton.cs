@@ -1,23 +1,18 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static Taction.Config;
 
-namespace Taction.CustomUIElement {
+namespace Taction.UIElement {
 
 	internal class MoveButton : Button {
 
-		public MoveButton(IPanelItemSpecs specs, StackPanel panel = null) {
+		public MoveButton(IPanelItemSpecs specs) {
 
-			var s = (MoveButtonSpecs)specs;
+			// Special default text
+			if (Content == null)
+				Content = "☰☰";
 
-			this.Content = s.text;
-
-			if (panel == null || panel.Orientation == Orientation.Vertical)
-				this.Height = s.size;
-			else
-				this.Width = s.size;
-
+			// Set behaviours
 			Style style = new Style();
 
 			// Display move cursor on mouse over

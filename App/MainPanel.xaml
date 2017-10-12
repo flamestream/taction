@@ -9,18 +9,35 @@
 		ResizeMode="NoResize"
 		ShowInTaskbar="False"
 		Width="80"
-		SizeToContent="Height"
+		SizeToContent="WidthAndHeight"
 		Topmost="True"
 		WindowStyle="None"
 		AllowsTransparency="True"
 		Stylus.IsPressAndHoldEnabled="False"
-		Background="#7F000000"
+		Background="#00000000"
 		MouseMove="Window_MouseMove"
-		PreviewStylusInAirMove="Window_PreviewStylusInAirMove">
-	<StackPanel Name="container" Margin="0,0,0,0">
-		<Button Height="75" Content="SPACE" Tag="SPACE" />
-		<Button Height="75" Content="SPACE" Tag="SPACE" />
-		<Button Height="75" Content="E" Tag="VK_E" />
+		PreviewStylusInAirMove="Window_PreviewStylusInAirMove"
+		UseLayoutRounding="True">
+	<StackPanel Name="Container">
+		<Button Height="75" Content="SPACE" Tag="SPACE" BorderThickness="10,5">
+			<Button.BorderBrush>
+				<LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+					<GradientStop Color="Black" Offset="0" />
+					<GradientStop Color="White" Offset="1" />
+				</LinearGradientBrush>
+			</Button.BorderBrush>
+			<Button.Background>
+				<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+					<GradientStop Color="#FFFF0000" Offset="0" />
+					<GradientStop Color="#FF00FF00" Offset="0.5" />
+					<GradientStop Color="#FF0000FF" Offset="1" />
+				</LinearGradientBrush>
+			</Button.Background>
+		</Button>
+		<Button Height="75" Tag="SPACE" Margin="10" Padding="10">
+			<Image Source="pack://siteoforigin:,,,/Resources/icon.ico" Margin="10" />
+		</Button>
+		<Button Height="75" Content="E" Tag="VK_E" FontSize="14" IsCancel="True" />
 		<Button Height="75" Content="I" Tag="VK_I" />
 		<Button Height="75" Content="M" Tag="VK_M" />
 		<Button Height="75" Content="CTRL" Tag="CONTROL" />
