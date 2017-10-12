@@ -8,16 +8,27 @@
 	"size": 80,
 	"orientation": "vertical",
 	"items": [{
+		"type": "tap",
+		"size": 75,
+		"command": "ESCAPE",
+		"content": {
+			"type": "text",
+			"value": "ESC",
+		},
+		"text-style": {
+			"font-family": "Segoe UI Black",
+			"size": 16,
+		},
+		"color": {
+			"type": "solid",
+			"value": "#FFFFFF00"
+		}
+	}, {
 		"type": "move",
 		"size": 40,
-		"text": {
-			"value": "☰☰",
-			"font": "Segoe UI Black",
-			"size": 16,
-			"color": {
-				"type": "gradient",
-				"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
-			}
+		"text-style": {
+			"font-family": "Segoe UI Black",
+			"size": 16
 		},
 		"color": {
 			"type": "gradient",
@@ -31,35 +42,22 @@
 			}
 		}
 	}, {
-		"type": "tap",
-		"size": 75,
-		"command": "ESCAPE",
-		"text": {
-			"value": "ESC",
-			"font": "Segoe UI Black",
-			"size": 16,
-		},
-		"color": {
-			"type": "solid",
-			"value": "#FFFFFF"
-		}
-	}, {
 		"type": "hold",
 		"size": 75,
 		"command": "VK_I",
-		"text": {
+		"content": {
+			"type": "text",
 			"value": "Eyedropper (I)",
-		},
-		"color": {
-			"type": "image",
-			"source": "1.png"
 		}
 	}, {
 		"type": "toggle",
 		"size": 75,
 		"command": "CONTROL",
-		"text": {
+		"content": {
+			"type": "text",
 			"value": "CTRL",
+		},
+		"text-style": {
 			"color": {
 				"type": "gradient",
 				"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
@@ -68,13 +66,17 @@
 	}, {
 		"type": "tap",
 		"size": 75,
-		"command": "CONTROLS VK_S",
+		"command": "CONTROL VK_S",
 		"border": {
 			"thickness": "1 2 3 4",
 			"color": {
 				"type": "gradient",
 				"values": ["0 #FFFF0000", "0.5 #FF00FF00", "1 #FF0000FF"]
 			}
-		}
+		},
+		"content": {
+			"type": "text",
+			"value": "SAVE",
+		},
 	}]
 }
