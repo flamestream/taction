@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using Taction.CustomAttribute;
-using static Taction.Config;
+using System.Windows.Media;
+using Taction.Attribute;
 
 namespace Taction {
 
@@ -13,35 +13,46 @@ namespace Taction {
 
 			public static void GenerateLayout(MainPanel window) {
 
-				var config = ((App)App.Current).config;
+				App.Instance.OutBoundaries.Clear();
 
-				var layoutData = config.layout;
-				var stateData = config.state;
+				var config = App.Instance.Config;
 
-				// Prepare intent
-				var panel = new StackPanel {
-					Orientation = config.layout.orientation
-				};
-				ProcessLayout(layoutData.items, panel);
+				var layoutData = config.Layout;
+				var stateData = config.State;
 
-				// Make changes
-				if (layoutData.orientation == Orientation.Vertical) {
+				// Setup window
+				window.Opacity = layoutData.Opacity;
+				window.Background = layoutData.Color;
 
-					window.Width = layoutData.size;
-					window.SizeToContent = SizeToContent.Height;
+				window.BorderThickness = default(Thickness);
+				window.BorderBrush = null;
+				if (layoutData.Border != null) {
 
-				} else {
+					if (layoutData.Border.Thickness != null)
+						window.BorderThickness = layoutData.Border.Thickness;
 
-					window.Height = layoutData.size;
-					window.SizeToContent = SizeToContent.Width;
+					if (layoutData.Border.Color != null)
+						window.BorderBrush = layoutData.Border.Color;
 				}
 
-				window.Opacity = layoutData.opacity;
-				window.container.Children.Add(panel);
+				// Setup main panel
+				var panel = new StackPanel {
+					Orientation = config.Layout.Orientation,
+					Margin = layoutData.Margin,
+				};
+				if (layoutData.Orientation == Orientation.Vertical) {
+					panel.Width = layoutData.Size;
+				} else {
+					panel.Height = panel.Height = layoutData.Size;
+				}
+				window.Container.Children.Add(panel);
+
+				// Compute children items
+				ProcessLayout(layoutData.Items, panel);
 
 				// Set position
-				window.Left = stateData.x;
-				window.Top = stateData.y;
+				window.Left = stateData.X;
+				window.Top = stateData.Y;
 			}
 
 			private static void ProcessLayout(List<IPanelItemSpecs> specsList, StackPanel currentPanel) {
@@ -51,17 +62,114 @@ namespace Taction {
 
 				foreach (var specs in specsList) {
 
+					double width, height;
 					var specsType = specs.GetType();
 					var attr = (AssociatedClassAttribute)specsType.GetCustomAttributes(typeof(AssociatedClassAttribute), true)[0];
-					var itemType = attr.value;
-					var item = (UIElement)Activator.CreateInstance(itemType, specs, currentPanel);
+					var itemType = attr.Value;
+					var item = (FrameworkElement)Activator.CreateInstance(itemType, specs);
 
+					// Set size
+					if (currentPanel.Orientation == Orientation.Vertical) {
+
+						width = currentPanel.Width;
+						height = item.Height = specs.Size;
+
+					} else {
+
+						width = item.Width = specs.Size;
+						height = currentPanel.Height;
+					}
+
+					// Set margin
+					if (specs.Margin != null)
+						item.Margin = specs.Margin;
+
+					// Set button-exclusive properties
+					if (specs is IButtonSpecs)
+						ApplyStyle((ContentControl)item, (IButtonSpecs)specs, currentPanel);
+
+					// Add to tree
 					currentPanel.Children.Add(item);
 
-					// Special when panel
-					if (item is StackPanel)
-						ProcessLayout(((PivotSpecs)specs).items, (StackPanel)item);
+					// Special: Panel handling
+					if (item is StackPanel) {
+
+						var childPanel = (StackPanel)item;
+						childPanel.Orientation = currentPanel.Orientation == Orientation.Horizontal ?
+							Orientation.Vertical :
+							Orientation.Horizontal;
+
+						// Process Children
+						ProcessLayout(((PivotSpecs)specs).Items, childPanel);
+
+					} else if (item is UIElement.MoveButton) {
+
+						var origin = item.TranslatePoint(new Point(), null);
+						var bounds = new Rect(origin.X, origin.Y, width, height);
+						App.Instance.OutBoundaries.Add(bounds);
+					}
 				}
+			}
+
+			private static void ApplyStyle(ContentControl item, IButtonSpecs specs, StackPanel panel) {
+
+				// Set content
+				if (specs.Content != null)
+					item.Content = specs.Content;
+
+				// Set margin
+				if (specs.Padding != null)
+					item.Padding = specs.Padding;
+
+				// Set Text
+				if (specs.TextStyle != null) {
+					
+					item.FontSize = specs.TextStyle.Size;
+
+					if (specs.TextStyle.Color != null)
+						item.Foreground = specs.TextStyle.Color;
+
+					if (specs.TextStyle.Font != null)
+						item.FontFamily = specs.TextStyle.Font;
+				}
+
+				// Set background
+				if (specs.Color != null) {
+
+					item.Background = specs.Color;
+					AdjustGradientColor(item.Background, item, panel);
+				}
+
+				// Set border
+				if (specs.Border != null) {
+
+					if (specs.Border.Thickness != null)
+						item.BorderThickness = specs.Border.Thickness;
+
+					if (specs.Border.Color != null) {
+
+						item.BorderBrush = specs.Border.Color;
+						AdjustGradientColor(item.BorderBrush, item, panel);
+					}
+				}
+			}
+
+			private static void AdjustGradientColor(Brush brush, ContentControl item, StackPanel panel) {
+
+				// Type heck
+				if (!(brush is LinearGradientBrush))
+					return;
+
+				var gradientBrush = (LinearGradientBrush)brush;
+
+				var ratio = (panel.Orientation == Orientation.Vertical) ?
+					panel.Width / item.Height :
+					item.Width / panel.Height;
+				
+				var displacement = (ratio - 1) * 0.5;
+				
+				gradientBrush.StartPoint = new Point(gradientBrush.StartPoint.X, ratio * gradientBrush.StartPoint.Y - displacement);
+				gradientBrush.EndPoint = new Point(gradientBrush.EndPoint.X, ratio * gradientBrush.EndPoint.Y - displacement);
 			}
 		}
 	}

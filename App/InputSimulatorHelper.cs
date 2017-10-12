@@ -23,11 +23,11 @@ namespace Taction {
 			VirtualKeyCode.RWIN
 		};
 
-		private InputSimulator inputSimulator;
+		private InputSimulator InputSimulatorInstance;
 
 		public InputSimulatorHelper() {
 
-			inputSimulator = new InputSimulator();
+			InputSimulatorInstance = new InputSimulator();
 		}
 
 		/// <summary>
@@ -39,7 +39,7 @@ namespace Taction {
 			if (keyCommand == null)
 				return;
 
-			var keyCodes = keyCommand.keyCodes;
+			var keyCodes = keyCommand.KeyCodes;
 			if (keyCodes == null)
 				return;
 
@@ -47,7 +47,7 @@ namespace Taction {
 			var normalKeyCodes = keyCodes.Except(modifierKeyCodes);
 
 			Debug.WriteLine(string.Format("KEY PRESS {0}", string.Join("+", keyCodes)));
-			inputSimulator.Keyboard.ModifiedKeyStroke(modifierKeyCodes, normalKeyCodes);
+			InputSimulatorInstance.Keyboard.ModifiedKeyStroke(modifierKeyCodes, normalKeyCodes);
 		}
 
 		/// <summary>
@@ -59,14 +59,14 @@ namespace Taction {
 			if (keyCommand == null)
 				return;
 
-			var keyCodes = keyCommand.keyCodes;
+			var keyCodes = keyCommand.KeyCodes;
 			if (keyCodes == null)
 				return;
 
 			foreach (var keyCode in keyCodes) {
 
 				Debug.WriteLine(string.Format("KEY DOWN {0}", keyCode));
-				inputSimulator.Keyboard.KeyDown(keyCode);
+				InputSimulatorInstance.Keyboard.KeyDown(keyCode);
 			}
 		}
 
@@ -80,7 +80,7 @@ namespace Taction {
 			if (keyCommand == null)
 				return;
 
-			var keyCodes = keyCommand.keyCodes;
+			var keyCodes = keyCommand.KeyCodes;
 			if (keyCodes == null)
 				return;
 
@@ -88,41 +88,8 @@ namespace Taction {
 
 				var keyCode = keyCodes[i];
 				Debug.WriteLine(string.Format("KEY UP {0}", keyCode));
-				inputSimulator.Keyboard.KeyUp(keyCode);
+				InputSimulatorInstance.Keyboard.KeyUp(keyCode);
 			}
 		}
-
-		/// <summary>
-		/// Parse key comamand.
-		/// Throws if format is invalid.
-		/// </summary>
-		/// <param name="keyCommand">User-inputted key command</param>
-		/// <returns>
-		/// A KeyCommand object, or null if invalid.
-		/// </returns>
-		public static KeyCommand ParseKeyCommand(string keyCommand) {
-
-			var keyCodes = new List<VirtualKeyCode>();
-			var keyIds = keyCommand.Split('+');
-
-			foreach (var keyId in keyIds) {
-
-				// Valid Key ID check
-				var enumType = typeof(VirtualKeyCode);
-				if (!Enum.IsDefined(enumType, keyId))
-					return null;
-
-				var virtualKeyCode = (VirtualKeyCode)Enum.Parse(enumType, keyId);
-				keyCodes.Add(virtualKeyCode);
-			}
-
-			return new KeyCommand {
-				keyCodes = keyCodes
-			};
-		}
-	}
-
-	internal class KeyCommand {
-		public List<VirtualKeyCode> keyCodes;
 	}
 }
