@@ -25,8 +25,12 @@ namespace Taction.JsonConverter {
 
 			var str = serializer.Deserialize<string>(reader);
 
-			if (!TryParseValue(str, out var keyCodes))
-				throw new FormatException("Invalid key found");
+			var errMsg = AttemptParseValue(str, out var keyCodes);
+			if (errMsg != null) {
+
+				App.Instance.Config.LoadLayoutErrors.Add(string.Format("Key command input '{0}': {1}", str, errMsg));
+				return null;
+			}
 
 			var o = new KeyCommand {
 				KeyCodes = keyCodes
@@ -35,23 +39,38 @@ namespace Taction.JsonConverter {
 			return o;
 		}
 
-		public static bool TryParseValue(string input, out List<VirtualKeyCode> keyCodes) {
+		public static string AttemptParseValue(string input, out List<VirtualKeyCode> keyCodes) {
 
+			var errMsgs = new List<string>();
 			keyCodes = new List<VirtualKeyCode>();
-			var keyIds = input.Split(' ');
 
+			// Sanity
+			input = input.Trim();
+
+			var keyIds = input.Split(' ');
 			foreach (var keyId in keyIds) {
+
+				// Sanity
+				if (keyId.Length == 0)
+					continue;
 
 				// Valid Key ID check
 				var enumType = typeof(VirtualKeyCode);
-				if (!Enum.IsDefined(enumType, keyId))
-					return false;
+				if (!Enum.IsDefined(enumType, keyId)) {
+
+					errMsgs.Add(string.Format("Key ID '{0}' is not valid", keyId));
+					continue;
+				}
 
 				var virtualKeyCode = (VirtualKeyCode)Enum.Parse(enumType, keyId);
 				keyCodes.Add(virtualKeyCode);
 			}
 
-			return true;
+			// Error exists check
+			if (errMsgs.Count != 0)
+				return string.Join("; ", errMsgs);
+
+			return null;
 		}
 	}
 }
