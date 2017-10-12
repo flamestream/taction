@@ -114,7 +114,8 @@ namespace Taction {
 			private static void ApplyStyle(ContentControl item, IButtonSpecs specs, StackPanel panel) {
 
 				// Set content
-				item.Content = specs.Content;
+				if (specs.Content != null)
+					item.Content = specs.Content;
 
 				// Set margin
 				if (specs.Padding != null)
