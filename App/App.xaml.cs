@@ -54,6 +54,7 @@ namespace Taction {
 		protected override void OnExit(ExitEventArgs e) {
 
 			GlobalMouseHook.Dispose();
+			NotificationIcon.Dispose();
 		}
 
 		public void ToggleEnable() {
