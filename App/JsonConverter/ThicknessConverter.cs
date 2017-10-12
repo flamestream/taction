@@ -21,11 +21,16 @@ namespace Taction.JsonConverter {
 
 		public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer) {
 
+			var value = serializer.Deserialize<string>(reader);
+			return FromString(value);
+		}
+
+		public static Thickness FromString(string input) {
+
 			var o = default(Thickness);
 
 			// Parse value
-			var value = serializer.Deserialize<string>(reader);
-			var values = value.Split(' ');
+			var values = input.Split(' ');
 
 			// Valid check
 			if (values.Length == 0 || values.Length > 4)

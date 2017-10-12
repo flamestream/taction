@@ -37,59 +37,10 @@ namespace Taction.JsonConverter {
 					var stretch = json.Value<string>("stretch");
 					var tile = json.Value<string>("tile");
 					var source = json.Value<string>("source");
-
-					// Read file
-					var stream = new MemoryStream();
-					var loadingStreams = App.Instance.Config.LoadingImageStreams;
-
-					var zip = App.Instance.Config.LoadedLayoutZip;
-					if (zip != null) { // Try zip
-
-						var entry = zip.GetEntry(source);
-						if (entry == null) {
-
-							App.Instance.Config.LoadLayoutErrors.Add(string.Format("Image '{0}': File is not found", source));
-							return o;
-						}
-
-						using (var s = entry.Open()) {
-
-							s.CopyTo(stream);
-						}
-
-					} else { // Try local
-
-						var file = Path.Combine(App.AppDataDir, source);
-						if (!File.Exists(file)) {
-
-							App.Instance.Config.LoadLayoutErrors.Add(string.Format("Image '{0}': File is not found", source));
-							return o;
-						}
-
-						using (var s = File.Open(file, FileMode.Open, FileAccess.Read)) {
-
-							s.CopyTo(stream);
-						}
-					}
-
-					loadingStreams.Add(stream);
-
-					// Create source
-					var bitmap = new BitmapImage();
-					try {
-
-						bitmap.BeginInit();
-						bitmap.StreamSource = stream;
-						bitmap.EndInit();
-
-					} catch (NotSupportedException e) {
-
-						App.Instance.Config.LoadLayoutErrors.Add(string.Format("Image '{0}': Format is not supported: {1}", source, e.Message));
-						return o;
-					}
+					var bitmap = ContentConverter.GetBitmap(source);
 
 					o = new ImageBrush {
-						Stretch = GetStretch(stretch),
+						Stretch = ContentConverter.GetStretch(stretch),
 						TileMode = GetTileMode(tile),
 						ImageSource = bitmap,
 					};
@@ -139,28 +90,7 @@ namespace Taction.JsonConverter {
 			return o;
 		}
 
-		private Stretch GetStretch(string id) {
-
-			var o = Stretch.None;
-
-			switch (id) {
-				case "fill":
-					o = Stretch.Fill;
-					break;
-
-				case "uniform":
-					o = Stretch.Uniform;
-					break;
-
-				case "uniform-fill":
-					o = Stretch.UniformToFill;
-					break;
-			}
-
-			return o;
-		}
-
-		private TileMode GetTileMode(string id) {
+		public static TileMode GetTileMode(string id) {
 
 			var o = TileMode.None;
 
@@ -185,7 +115,7 @@ namespace Taction.JsonConverter {
 			return o;
 		}
 
-		private bool TryGetColor(string input, out Color color) {
+		public static bool TryGetColor(string input, out Color color) {
 
 			color = default(Color);
 
@@ -201,7 +131,7 @@ namespace Taction.JsonConverter {
 			return true;
 		}
 
-		private string AttemptGetGradientStop(string input, out GradientStop o) {
+		public static string AttemptGetGradientStop(string input, out GradientStop o) {
 
 			o = default(GradientStop);
 
@@ -230,7 +160,7 @@ namespace Taction.JsonConverter {
 			return null;
 		}
 
-		private Tuple<Point, Point> ConvertAngleToPoints(double angle) {
+		public static Tuple<Point, Point> ConvertAngleToPoints(double angle) {
 
 			// Simplify
 			while (angle < 0) angle += 360;

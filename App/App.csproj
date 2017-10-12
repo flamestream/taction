@@ -81,6 +81,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="ConfigLayout.cs" />
     <Compile Include="ConfigState.cs" />
+    <Compile Include="JsonConverter\ContentConverter.cs" />
     <Compile Include="JsonConverter\KeyCommandListConverter.cs" />
     <Compile Include="KeyCommand.cs" />
     <Compile Include="JsonConverter\ThicknessConverter.cs" />

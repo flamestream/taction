@@ -13,58 +13,66 @@
 	}, {
 		"type": "tap",
 		"size": 75,
-		"text": {
-			"value": "ESC",
+		"content": {
+			"type": "text",
+			"value": "ESC"
 		},
 		"command": "ESCAPE"
 	}, {
 		"type": "tap",
 		"size": 75,
-		"text": {
-			"value": "Tab",
+		"content": {
+			"type": "text",
+			"value": "Tab"
 		},
 		"command": "TAB"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"text": {
-			"value": "Eyedropper (I)",
+		"content": {
+			"type": "text",
+			"value": "Eyedropper (I)"
 		},
 		"command": "VK_I"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"text": {
-			"value": "Eraser (E)",
+		"content": {
+			"type": "text",
+			"value": "Eraser (E)"
 		},
 		"command": "VK_E"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"text": {
-			"value": "Marquee (M)",
+		"content": {
+			"type": "text",
+			"value": "Marquee (M)"
 		},
 		"command": "VK_M"
 	}, {
 		"type": "tap",
 		"size": 75,
-		"text": {
-			"value": "Save",
+		"content": {
+			"type": "text",
+			"value": "Save"
 		},
 		"command": "CONTROL VK_S"
 	}, {
 		"type": "toggle",
 		"size": 40,
-		"text": {
-			"value": "CTRL",
+		"content": {
+			"type": "text",
+			"value": "CTRL"
 		},
 		"command": "CONTROL"
 	}, {
 		"type": "toggle",
 		"size": 40,
 		"command": "SHIFT",
-		"text": {
-			"value": "SHIFT",
+		"content": {
+			"type": "text",
+			"value": "SHIFT"
 		}
 	}]
 }

@@ -20,32 +20,12 @@ namespace Taction {
 				var layoutData = config.Layout;
 				var stateData = config.State;
 
-				// Prepare intent
-				var panel = new StackPanel {
-					Orientation = config.Layout.Orientation
-				};
-				
-				// Make changes
-				if (layoutData.Orientation == Orientation.Vertical) {
-
-					window.Width = panel.Width = layoutData.Size;
-					window.SizeToContent = SizeToContent.Height;
-					
-					if (layoutData.Border != null && layoutData.Border.Thickness != null)
-						window.Width += layoutData.Border.Thickness.Left + layoutData.Border.Thickness.Right;
-
-				} else {
-
-					window.Height = panel.Height = layoutData.Size;
-					window.SizeToContent = SizeToContent.Width;
-
-					if (layoutData.Border != null && layoutData.Border.Thickness != null)
-						window.Height += layoutData.Border.Thickness.Top + layoutData.Border.Thickness.Bottom;
-				}
-
+				// Setup window
 				window.Opacity = layoutData.Opacity;
-				window.Container.Children.Add(panel);
+				window.Background = layoutData.Color;
 
+				window.BorderThickness = default(Thickness);
+				window.BorderBrush = null;
 				if (layoutData.Border != null) {
 
 					if (layoutData.Border.Thickness != null)
@@ -54,6 +34,18 @@ namespace Taction {
 					if (layoutData.Border.Color != null)
 						window.BorderBrush = layoutData.Border.Color;
 				}
+
+				// Setup main panel
+				var panel = new StackPanel {
+					Orientation = config.Layout.Orientation,
+					Margin = layoutData.Margin,
+				};
+				if (layoutData.Orientation == Orientation.Vertical) {
+					panel.Width = layoutData.Size;
+				} else {
+					panel.Height = panel.Height = layoutData.Size;
+				}
+				window.Container.Children.Add(panel);
 
 				// Compute children items
 				ProcessLayout(layoutData.Items, panel);
@@ -88,6 +80,10 @@ namespace Taction {
 						height = currentPanel.Height;
 					}
 
+					// Set margin
+					if (specs.Margin != null)
+						item.Margin = specs.Margin;
+
 					// Set button-exclusive properties
 					if (specs is IButtonSpecs)
 						ApplyStyle((ContentControl)item, (IButtonSpecs)specs, currentPanel);
@@ -117,17 +113,23 @@ namespace Taction {
 
 			private static void ApplyStyle(ContentControl item, IButtonSpecs specs, StackPanel panel) {
 
+				// Set content
+				item.Content = specs.Content;
+
+				// Set margin
+				if (specs.Padding != null)
+					item.Padding = specs.Padding;
+
 				// Set Text
-				if (specs.Text != null) {
+				if (specs.TextStyle != null) {
+					
+					item.FontSize = specs.TextStyle.Size;
 
-					item.Content = specs.Text.Value;
-					item.FontSize = specs.Text.Size;
+					if (specs.TextStyle.Color != null)
+						item.Foreground = specs.TextStyle.Color;
 
-					if (specs.Text.Color != null)
-						item.Foreground = specs.Text.Color;
-
-					if (specs.Text.Font != null)
-						item.FontFamily = specs.Text.Font;
+					if (specs.TextStyle.Font != null)
+						item.FontFamily = specs.TextStyle.Font;
 				}
 
 				// Set background

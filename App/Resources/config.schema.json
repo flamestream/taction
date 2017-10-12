@@ -23,8 +23,10 @@
 		"name": {"type": "string"},
 		"disable-fade-animation": {"type": "boolean"},
 		"disable-hide": {"type": "boolean"},
+		"margin": {"type": "string"},
 		"border": {"$ref": "#/definitions/borderType"},
 		"orientation": {"$ref": "#/definitions/orientationType"},
+		"color": {"$ref": "#/definitions/colorType"},
 		"items": {"$ref": "#/definitions/itemsType"}
 	},
 	"additionalProperties": false,
@@ -35,15 +37,6 @@
 			"type": "string",
 			"enum": ["vertical", "horizontal"]
 		},
-		"borderThicknessType": {
-			"type": "object",
-			"properties": {
-				"top": {"type": "number"},
-				"right": {"type": "number"},
-				"bottom": {"type": "number"},
-				"left": {"type": "number"},
-			},
-		},
 		"borderType": {
 			"type": "object",
 			"properties": {
@@ -51,22 +44,6 @@
 				"color": {"$ref": "#/definitions/colorType"}
 			},
 			"additionalProperties": false,
-		},
-		"textType": {
-			"type": "object",
-			"properties": {
-				"size": {
-					"type": "number",
-					"default": 12.0,
-					"minimum": 0,
-					"exclusiveMinimum": true
-				},
-				"value": {"type": "string"},
-				"font-family": {"type": "string"},
-				"color": {"$ref": "#/definitions/colorType"},
-			},
-			"additionalProperties": false,
-			"required": ["value"]
 		},
 		"itemsType": {
 			"type": "array",
@@ -110,8 +87,11 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"text": {"$ref": "#/definitions/textType"},
+				"content": {"$ref": "#/definitions/contentType"},
+				"text-style": {"$ref": "#/definitions/textStyleType"},
 				"color": {"$ref": "#/definitions/colorType"},
+				"margin": {"type": "string"},
+				"padding": {"type": "string"},
 				"border": {"$ref": "#/definitions/borderType"},
 			},
 			"additionalProperties": false,
@@ -130,8 +110,11 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"text": {"$ref": "#/definitions/textType"},
+				"content": {"$ref": "#/definitions/contentType"},
+				"text-style": {"$ref": "#/definitions/textStyleType"},
 				"color": {"$ref": "#/definitions/colorType"},
+				"margin": {"type": "string"},
+				"padding": {"type": "string"},
 				"border": {"$ref": "#/definitions/borderType"},
 			},
 			"additionalProperties": false,
@@ -150,8 +133,11 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"text": {"$ref": "#/definitions/textType"},
+				"content": {"$ref": "#/definitions/contentType"},
+				"text-style": {"$ref": "#/definitions/textStyleType"},
 				"color": {"$ref": "#/definitions/colorType"},
+				"margin": {"type": "string"},
+				"padding": {"type": "string"},
 				"border": {"$ref": "#/definitions/borderType"},
 			},
 			"additionalProperties": false,
@@ -169,15 +155,70 @@
 					"minimum": 0,
 					"exclusiveMinimum": true
 				},
-				"text": {
-					"$ref": "#/definitions/textType",
-					"default": "☰☰"
-				},
+				"content": {"$ref": "#/definitions/contentType"},
+				"text-style": {"$ref": "#/definitions/textStyleType"},
 				"color": {"$ref": "#/definitions/colorType"},
+				"margin": {"type": "string"},
+				"padding": {"type": "string"},
 				"border": {"$ref": "#/definitions/borderType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size"]
+		},
+		"textStyleType": {
+			"type": "object",
+			"properties": {
+				"size": {
+					"type": "number",
+					"default": 12.0,
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
+				"font-family": {"type": "string"},
+				"color": {"$ref": "#/definitions/colorType"},
+			},
+			"additionalProperties": false
+		},
+		"contentType": {
+			"oneOf": [
+				{"$ref": "#/definitions/contentTextType"},
+				{"$ref": "#/definitions/contentImageType"},
+			]
+		},
+		"contentTextType": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["text"]
+				},
+				"value": {"type": "string"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "value"]
+		},
+		"contentImageType": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["image"]
+				},
+				"opacity": {
+					"type": "number",
+					"default": 1.0,
+					"minimum": 0.0,
+				},
+				"stretch": {
+					"type": "string",
+					"default": "uniform",
+					"enum": ["none", "fill", "uniform", "uniform-fill"]
+				},
+				"source": {"type": "string"},
+				"margin": {"type": "string"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "source"]
 		},
 		"colorType": {
 			"oneOf": [
@@ -193,7 +234,6 @@
 					"type": "string",
 					"enum": ["image"]
 				},
-				"source": {"type": "string"},
 				"tile": {
 					"type": "string",
 					"enum": ["none", "normal", "flip-x", "flip-y", "flip-xy"]
@@ -201,7 +241,8 @@
 				"stretch": {
 					"type": "string",
 					"enum": ["none", "fill", "uniform", "uniform-fill"]
-				}
+				},
+				"source": {"type": "string"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "source"]
