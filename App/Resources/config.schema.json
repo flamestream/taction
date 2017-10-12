@@ -58,6 +58,7 @@
 			}
 		},
 		"pivotItemType": {
+			"description": "An container used to re-orient items in the opposite direction of the parent's.",
 			"type": "object",
 			"properties": {
 				"type": {
@@ -75,6 +76,7 @@
 			"required": ["type", "size", "items"]
 		},
 		"holdItemType": {
+			"description": "An item that sends input down only as long as touch is held down.",
 			"type": "object",
 			"properties": {
 				"type": {
@@ -98,6 +100,7 @@
 			"required": ["type", "size", "command"]
 		},
 		"tapItemType": {
+			"description": "An item that sends input immediately once.",
 			"type": "object",
 			"properties": {
 				"type": {
@@ -121,6 +124,7 @@
 			"required": ["type", "size", "command"]
 		},
 		"toggleItemType": {
+			"description": "An item that sends input in a toggling manner. Press once to hold down the key, and once more to release it.",
 			"type": "object",
 			"properties": {
 				"type": {
@@ -144,6 +148,7 @@
 			"required": ["type", "size", "command"]
 		},
 		"moveItemType": {
+			"description": "An item used to move the panel around the screen.",
 			"type": "object",
 			"properties": {
 				"type": {
@@ -174,7 +179,10 @@
 					"minimum": 0,
 					"exclusiveMinimum": true
 				},
-				"font-family": {"type": "string"},
+				"font-family": {
+					"description": "The name of the system-installed font family. To use a bundled font, enter prepend the file name with './'. You may use fallback fonts with coma separation.",
+					"type": "string"
+				},
 				"color": {"$ref": "#/definitions/colorType"},
 			},
 			"additionalProperties": false
