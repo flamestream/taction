@@ -13,66 +13,94 @@
 	}, {
 		"type": "tap",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "ESC"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "ESC"
+			},
 		},
 		"command": "ESCAPE"
 	}, {
 		"type": "tap",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Tab"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Tab"
+			},
 		},
 		"command": "TAB"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Eyedropper (I)"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Eyedropper (I)"
+			},
 		},
 		"command": "VK_I"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Eraser (E)"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Eraser (E)"
+			},
 		},
 		"command": "VK_E"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Marquee (M)"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Marquee (M)"
+			},
 		},
 		"command": "VK_M"
 	}, {
 		"type": "tap",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Save"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Save"
+			},
 		},
 		"command": "CONTROL VK_S"
 	}, {
 		"type": "toggle",
 		"size": 40,
-		"content": {
-			"type": "text",
-			"value": "CTRL"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "CTRL"
+			},
+		},
+		"active-style": {
+			"content": {
+				"type": "text",
+				"value": "CTRL (ON)"
+			}
 		},
 		"command": "CONTROL"
 	}, {
 		"type": "toggle",
 		"size": 40,
-		"command": "SHIFT",
-		"content": {
-			"type": "text",
-			"value": "SHIFT"
-		}
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "SHIFT"
+			}
+		},
+		"active-style": {
+			"content": {
+				"type": "text",
+				"value": "SHIFT (ON)"
+			}
+		},
+		"command": "SHIFT"
 	}]
 }

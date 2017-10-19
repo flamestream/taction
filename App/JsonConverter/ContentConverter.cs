@@ -45,6 +45,18 @@ namespace Taction.JsonConverter {
 					var source = json.Value<string>("source");
 					var bitmap = GetBitmap(source);
 
+					var colorize = json.Value<string>("colorize");
+					if (colorize != null) {
+
+						if (!BrushConverter.TryGetColor(colorize, out var color)) {
+
+							App.Instance.Config.LoadLayoutErrors.Add(string.Format("Colorize input '{0}': Invalid format", color));
+							return o;
+						}
+
+						bitmap = Designer.ColorizeImage(bitmap, color);
+					}
+
 					var img = new Image {
 						Source = bitmap
 					};

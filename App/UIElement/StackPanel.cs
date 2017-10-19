@@ -1,11 +1,10 @@
 ﻿using System.Windows.Controls;
-using static Taction.Config;
 
 namespace Taction.UIElement {
 
-	internal class StackPanel : System.Windows.Controls.StackPanel {
+	internal class CustomStackPanel : StackPanel {
 
-		public StackPanel(IPanelItemSpecs specs) {
+		public CustomStackPanel(IPanelItemSpecs specs) {
 
 			var s = (PivotSpecs)specs;
 		}

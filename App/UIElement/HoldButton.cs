@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using static Taction.Config;
@@ -8,14 +9,13 @@ namespace Taction.UIElement {
 	/// <summary>
 	/// A button that supports holding down to execute key command.
 	/// </summary>
-	internal class HoldButton : Button {
+	internal class HoldButton : CustomButton {
 
 		internal KeyCommand KeyCommand { set; get; }
 
 		public HoldButton(IPanelItemSpecs specs) {
 
 			var s = (HoldButtonSpecs)specs;
-
 			KeyCommand = s.KeyCommand;
 		}
 

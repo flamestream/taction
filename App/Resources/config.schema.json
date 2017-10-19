@@ -89,12 +89,8 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"content": {"$ref": "#/definitions/contentType"},
-				"text-style": {"$ref": "#/definitions/textStyleType"},
-				"color": {"$ref": "#/definitions/colorType"},
-				"margin": {"type": "string"},
-				"padding": {"type": "string"},
-				"border": {"$ref": "#/definitions/borderType"},
+				"base-style": {"$ref": "#/definitions/styleType"},
+				"active-style": {"$ref": "#/definitions/styleType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
@@ -113,12 +109,8 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"content": {"$ref": "#/definitions/contentType"},
-				"text-style": {"$ref": "#/definitions/textStyleType"},
-				"color": {"$ref": "#/definitions/colorType"},
-				"margin": {"type": "string"},
-				"padding": {"type": "string"},
-				"border": {"$ref": "#/definitions/borderType"},
+				"base-style": {"$ref": "#/definitions/styleType"},
+				"active-style": {"$ref": "#/definitions/styleType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
@@ -137,12 +129,8 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"content": {"$ref": "#/definitions/contentType"},
-				"text-style": {"$ref": "#/definitions/textStyleType"},
-				"color": {"$ref": "#/definitions/colorType"},
-				"margin": {"type": "string"},
-				"padding": {"type": "string"},
-				"border": {"$ref": "#/definitions/borderType"},
+				"base-style": {"$ref": "#/definitions/styleType"},
+				"active-style": {"$ref": "#/definitions/styleType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
@@ -160,6 +148,15 @@
 					"minimum": 0,
 					"exclusiveMinimum": true
 				},
+				"base-style": {"$ref": "#/definitions/styleType"},
+				"active-style": {"$ref": "#/definitions/styleType"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "size"]
+		},
+		"styleType": {
+			"type": "object",
+			"properties": {
 				"content": {"$ref": "#/definitions/contentType"},
 				"text-style": {"$ref": "#/definitions/textStyleType"},
 				"color": {"$ref": "#/definitions/colorType"},
@@ -167,8 +164,6 @@
 				"padding": {"type": "string"},
 				"border": {"$ref": "#/definitions/borderType"},
 			},
-			"additionalProperties": false,
-			"required": ["type", "size"]
 		},
 		"textStyleType": {
 			"type": "object",
@@ -224,6 +219,7 @@
 				},
 				"source": {"type": "string"},
 				"margin": {"type": "string"},
+				"colorize": {"type": "string"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "source"]
@@ -251,6 +247,7 @@
 					"enum": ["none", "fill", "uniform", "uniform-fill"]
 				},
 				"source": {"type": "string"},
+				"colorize": {"type": "string"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "source"]

@@ -2,21 +2,19 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using static Taction.Config;
 
 namespace Taction.UIElement {
 
 	/// <summary>
 	/// A button that executes key command only once.
 	/// </summary>
-	internal class TapButton : Button {
+	internal class TapButton : CustomButton {
 
 		internal KeyCommand KeyCommand { set; get; }
 
 		public TapButton(IPanelItemSpecs specs) {
 
 			var s = (TapButtonSpecs)specs;
-
 			KeyCommand = s.KeyCommand;
 		}
 

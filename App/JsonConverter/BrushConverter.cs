@@ -30,59 +30,75 @@ namespace Taction.JsonConverter {
 
 			switch (type) {
 
-				case "image":
+				case "image": {
 
-					var stretch = json.Value<string>("stretch");
-					var tile = json.Value<string>("tile");
-					var source = json.Value<string>("source");
-					var bitmap = ContentConverter.GetBitmap(source);
+						var stretch = json.Value<string>("stretch");
+						var tile = json.Value<string>("tile");
+						var source = json.Value<string>("source");
 
-					o = new ImageBrush {
-						Stretch = ContentConverter.GetStretch(stretch),
-						TileMode = GetTileMode(tile),
-						ImageSource = bitmap,
-					};
-					break;
+						var bitmap = ContentConverter.GetBitmap(source);
 
-				case "solid":
+						var colorize = json.Value<string>("colorize");
+						if (colorize != null) {
 
-					var value = json.Value<string>("value");
-					if (!TryGetColor(value, out var color)) {
+							if (!TryGetColor(colorize, out var color)) {
 
-						App.Instance.Config.LoadLayoutErrors.Add(string.Format("Solid color input '{0}': Invalid format", value));
-						return o;
-					}
+								App.Instance.Config.LoadLayoutErrors.Add(string.Format("Colorize input '{0}': Invalid format", color));
+								return o;
+							}
 
-					o = new SolidColorBrush {
-						Color = color
-					};
-					break;
-
-				case "gradient":
-
-					var angle = json.Value<double>("angle");
-					var points = ConvertAngleToPoints(angle);
-
-					var brush = new LinearGradientBrush {
-						StartPoint = points.Item1,
-						EndPoint = points.Item2,
-					};
-
-					var values = json.Value<JToken>("values").Values<string>();
-					foreach (var v in values) {
-
-						var errMsg = AttemptGetGradientStop(v, out var gs);
-						if (errMsg != null) {
-
-							App.Instance.Config.LoadLayoutErrors.Add(string.Format("Gradient color input '{0}': {1}", v, errMsg));
-							continue;
+							bitmap = Designer.ColorizeImage(bitmap, color);
 						}
 
-						brush.GradientStops.Add(gs);
+						o = new ImageBrush {
+							Stretch = ContentConverter.GetStretch(stretch),
+							TileMode = GetTileMode(tile),
+							ImageSource = bitmap,
+						};
+						break;
 					}
 
-					o = brush;
-					break;
+				case "solid": {
+
+						var value = json.Value<string>("value");
+						if (!TryGetColor(value, out var color)) {
+
+							App.Instance.Config.LoadLayoutErrors.Add(string.Format("Solid color input '{0}': Invalid format", value));
+							return o;
+						}
+
+						o = new SolidColorBrush {
+							Color = color
+						};
+						break;
+					}
+
+				case "gradient": {
+
+						var angle = json.Value<double>("angle");
+						var points = ConvertAngleToPoints(angle);
+
+						var brush = new LinearGradientBrush {
+							StartPoint = points.Item1,
+							EndPoint = points.Item2,
+						};
+
+						var values = json.Value<JToken>("values").Values<string>();
+						foreach (var v in values) {
+
+							var errMsg = AttemptGetGradientStop(v, out var gs);
+							if (errMsg != null) {
+
+								App.Instance.Config.LoadLayoutErrors.Add(string.Format("Gradient color input '{0}': {1}", v, errMsg));
+								continue;
+							}
+
+							brush.GradientStops.Add(gs);
+						}
+
+						o = brush;
+						break;
+					}
 			}
 
 			return o;
@@ -121,7 +137,7 @@ namespace Taction.JsonConverter {
 
 				color = (Color)ColorConverter.ConvertFromString(input);
 
-			} catch (Exception e) {
+			} catch (Exception) {
 
 				return false;
 			}

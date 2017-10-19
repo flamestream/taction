@@ -81,6 +81,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="ConfigLayout.cs" />
     <Compile Include="ConfigState.cs" />
+    <Compile Include="Designer.ColorizeImage.cs" />
     <Compile Include="JsonConverter\ContentConverter.cs" />
     <Compile Include="JsonConverter\KeyCommandListConverter.cs" />
     <Compile Include="KeyCommand.cs" />
@@ -90,11 +91,14 @@
     <Compile Include="JsonConverter\BrushConverter.cs" />
     <Compile Include="JsonConverter\OrientationConverter.cs" />
     <Compile Include="JsonConverter\PanelItemListConverter.cs" />
+    <Compile Include="UIElement\CustomButton.StyleProperties.cs" />
+    <Compile Include="UIElement\ICustomStylizable.cs" />
+    <Compile Include="UIElement\CustomButton.cs" />
     <Compile Include="UIElement\NotificationToast.xaml.cs">
       <DependentUpon>NotificationToast.xaml</DependentUpon>
     </Compile>
     <Compile Include="ErrorLogger.cs" />
-    <Compile Include="MainPanel.Designer.cs" />
+    <Compile Include="Designer.cs" />
     <Compile Include="Attribute\AssosicatedClassAttribute.cs" />
     <Compile Include="Attribute\JsonStringTypeValueAttribute.cs" />
     <Compile Include="UIElement\MoveButton.cs" />
@@ -105,9 +109,14 @@
     <Compile Include="UIElement\TapButton.cs" />
     <Compile Include="UIElement\ToggleButton.cs" />
     <Compile Include="UIElement\HoldButton.cs" />
+    <Compile Include="UIElement\ToggleButton.StyleProperties.cs" />
     <Compile Include="WinApi.cs" />
     <Compile Include="WindowEventNotifier.cs" />
     <Compile Include="WindowManipulator.cs" />
+    <Page Include="UIElement\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UIElement\NotificationToast.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

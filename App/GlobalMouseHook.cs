@@ -73,11 +73,8 @@ namespace Taction {
 				return false;
 
 			// Special out boundary checks
-			foreach (var outBoundary in App.Instance.OutBoundaries) {
-
-				if (outBoundary.Contains(appCoords))
-					return false;
-			}
+			if (App.Instance.IsMouseInMoveButton(appCoords))
+				return false;
 
 			return true;
 		}
