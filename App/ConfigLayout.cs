@@ -94,9 +94,6 @@ namespace Taction {
 		[JsonProperty("base-style")]
 		StyleSpecs BaseStyle { get; set; }
 
-		[JsonProperty("hover-style")]
-		StyleSpecs HoverStyle { get; set; }
-
 		[JsonProperty("active-style")]
 		StyleSpecs ActiveStyle { get; set; }
 	}
@@ -126,7 +123,6 @@ namespace Taction {
 
 		public double Size { get; set; }
 		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs HoverStyle { get; set; }
 		public StyleSpecs ActiveStyle { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
@@ -137,7 +133,6 @@ namespace Taction {
 
 		public double Size { get; set; }
 		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs HoverStyle { get; set; }
 		public StyleSpecs ActiveStyle { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
@@ -148,7 +143,6 @@ namespace Taction {
 
 		public double Size { get; set; }
 		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs HoverStyle { get; set; }
 		public StyleSpecs ActiveStyle { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
@@ -159,7 +153,6 @@ namespace Taction {
 
 		public double Size { get; set; }
 		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs HoverStyle { get; set; }
 		public StyleSpecs ActiveStyle { get; set; }
 	}
 
