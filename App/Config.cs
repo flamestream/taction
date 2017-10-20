@@ -104,6 +104,21 @@ namespace Taction {
 
 		public void LoadLayout(JObject json) {
 
+			// Version check
+			if (!json.TryGetValue("version", out var versionJson))
+				throw new FormatException("Missing layout version number");
+
+			int version;
+			try {
+				version = versionJson.Value<int>();
+			} catch (Exception) {
+				throw new FormatException("Invalid layout version number");
+			}
+
+			var appMajorVersion = App.Instance.GetVersion().Major;
+			if (version != appMajorVersion)
+				throw new FormatException(string.Format("Layout is outdated. Expected version {0}, but detected version {1}", appMajorVersion, version));
+
 			// Validation check
 			if (!json.IsValid(App.LayoutJsonSchema, out IList<ValidationError> errors)) {
 

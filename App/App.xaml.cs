@@ -54,6 +54,11 @@ namespace Taction {
 			NotificationIcon.Dispose();
 		}
 
+		internal Version GetVersion() {
+
+			return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+		}
+
 		public void ToggleEnable() {
 
 			if (MainPanel.Visibility == Visibility.Visible) {
@@ -129,6 +134,8 @@ namespace Taction {
 
 			// Persist for later
 			File.WriteAllText(FileLayoutPath, text, encoding);
+
+			ShowToast(string.Format("{0} has been succesfully applied.", Config.Layout.Name), "Layout Loaded");
 		}
 
 		public void PromptLoadLayout() {
