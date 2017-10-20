@@ -27,7 +27,9 @@
 		"border": {"$ref": "#/definitions/borderType"},
 		"orientation": {"$ref": "#/definitions/orientationType"},
 		"color": {"$ref": "#/definitions/colorType"},
-		"items": {"$ref": "#/definitions/itemsType"}
+		"default-base-style": {"$ref": "#/definitions/styleType"},
+		"default-active-style": {"$ref": "#/definitions/styleType"},
+		"items": {"$ref": "#/definitions/itemsType"},
 	},
 	"additionalProperties": false,
 	"required": ["version", "size", "orientation", "items"],
@@ -168,7 +170,7 @@
 		"textStyleType": {
 			"type": "object",
 			"properties": {
-				"size": {
+				"font-size": {
 					"type": "number",
 					"default": 12.0,
 					"minimum": 0,
@@ -176,6 +178,10 @@
 				},
 				"font-family": {
 					"description": "The name of the system-installed font family. To use a bundled font, enter prepend the file name with './'. You may use fallback fonts with coma separation.",
+					"type": "string"
+				},
+				"font-weight": {
+					"description": "Typically set as `Bold`. Full values at https://msdn.microsoft.com/en-us/library/system.windows.fontweights(v=vs.110).aspx",
 					"type": "string"
 				},
 				"color": {"$ref": "#/definitions/colorType"},

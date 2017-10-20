@@ -23,9 +23,6 @@ namespace Taction.UIElement {
 
 			base.OnTouchDown(e);
 
-			// Style change
-			FontWeight = FontWeights.Bold;
-
 			// Set activation flag
 			Tag = true;
 
@@ -38,9 +35,6 @@ namespace Taction.UIElement {
 			// @NOTE Needed because TouchLeave can be triggered without TouchDown
 			if (Tag == null) return;
 			Tag = null;
-
-			// Style change
-			FontWeight = FontWeights.Normal;
 
 			App.Instance.InputSimulator.SimulateKeyUp(KeyCommand);
 		}

@@ -2,12 +2,10 @@
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
 using Taction.UIElement;
 
 namespace Taction {
@@ -23,7 +21,6 @@ namespace Taction {
 		internal TaskbarIcon NotificationIcon { get; private set; }
 		internal GlobalMouseHook GlobalMouseHook { get; private set; }
 		internal InputSimulatorHelper InputSimulator { get; private set; }
-		internal List<Rect> OutBoundaries { get; private set; }
 
 		protected override void OnStartup(StartupEventArgs e) {
 
@@ -38,7 +35,6 @@ namespace Taction {
 			InputSimulator = new InputSimulatorHelper();
 			Config = new Config();
 			ErrorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
-			OutBoundaries = new List<Rect>();
 
 			// Setup Notification icon
 			{
@@ -246,35 +242,6 @@ namespace Taction {
 			}
 
 			return true;
-		}
-
-		public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject {
-
-			if (depObj != null) {
-
-				for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {
-
-					DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
-					if (child != null && child is T) {
-						yield return (T)child;
-					}
-
-					foreach (T childOfChild in FindVisualChildren<T>(child)) {
-						yield return childOfChild;
-					}
-				}
-			}
-		}
-
-		public bool IsMouseInMoveButton(Point appCoords) {
-
-			foreach (var el in FindVisualChildren<MoveButton>(MainWindow)) {
-
-				if (el.Boundaries.Contains(appCoords))
-					return true;
-			}
-
-			return false;
 		}
 	}
 }

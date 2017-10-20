@@ -13,7 +13,9 @@ namespace Taction.UIElement {
 		Brush Active_Foreground { get; set; }
 		FontFamily Active_FontFamily { get; set; }
 		double Active_FontSize { get; set; }
+		FontWeight Active_FontWeight { get; set; }
 		Thickness Active_Margin { get; set; }
+		Thickness Active_Padding { get; set; }
 		double Active_Size { get; set; }
 	}
 }

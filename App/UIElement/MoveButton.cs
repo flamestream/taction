@@ -27,13 +27,14 @@ namespace Taction.UIElement {
 
 			base.OnMouseDown(e);
 
+			// Press event is never triggered, so manually trigger it
+			IsPressed = true;
+
 			if (e.ChangedButton != MouseButton.Left)
 				return;
 
 			e.Handled = true;
 
-			// Press event is never triggered, so manually trigger it
-			IsPressed = true;
 			Window.GetWindow(this).DragMove();
 
 			// DragMove is blocking, so this works

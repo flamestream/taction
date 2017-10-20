@@ -1,5 +1,5 @@
 {
-	"version": 2,
+	"version": 3,
 	"opacity": 0.9,
 	"opacity-hide": 0.1,
 	"disable-hide": false,
@@ -7,6 +7,15 @@
 	"disable-fade-animation": false,
 	"size": 80,
 	"orientation": "vertical",
+	"default-active-style": {
+		"color": {
+			"type": "solid",
+			"value": "#FFBCDDEE"
+		},
+		"text-style": {
+			"font-weight": "bold"
+		}
+	},
 	"items": [{
 		"type": "move",
 		"size": 30
@@ -93,7 +102,7 @@
 			"content": {
 				"type": "text",
 				"value": "SHIFT"
-			}
+			},
 		},
 		"active-style": {
 			"content": {

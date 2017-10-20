@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace Taction.UIElement {
 
-	partial class CustomButton : Button, ICustomStylizable {
+	partial class CustomButton : Button {
 
 		public Rect Boundaries { get; private set; }
 

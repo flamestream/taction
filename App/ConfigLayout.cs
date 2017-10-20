@@ -26,22 +26,22 @@ namespace Taction {
 		public double Size { get; set; }
 
 		[JsonProperty("margin")]
-		[JsonConverter(typeof(JsonConverter.ThicknessConverter))]
+		[JsonConverter(typeof(ThicknessJsonConverter))]
 		public Thickness? Margin { get; set; }
 
 		[JsonProperty("border")]
 		public BorderSpecs Border { get; set; }
 
 		[JsonProperty("color")]
-		[JsonConverter(typeof(JsonConverter.BrushConverter))]
+		[JsonConverter(typeof(BrushJsonConverter))]
 		public Brush Color { get; set; }
 
 		[JsonProperty("items")]
-		[JsonConverter(typeof(PanelItemListConverter))]
+		[JsonConverter(typeof(PanelItemListJsonConverter))]
 		public List<IPanelItemSpecs> Items { get; set; }
 
 		[JsonProperty("orientation")]
-		[JsonConverter(typeof(OrientationConverter))]
+		[JsonConverter(typeof(OrientationJsonConverter))]
 		public System.Windows.Controls.Orientation Orientation { get; set; }
 
 		[DefaultValue(1)]
@@ -81,6 +81,12 @@ namespace Taction {
 
 		[JsonProperty("disable-fade-animation")]
 		public bool DisableFadeAnimation { get; set; }
+
+		[JsonProperty("default-base-style")]
+		public StyleSpecs DefaultBaseStyle { get; set; }
+
+		[JsonProperty("default-active-style")]
+		public StyleSpecs DefaultActiveStyle { get; set; }
 	}
 
 	public interface IPanelItemSpecs {
@@ -101,7 +107,7 @@ namespace Taction {
 	public interface ICommandButtonSpecs : IButtonSpecs {
 
 		[JsonProperty("command")]
-		[JsonConverter(typeof(KeyCommandListConverter))]
+		[JsonConverter(typeof(KeyCommandListJsonConverter))]
 		KeyCommand KeyCommand { get; set; }
 	}
 
@@ -113,7 +119,7 @@ namespace Taction {
 		public Thickness? Margin { get; set; }
 
 		[JsonProperty("items")]
-		[JsonConverter(typeof(PanelItemListConverter))]
+		[JsonConverter(typeof(PanelItemListJsonConverter))]
 		public List<IPanelItemSpecs> Items { get; set; }
 	}
 
@@ -137,7 +143,7 @@ namespace Taction {
 		public KeyCommand KeyCommand { get; set; }
 	}
 
-	[AssociatedClass(typeof(ToggleButton))]
+	[AssociatedClass(typeof(CustomToggleButton))]
 	[JsonStringTypeValue("toggle")]
 	public class ToggleButtonSpecs : ICommandButtonSpecs {
 
@@ -159,22 +165,22 @@ namespace Taction {
 	public class StyleSpecs {
 
 		[JsonProperty("margin")]
-		[JsonConverter(typeof(JsonConverter.ThicknessConverter))]
+		[JsonConverter(typeof(ThicknessJsonConverter))]
 		public Thickness? Margin { get; set; }
 
 		[JsonProperty("padding")]
-		[JsonConverter(typeof(JsonConverter.ThicknessConverter))]
+		[JsonConverter(typeof(ThicknessJsonConverter))]
 		public Thickness? ContentPadding { get; set; }
 
 		[JsonProperty("border")]
 		public BorderSpecs Border { get; set; }
 
 		[JsonProperty("color")]
-		[JsonConverter(typeof(JsonConverter.BrushConverter))]
+		[JsonConverter(typeof(BrushJsonConverter))]
 		public Brush Color { get; set; }
 
 		[JsonProperty("content")]
-		[JsonConverter(typeof(ContentConverter))]
+		[JsonConverter(typeof(ContentJsonConverter))]
 		public Object Content { get; set; }
 
 		[JsonProperty("text-style")]
@@ -183,26 +189,30 @@ namespace Taction {
 
 	public class TextStyleSpecs {
 
-		[JsonProperty("size")]
-		public double? Size { get; set; }
+		[JsonProperty("font-size")]
+		public double? FontSize { get; set; }
 
 		[JsonProperty("color")]
-		[JsonConverter(typeof(JsonConverter.BrushConverter))]
+		[JsonConverter(typeof(BrushJsonConverter))]
 		public Brush Color { get; set; }
 
 		[JsonProperty("font-family")]
-		[JsonConverter(typeof(JsonConverter.FontFamilyConverter))]
-		public FontFamily Font { get; set; }
+		[JsonConverter(typeof(FontFamilyJsonConverter))]
+		public FontFamily FontFamily { get; set; }
+
+		[JsonProperty("font-weight")]
+		[JsonConverter(typeof(FontWeightJsonConverter))]
+		public FontWeight? FontWeight { get; set; }
 	}
 
 	public class BorderSpecs {
 
 		[JsonProperty("color")]
-		[JsonConverter(typeof(JsonConverter.BrushConverter))]
+		[JsonConverter(typeof(BrushJsonConverter))]
 		public Brush Color { get; set; }
 
 		[JsonProperty("thickness")]
-		[JsonConverter(typeof(JsonConverter.ThicknessConverter))]
+		[JsonConverter(typeof(ThicknessJsonConverter))]
 		public Thickness? Thickness { get; set; }
 	}
 }

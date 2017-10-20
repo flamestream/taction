@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Taction.JsonConverter {
 
-	internal class PanelItemListConverter : Newtonsoft.Json.JsonConverter {
+	internal class PanelItemListJsonConverter : Newtonsoft.Json.JsonConverter {
 
 		public override bool CanWrite => false;
 		public override bool CanRead => true;

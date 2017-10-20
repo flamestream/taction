@@ -10,23 +10,26 @@
 		<!-- Defaults start here-->
 		<Setter Property="SnapsToDevicePixels" Value="true" />
 		<Setter Property="OverridesDefaultStyle" Value="true" />
-		<Setter Property="Foreground" Value="#FF000000" />
 		<Setter Property="Background" Value="#FFDDDDDD" />
 		<Setter Property="BorderBrush" Value="#FF707070" />
 		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="Foreground" Value="#FF000000" />
 		<!-- Defaults end here-->
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Button">
 					<Border x:Name="Border"
-							TextBlock.Foreground="{TemplateBinding Foreground}"
-							Background="{TemplateBinding Background}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							Padding="{TemplateBinding Padding}"
-							Margin="{TemplateBinding Margin}"
 							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch">
+							VerticalAlignment="Stretch"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Margin="{TemplateBinding Margin}"
+							Padding="{TemplateBinding Padding}"
+							TextBlock.FontFamily="{TemplateBinding FontFamily}"
+							TextBlock.FontSize="{TemplateBinding FontSize}"
+							TextBlock.FontWeight="{TemplateBinding FontWeight}"
+							TextBlock.Foreground="{TemplateBinding Foreground}">
 						<ContentPresenter x:Name="Content"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center" />
@@ -35,12 +38,15 @@
 						<!--TemplateBinding doesn't work in ContentTemplate Trigger setter -->
 						<Trigger Property="IsPressed" Value="True">
 							<Setter TargetName="Content" Property="ContentPresenter.Content" Value="{Binding Active_Content, RelativeSource={RelativeSource TemplatedParent}}" />
-							<Setter TargetName="Border" Property="TextBlock.Foreground" Value="{Binding Active_Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
 							<Setter TargetName="Border" Property="Background"           Value="{Binding Active_Background, RelativeSource={RelativeSource TemplatedParent}}" />
 							<Setter TargetName="Border" Property="BorderThickness"      Value="{Binding Active_BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
 							<Setter TargetName="Border" Property="BorderBrush"          Value="{Binding Active_BorderBrush, RelativeSource={RelativeSource TemplatedParent}}" />
-							<Setter TargetName="Border" Property="Padding"              Value="{Binding Active_Padding, RelativeSource={RelativeSource TemplatedParent}}" />
 							<Setter TargetName="Border" Property="Margin"               Value="{Binding Active_Margin, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="Padding"              Value="{Binding Active_Padding, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="TextBlock.FontFamily" Value="{Binding Active_FontFamily, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="TextBlock.FontSize"   Value="{Binding Active_FontSize, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="TextBlock.FontWeight" Value="{Binding Active_FontWeight, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="TextBlock.Foreground" Value="{Binding Active_Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
@@ -48,27 +54,30 @@
 		</Setter>
 	</Style>
 
-	<Style x:Key="ToggleButtonStyle" TargetType="local:ToggleButton">
+	<Style x:Key="ToggleButtonStyle" TargetType="local:CustomToggleButton">
 		<!-- Defaults start here-->
-		<Setter Property="Foreground" Value="black" />
+		<Setter Property="SnapsToDevicePixels" Value="true" />
+		<Setter Property="OverridesDefaultStyle" Value="true" />
 		<Setter Property="Background" Value="#FFDDDDDD" />
 		<Setter Property="BorderBrush" Value="#FF707070" />
 		<Setter Property="BorderThickness" Value="1" />
-		<Setter Property="SnapsToDevicePixels" Value="true" />
-		<Setter Property="OverridesDefaultStyle" Value="true" />
+		<Setter Property="Foreground" Value="#FF000000" />
 		<!-- Defaults end here-->
 		<Setter Property="Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="local:ToggleButton">
+				<ControlTemplate TargetType="local:CustomToggleButton">
 					<Border x:Name="Border"
-							TextBlock.Foreground="{TemplateBinding Foreground}"
-							Background="{TemplateBinding Background}"
-							BorderThickness="{TemplateBinding BorderThickness}"
-							BorderBrush="{TemplateBinding BorderBrush}"
-							Padding="{TemplateBinding Padding}"
-							Margin="{TemplateBinding Margin}"
 							HorizontalAlignment="Stretch"
-							VerticalAlignment="Stretch">
+							VerticalAlignment="Stretch"
+							Background="{TemplateBinding Background}"
+							BorderBrush="{TemplateBinding BorderBrush}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							Margin="{TemplateBinding Margin}"
+							Padding="{TemplateBinding Padding}"
+							TextBlock.FontFamily="{TemplateBinding FontFamily}"
+							TextBlock.FontSize="{TemplateBinding FontSize}"
+							TextBlock.FontWeight="{TemplateBinding FontWeight}"
+							TextBlock.Foreground="{TemplateBinding Foreground}">
 						<ContentPresenter x:Name="Content"
 								HorizontalAlignment="Center"
 								VerticalAlignment="Center" />
@@ -76,12 +85,15 @@
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsChecked" Value="true">
 							<Setter TargetName="Content" Property="ContentPresenter.Content" Value="{Binding Active_Content, RelativeSource={RelativeSource TemplatedParent}}" />
-							<Setter TargetName="Border" Property="TextBlock.Foreground" Value="{Binding Active_Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
 							<Setter TargetName="Border" Property="Background"           Value="{Binding Active_Background, RelativeSource={RelativeSource TemplatedParent}}" />
 							<Setter TargetName="Border" Property="BorderThickness"      Value="{Binding Active_BorderThickness, RelativeSource={RelativeSource TemplatedParent}}" />
 							<Setter TargetName="Border" Property="BorderBrush"          Value="{Binding Active_BorderBrush, RelativeSource={RelativeSource TemplatedParent}}" />
-							<Setter TargetName="Border" Property="Padding"              Value="{Binding Active_Padding, RelativeSource={RelativeSource TemplatedParent}}" />
 							<Setter TargetName="Border" Property="Margin"               Value="{Binding Active_Margin, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="Padding"              Value="{Binding Active_Padding, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="TextBlock.FontFamily" Value="{Binding Active_FontFamily, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="TextBlock.FontSize"   Value="{Binding Active_FontSize, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="TextBlock.FontWeight" Value="{Binding Active_FontWeight, RelativeSource={RelativeSource TemplatedParent}}" />
+							<Setter TargetName="Border" Property="TextBlock.Foreground" Value="{Binding Active_Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
