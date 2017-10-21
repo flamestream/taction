@@ -41,8 +41,8 @@ namespace Taction {
 
 			InputSimulatorInstance = new InputSimulator();
 			KeyDownCommandRegistry = new Dictionary<VirtualKeyCode, List<KeyCommand>>();
-			KeyUpCheckTimer = new Timer(500);
 
+			KeyUpCheckTimer = new Timer(App.KeyUpScanInterval);
 			KeyUpCheckTimer.Elapsed += KeyUpCheckTimerTask;
 		}
 
@@ -112,7 +112,7 @@ namespace Taction {
 
 				var keyCode = keyCodes[i];
 				Debug.WriteLine(string.Format("KEY UP {0}", keyCode));
-				InputSimulatorInstance.Keyboard.KeyUp(keyCode);
+				SimulateKeyUp(keyCode);
 
 				// Unregister Command
 				if (KeyDownCommandRegistry.ContainsKey(keyCode)) {
@@ -123,14 +123,52 @@ namespace Taction {
 			}
 		}
 
+		public void SimulateKeyUp(VirtualKeyCode keyCode) {
+
+			switch (keyCode) {
+
+				case VirtualKeyCode.CONTROL:
+				case VirtualKeyCode.LCONTROL:
+				case VirtualKeyCode.RCONTROL:
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.CONTROL);
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.LCONTROL);
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.RCONTROL);
+					break;
+
+				case VirtualKeyCode.MENU:
+				case VirtualKeyCode.LMENU:
+				case VirtualKeyCode.RMENU:
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.MENU);
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.LMENU);
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.RMENU);
+					break;
+
+				case VirtualKeyCode.SHIFT:
+				case VirtualKeyCode.LSHIFT:
+				case VirtualKeyCode.RSHIFT:
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.SHIFT);
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.LSHIFT);
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.RSHIFT);
+					break;
+
+				case VirtualKeyCode.LWIN:
+				case VirtualKeyCode.RWIN:
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.LWIN);
+					InputSimulatorInstance.Keyboard.KeyUp(VirtualKeyCode.RWIN);
+					break;
+
+				default:
+					InputSimulatorInstance.Keyboard.KeyUp(keyCode);
+					break;
+			}
+		}
+
 		public void ClearKeyDownCommandRegistry() {
 
 			KeyDownCommandRegistry.Clear();
 		}
 
 		public void StartPolling() {
-
-			Debug.WriteLine("Start polling");
 
 			if (KeyUpCheckTimer == null)
 				return;
@@ -147,7 +185,7 @@ namespace Taction {
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void KeyUpCheckTimerTask(object sender, ElapsedEventArgs e) {
+		private void KeyUpCheckTimerTask(object sender, ElapsedEventArgs ev) {
 
 			// Need check
 			if (KeyDownCommandRegistry.Count == 0) {
@@ -163,22 +201,12 @@ namespace Taction {
 			// Scan up keys
 			var detectedKeyUpCode = new HashSet<VirtualKeyCode>();
 			var detectedKeyUpKeyCommands = new HashSet<KeyCommand>();
-			foreach (var entry in KeyDownCommandRegistry) {
-
-				var keyCode = entry.Key;
-				if (!InputSimulatorInstance.InputDeviceState.IsKeyUp(keyCode))
-					continue;
-
-				var keyCommands = entry.Value;
-
-				detectedKeyUpCode.Add(keyCode);
-				detectedKeyUpKeyCommands.UnionWith(keyCommands);
-			}
+			foreach (var entry in KeyDownCommandRegistry)
+				ComputeAffectedKeyUp(entry.Key, detectedKeyUpCode, detectedKeyUpKeyCommands);
 
 			// Remove from registry
-			foreach (var keyCode in detectedKeyUpCode) {
+			foreach (var keyCode in detectedKeyUpCode)
 				KeyDownCommandRegistry.Remove(keyCode);
-			}
 
 			// Detect count check
 			if (detectedKeyUpKeyCommands.Count == 0)
@@ -191,6 +219,32 @@ namespace Taction {
 					KeyCommands = new List<KeyCommand>(detectedKeyUpKeyCommands)
 				});
 			}, DispatcherPriority.ContextIdle);
+		}
+
+		/// <summary>
+		/// Compute all keys that would be affected by a key up event.
+		/// </summary>
+		/// <param name="keyCode"></param>
+		/// <param name="detectedKeyUpCode"></param>
+		/// <param name="detectedKeyUpKeyCommands"></param>
+		/// <param name="skipKeyUpState"></param>
+		private void ComputeAffectedKeyUp(VirtualKeyCode keyCode, HashSet<VirtualKeyCode> detectedKeyUpCode, HashSet<KeyCommand> detectedKeyUpKeyCommands, bool skipKeyUpState = false) {
+
+			// Already processed check
+			if (detectedKeyUpCode.Contains(keyCode))
+				return;
+
+			// Key registered check
+			if (!KeyDownCommandRegistry.TryGetValue(keyCode, out var keyCommands))
+				return;
+
+			// Not down check
+			if (!skipKeyUpState && !InputSimulatorInstance.InputDeviceState.IsKeyUp(keyCode))
+				return;
+
+			detectedKeyUpCode.Add(keyCode);
+			detectedKeyUpKeyCommands.UnionWith(keyCommands);
+			keyCommands.ForEach(cmd => cmd.KeyCodes.ForEach(kc => ComputeAffectedKeyUp(kc, detectedKeyUpCode, detectedKeyUpKeyCommands, true)));
 		}
 	}
 }

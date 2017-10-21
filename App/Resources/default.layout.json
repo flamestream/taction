@@ -79,7 +79,7 @@
 				"value": "Save"
 			},
 		},
-		"command": "CONTROL VK_S"
+		"command": "LCONTROL VK_S"
 	}, {
 		"type": "toggle",
 		"size": 40,
@@ -95,7 +95,7 @@
 				"value": "CTRL (ON)"
 			}
 		},
-		"command": "CONTROL"
+		"command": "LCONTROL"
 	}, {
 		"type": "toggle",
 		"size": 40,
@@ -112,5 +112,21 @@
 			}
 		},
 		"command": "SHIFT"
+	}, {
+		"type": "toggle",
+		"size": 40,
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "ALT"
+			},
+		},
+		"active-style": {
+			"content": {
+				"type": "text",
+				"value": "ALT (ON)"
+			}
+		},
+		"command": "MENU"
 	}]
 }

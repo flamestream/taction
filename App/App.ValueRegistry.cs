@@ -15,6 +15,7 @@ namespace Taction {
 		internal const int NotificationToastSecondaryCloseDelayTime = 500;
 		internal const int MaxErrorLogSize = 2 * 1024;
 		internal const int ErrorLogTrimLineCount = 500;
+		internal const int KeyUpScanInterval = 500;
 
 		#endregion -- Application Settings/Constants --
 
