@@ -29,6 +29,7 @@ namespace Taction {
 			SizeChanged += HandleSizeChanged;
 			App.Instance.GlobalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
 			WindowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
+			App.Instance.InputSimulator.OnDetectedKeyUp += HandleDetectedKeyUp;
 
 			ReloadLayout();
 		}
@@ -144,6 +145,22 @@ namespace Taction {
 		private void HandleSizeChanged(object sender, SizeChangedEventArgs e) {
 
 			WindowManipulator.FitToNearestDesktop(this, e.NewSize);
+		}
+
+		private void HandleDetectedKeyUp(object sender, InputSimulatorHelper.DetectedKeyUpEventEventArgs args) {
+
+			var keyCommands = args.KeyCommands;
+			foreach (var keyCommand in keyCommands) {
+
+				var toggleButtons = FindVisualChildren<CustomToggleButton>(this);
+				foreach (var toggleButton in toggleButtons) {
+
+					if (toggleButton.KeyCommand != keyCommand)
+						continue;
+
+					toggleButton.IsChecked = false;
+				}
+			}
 		}
 
 		protected override void OnActivated(EventArgs e) {
