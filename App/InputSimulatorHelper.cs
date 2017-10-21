@@ -168,6 +168,12 @@ namespace Taction {
 			KeyDownCommandRegistry.Clear();
 		}
 
+		public void ReleaseAllKeys() {
+
+			foreach (var entry in KeyDownCommandRegistry)
+				SimulateKeyUp(entry.Key);
+		}
+
 		public void StartPolling() {
 
 			if (KeyUpCheckTimer == null)
