@@ -133,12 +133,11 @@ namespace Taction {
 			if (MainPanel != null)
 				MainPanel.ReloadLayout();
 
-			NotificationIcon.ToolTipText = string.Format("{0} - {1}", Taction.Properties.Resources.AppName, Config.Layout.Name);
-
 			// Persist for later
 			File.WriteAllText(FileLayoutPath, text, encoding);
 
 			ShowToast(string.Format("{0} has been succesfully applied.", Config.Layout.Name), "Layout Loaded");
+			NotificationIcon.ToolTipText = string.Format("{0} - {1}", Taction.Properties.Resources.AppName, Config.Layout.Name);
 		}
 
 		public void PromptLoadLayout() {
@@ -201,6 +200,8 @@ namespace Taction {
 
 				ShowToast("Could not load saved layout.", Taction.Properties.Resources.DefaultErrorToastTitle);
 			}
+
+			NotificationIcon.ToolTipText = string.Format("{0} - {1}", Taction.Properties.Resources.AppName, Config.Layout.Name);
 		}
 
 		private bool TryLoadLayout(string path) {
@@ -214,7 +215,6 @@ namespace Taction {
 
 				// Update UI
 				MainPanel.ReloadLayout();
-				NotificationIcon.ToolTipText = string.Format("{0} - {1}", Taction.Properties.Resources.AppName, Config.Layout.Name);
 
 				// Remove previous file(s)
 				File.Delete(FileLayoutPath);
@@ -252,6 +252,7 @@ namespace Taction {
 				return false;
 			}
 
+			NotificationIcon.ToolTipText = string.Format("{0} - {1}", Taction.Properties.Resources.AppName, Config.Layout.Name);
 			return true;
 		}
 	}
