@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Taction.UIElement;
 
 namespace Taction {
 
@@ -26,6 +29,7 @@ namespace Taction {
 			SizeChanged += HandleSizeChanged;
 			App.Instance.GlobalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
 			WindowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
+			App.Instance.InputSimulator.OnDetectedKeyUp += HandleDetectedKeyUp;
 
 			ReloadLayout();
 		}
@@ -105,6 +109,10 @@ namespace Taction {
 				/ Math.Abs(plannedInitialOpacity - targetOpacity)
 				* Config.Layout.FadeAnimationTime;
 
+			// Sanity
+			if (duration < 0)
+				duration = 0;
+
 			var animation = new DoubleAnimation {
 				To = targetOpacity,
 				Duration = TimeSpan.FromMilliseconds(duration),
@@ -137,6 +145,22 @@ namespace Taction {
 		private void HandleSizeChanged(object sender, SizeChangedEventArgs e) {
 
 			WindowManipulator.FitToNearestDesktop(this, e.NewSize);
+		}
+
+		private void HandleDetectedKeyUp(object sender, InputSimulatorHelper.DetectedKeyUpEventEventArgs args) {
+
+			var keyCommands = args.KeyCommands;
+			foreach (var keyCommand in keyCommands) {
+
+				var toggleButtons = FindVisualChildren<CustomToggleButton>(this);
+				foreach (var toggleButton in toggleButtons) {
+
+					if (toggleButton.KeyCommand != keyCommand)
+						continue;
+
+					toggleButton.IsChecked = false;
+				}
+			}
 		}
 
 		protected override void OnActivated(EventArgs e) {
@@ -175,6 +199,35 @@ namespace Taction {
 				Debug.WriteLine("Hide Panel (pen)");
 				SetPassthrough(true);
 			}
+		}
+
+		public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject {
+
+			if (depObj != null) {
+
+				for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++) {
+
+					DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+					if (child != null && child is T) {
+						yield return (T)child;
+					}
+
+					foreach (T childOfChild in FindVisualChildren<T>(child)) {
+						yield return childOfChild;
+					}
+				}
+			}
+		}
+
+		public bool IsMouseInMoveButton(Point appCoords) {
+
+			foreach (var el in FindVisualChildren<MoveButton>(this)) {
+
+				if (el.Boundaries.Contains(appCoords))
+					return true;
+			}
+
+			return false;
 		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace Taction.JsonConverter {
 
-	internal class ThicknessConverter : Newtonsoft.Json.JsonConverter {
+	internal class ThicknessJsonConverter : Newtonsoft.Json.JsonConverter {
 
 		public override bool CanWrite => false;
 		public override bool CanRead => true;

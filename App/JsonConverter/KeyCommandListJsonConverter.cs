@@ -1,12 +1,11 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using WindowsInput.Native;
 
 namespace Taction.JsonConverter {
 
-	internal class KeyCommandListConverter : Newtonsoft.Json.JsonConverter {
+	internal class KeyCommandListJsonConverter : Newtonsoft.Json.JsonConverter {
 
 		public override bool CanWrite => false;
 		public override bool CanRead => true;

@@ -2,14 +2,13 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace Taction.JsonConverter {
 
-	internal class ContentConverter : Newtonsoft.Json.JsonConverter {
+	internal class ContentJsonConverter : Newtonsoft.Json.JsonConverter {
 
 		public override bool CanWrite => false;
 		public override bool CanRead => true;
@@ -31,6 +30,9 @@ namespace Taction.JsonConverter {
 			var json = serializer.Deserialize<JObject>(reader);
 			var type = json.Value<string>("type");
 
+			if (type != null)
+				type = type.ToLower();
+
 			switch (type) {
 
 				case "text":
@@ -45,6 +47,18 @@ namespace Taction.JsonConverter {
 					var source = json.Value<string>("source");
 					var bitmap = GetBitmap(source);
 
+					var colorize = json.Value<string>("colorize");
+					if (colorize != null) {
+
+						if (!BrushJsonConverter.TryGetColor(colorize, out var color)) {
+
+							App.Instance.Config.LoadLayoutErrors.Add(string.Format("Colorize input '{0}': Invalid format", color));
+							return o;
+						}
+
+						bitmap = Designer.ColorizeImage(bitmap, color);
+					}
+
 					var img = new Image {
 						Source = bitmap
 					};
@@ -56,7 +70,7 @@ namespace Taction.JsonConverter {
 						img.Stretch = GetStretch(jsonStretch.Value<string>());
 
 					if (json.TryGetValue("margin", out var jsonMargin))
-						img.Margin = ThicknessConverter.FromString(jsonMargin.Value<string>());
+						img.Margin = ThicknessJsonConverter.FromString(jsonMargin.Value<string>());
 
 					o = img;
 

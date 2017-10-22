@@ -1,5 +1,6 @@
 {
-	"version": 2,
+	"name": "Default layout",
+	"version": 3,
 	"opacity": 0.9,
 	"opacity-hide": 0.1,
 	"disable-hide": false,
@@ -7,72 +8,125 @@
 	"disable-fade-animation": false,
 	"size": 80,
 	"orientation": "vertical",
+	"default-active-style": {
+		"color": {
+			"type": "solid",
+			"value": "#FFBCDDEE"
+		},
+		"text-style": {
+			"font-weight": "bold"
+		}
+	},
 	"items": [{
 		"type": "move",
 		"size": 30
 	}, {
 		"type": "tap",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "ESC"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "ESC"
+			},
 		},
 		"command": "ESCAPE"
 	}, {
 		"type": "tap",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Tab"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Tab"
+			},
 		},
 		"command": "TAB"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Eyedropper (I)"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Eyedropper (I)"
+			},
 		},
 		"command": "VK_I"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Eraser (E)"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Eraser (E)"
+			},
 		},
 		"command": "VK_E"
 	}, {
 		"type": "hold",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Marquee (M)"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Marquee (M)"
+			},
 		},
 		"command": "VK_M"
 	}, {
 		"type": "tap",
 		"size": 75,
-		"content": {
-			"type": "text",
-			"value": "Save"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "Save"
+			},
 		},
-		"command": "CONTROL VK_S"
+		"command": "LCONTROL VK_S"
 	}, {
 		"type": "toggle",
 		"size": 40,
-		"content": {
-			"type": "text",
-			"value": "CTRL"
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "CTRL"
+			},
 		},
-		"command": "CONTROL"
+		"active-style": {
+			"content": {
+				"type": "text",
+				"value": "CTRL (ON)"
+			}
+		},
+		"command": "LCONTROL"
 	}, {
 		"type": "toggle",
 		"size": 40,
-		"command": "SHIFT",
-		"content": {
-			"type": "text",
-			"value": "SHIFT"
-		}
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "SHIFT"
+			},
+		},
+		"active-style": {
+			"content": {
+				"type": "text",
+				"value": "SHIFT (ON)"
+			}
+		},
+		"command": "SHIFT"
+	}, {
+		"type": "toggle",
+		"size": 40,
+		"base-style": {
+			"content": {
+				"type": "text",
+				"value": "ALT"
+			},
+		},
+		"active-style": {
+			"content": {
+				"type": "text",
+				"value": "ALT (ON)"
+			}
+		},
+		"command": "MENU"
 	}]
 }

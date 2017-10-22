@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Taction.JsonConverter {
 
-	internal class FontFamilyConverter : Newtonsoft.Json.JsonConverter {
+	internal class FontFamilyJsonConverter : Newtonsoft.Json.JsonConverter {
 
 		public override bool CanWrite => false;
 		public override bool CanRead => true;

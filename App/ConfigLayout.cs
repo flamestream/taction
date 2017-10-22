@@ -26,22 +26,22 @@ namespace Taction {
 		public double Size { get; set; }
 
 		[JsonProperty("margin")]
-		[JsonConverter(typeof(JsonConverter.ThicknessConverter))]
-		public Thickness Margin { get; set; }
+		[JsonConverter(typeof(ThicknessJsonConverter))]
+		public Thickness? Margin { get; set; }
 
 		[JsonProperty("border")]
 		public BorderSpecs Border { get; set; }
 
 		[JsonProperty("color")]
-		[JsonConverter(typeof(JsonConverter.BrushConverter))]
+		[JsonConverter(typeof(BrushJsonConverter))]
 		public Brush Color { get; set; }
 
 		[JsonProperty("items")]
-		[JsonConverter(typeof(PanelItemListConverter))]
+		[JsonConverter(typeof(PanelItemListJsonConverter))]
 		public List<IPanelItemSpecs> Items { get; set; }
 
 		[JsonProperty("orientation")]
-		[JsonConverter(typeof(OrientationConverter))]
+		[JsonConverter(typeof(OrientationJsonConverter))]
 		public System.Windows.Controls.Orientation Orientation { get; set; }
 
 		[DefaultValue(1)]
@@ -81,55 +81,45 @@ namespace Taction {
 
 		[JsonProperty("disable-fade-animation")]
 		public bool DisableFadeAnimation { get; set; }
+
+		[JsonProperty("default-base-style")]
+		public StyleSpecs DefaultBaseStyle { get; set; }
+
+		[JsonProperty("default-active-style")]
+		public StyleSpecs DefaultActiveStyle { get; set; }
 	}
 
 	public interface IPanelItemSpecs {
 
 		[JsonProperty("size")]
 		double Size { get; set; }
-
-		[JsonProperty("margin")]
-		[JsonConverter(typeof(JsonConverter.ThicknessConverter))]
-		Thickness Margin { get; set; }
 	}
 
 	public interface IButtonSpecs : IPanelItemSpecs {
 
-		[JsonProperty("text-style")]
-		TextStyleSpecs TextStyle { get; set; }
+		[JsonProperty("base-style")]
+		StyleSpecs BaseStyle { get; set; }
 
-		[JsonProperty("content")]
-		[JsonConverter(typeof(ContentConverter))]
-		Object Content { get; set; }
-
-		[JsonProperty("padding")]
-		[JsonConverter(typeof(JsonConverter.ThicknessConverter))]
-		Thickness Padding { get; set; }
-
-		[JsonProperty("border")]
-		BorderSpecs Border { get; set; }
-
-		[JsonProperty("color")]
-		[JsonConverter(typeof(JsonConverter.BrushConverter))]
-		Brush Color { get; set; }
+		[JsonProperty("active-style")]
+		StyleSpecs ActiveStyle { get; set; }
 	}
 
 	public interface ICommandButtonSpecs : IButtonSpecs {
 
 		[JsonProperty("command")]
-		[JsonConverter(typeof(KeyCommandListConverter))]
+		[JsonConverter(typeof(KeyCommandListJsonConverter))]
 		KeyCommand KeyCommand { get; set; }
 	}
 
-	[AssociatedClass(typeof(StackPanel))]
+	[AssociatedClass(typeof(CustomStackPanel))]
 	[JsonStringTypeValue("pivot")]
 	public class PivotSpecs : IPanelItemSpecs {
 
 		public double Size { get; set; }
-		public Thickness Margin { get; set; }
+		public Thickness? Margin { get; set; }
 
 		[JsonProperty("items")]
-		[JsonConverter(typeof(PanelItemListConverter))]
+		[JsonConverter(typeof(PanelItemListJsonConverter))]
 		public List<IPanelItemSpecs> Items { get; set; }
 	}
 
@@ -138,12 +128,8 @@ namespace Taction {
 	public class HoldButtonSpecs : ICommandButtonSpecs {
 
 		public double Size { get; set; }
-		public TextStyleSpecs TextStyle { get; set; }
-		public Object Content { get; set; }
-		public Thickness Margin { get; set; }
-		public Thickness Padding { get; set; }
-		public BorderSpecs Border { get; set; }
-		public Brush Color { get; set; }
+		public StyleSpecs BaseStyle { get; set; }
+		public StyleSpecs ActiveStyle { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -152,26 +138,18 @@ namespace Taction {
 	public class TapButtonSpecs : ICommandButtonSpecs {
 
 		public double Size { get; set; }
-		public TextStyleSpecs TextStyle { get; set; }
-		public Object Content { get; set; }
-		public Thickness Margin { get; set; }
-		public Thickness Padding { get; set; }
-		public BorderSpecs Border { get; set; }
-		public Brush Color { get; set; }
+		public StyleSpecs BaseStyle { get; set; }
+		public StyleSpecs ActiveStyle { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
-	[AssociatedClass(typeof(ToggleButton))]
+	[AssociatedClass(typeof(CustomToggleButton))]
 	[JsonStringTypeValue("toggle")]
 	public class ToggleButtonSpecs : ICommandButtonSpecs {
 
 		public double Size { get; set; }
-		public TextStyleSpecs TextStyle { get; set; }
-		public Object Content { get; set; }
-		public Thickness Margin { get; set; }
-		public Thickness Padding { get; set; }
-		public BorderSpecs Border { get; set; }
-		public Brush Color { get; set; }
+		public StyleSpecs BaseStyle { get; set; }
+		public StyleSpecs ActiveStyle { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -180,37 +158,61 @@ namespace Taction {
 	public class MoveButtonSpecs : IButtonSpecs {
 
 		public double Size { get; set; }
-		public TextStyleSpecs TextStyle { get; set; }
-		public Object Content { get; set; }
-		public Thickness Margin { get; set; }
-		public Thickness Padding { get; set; }
+		public StyleSpecs BaseStyle { get; set; }
+		public StyleSpecs ActiveStyle { get; set; }
+	}
+
+	public class StyleSpecs {
+
+		[JsonProperty("margin")]
+		[JsonConverter(typeof(ThicknessJsonConverter))]
+		public Thickness? Margin { get; set; }
+
+		[JsonProperty("padding")]
+		[JsonConverter(typeof(ThicknessJsonConverter))]
+		public Thickness? ContentPadding { get; set; }
+
+		[JsonProperty("border")]
 		public BorderSpecs Border { get; set; }
+
+		[JsonProperty("color")]
+		[JsonConverter(typeof(BrushJsonConverter))]
 		public Brush Color { get; set; }
+
+		[JsonProperty("content")]
+		[JsonConverter(typeof(ContentJsonConverter))]
+		public Object Content { get; set; }
+
+		[JsonProperty("text-style")]
+		public TextStyleSpecs TextStyle { get; set; }
 	}
 
 	public class TextStyleSpecs {
 
-		[DefaultValue(12.0)]
-		[JsonProperty("size", DefaultValueHandling = DefaultValueHandling.Populate)]
-		public double Size { get; set; }
+		[JsonProperty("font-size")]
+		public double? FontSize { get; set; }
 
 		[JsonProperty("color")]
-		[JsonConverter(typeof(JsonConverter.BrushConverter))]
+		[JsonConverter(typeof(BrushJsonConverter))]
 		public Brush Color { get; set; }
 
 		[JsonProperty("font-family")]
-		[JsonConverter(typeof(JsonConverter.FontFamilyConverter))]
-		public FontFamily Font { get; set; }
+		[JsonConverter(typeof(FontFamilyJsonConverter))]
+		public FontFamily FontFamily { get; set; }
+
+		[JsonProperty("font-weight")]
+		[JsonConverter(typeof(FontWeightJsonConverter))]
+		public FontWeight? FontWeight { get; set; }
 	}
 
 	public class BorderSpecs {
 
 		[JsonProperty("color")]
-		[JsonConverter(typeof(JsonConverter.BrushConverter))]
+		[JsonConverter(typeof(BrushJsonConverter))]
 		public Brush Color { get; set; }
 
 		[JsonProperty("thickness")]
-		[JsonConverter(typeof(JsonConverter.ThicknessConverter))]
-		public Thickness Thickness { get; set; }
+		[JsonConverter(typeof(ThicknessJsonConverter))]
+		public Thickness? Thickness { get; set; }
 	}
 }

@@ -2,7 +2,6 @@
 using Microsoft.Win32;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -22,7 +21,6 @@ namespace Taction {
 		internal TaskbarIcon NotificationIcon { get; private set; }
 		internal GlobalMouseHook GlobalMouseHook { get; private set; }
 		internal InputSimulatorHelper InputSimulator { get; private set; }
-		internal List<Rect> OutBoundaries { get; private set; }
 
 		protected override void OnStartup(StartupEventArgs e) {
 
@@ -37,7 +35,6 @@ namespace Taction {
 			InputSimulator = new InputSimulatorHelper();
 			Config = new Config();
 			ErrorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
-			OutBoundaries = new List<Rect>();
 
 			// Setup Notification icon
 			{
@@ -53,8 +50,14 @@ namespace Taction {
 
 		protected override void OnExit(ExitEventArgs e) {
 
+			InputSimulator.ReleaseAllKeys();
 			GlobalMouseHook.Dispose();
 			NotificationIcon.Dispose();
+		}
+
+		internal Version GetVersion() {
+
+			return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 		}
 
 		public void ToggleEnable() {
@@ -132,6 +135,9 @@ namespace Taction {
 
 			// Persist for later
 			File.WriteAllText(FileLayoutPath, text, encoding);
+
+			ShowToast(string.Format("{0} has been succesfully applied.", Config.Layout.Name), "Layout Loaded");
+			NotificationIcon.ToolTipText = string.Format("{0} - {1}", Taction.Properties.Resources.AppName, Config.Layout.Name);
 		}
 
 		public void PromptLoadLayout() {
@@ -194,6 +200,8 @@ namespace Taction {
 
 				ShowToast("Could not load saved layout.", Taction.Properties.Resources.DefaultErrorToastTitle);
 			}
+
+			NotificationIcon.ToolTipText = string.Format("{0} - {1}", Taction.Properties.Resources.AppName, Config.Layout.Name);
 		}
 
 		private bool TryLoadLayout(string path) {
@@ -244,6 +252,7 @@ namespace Taction {
 				return false;
 			}
 
+			NotificationIcon.ToolTipText = string.Format("{0} - {1}", Taction.Properties.Resources.AppName, Config.Layout.Name);
 			return true;
 		}
 	}

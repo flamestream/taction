@@ -81,33 +81,43 @@
     <Compile Include="Config.cs" />
     <Compile Include="ConfigLayout.cs" />
     <Compile Include="ConfigState.cs" />
-    <Compile Include="JsonConverter\ContentConverter.cs" />
-    <Compile Include="JsonConverter\KeyCommandListConverter.cs" />
+    <Compile Include="Designer.ColorizeImage.cs" />
+    <Compile Include="JsonConverter\ContentJsonConverter.cs" />
+    <Compile Include="JsonConverter\KeyCommandListJsonConverter.cs" />
+    <Compile Include="JsonConverter\FontWeightJsonConverter.cs" />
     <Compile Include="KeyCommand.cs" />
-    <Compile Include="JsonConverter\ThicknessConverter.cs" />
+    <Compile Include="JsonConverter\ThicknessJsonConverter.cs" />
     <Compile Include="App.ValueRegistry.cs" />
-    <Compile Include="JsonConverter\FontFamilyConverter.cs" />
-    <Compile Include="JsonConverter\BrushConverter.cs" />
-    <Compile Include="JsonConverter\OrientationConverter.cs" />
-    <Compile Include="JsonConverter\PanelItemListConverter.cs" />
+    <Compile Include="JsonConverter\FontFamilyJsonConverter.cs" />
+    <Compile Include="JsonConverter\BrushJsonConverter.cs" />
+    <Compile Include="JsonConverter\OrientationJsonConverter.cs" />
+    <Compile Include="JsonConverter\PanelItemListJsonConverter.cs" />
+    <Compile Include="UIElement\CustomButton.StyleProperties.cs" />
+    <Compile Include="UIElement\ICustomStylizable.cs" />
+    <Compile Include="UIElement\CustomButton.cs" />
     <Compile Include="UIElement\NotificationToast.xaml.cs">
       <DependentUpon>NotificationToast.xaml</DependentUpon>
     </Compile>
     <Compile Include="ErrorLogger.cs" />
-    <Compile Include="MainPanel.Designer.cs" />
+    <Compile Include="Designer.cs" />
     <Compile Include="Attribute\AssosicatedClassAttribute.cs" />
     <Compile Include="Attribute\JsonStringTypeValueAttribute.cs" />
     <Compile Include="UIElement\MoveButton.cs" />
     <Compile Include="NotificationIcon.xaml.cs">
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UIElement\StackPanel.cs" />
+    <Compile Include="UIElement\CustomStackPanel.cs" />
     <Compile Include="UIElement\TapButton.cs" />
-    <Compile Include="UIElement\ToggleButton.cs" />
+    <Compile Include="UIElement\CustomToggleButton.cs" />
     <Compile Include="UIElement\HoldButton.cs" />
+    <Compile Include="UIElement\CustomToggleButton.StyleProperties.cs" />
     <Compile Include="WinApi.cs" />
     <Compile Include="WindowEventNotifier.cs" />
     <Compile Include="WindowManipulator.cs" />
+    <Page Include="UIElement\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UIElement\NotificationToast.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

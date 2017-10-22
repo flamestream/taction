@@ -1,10 +1,9 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Taction.UIElement {
 
-	internal class MoveButton : Button {
+	internal class MoveButton : CustomButton {
 
 		public MoveButton(IPanelItemSpecs specs) {
 
@@ -12,38 +11,34 @@ namespace Taction.UIElement {
 			if (Content == null)
 				Content = "☰☰";
 
-			// Set behaviours
-			Style style = new Style();
+			// Add move cursor
+			var setter = new Setter {
+				Property = CursorProperty,
+				Value = Cursors.SizeAll
+			};
 
-			// Display move cursor on mouse over
-			{
-				Setter setter = new Setter {
-					Property = CursorProperty,
-					Value = Cursors.SizeAll
-				};
-
-				Trigger trigger = new Trigger {
-					Property = IsMouseOverProperty,
-					Value = true
-				};
-				trigger.Setters.Add(setter);
-
-				style.Triggers.Add(trigger);
-			}
-
-			Style = style;
+			// Style is locked, so copy to modify
+			var s = new Style(GetType(), Style);
+			s.Setters.Add(setter);
+			Style = s;
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e) {
 
 			base.OnMouseDown(e);
 
+			// Press event is never triggered, so manually trigger it
+			IsPressed = true;
+
 			if (e.ChangedButton != MouseButton.Left)
 				return;
 
+			e.Handled = true;
+
 			Window.GetWindow(this).DragMove();
 
-			e.Handled = true;
+			// DragMove is blocking, so this works
+			IsPressed = false;
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e) {
