@@ -12,7 +12,7 @@ namespace Taction.UIElement {
 		public CustomButton() {
 
 			var res = new ResourceDictionary {
-				Source = new Uri(@"pack://application:,,,/UIElement/Button.xaml")
+				Source = new Uri(@"pack://application:,,,/src/UIElement/Button.xaml")
 			};
 			Style = (Style)res["ButtonStyle"];
 		}

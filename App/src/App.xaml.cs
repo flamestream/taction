@@ -39,7 +39,7 @@ namespace Taction {
 			// Setup Notification icon
 			{
 				var res = new ResourceDictionary {
-					Source = new Uri(@"pack://application:,,,/NotificationIcon.xaml")
+					Source = new Uri(@"pack://application:,,,/src/NotificationIcon.xaml")
 				};
 				NotificationIcon = (TaskbarIcon)res["Definition"];
 			}
