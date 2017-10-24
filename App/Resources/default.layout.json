@@ -1,7 +1,7 @@
 {
 	"name": "Default layout",
 	"version": 3,
-	"opacity": 0.9,
+	"opacity": 1,
 	"opacity-hide": 0.1,
 	"disable-hide": false,
 	"fade-animation-time": 500,
@@ -11,9 +11,13 @@
 	"default-active-style": {
 		"color": {
 			"type": "solid",
-			"value": "#FFBCDDEE"
+			"value": "DeepSkyBlue"
 		},
 		"text-style": {
+			"color": {
+				"type": "solid",
+				"value": "#FFDDDDDD"
+			},
 			"font-weight": "bold"
 		}
 	},
@@ -89,12 +93,6 @@
 				"value": "CTRL"
 			},
 		},
-		"active-style": {
-			"content": {
-				"type": "text",
-				"value": "CTRL (ON)"
-			}
-		},
 		"command": "LCONTROL"
 	}, {
 		"type": "toggle",
@@ -105,12 +103,6 @@
 				"value": "SHIFT"
 			},
 		},
-		"active-style": {
-			"content": {
-				"type": "text",
-				"value": "SHIFT (ON)"
-			}
-		},
 		"command": "SHIFT"
 	}, {
 		"type": "toggle",
@@ -120,12 +112,6 @@
 				"type": "text",
 				"value": "ALT"
 			},
-		},
-		"active-style": {
-			"content": {
-				"type": "text",
-				"value": "ALT (ON)"
-			}
 		},
 		"command": "MENU"
 	}]

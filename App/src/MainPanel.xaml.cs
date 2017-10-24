@@ -32,6 +32,9 @@ namespace Taction {
 			App.Instance.InputSimulator.OnDetectedKeyUp += HandleDetectedKeyUp;
 
 			ReloadLayout();
+
+			var win2 = new RadialMenuWindow();
+			win2.Show();
 		}
 
 		public void ReloadLayout() {

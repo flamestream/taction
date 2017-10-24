@@ -1,0 +1,53 @@
+﻿<Window x:Class="Taction.RadialMenuWindow"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:local="clr-namespace:Taction"
+		xmlns:RadialMenu="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
+		xmlns:UIElement="clr-namespace:Taction.UIElement"
+		mc:Ignorable="d"
+		Title="RadialMenuWindow"
+		Topmost="True"
+		WindowStyle="None"
+		AllowsTransparency="True"
+		Background="#01000000"
+		Stylus.IsPressAndHoldEnabled="False"
+		WindowState="Maximized">
+
+	<Window.Resources>
+		<Style TargetType="RadialMenu:RadialMenuCentralItem" BasedOn="{StaticResource {x:Type RadialMenu:RadialMenuCentralItem}}">
+			<Setter Property="Background" Value="#AA222222" />
+			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="Width" Value="125" />
+			<Setter Property="Height" Value="125" />
+		</Style>
+		<Style TargetType="TextBlock">
+			<Setter Property="Foreground" Value="#FFDDDDDD" />
+		</Style>
+	</Window.Resources>
+	<Grid>
+		<RadialMenu:RadialMenu Name="RadialMenu" IsOpen="True">
+
+			<UIElement:CustomRadialMenuItem
+				Command="{Binding CloseCommand}"
+				IconBackground="Red"
+				IconContent="Exit"
+				IconCornerRadius="10"
+				IconBorderThickness="2"
+				IconBorderBrush="Black" />
+			<UIElement:CustomRadialMenuItem IconBackground="Blue" IconContent="1" IconCornerRadius="100" />
+			<UIElement:CustomRadialMenuItem IconBackground="Green" IconContent="2" />
+			<UIElement:CustomRadialMenuItem IconBackground="Orange" IconContent="3" />
+			<UIElement:CustomRadialMenuItem IconBackground="Purple" IconContent="4" />
+
+			<RadialMenu:RadialMenu.CentralItem>
+				<RadialMenu:RadialMenuCentralItem Command="{Binding CloseCommand}">
+					<StackPanel>
+						<TextBlock Text="Brush" />
+					</StackPanel>
+				</RadialMenu:RadialMenuCentralItem>
+			</RadialMenu:RadialMenu.CentralItem>
+		</RadialMenu:RadialMenu>
+	</Grid>
+</Window>
