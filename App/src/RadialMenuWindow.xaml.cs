@@ -32,10 +32,17 @@ namespace Taction {
 			RadialMenu.IsOpen = true;
 		}
 
+		protected override void OnActivated(EventArgs e) {
+
+			base.OnActivated(e);
+			WinApi.CancelActivation(this);
+		}
+
 		public void SetVisibility(bool isWanted) {
 
 			WinApi.SetWindowExTransparent(this, !isWanted);
-			Visibility = isWanted ? Visibility.Visible : Visibility.Hidden;
+			RadialMenu.IsOpen = isWanted;
+			Visibility = isWanted ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		public ICommand CloseCommand {

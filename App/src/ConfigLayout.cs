@@ -162,6 +162,15 @@ namespace Taction {
 		public StyleSpecs ActiveStyle { get; set; }
 	}
 
+	[AssociatedClass(typeof(RadialMenuButton))]
+	[JsonStringTypeValue("radial-menu")]
+	public class RadialMenuButtonSpecs : IButtonSpecs {
+
+		public double Size { get; set; }
+		public StyleSpecs BaseStyle { get; set; }
+		public StyleSpecs ActiveStyle { get; set; }
+	}
+
 	public class StyleSpecs {
 
 		[JsonProperty("margin")]

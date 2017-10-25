@@ -55,7 +55,8 @@
 					{"$ref": "#/definitions/holdItemType"},
 					{"$ref": "#/definitions/tapItemType"},
 					{"$ref": "#/definitions/toggleItemType"},
-					{"$ref": "#/definitions/moveItemType"}
+					{"$ref": "#/definitions/moveItemType"},
+					{"$ref": "#/definitions/radialMenuItemType"}
 				]
 			}
 		},
@@ -144,6 +145,25 @@
 				"type": {
 					"type": "string",
 					"enum": ["move"]
+				},
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
+				"base-style": {"$ref": "#/definitions/styleType"},
+				"active-style": {"$ref": "#/definitions/styleType"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "size"]
+		},
+		"radialMenuItemType": {
+			"description": "An item used to invoke a radial menu.",
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["radial-menu"]
 				},
 				"size": {
 					"type": "number",

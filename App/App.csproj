@@ -114,6 +114,7 @@
       <DependentUpon>NotificationIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\UIElement\CustomStackPanel.cs" />
+    <Compile Include="src\UIElement\RadialMenuButton.cs" />
     <Compile Include="src\UIElement\TapButton.cs" />
     <Compile Include="src\UIElement\CustomToggleButton.cs" />
     <Compile Include="src\UIElement\HoldButton.cs" />
