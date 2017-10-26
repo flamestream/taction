@@ -36,8 +36,8 @@ namespace Taction {
 
 			var items = new List<RadialMenuItem>();
 
-			foreach (var i in specs.Items)
-				items.Add(new CustomRadialMenuItem(i));
+			foreach (var itemSpecs in specs.Items)
+				items.Add(new CustomRadialMenuItem(itemSpecs, specs.DefaultItemStyle));
 
 			RadialMenu.Items = items;
 		}

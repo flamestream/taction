@@ -28,6 +28,7 @@
 		"orientation": {"$ref": "#/definitions/orientationType"},
 		"color": {"$ref": "#/definitions/colorType"},
 		"default-button-style": {"$ref": "#/definitions/buttonStyleSetType"},
+		"default-radial-menu-item-style": {"$ref": "#/definitions/radialMenuItemStyleSetType"},
 		"items": {"$ref": "#/definitions/itemsType"},
 	},
 	"additionalProperties": false,
@@ -190,6 +191,13 @@
 				"border": {"$ref": "#/definitions/borderType"},
 			},
 		},
+		"radialMenuItemStyleSetType": {
+			"type": "object",
+			"properties": {
+				"base": {"$ref": "#/definitions/radialMenuItemStyleType"},
+				"active": {"$ref": "#/definitions/radialMenuItemStyleType"},
+			}
+		},
 		"textStyleType": {
 			"type": "object",
 			"properties": {
@@ -318,12 +326,8 @@
 		"radialMenuType": {
 			"type": "object",
 			"properties": {
-				"central-item-style": {"$ref": "#/definitions/radialMenuCentralItemType"},
-				"active-central-item-style": {"$ref": "#/definitions/radialMenuCentralItemType"},
-				"default-inner-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
-				"default-active-inner-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
-				"default-outer-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
-				"default-active-outer-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+				"default-item-style": {"$ref": "#/definitions/radialMenuItemStyleSetType"},
+				"central-item-style": {"$ref": "#/definitions/radialMenuCentralItemStyleSetType"},
 				"items": {
 					"type": "array",
 					"items": {"$ref": "#/definitions/radialMenuItemType"},
@@ -332,40 +336,27 @@
 			"additionalProperties": false,
 			"required": ["items"]
 		},
-		"radialMenuCentralItemType": {
-			"type": "object",
-			"properties": {
-				"size": {
-					"type": "number",
-					"minimum": 0,
-					"exclusiveMinimum": true
-				},
-				"content": {"$ref": "#/definitions/contentType"},
-				"text-style": {"$ref": "#/definitions/textStyleType"},
-				"color": {"$ref": "#/definitions/colorType"},
-				"margin": {"type": "string"},
-				"padding": {"type": "string"},
-				"border": {"$ref": "#/definitions/borderType"},
-			},
-			"additionalProperties": false,
-			"required": ["size"]
-		},
 		"radialMenuItemType": {
 			"description": "An container used to re-orient items in the opposite direction of the parent's.",
 			"type": "object",
 			"properties": {
 				"command": {"type": "string"},
-				"content-style": {"$ref": "#/definitions/radialMenuItemContentType"},
-				"active-content-style": {"$ref": "#/definitions/radialMenuItemContentType"},
-				"inner-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
-				"active-inner-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
-				"outer-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
-				"active-outer-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+				"style": {"$ref": "#/definitions/radialMenuItemStyleSetType"},
 			},
 			"additionalProperties": false,
 			"required": ["command"]
 		},
-		"radialMenuItemContentType": {
+		"radialMenuItemStyleType": {
+			"type": "object",
+			"properties": {
+				"label": {"$ref": "#/definitions/radialMenuItemLabelStyleType"},
+				"inner-edge": {"$ref": "#/definitions/radialMenuItemEdgeStyleType"},
+				"outer-edge": {"$ref": "#/definitions/radialMenuItemEdgeStyleType"}
+			},
+			"additionalProperties": false,
+			"required": []
+		},
+		"radialMenuItemLabelStyleType": {
 			"type": "object",
 			"properties": {
 				"size": {
@@ -381,9 +372,9 @@
 				"border": {"$ref": "#/definitions/borderType"},
 			},
 			"additionalProperties": false,
-			"required": ["size"]
+			"required": []
 		},
-		"radialMenuItemEdgeType": {
+		"radialMenuItemEdgeStyleType": {
 			"type": "object",
 			"properties": {
 				"size": {
@@ -399,7 +390,32 @@
 				"border": {"$ref": "#/definitions/borderType"},
 			},
 			"additionalProperties": false,
-			"required": ["size"]
+			"required": []
 		},
+		"radialMenuCentralItemStyleSetType": {
+			"type": "object",
+			"properties": {
+				"base": {"$ref": "#/definitions/radialMenuCentralItemStyleType"},
+				"active": {"$ref": "#/definitions/radialMenuCentralItemStyleType"},
+			}
+		},
+		"radialMenuCentralItemStyleType": {
+			"type": "object",
+			"properties": {
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
+				"content": {"$ref": "#/definitions/contentType"},
+				"text-style": {"$ref": "#/definitions/textStyleType"},
+				"color": {"$ref": "#/definitions/colorType"},
+				"margin": {"type": "string"},
+				"padding": {"type": "string"},
+				"border": {"$ref": "#/definitions/borderType"},
+			},
+			"additionalProperties": false,
+			"required": []
+		}
 	}
 }
