@@ -29,6 +29,9 @@ namespace Taction.JsonConverter {
 
 			var o = default(Thickness);
 
+			if (input == null)
+				return o;
+
 			// Parse value
 			var values = input.Split(' ');
 

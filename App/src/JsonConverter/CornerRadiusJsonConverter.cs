@@ -29,11 +29,29 @@ namespace Taction.JsonConverter {
 
 			var o = default(CornerRadius);
 
-			if (input != null) {
+			if (input == null)
+				return o;
 
-				var c = new CornerRadiusConverter();
-				o = (CornerRadius)c.ConvertFromString(input);
-			}
+			// Parse value
+			var values = input.Split(' ');
+
+			// Valid check
+			if (values.Length == 0 || values.Length > 4)
+				return o;
+
+			if (!double.TryParse(values[0], out var topLeft))
+				return o;
+
+			if (values.Length <= 1 || !double.TryParse(values[1], out var topRight))
+				topRight = topLeft;
+
+			if (values.Length <= 2 || !double.TryParse(values[2], out var bottomRight))
+				bottomRight = topLeft;
+
+			if (values.Length <= 3 || !double.TryParse(values[3], out var bottomLeft))
+				bottomLeft = topRight;
+
+			o = new CornerRadius(topLeft, topRight, bottomRight, bottomLeft);
 
 			return o;
 		}

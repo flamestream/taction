@@ -13,22 +13,84 @@ namespace Taction.UIElement {
 			LayoutRoot.DataContext = this;
 		}
 
-		public CustomRadialMenuItem(RadialMenuItemSpecs specs, RadialMenuItemSetSpecs defaultSpecs) : this() {
+		public CustomRadialMenuItem(RadialMenuItemSpecs specs, RadialMenuItemStyleSetSpecs defaultStyle) : this() {
 
-			var style = specs.Style;
+			// Apply app default style
+			var appDefaultStyle = App.Instance.Config.Layout;
+			if (appDefaultStyle != null) {
+
+				ApplyBaseStyle(appDefaultStyle.DefaultRadialMenuItemStyle);
+			}
+
+			// Apply button default style
+			ApplyBaseStyle(defaultStyle);
+
+			// Apply own style
+			if (specs != null) {
+
+				ApplyBaseStyle(specs.Style);
+			}
+		}
+
+		public void ApplyBaseStyle(RadialMenuItemStyleSetSpecs styleSet) {
+
+			if (styleSet == null)
+				return;
+
+			ApplyBaseStyle(styleSet.Base);
+		}
+
+		public void ApplyBaseStyle(RadialMenuItemStyleSpecs style) {
+
 			if (style == null)
 				return;
 
-			var baseStyle = style.Base;
-			if (baseStyle == null)
-				return;
+			var labelStyle = style.LabelSpecs;
+			if (labelStyle != null) {
 
-			var labelSpecs = baseStyle.LabelSpecs;
-			if (labelSpecs != null) {
+				var borderStyle = labelStyle.Border;
+				if (borderStyle != null) {
 
-				var content = labelSpecs.Content;
-				if (content != null)
-					IconContent = content;
+					if (borderStyle.Color != null)
+						IconBorderBrush = borderStyle.Color;
+
+					if (borderStyle.Radius != null)
+						IconCornerRadius = borderStyle.Radius.Value;
+
+					if (borderStyle.Thickness != null)
+						IconBorderThickness = borderStyle.Thickness.Value;
+				}
+
+				if (labelStyle.Color != null)
+					IconBackground = labelStyle.Color;
+
+				if (labelStyle.Content != null)
+					IconContent = labelStyle.Content;
+
+				if (labelStyle.ContentPadding != null)
+					IconPadding = labelStyle.ContentPadding.Value;
+
+				if (labelStyle.Margin != null)
+					IconMargin = labelStyle.Margin.Value;
+
+				if (labelStyle.Size != null)
+					IconSize = labelStyle.Size.Value;
+
+				var textStyle = labelStyle.TextStyle;
+				if (textStyle != null) {
+
+					if (textStyle.Color != null)
+						IconForeground = textStyle.Color;
+
+					if (textStyle.FontFamily != null)
+						IconFontFamily = textStyle.FontFamily;
+
+					if (textStyle.FontSize != null)
+						IconFontSize = textStyle.FontSize.Value;
+
+					if (textStyle.FontWeight != null)
+						IconFontWeight = textStyle.FontWeight.Value;
+				}
 			}
 		}
 
@@ -248,26 +310,59 @@ namespace Taction.UIElement {
 
 		#endregion IconForeground
 
-		#region IconSize
+		#region IconWidth
 
-		public static readonly DependencyProperty IconSizeProperty = DependencyProperty.Register(
-			"IconSize",
+		public static readonly DependencyProperty IconWidthProperty = DependencyProperty.Register(
+			"IconWidth",
 			typeof(double),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetIconSize(CustomRadialMenuItem element, Brush value) {
+		public static void SetIconWidth(CustomRadialMenuItem element, double value) {
 
-			element.SetValue(IconSizeProperty, value);
+			element.SetValue(IconWidthProperty, value);
 		}
 
-		public static double GetIconSize(CustomRadialMenuItem element) {
-			return (double)element.GetValue(IconSizeProperty);
+		public static double GetIconWidth(CustomRadialMenuItem element) {
+			return (double)element.GetValue(IconWidthProperty);
 		}
+
+		public double IconWidth {
+			get { return (double)GetValue(IconWidthProperty); }
+			set { SetValue(IconWidthProperty, value); }
+		}
+
+		#endregion IconWidth
+
+		#region IconHeight
+
+		public static readonly DependencyProperty IconHeightProperty = DependencyProperty.Register(
+			"IconHeight",
+			typeof(double),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetIconHeight(CustomRadialMenuItem element, double value) {
+
+			element.SetValue(IconHeightProperty, value);
+		}
+
+		public static double GetIconHeight(CustomRadialMenuItem element) {
+			return (double)element.GetValue(IconHeightProperty);
+		}
+
+		public double IconHeight {
+			get { return (double)GetValue(IconHeightProperty); }
+			set { SetValue(IconHeightProperty, value); }
+		}
+
+		#endregion IconHeight
+
+		#region IconSize
 
 		public double IconSize {
-			get { return (double)GetValue(IconSizeProperty); }
-			set { SetValue(IconSizeProperty, value); }
+			get { return IconWidth * 2; }
+			set { IconHeight = IconWidth = value * 0.5; }
 		}
 
 		#endregion IconSize

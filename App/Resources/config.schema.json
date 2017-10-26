@@ -43,7 +43,7 @@
 			"type": "object",
 			"properties": {
 				"thickness": {"type": "string"},
-				"radius": {"type": "number"},
+				"radius": {"type": "string"},
 				"color": {"$ref": "#/definitions/colorType"}
 			},
 			"additionalProperties": false,

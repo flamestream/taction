@@ -84,6 +84,9 @@ namespace Taction {
 
 		[JsonProperty("default-button-style")]
 		public ButtonStyleSetSpecs DefaultButtonStyle { get; set; }
+
+		[JsonProperty("default-radial-menu-item-style")]
+		public RadialMenuItemStyleSetSpecs DefaultRadialMenuItemStyle { get; set; }
 	}
 
 	public interface IPanelItemSpecs {
@@ -235,7 +238,7 @@ namespace Taction {
 	public class RadialMenuSpecs {
 
 		[JsonProperty("default-item-style")]
-		public RadialMenuItemSetSpecs DefaultItemStyle { get; set; }
+		public RadialMenuItemStyleSetSpecs DefaultItemStyle { get; set; }
 
 		[JsonProperty("central-item-style")]
 		public RadialMenuCentralItemSpecs CentralItemSpecs { get; set; }
@@ -251,10 +254,10 @@ namespace Taction {
 		private KeyCommand KeyCommand { get; set; }
 
 		[JsonProperty("style")]
-		public RadialMenuItemSetSpecs Style { get; set; }
+		public RadialMenuItemStyleSetSpecs Style { get; set; }
 	}
 
-	public class RadialMenuItemSetSpecs {
+	public class RadialMenuItemStyleSetSpecs {
 
 		[JsonProperty("base")]
 		public RadialMenuItemStyleSpecs Base { get; set; }
@@ -278,7 +281,7 @@ namespace Taction {
 	public class RadialMenuItemLabelSpecs : ButtonStyleSpecs {
 
 		[JsonProperty("size")]
-		public double Size { get; set; }
+		public double? Size { get; set; }
 	}
 
 	public class RadialMenuItemEdgeSpecs {
