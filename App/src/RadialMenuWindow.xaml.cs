@@ -20,7 +20,7 @@ namespace Taction {
 	/// </summary>
 	public partial class RadialMenuWindow : Window {
 
-		public RadialMenuWindow() {
+		public RadialMenuWindow(RadialMenuSpecs specs) {
 
 			InitializeComponent();
 			DataContext = this;
@@ -28,8 +28,6 @@ namespace Taction {
 			// Set initial state (Nullify designer state)
 			RadialMenu.IsOpen = false;
 			RadialMenu.IsVisibleChanged += (s, e) => SetVisibility((bool)e.NewValue);
-
-			RadialMenu.IsOpen = true;
 		}
 
 		protected override void OnActivated(EventArgs e) {

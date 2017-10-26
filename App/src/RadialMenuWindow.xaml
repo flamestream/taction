@@ -18,7 +18,7 @@
 	<Window.Resources>
 		<Style TargetType="RadialMenu:RadialMenuCentralItem" BasedOn="{StaticResource {x:Type RadialMenu:RadialMenuCentralItem}}">
 			<Setter Property="Background" Value="#AA222222" />
-			<Setter Property="BorderThickness" Value="0" />
+			<Setter Property="BorderThickness" Value="2" />
 			<Setter Property="Width" Value="125" />
 			<Setter Property="Height" Value="125" />
 		</Style>

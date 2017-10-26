@@ -97,92 +97,100 @@ namespace Taction {
 			}
 		}
 
-		private static void ApplyBaseStyle(ContentControl item, StyleSpecs style) {
+		private static void ApplyBaseStyle(ContentControl item, ButtonStyleSetSpecs style) {
 
 			if (style == null)
 				return;
 
-			if (style.Color != null)
-				item.Background = style.Color;
+			var baseStyle = style.Base;
+			if (baseStyle == null)
+				return;
 
-			if (style.Content != null)
-				item.Content = style.Content;
+			if (baseStyle.Color != null)
+				item.Background = baseStyle.Color;
 
-			if (style.Margin != null)
-				item.Margin = style.Margin.Value;
+			if (baseStyle.Content != null)
+				item.Content = baseStyle.Content;
 
-			if (style.ContentPadding != null)
-				item.Padding = style.ContentPadding.Value;
+			if (baseStyle.Margin != null)
+				item.Margin = baseStyle.Margin.Value;
 
-			if (style.Border != null) {
+			if (baseStyle.ContentPadding != null)
+				item.Padding = baseStyle.ContentPadding.Value;
 
-				if (style.Border.Color != null)
-					item.BorderBrush = style.Border.Color;
+			if (baseStyle.Border != null) {
 
-				if (style.Border.Thickness != null)
-					item.BorderThickness = style.Border.Thickness.Value;
+				if (baseStyle.Border.Color != null)
+					item.BorderBrush = baseStyle.Border.Color;
+
+				if (baseStyle.Border.Thickness != null)
+					item.BorderThickness = baseStyle.Border.Thickness.Value;
 			}
 
-			if (style.TextStyle != null) {
+			if (baseStyle.TextStyle != null) {
 
-				if (style.TextStyle.Color != null)
-					item.Foreground = style.TextStyle.Color;
+				if (baseStyle.TextStyle.Color != null)
+					item.Foreground = baseStyle.TextStyle.Color;
 
-				if (style.TextStyle.FontFamily != null)
-					item.FontFamily = style.TextStyle.FontFamily;
+				if (baseStyle.TextStyle.FontFamily != null)
+					item.FontFamily = baseStyle.TextStyle.FontFamily;
 
-				if (style.TextStyle.FontSize != null)
-					item.FontSize = style.TextStyle.FontSize.Value;
+				if (baseStyle.TextStyle.FontSize != null)
+					item.FontSize = baseStyle.TextStyle.FontSize.Value;
 
-				if (style.TextStyle.FontWeight != null)
-					item.FontWeight = style.TextStyle.FontWeight.Value;
+				if (baseStyle.TextStyle.FontWeight != null)
+					item.FontWeight = baseStyle.TextStyle.FontWeight.Value;
 			}
 		}
 
-		private static void ApplyActiveStyle(ICustomStylizable item, StyleSpecs style) {
+		private static void ApplyActiveStyle(ICustomStylizable item, ButtonStyleSetSpecs style) {
 
 			if (style == null)
 				return;
 
-			if (style.Color != null)
-				item.Active_Background = style.Color;
+			var activeStyle = style.Active;
+			if (activeStyle == null)
+				return;
 
-			if (style.Content != null)
-				item.Active_Content = style.Content;
+			if (activeStyle.Color != null)
+				item.Active_Background = activeStyle.Color;
 
-			if (style.Margin != null)
-				item.Active_Margin = style.Margin.Value;
+			if (activeStyle.Content != null)
+				item.Active_Content = activeStyle.Content;
 
-			if (style.Border != null) {
+			if (activeStyle.Margin != null)
+				item.Active_Margin = activeStyle.Margin.Value;
 
-				if (style.Border.Color != null)
-					item.Active_BorderBrush = style.Border.Color;
+			if (activeStyle.Border != null) {
 
-				if (style.Border.Thickness != null)
-					item.Active_BorderThickness = style.Border.Thickness.Value;
+				if (activeStyle.Border.Color != null)
+					item.Active_BorderBrush = activeStyle.Border.Color;
+
+				if (activeStyle.Border.Thickness != null)
+					item.Active_BorderThickness = activeStyle.Border.Thickness.Value;
 			}
 
-			if (style.TextStyle != null) {
+			if (activeStyle.TextStyle != null) {
 
-				if (style.TextStyle.Color != null)
-					item.Active_Foreground = style.TextStyle.Color;
+				if (activeStyle.TextStyle.Color != null)
+					item.Active_Foreground = activeStyle.TextStyle.Color;
 
-				if (style.TextStyle.FontFamily != null)
-					item.Active_FontFamily = style.TextStyle.FontFamily;
+				if (activeStyle.TextStyle.FontFamily != null)
+					item.Active_FontFamily = activeStyle.TextStyle.FontFamily;
 
-				if (style.TextStyle.FontSize != null)
-					item.Active_FontSize = style.TextStyle.FontSize.Value;
+				if (activeStyle.TextStyle.FontSize != null)
+					item.Active_FontSize = activeStyle.TextStyle.FontSize.Value;
 
-				if (style.TextStyle.FontWeight != null)
-					item.Active_FontWeight = style.TextStyle.FontWeight.Value;
+				if (activeStyle.TextStyle.FontWeight != null)
+					item.Active_FontWeight = activeStyle.TextStyle.FontWeight.Value;
 			}
 		}
 
 		private static void ApplyStyle(ConfigLayout layout, ContentControl item, IButtonSpecs specs, StackPanel panel) {
 
 			// Set base style
-			ApplyBaseStyle(item, layout.DefaultBaseStyle);
-			ApplyBaseStyle(item, specs.BaseStyle);
+			ApplyBaseStyle(item, layout.DefaultButtonStyle);
+			ApplyBaseStyle(item, specs.Style);
 
 			if (item is ICustomStylizable i) {
 
@@ -197,8 +205,8 @@ namespace Taction {
 				i.Active_Margin = item.Margin;
 
 				// Set active style
-				ApplyActiveStyle(i, layout.DefaultActiveStyle);
-				ApplyActiveStyle(i, specs.ActiveStyle);
+				ApplyActiveStyle(i, layout.DefaultButtonStyle);
+				ApplyActiveStyle(i, specs.Style);
 			}
 		}
 

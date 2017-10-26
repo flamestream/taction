@@ -82,11 +82,8 @@ namespace Taction {
 		[JsonProperty("disable-fade-animation")]
 		public bool DisableFadeAnimation { get; set; }
 
-		[JsonProperty("default-base-style")]
-		public StyleSpecs DefaultBaseStyle { get; set; }
-
-		[JsonProperty("default-active-style")]
-		public StyleSpecs DefaultActiveStyle { get; set; }
+		[JsonProperty("default-button-style")]
+		public ButtonStyleSetSpecs DefaultButtonStyle { get; set; }
 	}
 
 	public interface IPanelItemSpecs {
@@ -97,11 +94,19 @@ namespace Taction {
 
 	public interface IButtonSpecs : IPanelItemSpecs {
 
-		[JsonProperty("base-style")]
-		StyleSpecs BaseStyle { get; set; }
+		[JsonProperty("style")]
+		ButtonStyleSetSpecs Style { get; set; }
+	}
 
-		[JsonProperty("active-style")]
-		StyleSpecs ActiveStyle { get; set; }
+	public class ButtonStyleSetSpecs : IPanelItemSpecs {
+
+		public double Size { get; set; }
+
+		[JsonProperty("base")]
+		public ButtonStyleSpecs Base { get; set; }
+
+		[JsonProperty("active")]
+		public ButtonStyleSpecs Active { get; set; }
 	}
 
 	public interface ICommandButtonSpecs : IButtonSpecs {
@@ -128,8 +133,7 @@ namespace Taction {
 	public class HoldButtonSpecs : ICommandButtonSpecs {
 
 		public double Size { get; set; }
-		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs ActiveStyle { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -138,8 +142,7 @@ namespace Taction {
 	public class TapButtonSpecs : ICommandButtonSpecs {
 
 		public double Size { get; set; }
-		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs ActiveStyle { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -148,8 +151,7 @@ namespace Taction {
 	public class ToggleButtonSpecs : ICommandButtonSpecs {
 
 		public double Size { get; set; }
-		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs ActiveStyle { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -158,8 +160,7 @@ namespace Taction {
 	public class MoveButtonSpecs : IButtonSpecs {
 
 		public double Size { get; set; }
-		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs ActiveStyle { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
 	}
 
 	[AssociatedClass(typeof(RadialMenuButton))]
@@ -167,11 +168,13 @@ namespace Taction {
 	public class RadialMenuButtonSpecs : IButtonSpecs {
 
 		public double Size { get; set; }
-		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs ActiveStyle { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
+
+		[JsonProperty("radial-menu")]
+		public RadialMenuSpecs RadialMenuSpecs { get; set; }
 	}
 
-	public class StyleSpecs {
+	public class ButtonStyleSpecs {
 
 		[JsonProperty("margin")]
 		[JsonConverter(typeof(ThicknessJsonConverter))]
@@ -223,5 +226,82 @@ namespace Taction {
 		[JsonProperty("thickness")]
 		[JsonConverter(typeof(ThicknessJsonConverter))]
 		public Thickness? Thickness { get; set; }
+
+		[JsonProperty("radius")]
+		[JsonConverter(typeof(CornerRadiusJsonConverter))]
+		public CornerRadius? Radius { get; set; }
+	}
+
+	public class RadialMenuSpecs {
+
+		[JsonProperty("central-item-style")]
+		public RadialMenuCentralItemSpecs CenterSpecs { get; set; }
+
+		[JsonProperty("active-central-item-style")]
+		public RadialMenuCentralItemSpecs ActiveCenterSpecs { get; set; }
+
+		[JsonProperty("default-inner-edge-style")]
+		public RadialMenuItemEdgeSpecs DefaultInnerEdgeSpecs { get; set; }
+
+		[JsonProperty("default-active-inner-edge-style")]
+		public RadialMenuItemEdgeSpecs DefaultActiveInnerEdgeSpecs { get; set; }
+
+		[JsonProperty("default-outer-edge-style")]
+		public RadialMenuItemEdgeSpecs DefaultOuterEdgeSpecs { get; set; }
+
+		[JsonProperty("default-active-outer-edge-style")]
+		public RadialMenuItemEdgeSpecs DefaultActiveOuterEdgeSpecs { get; set; }
+
+		[JsonProperty("items")]
+		public List<RadialMenuItemSpecs> Items { get; set; }
+	}
+
+	public class RadialMenuCentralItemSpecs : ButtonStyleSpecs {
+
+		[JsonProperty("size")]
+		public double Size { get; set; }
+	}
+
+	public class RadialMenuItemSpecs {
+
+		[JsonProperty("inner-edge")]
+		public RadialMenuItemEdgeSpecs InnerEdgeSpecs { get; set; }
+
+		[JsonProperty("active-inner-edge")]
+		public RadialMenuItemEdgeSpecs ActiveInnerEdgeSpecs { get; set; }
+
+		[JsonProperty("outer-edge")]
+		public RadialMenuItemEdgeSpecs OuterEdgeSpecs { get; set; }
+
+		[JsonProperty("active-outer-edge")]
+		public RadialMenuItemEdgeSpecs ActiveOuterEdgeSpecs { get; set; }
+
+		[JsonProperty("content")]
+		public RadialMenuItemContentSpecs ContentSpecs { get; set; }
+
+		[JsonProperty("active-content")]
+		public RadialMenuItemContentSpecs ActiveContentSpecs { get; set; }
+	}
+
+	public class RadialMenuItemEdgeSpecs {
+
+		[JsonProperty("size")]
+		public double Size { get; set; }
+
+		[JsonProperty("start-distance")]
+		public double StartDistance { get; set; }
+
+		[JsonProperty("color")]
+		[JsonConverter(typeof(BrushJsonConverter))]
+		public Brush Color { get; set; }
+
+		[JsonProperty("border")]
+		public BorderSpecs Border { get; set; }
+	}
+
+	public class RadialMenuItemContentSpecs : ButtonStyleSpecs {
+
+		[JsonProperty("size")]
+		public double Size { get; set; }
 	}
 }

@@ -97,4 +97,57 @@ registerConverter(2, 3, function(config) {
 	}
 });
 
+registerConverter(3, 4, function(config) {
+
+	config['default-button-style'] = {}
+	if (config['default-base-style']) {
+
+		config['default-button-style']['base'] = config['default-base-style'];
+		delete config['default-base-style'];
+	}
+
+	if (config['default-active-style']) {
+
+		config['default-button-style']['active'] = config['default-active-style'];
+		delete config['default-active-style'];
+	}
+
+	if (!Object.keys(config['default-button-style']).length)
+		delete config['default-button-style'];
+
+	convertItems(config.items);
+
+	function convertItems(items) {
+
+		if (!items)
+			return;
+
+		for (let k in items) {
+
+			let item = items[k];
+
+			if (item.type === 'pivot')
+				continue;
+
+			let style = {}
+			if (item['base-style']) {
+
+				style['base'] = item['base-style'];
+				delete item['base-style'];
+			}
+
+			if (item['active-style']) {
+
+				style['active'] = item['active-style'];
+				delete item['active-style'];
+			}
+
+			if (Object.keys(style).length)
+				item['style'] = style;
+
+			convertItems(item.items);
+		}
+	}
+});
+
 main(process.argv);

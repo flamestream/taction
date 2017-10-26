@@ -27,8 +27,7 @@
 		"border": {"$ref": "#/definitions/borderType"},
 		"orientation": {"$ref": "#/definitions/orientationType"},
 		"color": {"$ref": "#/definitions/colorType"},
-		"default-base-style": {"$ref": "#/definitions/styleType"},
-		"default-active-style": {"$ref": "#/definitions/styleType"},
+		"default-button-style": {"$ref": "#/definitions/buttonStyleSetType"},
 		"items": {"$ref": "#/definitions/itemsType"},
 	},
 	"additionalProperties": false,
@@ -43,6 +42,7 @@
 			"type": "object",
 			"properties": {
 				"thickness": {"type": "string"},
+				"radius": {"type": "number"},
 				"color": {"$ref": "#/definitions/colorType"}
 			},
 			"additionalProperties": false,
@@ -56,7 +56,7 @@
 					{"$ref": "#/definitions/tapItemType"},
 					{"$ref": "#/definitions/toggleItemType"},
 					{"$ref": "#/definitions/moveItemType"},
-					{"$ref": "#/definitions/radialMenuItemType"}
+					{"$ref": "#/definitions/radialMenuButtonType"}
 				]
 			}
 		},
@@ -92,8 +92,7 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"base-style": {"$ref": "#/definitions/styleType"},
-				"active-style": {"$ref": "#/definitions/styleType"},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
@@ -112,8 +111,7 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"base-style": {"$ref": "#/definitions/styleType"},
-				"active-style": {"$ref": "#/definitions/styleType"},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
@@ -132,8 +130,7 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"base-style": {"$ref": "#/definitions/styleType"},
-				"active-style": {"$ref": "#/definitions/styleType"},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
@@ -151,13 +148,12 @@
 					"minimum": 0,
 					"exclusiveMinimum": true
 				},
-				"base-style": {"$ref": "#/definitions/styleType"},
-				"active-style": {"$ref": "#/definitions/styleType"},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size"]
 		},
-		"radialMenuItemType": {
+		"radialMenuButtonType": {
 			"description": "An item used to invoke a radial menu.",
 			"type": "object",
 			"properties": {
@@ -170,13 +166,20 @@
 					"minimum": 0,
 					"exclusiveMinimum": true
 				},
-				"base-style": {"$ref": "#/definitions/styleType"},
-				"active-style": {"$ref": "#/definitions/styleType"},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
+				"radial-menu": {"$ref": "#/definitions/radialMenuType"},
 			},
 			"additionalProperties": false,
-			"required": ["type", "size"]
+			"required": ["type", "size", "radial-menu"]
 		},
-		"styleType": {
+		"buttonStyleSetType": {
+			"type": "object",
+			"properties": {
+				"base": {"$ref": "#/definitions/buttonStyleType"},
+				"active": {"$ref": "#/definitions/buttonStyleType"},
+			}
+		},
+		"buttonStyleType": {
 			"type": "object",
 			"properties": {
 				"content": {"$ref": "#/definitions/contentType"},
@@ -311,6 +314,92 @@
 			},
 			"additionalProperties": false,
 			"required": ["type", "values"]
-		}
+		},
+		"radialMenuType": {
+			"type": "object",
+			"properties": {
+				"central-item-style": {"$ref": "#/definitions/radialMenuCentralItemType"},
+				"active-central-item-style": {"$ref": "#/definitions/radialMenuCentralItemType"},
+				"default-inner-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+				"default-active-inner-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+				"default-outer-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+				"default-active-outer-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+				"items": {
+					"type": "array",
+					"items": {"$ref": "#/definitions/radialMenuItemType"},
+				},
+			},
+			"additionalProperties": false,
+			"required": ["items"]
+		},
+		"radialMenuCentralItemType": {
+			"type": "object",
+			"properties": {
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
+				"content": {"$ref": "#/definitions/contentType"},
+				"text-style": {"$ref": "#/definitions/textStyleType"},
+				"color": {"$ref": "#/definitions/colorType"},
+				"margin": {"type": "string"},
+				"padding": {"type": "string"},
+				"border": {"$ref": "#/definitions/borderType"},
+			},
+			"additionalProperties": false,
+			"required": ["size"]
+		},
+		"radialMenuItemType": {
+			"description": "An container used to re-orient items in the opposite direction of the parent's.",
+			"type": "object",
+			"properties": {
+				"command": {"type": "string"},
+				"content-style": {"$ref": "#/definitions/radialMenuItemContentType"},
+				"active-content-style": {"$ref": "#/definitions/radialMenuItemContentType"},
+				"inner-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+				"active-inner-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+				"outer-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+				"active-outer-edge-style": {"$ref": "#/definitions/radialMenuItemEdgeType"},
+			},
+			"additionalProperties": false,
+			"required": ["command"]
+		},
+		"radialMenuItemContentType": {
+			"type": "object",
+			"properties": {
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
+				"content": {"$ref": "#/definitions/contentType"},
+				"text-style": {"$ref": "#/definitions/textStyleType"},
+				"color": {"$ref": "#/definitions/colorType"},
+				"margin": {"type": "string"},
+				"padding": {"type": "string"},
+				"border": {"$ref": "#/definitions/borderType"},
+			},
+			"additionalProperties": false,
+			"required": ["size"]
+		},
+		"radialMenuItemEdgeType": {
+			"type": "object",
+			"properties": {
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
+				"start-distance": {
+					"type": "number",
+					"minimum": 0,
+				},
+				"color": {"$ref": "#/definitions/colorType"},
+				"border": {"$ref": "#/definitions/borderType"},
+			},
+			"additionalProperties": false,
+			"required": ["size"]
+		},
 	}
 }

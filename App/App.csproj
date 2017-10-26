@@ -88,6 +88,7 @@
     <Compile Include="src\JsonConverter\ContentJsonConverter.cs" />
     <Compile Include="src\JsonConverter\KeyCommandListJsonConverter.cs" />
     <Compile Include="src\JsonConverter\FontWeightJsonConverter.cs" />
+    <Compile Include="src\JsonConverter\CornerRadiusJsonConverter.cs" />
     <Compile Include="src\KeyCommand.cs" />
     <Compile Include="src\JsonConverter\ThicknessJsonConverter.cs" />
     <Compile Include="src\App.ValueRegistry.cs" />
