@@ -51,16 +51,16 @@
 			"type": "array",
 			"items": {
 				"oneOf": [
-					{"$ref": "#/definitions/pivotItemType"},
-					{"$ref": "#/definitions/holdItemType"},
-					{"$ref": "#/definitions/tapItemType"},
-					{"$ref": "#/definitions/toggleItemType"},
-					{"$ref": "#/definitions/moveItemType"},
+					{"$ref": "#/definitions/pivotButtonType"},
+					{"$ref": "#/definitions/holdButtonType"},
+					{"$ref": "#/definitions/tapButtonType"},
+					{"$ref": "#/definitions/toggleButtonType"},
+					{"$ref": "#/definitions/moveButtonType"},
 					{"$ref": "#/definitions/radialMenuButtonType"}
 				]
 			}
 		},
-		"pivotItemType": {
+		"pivotButtonType": {
 			"description": "An container used to re-orient items in the opposite direction of the parent's.",
 			"type": "object",
 			"properties": {
@@ -78,7 +78,7 @@
 			"additionalProperties": false,
 			"required": ["type", "size", "items"]
 		},
-		"holdItemType": {
+		"holdButtonType": {
 			"description": "An item that sends input down only as long as touch is held down.",
 			"type": "object",
 			"properties": {
@@ -97,7 +97,7 @@
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
 		},
-		"tapItemType": {
+		"tapButtonType": {
 			"description": "An item that sends input immediately once.",
 			"type": "object",
 			"properties": {
@@ -116,7 +116,7 @@
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
 		},
-		"toggleItemType": {
+		"toggleButtonType": {
 			"description": "An item that sends input in a toggling manner. Press once to hold down the key, and once more to release it.",
 			"type": "object",
 			"properties": {
@@ -135,7 +135,7 @@
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
 		},
-		"moveItemType": {
+		"moveButtonType": {
 			"description": "An item used to move the panel around the screen.",
 			"type": "object",
 			"properties": {

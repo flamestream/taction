@@ -13,6 +13,17 @@ namespace Taction.UIElement {
 			LayoutRoot.DataContext = this;
 		}
 
+		public CustomRadialMenuItem(RadialMenuItemSpecs specs) : this() {
+
+			var contentSpecs = specs.ContentSpecs;
+			if (contentSpecs != null) {
+
+				var content = contentSpecs.Content;
+				if (content != null)
+					IconContent = content;
+			}
+		}
+
 		#region IconContent
 
 		public static readonly DependencyProperty IconContentProperty = DependencyProperty.Register(

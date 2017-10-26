@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RadialMenu.Controls;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Taction.UIElement;
 
 namespace Taction {
 
@@ -20,7 +22,7 @@ namespace Taction {
 	/// </summary>
 	public partial class RadialMenuWindow : Window {
 
-		public RadialMenuWindow(RadialMenuSpecs specs) {
+		public RadialMenuWindow() {
 
 			InitializeComponent();
 			DataContext = this;
@@ -28,6 +30,16 @@ namespace Taction {
 			// Set initial state (Nullify designer state)
 			RadialMenu.IsOpen = false;
 			RadialMenu.IsVisibleChanged += (s, e) => SetVisibility((bool)e.NewValue);
+		}
+
+		public RadialMenuWindow(RadialMenuSpecs specs) : this() {
+
+			var items = new List<RadialMenuItem>();
+
+			foreach (var i in specs.Items)
+				items.Add(new CustomRadialMenuItem(i));
+
+			RadialMenu.Items = items;
 		}
 
 		protected override void OnActivated(EventArgs e) {
