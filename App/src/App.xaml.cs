@@ -60,16 +60,23 @@ namespace Taction {
 			return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
 		}
 
+		public void Enable() {
+
+			MainPanel.Visibility = Visibility.Visible;
+		}
+
+		public void Disable() {
+
+			MainPanel.Visibility = Visibility.Hidden;
+			GlobalMouseHook.Disable();
+		}
+
 		public void ToggleEnable() {
 
 			if (MainPanel.Visibility == Visibility.Visible) {
-
-				MainPanel.Visibility = Visibility.Hidden;
-				GlobalMouseHook.Disable();
-
+				Disable();
 			} else {
-
-				MainPanel.Visibility = Visibility.Visible;
+				Enable();
 			}
 		}
 

@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Taction.UIElement;
+using System.ComponentModel;
 
 namespace Taction {
 
@@ -40,6 +41,13 @@ namespace Taction {
 				items.Add(new CustomRadialMenuItem(itemSpecs, specs.DefaultItemStyle));
 
 			RadialMenu.Items = items;
+		}
+
+		protected override void OnClosing(CancelEventArgs e) {
+
+			base.OnClosing(e);
+			e.Cancel = true;
+			SetVisibility(false);
 		}
 
 		protected override void OnActivated(EventArgs e) {

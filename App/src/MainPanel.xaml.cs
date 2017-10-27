@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -32,6 +33,19 @@ namespace Taction {
 			App.Instance.InputSimulator.OnDetectedKeyUp += HandleDetectedKeyUp;
 
 			ReloadLayout();
+		}
+
+		protected override void OnActivated(EventArgs e) {
+
+			base.OnActivated(e);
+			WinApi.CancelActivation(this);
+		}
+
+		protected override void OnClosing(CancelEventArgs e) {
+
+			base.OnClosing(e);
+			e.Cancel = true;
+			App.Instance.Disable();
 		}
 
 		public void ReloadLayout() {
@@ -161,12 +175,6 @@ namespace Taction {
 					toggleButton.IsChecked = false;
 				}
 			}
-		}
-
-		protected override void OnActivated(EventArgs e) {
-
-			base.OnActivated(e);
-			WinApi.CancelActivation(this);
 		}
 
 		private void Window_MouseMove(object sender, MouseEventArgs e) {
