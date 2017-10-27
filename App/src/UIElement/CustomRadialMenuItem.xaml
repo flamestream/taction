@@ -7,6 +7,7 @@
 		xmlns:UIElement="clr-namespace:Taction.UIElement"
 		xmlns:RadialMenu="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
 		mc:Ignorable="d"
+		x:Name="LayoutRoot"
 		d:DesignHeight="300" d:DesignWidth="300">
 	<RadialMenu:RadialMenuItem.Resources>
 		<Style TargetType="UIElement:CustomRadialMenuItem">
@@ -28,7 +29,7 @@
 			<Setter Property="ArrowBorderBrush" Value="Transparent" />
 
 			<Setter Property="IconForeground" Value="#FF000000" />
-
+			
 			<Style.Resources>
 				<Style TargetType="Grid">
 					<Setter Property="Width" Value="50" />
@@ -56,11 +57,11 @@
 					<Setter Property="EdgeBackground" Value="#00000000" />
 				</Trigger>
 			</Style.Triggers>
+
 		</Style>
 	</RadialMenu:RadialMenuItem.Resources>
-	<Grid>
-		<Border x:Name="LayoutRoot"
-				HorizontalAlignment="Stretch"
+	<Grid Width="{Binding IconWidth}" Height="{Binding IconHeight}">
+		<Border HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
 				Background="{Binding IconBackground}"
 				CornerRadius="{Binding IconCornerRadius}"

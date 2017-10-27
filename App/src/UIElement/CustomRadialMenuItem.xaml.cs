@@ -361,8 +361,8 @@ namespace Taction.UIElement {
 		#region IconSize
 
 		public double IconSize {
-			get { return IconWidth * 2; }
-			set { IconHeight = IconWidth = value * 0.5; }
+			get { return IconWidth * 0.5; }
+			set { IconHeight = IconWidth = value * 2; }
 		}
 
 		#endregion IconSize
