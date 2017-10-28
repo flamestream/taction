@@ -251,7 +251,7 @@ namespace Taction {
 
 		[JsonProperty("command")]
 		[JsonConverter(typeof(KeyCommandListJsonConverter))]
-		private KeyCommand KeyCommand { get; set; }
+		public KeyCommand KeyCommand { get; set; }
 
 		[JsonProperty("style")]
 		public RadialMenuItemStyleSetSpecs Style { get; set; }

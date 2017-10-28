@@ -10,7 +10,7 @@
 		Title="RadialMenuWindow"
 		Topmost="True"
 		WindowStyle="None"
-		AllowsTransparency="False"
+		AllowsTransparency="True"
 		Background="#01000000"
 		Stylus.IsPressAndHoldEnabled="False"
 		WindowState="Maximized">

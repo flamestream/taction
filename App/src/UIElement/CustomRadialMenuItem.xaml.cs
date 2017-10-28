@@ -7,6 +7,8 @@ namespace Taction.UIElement {
 
 	public partial class CustomRadialMenuItem : RadialMenuItem {
 
+		internal KeyCommand KeyCommand { set; get; }
+
 		public CustomRadialMenuItem() {
 
 			InitializeComponent();
@@ -14,6 +16,21 @@ namespace Taction.UIElement {
 		}
 
 		public CustomRadialMenuItem(RadialMenuItemSpecs specs, RadialMenuItemStyleSetSpecs defaultStyle) : this() {
+
+			KeyCommand = specs.KeyCommand;
+			Command = new RelayCommand(() => {
+
+				// Press key
+				App.Instance.InputSimulator.SimulateKeyPress(KeyCommand);
+
+				// Collapse menu/window
+				var window = Window.GetWindow(this);
+				if (!(window is RadialMenuWindow))
+					return;
+
+				var radialMenuwindow = (RadialMenuWindow)window;
+				radialMenuwindow.SetVisibility(false, false);
+			});
 
 			// Apply app default style
 			var appDefaultStyle = App.Instance.Config.Layout;

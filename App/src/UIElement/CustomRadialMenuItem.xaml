@@ -11,56 +11,64 @@
 		d:DesignHeight="300" d:DesignWidth="300">
 	<RadialMenu:RadialMenuItem.Resources>
 		<Style TargetType="UIElement:CustomRadialMenuItem">
+			<!-- Default values -->
+			<Setter Property="InnerRadius" Value="70" />
 			<Setter Property="Background" Value="#FFDDDDDD" />
 			<Setter Property="Padding" Value="0" />
 			<Setter Property="BorderThickness" Value="1" />
 			<Setter Property="BorderBrush" Value="#FFDDDDDD" />
-			<Setter Property="InnerRadius" Value="70" />
-			<Setter Property="OuterRadius" Value="120" />
-			<Setter Property="ContentRadius" Value="95" />
 
-			<Setter Property="EdgePadding" Value="0" />
-			<Setter Property="EdgeBackground" Value="#00000000" />
+			<Setter Property="OuterRadius" Value="120" />
+			<Setter Property="EdgeBackground" Value="#0000" />
+			<Setter Property="EdgeBorderBrush" Value="#000" />
+			<Setter Property="EdgeBorderThickness" Value="0" />
 			<Setter Property="EdgeInnerRadius" Value="120" />
 			<Setter Property="EdgeOuterRadius" Value="10000" />
+			<Setter Property="EdgePadding" Value="0" />
 
-			<Setter Property="ArrowRadius" Value="10" />
-			<Setter Property="ArrowBackground" Value="Transparent" />
-			<Setter Property="ArrowBorderBrush" Value="Transparent" />
+			<Setter Property="ArrowBackground" Value="#0000" />
+			<Setter Property="ArrowBorderBrush" Value="#0000" />
+			<Setter Property="ArrowBorderThickness" Value="0" />
+			<Setter Property="ArrowHeight" Value="10" />
+			<Setter Property="ArrowRadius" Value="200" />
+			<Setter Property="ArrowWidth" Value="10" />
 
-			<Setter Property="IconForeground" Value="#FF000000" />
-			
+			<Setter Property="ContentRadius" Value="95" />
+			<Setter Property="IconWidth" Value="50" />
+			<Setter Property="IconHeight" Value="50" />
+			<Setter Property="IconBackground" Value="#0000" />
+			<Setter Property="IconForeground" Value="#FF222222" />
+
 			<Style.Resources>
+				<Style TargetType="TextBlock">
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=RadialMenu:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+							<Setter Property="Foreground" Value="#FFFF0000" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
 				<Style TargetType="Grid">
-					<Setter Property="Width" Value="50" />
-					<Setter Property="Height" Value="50" />
-					<Setter Property="HorizontalAlignment" Value="Stretch" />
-					<Setter Property="VerticalAlignment" Value="Stretch" />
-					<Style.Resources>
-						<Style TargetType="TextBlock">
-							<Setter Property="Foreground" Value="#FF222222" />
-							<Setter Property="HorizontalAlignment" Value="Center" />
-							<Setter Property="VerticalAlignment" Value="Center" />
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=RadialMenu:RadialMenuItem}, Path=IsMouseOver}" Value="True">
-									<Setter Property="Foreground" Value="#FFDDDDDD" />
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</Style.Resources>
+				</Style>
+				<Style TargetType="Border">
+					<Setter Property="BorderThickness" Value="1" />
+					<Setter Property="BorderBrush" Value="red" />
 				</Style>
 			</Style.Resources>
+
 			<Style.Triggers>
 				<Trigger Property="IsMouseOver" Value="True">
 					<Setter Property="Background" Value="DeepSkyBlue" />
 					<Setter Property="BorderBrush" Value="DeepSkyBlue" />
 					<Setter Property="EdgeBackground" Value="#00000000" />
+					<Setter Property="TextBlock.Foreground" Value="#FF00FFDD" />
 				</Trigger>
 			</Style.Triggers>
-
 		</Style>
 	</RadialMenu:RadialMenuItem.Resources>
-	<Grid Width="{Binding IconWidth}" Height="{Binding IconHeight}">
+	<Grid HorizontalAlignment="Stretch"
+			VerticalAlignment="Stretch"
+			Width="{Binding IconWidth}"
+			Height="{Binding IconHeight}">
 		<Border HorizontalAlignment="Stretch"
 				VerticalAlignment="Stretch"
 				Background="{Binding IconBackground}"

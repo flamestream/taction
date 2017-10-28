@@ -144,6 +144,61 @@
 					}
 				}
 			}
+		},
+		{
+			"type": "radial-menu",
+			"size": 80,
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "☀"
+					}
+				}
+			},
+			"radial-menu": {
+				"items": [
+					{
+						"command": "VK_A",
+						"style": {
+							"base": {
+								"label": {
+									"content": {
+										"type": "text",
+										"value": "A"
+									}
+								}
+							}
+						}
+					},
+					{
+						"command": "VK_B",
+						"style": {
+							"base": {
+								"label": {
+									"content": {
+										"type": "text",
+										"value": "B"
+									}
+								}
+							}
+						}
+					},
+					{
+						"command": "VK_C",
+						"style": {
+							"base": {
+								"label": {
+									"content": {
+										"type": "text",
+										"value": "C"
+									}
+								}
+							}
+						}
+					},
+				]
+			}
 		}
 	]
 }

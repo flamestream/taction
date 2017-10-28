@@ -43,6 +43,12 @@ namespace Taction {
 			RadialMenu.Items = items;
 		}
 
+		protected override void OnActivated(EventArgs e) {
+
+			base.OnActivated(e);
+			WinApi.CancelActivation(this);
+		}
+
 		protected override void OnClosing(CancelEventArgs e) {
 
 			base.OnClosing(e);
@@ -50,16 +56,14 @@ namespace Taction {
 			SetVisibility(false);
 		}
 
-		protected override void OnActivated(EventArgs e) {
-
-			base.OnActivated(e);
-			WinApi.CancelActivation(this);
-		}
-
-		public void SetVisibility(bool isWanted) {
+		public void SetVisibility(bool isWanted, bool isSkipAnimationWanted = true) {
 
 			WinApi.SetWindowExTransparent(this, !isWanted);
 			RadialMenu.IsOpen = isWanted;
+
+			if (!isSkipAnimationWanted)
+				return;
+
 			Visibility = isWanted ? Visibility.Visible : Visibility.Collapsed;
 		}
 
