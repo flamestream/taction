@@ -34,12 +34,18 @@
 			<Setter Property="ArrowWidth" Value="10" />
 
 			<Setter Property="ContentRadius" Value="{Binding Base_ContentRadius, TargetNullValue=95}" />
-			<Setter Property="Base_LabelWidth" Value="50" />
-			<Setter Property="Base_LabelHeight" Value="50" />
-			<Setter Property="Base_LabelBackground" Value="#0000" />
-			<Setter Property="Base_LabelForeground" Value="#FF222222" />
 
 			<Style.Resources>
+				<Style TargetType="Grid">
+					<Setter Property="Width" Value="{Binding Base_LabelWidth, TargetNullValue=50}" />
+					<Setter Property="Height" Value="{Binding Base_LabelHeight, TargetNullValue=50}" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
+							<Setter Property="Width" Value="{Binding Active_LabelWidth}" />
+							<Setter Property="Height" Value="{Binding Active_LabelHeight}" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
 				<Style TargetType="TextBlock">
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
@@ -100,18 +106,11 @@
 					<Setter Property="EdgePadding" Value="{Binding Active_EdgePadding}" />
 
 					<Setter Property="ContentRadius" Value="{Binding Active_ContentRadius}" />
-					<Setter Property="Base_LabelWidth" Value="{Binding Active_LabelWidth}" />
-					<Setter Property="Base_LabelHeight" Value="{Binding Active_LabelHeight}" />
-					<Setter Property="Base_LabelBackground" Value="{Binding Active_LabelBackground}" />
-					<Setter Property="Base_LabelForeground" Value="{Binding Active_LabelForeground}" />
 				</Trigger>
 			</Style.Triggers>
 		</Style>
 	</RadialMenu:RadialMenuItem.Resources>
-	<Grid HorizontalAlignment="Stretch"
-			VerticalAlignment="Stretch"
-			Width="{Binding Base_LabelWidth}"
-			Height="{Binding Base_LabelHeight}">
+	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 		<Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<ContentPresenter x:Name="Content" HorizontalAlignment="Center" VerticalAlignment="Center" />
 		</Border>
