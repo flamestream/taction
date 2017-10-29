@@ -12,19 +12,19 @@
 	<RadialMenu:RadialMenuItem.Resources>
 		<Style TargetType="UIElement:CustomRadialMenuItem">
 			<!-- Default values -->
-			<Setter Property="InnerRadius" Value="70" />
-			<Setter Property="Background" Value="#FFDDDDDD" />
-			<Setter Property="Padding" Value="0" />
-			<Setter Property="BorderThickness" Value="1" />
-			<Setter Property="BorderBrush" Value="#FFDDDDDD" />
+			<Setter Property="InnerRadius" Value="{Binding Base_InnerRadius, TargetNullValue=70}" />
+			<Setter Property="OuterRadius" Value="{Binding Base_OuterRadius, TargetNullValue=120}" />
+			<Setter Property="Background" Value="{Binding Base_Background, TargetNullValue=#FFDDDDDD}" />
+			<Setter Property="Padding" Value="{Binding Base_Padding, TargetNullValue=0}" />
+			<Setter Property="BorderThickness" Value="{Binding Base_BorderThickness, TargetNullValue=1}" />
+			<Setter Property="BorderBrush" Value="{Binding Base_BorderBrush, TargetNullValue=#FFDDDDDD}" />
 
-			<Setter Property="OuterRadius" Value="120" />
-			<Setter Property="EdgeBackground" Value="#0000" />
-			<Setter Property="EdgeBorderBrush" Value="#000" />
-			<Setter Property="EdgeBorderThickness" Value="0" />
-			<Setter Property="EdgeInnerRadius" Value="120" />
-			<Setter Property="EdgeOuterRadius" Value="10000" />
-			<Setter Property="EdgePadding" Value="0" />
+			<Setter Property="EdgeInnerRadius" Value="{Binding Base_EdgeInnerRadius, TargetNullValue=120}" />
+			<Setter Property="EdgeOuterRadius" Value="{Binding Base_EdgeOuterRadius, TargetNullValue=10000}" />
+			<Setter Property="EdgeBackground" Value="{Binding Base_EdgeBackground, TargetNullValue=#0000}" />
+			<Setter Property="EdgeBorderBrush" Value="{Binding Base_EdgeBorderBrush, TargetNullValue=#000}" />
+			<Setter Property="EdgeBorderThickness" Value="{Binding Base_EdgeBorderThickness, TargetNullValue=0}" />
+			<Setter Property="EdgePadding" Value="{Binding Base_EdgePadding, TargetNullValue=0}" />
 
 			<Setter Property="ArrowBackground" Value="#0000" />
 			<Setter Property="ArrowBorderBrush" Value="#0000" />
@@ -33,7 +33,7 @@
 			<Setter Property="ArrowRadius" Value="200" />
 			<Setter Property="ArrowWidth" Value="10" />
 
-			<Setter Property="ContentRadius" Value="95" />
+			<Setter Property="ContentRadius" Value="{Binding Base_ContentRadius, TargetNullValue=95}" />
 			<Setter Property="IconWidth" Value="50" />
 			<Setter Property="IconHeight" Value="50" />
 			<Setter Property="IconBackground" Value="#0000" />

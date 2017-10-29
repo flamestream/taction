@@ -93,22 +93,22 @@ namespace Taction.UIElement {
 				if (borderSpecs != null) {
 
 					if (borderSpecs.Color != null)
-						SetValue(BorderBrushProperty, borderSpecs.Color);
+						Base_BorderBrush = borderSpecs.Color;
 
 					if (borderSpecs.Thickness != null)
-						SetValue(BorderThicknessProperty, borderSpecs.Thickness.Value);
+						Base_BorderThickness = borderSpecs.Thickness.Value;
 
 					// No border radius
 				}
 
 				if (innerEdgeStyle.Color != null)
-					SetValue(BackgroundProperty, innerEdgeStyle.Color);
+					Base_Background = innerEdgeStyle.Color;
 
 				if (innerEdgeStyle.StartDistance != null)
-					SetValue(InnerRadiusProperty, innerEdgeStyle.StartDistance.Value);
+					Base_InnerRadius = innerEdgeStyle.StartDistance.Value;
 
 				if (innerEdgeStyle.Size != null)
-					SetValue(OuterRadiusProperty, InnerRadius + innerEdgeStyle.Size.Value);
+					Base_OuterRadius = InnerRadius + innerEdgeStyle.Size.Value;
 			}
 
 			var outerEdgeStyle = style.OuterEdgeSpecs;
@@ -118,29 +118,29 @@ namespace Taction.UIElement {
 				if (borderSpecs != null) {
 
 					if (borderSpecs.Color != null)
-						SetValue(EdgeBorderBrushProperty, borderSpecs.Color);
+						Base_EdgeBorderBrush = borderSpecs.Color;
 
 					if (borderSpecs.Thickness != null)
-						SetValue(EdgeBorderThicknessProperty, borderSpecs.Thickness.Value.Top);
+						Base_EdgeBorderThickness = borderSpecs.Thickness.Value.Top;
 
 					// No border radius
 				}
 
 				if (outerEdgeStyle.Color != null)
-					SetValue(EdgeBackgroundProperty, outerEdgeStyle.Color);
+					Base_EdgeBackground = outerEdgeStyle.Color;
 
 				// Calculate default size
 				var size = Math.Max(EdgeOuterRadius - EdgeInnerRadius, 0);
 
 				if (outerEdgeStyle.StartDistance == null)
-					SetValue(EdgeInnerRadiusProperty, Math.Max(EdgeInnerRadius, OuterRadius));
+					Base_EdgeInnerRadius = Math.Max(EdgeInnerRadius, OuterRadius);
 				else
-					SetValue(EdgeInnerRadiusProperty, OuterRadius + outerEdgeStyle.StartDistance.Value);
+					Base_EdgeInnerRadius = OuterRadius + outerEdgeStyle.StartDistance.Value;
 
 				if (outerEdgeStyle.Size != null)
 					size = outerEdgeStyle.Size.Value;
 
-				SetValue(EdgeOuterRadiusProperty, EdgeInnerRadius + size);
+				Base_EdgeOuterRadius = EdgeInnerRadius + size;
 			}
 
 			var labelStyle = style.LabelSpecs;
@@ -150,47 +150,47 @@ namespace Taction.UIElement {
 				if (borderStyle != null) {
 
 					if (borderStyle.Color != null)
-						SetValue(IconBorderBrushProperty, borderStyle.Color);
+						IconBorderBrush = borderStyle.Color;
 
 					if (borderStyle.Radius != null)
-						SetValue(IconCornerRadiusProperty, borderStyle.Radius.Value);
+						IconCornerRadius = borderStyle.Radius.Value;
 
 					if (borderStyle.Thickness != null)
-						SetValue(IconBorderThicknessProperty, borderStyle.Thickness.Value);
+						IconBorderThickness = borderStyle.Thickness.Value;
 				}
 
 				if (labelStyle.Color != null)
-					SetValue(IconBackgroundProperty, labelStyle.Color);
+					IconBackground = labelStyle.Color;
 
 				if (labelStyle.Content != null)
-					SetValue(IconContentProperty, labelStyle.Content);
+					IconContent = labelStyle.Content;
 
 				if (labelStyle.ContentPadding != null)
-					SetValue(IconPaddingProperty, labelStyle.ContentPadding.Value);
+					IconPadding = labelStyle.ContentPadding.Value;
 
 				if (labelStyle.Margin != null)
-					SetValue(IconMarginProperty, labelStyle.Margin.Value);
+					IconMargin = labelStyle.Margin.Value;
 
 				if (labelStyle.Size != null)
 					IconSize = labelStyle.Size.Value;
 
 				if (labelStyle.StartDistance != null)
-					SetValue(ContentRadiusProperty, labelStyle.StartDistance.Value);
+					ContentRadius = labelStyle.StartDistance.Value;
 
 				var textStyle = labelStyle.TextStyle;
 				if (textStyle != null) {
 
 					if (textStyle.Color != null)
-						SetValue(IconForegroundProperty, textStyle.Color);
+						IconForeground = textStyle.Color;
 
 					if (textStyle.FontFamily != null)
-						SetValue(IconFontFamilyProperty, textStyle.FontFamily);
+						IconFontFamily = textStyle.FontFamily;
 
 					if (textStyle.FontSize != null)
-						SetValue(IconFontSizeProperty, textStyle.FontSize.Value);
+						IconFontSize = textStyle.FontSize.Value;
 
 					if (textStyle.FontWeight != null)
-						SetValue(IconFontWeightProperty, textStyle.FontWeight.Value);
+						IconFontWeight = textStyle.FontWeight.Value;
 				}
 			}
 		}
@@ -216,22 +216,22 @@ namespace Taction.UIElement {
 				if (borderSpecs != null) {
 
 					if (borderSpecs.Color != null)
-						SetValue(Active_BorderBrushProperty, borderSpecs.Color);
+						Active_BorderBrush = borderSpecs.Color;
 
 					if (borderSpecs.Thickness != null)
-						SetValue(Active_BorderThicknessProperty, borderSpecs.Thickness.Value);
+						Active_BorderThickness = borderSpecs.Thickness.Value;
 
 					// No border radius
 				}
 
 				if (innerEdgeStyle.Color != null)
-					SetValue(Active_BackgroundProperty, innerEdgeStyle.Color);
+					Active_Background = innerEdgeStyle.Color;
 
 				if (innerEdgeStyle.StartDistance != null)
-					SetValue(Active_InnerRadiusProperty, innerEdgeStyle.StartDistance.Value);
+					Active_InnerRadius = innerEdgeStyle.StartDistance.Value;
 
 				if (innerEdgeStyle.Size != null)
-					SetValue(Active_OuterRadiusProperty, InnerRadius + innerEdgeStyle.Size.Value);
+					Active_OuterRadius = InnerRadius + innerEdgeStyle.Size.Value;
 			}
 
 			var outerEdgeStyle = style.OuterEdgeSpecs;
@@ -241,29 +241,29 @@ namespace Taction.UIElement {
 				if (borderSpecs != null) {
 
 					if (borderSpecs.Color != null)
-						SetValue(Active_EdgeBorderBrushProperty, borderSpecs.Color);
+						Active_EdgeBorderBrush = borderSpecs.Color;
 
 					if (borderSpecs.Thickness != null)
-						SetValue(Active_EdgeBorderThicknessProperty, borderSpecs.Thickness.Value.Top);
+						Active_EdgeBorderThickness = borderSpecs.Thickness.Value.Top;
 
 					// No border radius
 				}
 
 				if (outerEdgeStyle.Color != null)
-					SetValue(Active_EdgeBackgroundProperty, outerEdgeStyle.Color);
+					Active_EdgeBackground = outerEdgeStyle.Color;
 
 				// Calculate default size
 				var size = Math.Max(EdgeOuterRadius - EdgeInnerRadius, 0);
 
 				if (outerEdgeStyle.StartDistance == null)
-					SetValue(Active_EdgeInnerRadiusProperty, Math.Max(EdgeInnerRadius, OuterRadius));
+					Active_EdgeInnerRadius = Math.Max(EdgeInnerRadius, OuterRadius);
 				else
-					SetValue(Active_EdgeInnerRadiusProperty, OuterRadius + outerEdgeStyle.StartDistance.Value);
+					Active_EdgeInnerRadius = OuterRadius + outerEdgeStyle.StartDistance.Value;
 
 				if (outerEdgeStyle.Size != null)
 					size = outerEdgeStyle.Size.Value;
 
-				SetValue(Active_EdgeOuterRadiusProperty, EdgeInnerRadius + size);
+				Active_EdgeOuterRadius = EdgeInnerRadius + size;
 			}
 
 			var labelStyle = style.LabelSpecs;
@@ -273,79 +273,343 @@ namespace Taction.UIElement {
 				if (borderStyle != null) {
 
 					if (borderStyle.Color != null)
-						SetValue(Active_IconBorderBrushProperty, borderStyle.Color);
+						Active_IconBorderBrush = borderStyle.Color;
 
 					if (borderStyle.Radius != null)
-						SetValue(Active_IconCornerRadiusProperty, borderStyle.Radius.Value);
+						Active_IconCornerRadius = borderStyle.Radius.Value;
 
 					if (borderStyle.Thickness != null)
-						SetValue(Active_IconBorderThicknessProperty, borderStyle.Thickness.Value);
+						Active_IconBorderThickness = borderStyle.Thickness.Value;
 				}
 
 				if (labelStyle.Color != null)
-					SetValue(Active_IconBackgroundProperty, labelStyle.Color);
+					Active_IconBackground = labelStyle.Color;
 
 				if (labelStyle.Content != null)
-					SetValue(Active_IconContentProperty, labelStyle.Content);
+					Active_IconContent = labelStyle.Content;
 
 				if (labelStyle.ContentPadding != null)
-					SetValue(Active_IconPaddingProperty, labelStyle.ContentPadding.Value);
+					Active_IconPadding = labelStyle.ContentPadding.Value;
 
 				if (labelStyle.Margin != null)
-					SetValue(Active_IconMarginProperty, labelStyle.Margin.Value);
+					Active_IconMargin = labelStyle.Margin.Value;
 
 				if (labelStyle.Size != null)
 					Active_IconSize = labelStyle.Size.Value;
 
 				if (labelStyle.StartDistance != null)
-					SetValue(Active_ContentRadiusProperty, labelStyle.StartDistance.Value);
+					Active_ContentRadius = labelStyle.StartDistance.Value;
 
 				var textStyle = labelStyle.TextStyle;
 				if (textStyle != null) {
 
 					if (textStyle.Color != null)
-						SetValue(Active_IconForegroundProperty, textStyle.Color);
+						Active_IconForeground = textStyle.Color;
 
 					if (textStyle.FontFamily != null)
-						SetValue(Active_IconFontFamilyProperty, textStyle.FontFamily);
+						Active_IconFontFamily = textStyle.FontFamily;
 
 					if (textStyle.FontSize != null)
-						SetValue(Active_IconFontSizeProperty, textStyle.FontSize.Value);
+						Active_IconFontSize = textStyle.FontSize.Value;
 
 					if (textStyle.FontWeight != null)
-						SetValue(Active_IconFontWeightProperty, textStyle.FontWeight.Value);
+						Active_IconFontWeight = textStyle.FontWeight.Value;
 				}
 			}
 		}
 
 		public void SpreadBaseStyle() {
 
-			SetValue(Active_BackgroundProperty, Background);
-			SetValue(Active_BorderBrushProperty, BorderBrush);
-			SetValue(Active_BorderThicknessProperty, BorderThickness);
-			SetValue(Active_ContentRadiusProperty, ContentRadius);
-			SetValue(Active_EdgeBackgroundProperty, EdgeBackground);
-			SetValue(Active_EdgeBorderBrushProperty, EdgeBorderBrush);
-			SetValue(Active_EdgeBorderThicknessProperty, EdgeBorderThickness);
-			SetValue(Active_EdgeInnerRadiusProperty, EdgeInnerRadius);
-			SetValue(Active_EdgeOuterRadiusProperty, EdgeOuterRadius);
-			SetValue(Active_InnerRadiusProperty, InnerRadius);
-			SetValue(Active_OuterRadiusProperty, OuterRadius);
+			Active_Background = Base_Background;
+			Active_BorderBrush = Base_BorderBrush;
+			Active_BorderThickness = Base_BorderThickness;
+			Active_ContentRadius = Base_ContentRadius;
+			Active_EdgeBackground = Base_EdgeBackground;
+			Active_EdgeBorderBrush = Base_EdgeBorderBrush;
+			Active_EdgeBorderThickness = Base_EdgeBorderThickness;
+			Active_EdgeInnerRadius = Base_EdgeInnerRadius;
+			Active_EdgeOuterRadius = Base_EdgeOuterRadius;
+			Active_InnerRadius = Base_InnerRadius;
+			Active_OuterRadius = Base_OuterRadius;
 
-			SetValue(Active_IconBorderBrushProperty, IconBorderBrush);
-			SetValue(Active_IconCornerRadiusProperty, IconCornerRadius);
-			SetValue(Active_IconBorderThicknessProperty, IconBorderThickness);
-			SetValue(Active_IconBackgroundProperty, IconBackground);
-			SetValue(Active_IconContentProperty, IconContent);
-			SetValue(Active_IconPaddingProperty, IconPadding);
-			SetValue(Active_IconMarginProperty, IconMargin);
-			SetValue(Active_IconHeightProperty, IconHeight);
-			SetValue(Active_IconWidthProperty, IconWidth);
-			SetValue(Active_IconForegroundProperty, IconForeground);
-			SetValue(Active_IconFontFamilyProperty, IconFontFamily);
-			SetValue(Active_IconFontSizeProperty, IconFontSize);
-			SetValue(Active_IconFontWeightProperty, IconFontWeight);
+			Active_IconBorderBrush = IconBorderBrush;
+			Active_IconCornerRadius = IconCornerRadius;
+			Active_IconBorderThickness = IconBorderThickness;
+			Active_IconBackground = IconBackground;
+			Active_IconContent = IconContent;
+			Active_IconPadding = IconPadding;
+			Active_IconMargin = IconMargin;
+			Active_IconHeight = IconHeight;
+			Active_IconWidth = IconWidth;
+			Active_IconForeground = IconForeground;
+			Active_IconFontFamily = IconFontFamily;
+			Active_IconFontSize = IconFontSize;
+			Active_IconFontWeight = IconFontWeight;
 		}
+
+		#region Base_BorderBrush
+
+		public static readonly DependencyProperty Base_BorderBrushProperty = DependencyProperty.Register(
+			"Base_BorderBrush",
+			typeof(Brush),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_BorderBrush(CustomRadialMenuItem element, Brush value) {
+
+			element.SetValue(Base_BorderBrushProperty, value);
+		}
+
+		public static Brush GetBase_BorderBrush(CustomRadialMenuItem element) {
+			return (Brush)element.GetValue(Base_BorderBrushProperty);
+		}
+
+		public Brush Base_BorderBrush {
+			get { return (Brush)GetValue(Base_BorderBrushProperty); }
+			set { SetValue(Base_BorderBrushProperty, value); }
+		}
+
+		#endregion Base_BorderBrush
+
+		#region Base_BorderThickness
+
+		public static readonly DependencyProperty Base_BorderThicknessProperty = DependencyProperty.Register(
+			"Base_BorderThickness",
+			typeof(Thickness),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_BorderThickness(CustomRadialMenuItem element, Thickness value) {
+
+			element.SetValue(Base_BorderThicknessProperty, value);
+		}
+
+		public static Thickness GetBase_BorderThickness(CustomRadialMenuItem element) {
+			return (Thickness)element.GetValue(Base_BorderThicknessProperty);
+		}
+
+		public Thickness Base_BorderThickness {
+			get { return (Thickness)GetValue(Base_BorderThicknessProperty); }
+			set { SetValue(Base_BorderThicknessProperty, value); }
+		}
+
+		#endregion Base_BorderThickness
+
+		#region Base_Background
+
+		public static readonly DependencyProperty Base_BackgroundProperty = DependencyProperty.Register(
+			"Base_Background",
+			typeof(Brush),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_Background(CustomRadialMenuItem element, Brush value) {
+
+			element.SetValue(Base_BackgroundProperty, value);
+		}
+
+		public static Brush GetBase_Background(CustomRadialMenuItem element) {
+			return (Brush)element.GetValue(Base_BackgroundProperty);
+		}
+
+		public Brush Base_Background {
+			get { return (Brush)GetValue(Base_BackgroundProperty); }
+			set { SetValue(Base_BackgroundProperty, value); }
+		}
+
+		#endregion Base_Background
+
+		#region Base_ContentRadius
+
+		public static readonly DependencyProperty Base_ContentRadiusProperty = DependencyProperty.Register(
+			"Base_ContentRadius",
+			typeof(double),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_ContentRadius(CustomRadialMenuItem element, double value) {
+
+			element.SetValue(Base_ContentRadiusProperty, value);
+		}
+
+		public static double GetBase_ContentRadius(CustomRadialMenuItem element) {
+			return (double)element.GetValue(Base_ContentRadiusProperty);
+		}
+
+		public double Base_ContentRadius {
+			get { return (double)GetValue(Base_ContentRadiusProperty); }
+			set { SetValue(Base_ContentRadiusProperty, value); }
+		}
+
+		#endregion Base_ContentRadius
+
+		#region Base_InnerRadius
+
+		public static readonly DependencyProperty Base_InnerRadiusProperty = DependencyProperty.Register(
+			"Base_InnerRadius",
+			typeof(double),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_InnerRadius(CustomRadialMenuItem element, double value) {
+
+			element.SetValue(Base_InnerRadiusProperty, value);
+		}
+
+		public static double GetBase_InnerRadius(CustomRadialMenuItem element) {
+			return (double)element.GetValue(Base_InnerRadiusProperty);
+		}
+
+		public double Base_InnerRadius {
+			get { return (double)GetValue(Base_InnerRadiusProperty); }
+			set { SetValue(Base_InnerRadiusProperty, value); }
+		}
+
+		#endregion Base_InnerRadius
+
+		#region Base_OuterRadius
+
+		public static readonly DependencyProperty Base_OuterRadiusProperty = DependencyProperty.Register(
+			"Base_OuterRadius",
+			typeof(double),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_OuterRadius(CustomRadialMenuItem element, double value) {
+
+			element.SetValue(Base_OuterRadiusProperty, value);
+		}
+
+		public static double GetBase_OuterRadius(CustomRadialMenuItem element) {
+			return (double)element.GetValue(Base_OuterRadiusProperty);
+		}
+
+		public double Base_OuterRadius {
+			get { return (double)GetValue(Base_OuterRadiusProperty); }
+			set { SetValue(Base_OuterRadiusProperty, value); }
+		}
+
+		#endregion Base_OuterRadius
+
+		#region Base_EdgeBorderBrush
+
+		public static readonly DependencyProperty Base_EdgeBorderBrushProperty = DependencyProperty.Register(
+			"Base_EdgeBorderBrush",
+			typeof(Brush),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_EdgeBorderBrush(CustomRadialMenuItem element, Brush value) {
+
+			element.SetValue(Base_EdgeBorderBrushProperty, value);
+		}
+
+		public static Brush GetBase_EdgeBorderBrush(CustomRadialMenuItem element) {
+			return (Brush)element.GetValue(Base_EdgeBorderBrushProperty);
+		}
+
+		public Brush Base_EdgeBorderBrush {
+			get { return (Brush)GetValue(Base_EdgeBorderBrushProperty); }
+			set { SetValue(Base_EdgeBorderBrushProperty, value); }
+		}
+
+		#endregion Base_EdgeBorderBrush
+
+		#region Base_EdgeBorderThickness
+
+		public static readonly DependencyProperty Base_EdgeBorderThicknessProperty = DependencyProperty.Register(
+			"Base_EdgeBorderThickness",
+			typeof(double),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_EdgeBorderThickness(CustomRadialMenuItem element, double value) {
+
+			element.SetValue(Base_EdgeBorderThicknessProperty, value);
+		}
+
+		public static double GetBase_EdgeBorderThickness(CustomRadialMenuItem element) {
+			return (double)element.GetValue(Base_EdgeBorderThicknessProperty);
+		}
+
+		public double Base_EdgeBorderThickness {
+			get { return (double)GetValue(Base_EdgeBorderThicknessProperty); }
+			set { SetValue(Base_EdgeBorderThicknessProperty, value); }
+		}
+
+		#endregion Base_EdgeBorderThickness
+
+		#region Base_EdgeBackground
+
+		public static readonly DependencyProperty Base_EdgeBackgroundProperty = DependencyProperty.Register(
+			"Base_EdgeBackground",
+			typeof(Brush),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_EdgeBackground(CustomRadialMenuItem element, Brush value) {
+
+			element.SetValue(Base_EdgeBackgroundProperty, value);
+		}
+
+		public static Brush GetBase_EdgeBackground(CustomRadialMenuItem element) {
+			return (Brush)element.GetValue(Base_EdgeBackgroundProperty);
+		}
+
+		public Brush Base_EdgeBackground {
+			get { return (Brush)GetValue(Base_EdgeBackgroundProperty); }
+			set { SetValue(Base_EdgeBackgroundProperty, value); }
+		}
+
+		#endregion Base_EdgeBackground
+
+		#region Base_EdgeInnerRadius
+
+		public static readonly DependencyProperty Base_EdgeInnerRadiusProperty = DependencyProperty.Register(
+			"Base_EdgeInnerRadius",
+			typeof(double),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_EdgeInnerRadius(CustomRadialMenuItem element, double value) {
+
+			element.SetValue(Base_EdgeInnerRadiusProperty, value);
+		}
+
+		public static double GetBase_EdgeInnerRadius(CustomRadialMenuItem element) {
+			return (double)element.GetValue(Base_EdgeInnerRadiusProperty);
+		}
+
+		public double Base_EdgeInnerRadius {
+			get { return (double)GetValue(Base_EdgeInnerRadiusProperty); }
+			set { SetValue(Base_EdgeInnerRadiusProperty, value); }
+		}
+
+		#endregion Base_EdgeInnerRadius
+
+		#region Base_EdgeOuterRadius
+
+		public static readonly DependencyProperty Base_EdgeOuterRadiusProperty = DependencyProperty.Register(
+			"Base_EdgeOuterRadius",
+			typeof(double),
+			typeof(CustomRadialMenuItem)
+		);
+
+		public static void SetBase_EdgeOuterRadius(CustomRadialMenuItem element, double value) {
+
+			element.SetValue(Base_EdgeOuterRadiusProperty, value);
+		}
+
+		public static double GetBase_EdgeOuterRadius(CustomRadialMenuItem element) {
+			return (double)element.GetValue(Base_EdgeOuterRadiusProperty);
+		}
+
+		public double Base_EdgeOuterRadius {
+			get { return (double)GetValue(Base_EdgeOuterRadiusProperty); }
+			set { SetValue(Base_EdgeOuterRadiusProperty, value); }
+		}
+
+		#endregion Base_EdgeOuterRadius
 
 		#region Active_BorderBrush
 
@@ -880,8 +1144,8 @@ namespace Taction.UIElement {
 		public double IconSize {
 			get { return IconWidth * 0.5; }
 			set {
-				SetValue(IconWidthProperty, value * 2);
-				SetValue(IconHeightProperty, value * 2);
+				IconWidth = value * 2;
+				IconHeight = value * 2;
 			}
 		}
 
@@ -1209,8 +1473,8 @@ namespace Taction.UIElement {
 		public double Active_IconSize {
 			get { return Active_IconWidth * 0.5; }
 			set {
-				SetValue(Active_IconHeightProperty, value * 2);
-				SetValue(Active_IconWidthProperty, value * 2);
+				Active_IconHeight = value * 2;
+				Active_IconWidth = value * 2;
 			}
 		}
 
