@@ -40,6 +40,7 @@ namespace Taction {
 			foreach (var itemSpecs in specs.Items)
 				items.Add(new CustomRadialMenuItem(itemSpecs, specs.DefaultItemStyle));
 
+			RadialMenu.HalfShiftedItems = specs.HalfShiftedItems;
 			RadialMenu.Items = items;
 		}
 

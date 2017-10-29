@@ -23,6 +23,7 @@
 		"name": {"type": "string"},
 		"disable-fade-animation": {"type": "boolean"},
 		"disable-hide": {"type": "boolean"},
+		"disable-radial-menu-animation": {"type": "boolean"},
 		"margin": {"type": "string"},
 		"border": {"$ref": "#/definitions/borderType"},
 		"orientation": {"$ref": "#/definitions/orientationType"},
@@ -326,6 +327,7 @@
 		"radialMenuType": {
 			"type": "object",
 			"properties": {
+				"half-shifted-items": {"type": "boolean"},
 				"default-item-style": {"$ref": "#/definitions/radialMenuItemStyleSetType"},
 				"central-item-style": {"$ref": "#/definitions/radialMenuCentralItemStyleSetType"},
 				"items": {

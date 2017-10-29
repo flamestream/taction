@@ -31,15 +31,15 @@
 
 			<UIElement:CustomRadialMenuItem
 				Command="{Binding CloseCommand}"
-				IconBackground="Red"
-				IconContent="Exit"
-				IconCornerRadius="10"
-				IconBorderThickness="2"
-				IconBorderBrush="Black" />
-			<UIElement:CustomRadialMenuItem IconBackground="Blue" IconContent="1" IconCornerRadius="100" />
-			<UIElement:CustomRadialMenuItem IconBackground="Green" IconContent="2" />
-			<UIElement:CustomRadialMenuItem IconBackground="Orange" IconContent="3" />
-			<UIElement:CustomRadialMenuItem IconBackground="Purple" IconContent="4" />
+				Base_LabelBackground="Red"
+				Base_LabelContent="Exit"
+				Base_LabelCornerRadius="10"
+				Base_LabelBorderThickness="2"
+				Base_LabelBorderBrush="Black" />
+			<UIElement:CustomRadialMenuItem Base_LabelBackground="Blue" Base_LabelContent="1" Base_LabelCornerRadius="100" />
+			<UIElement:CustomRadialMenuItem Base_LabelBackground="Green" Base_LabelContent="2" />
+			<UIElement:CustomRadialMenuItem Base_LabelBackground="Orange" Base_LabelContent="3" />
+			<UIElement:CustomRadialMenuItem Base_LabelBackground="Purple" Base_LabelContent="4" />
 
 			<RadialMenu:RadialMenu.CentralItem>
 				<RadialMenu:RadialMenuCentralItem Command="{Binding CloseCommand}">

@@ -82,6 +82,9 @@ namespace Taction {
 		[JsonProperty("disable-fade-animation")]
 		public bool DisableFadeAnimation { get; set; }
 
+		[JsonProperty("disable-radial-menu-animation")]
+		public bool DisableRadialMenuAnimation { get; set; }
+
 		[JsonProperty("default-button-style")]
 		public ButtonStyleSetSpecs DefaultButtonStyle { get; set; }
 
@@ -236,6 +239,9 @@ namespace Taction {
 	}
 
 	public class RadialMenuSpecs {
+
+		[JsonProperty("half-shifted-items")]
+		public bool HalfShiftedItems { get; set; }
 
 		[JsonProperty("default-item-style")]
 		public RadialMenuItemStyleSetSpecs DefaultItemStyle { get; set; }

@@ -34,10 +34,10 @@
 			<Setter Property="ArrowWidth" Value="10" />
 
 			<Setter Property="ContentRadius" Value="{Binding Base_ContentRadius, TargetNullValue=95}" />
-			<Setter Property="IconWidth" Value="50" />
-			<Setter Property="IconHeight" Value="50" />
-			<Setter Property="IconBackground" Value="#0000" />
-			<Setter Property="IconForeground" Value="#FF222222" />
+			<Setter Property="Base_LabelWidth" Value="50" />
+			<Setter Property="Base_LabelHeight" Value="50" />
+			<Setter Property="Base_LabelBackground" Value="#0000" />
+			<Setter Property="Base_LabelForeground" Value="#FF222222" />
 
 			<Style.Resources>
 				<Style TargetType="TextBlock">
@@ -48,36 +48,36 @@
 					</Style.Triggers>
 				</Style>
 				<Style TargetType="Border">
-					<Setter Property="Background" Value="{Binding IconBackground}" />
-					<Setter Property="BorderBrush" Value="{Binding IconBorderBrush}" />
-					<Setter Property="BorderThickness" Value="{Binding IconBorderThickness}" />
-					<Setter Property="CornerRadius" Value="{Binding IconCornerRadius}" />
-					<Setter Property="Margin" Value="{Binding IconMargin}" />
-					<Setter Property="Padding" Value="{Binding IconPadding}" />
-					<Setter Property="TextBlock.FontFamily" Value="{Binding IconFontFamily}" />
-					<Setter Property="TextBlock.FontSize" Value="{Binding IconFontSize}" />
-					<Setter Property="TextBlock.FontWeight" Value="{Binding IconFontWeight}" />
-					<Setter Property="TextBlock.Foreground" Value="{Binding IconForeground}" />
+					<Setter Property="Background" Value="{Binding Base_LabelBackground}" />
+					<Setter Property="BorderBrush" Value="{Binding Base_LabelBorderBrush}" />
+					<Setter Property="BorderThickness" Value="{Binding Base_LabelBorderThickness}" />
+					<Setter Property="CornerRadius" Value="{Binding Base_LabelCornerRadius}" />
+					<Setter Property="Margin" Value="{Binding Base_LabelMargin}" />
+					<Setter Property="Padding" Value="{Binding Base_LabelPadding}" />
+					<Setter Property="TextBlock.FontFamily" Value="{Binding Base_LabelFontFamily}" />
+					<Setter Property="TextBlock.FontSize" Value="{Binding Base_LabelFontSize}" />
+					<Setter Property="TextBlock.FontWeight" Value="{Binding Base_LabelFontWeight}" />
+					<Setter Property="TextBlock.Foreground" Value="{Binding Base_LabelForeground}" />
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
-							<Setter Property="Background" Value="{Binding Active_IconBackground}" />
-							<Setter Property="BorderBrush" Value="{Binding Active_IconBorderBrush}" />
-							<Setter Property="BorderThickness" Value="{Binding Active_IconBorderThickness}" />
-							<Setter Property="CornerRadius" Value="{Binding Active_IconCornerRadius}" />
-							<Setter Property="Margin" Value="{Binding Active_IconMargin}" />
-							<Setter Property="Padding" Value="{Binding Active_IconPadding}" />
-							<Setter Property="TextBlock.FontFamily" Value="{Binding Active_IconFontFamily}" />
-							<Setter Property="TextBlock.FontSize" Value="{Binding Active_IconFontSize}" />
-							<Setter Property="TextBlock.FontWeight" Value="{Binding Active_IconFontWeight}" />
-							<Setter Property="TextBlock.Foreground" Value="{Binding Active_IconForeground}" />
+							<Setter Property="Background" Value="{Binding Active_LabelBackground}" />
+							<Setter Property="BorderBrush" Value="{Binding Active_LabelBorderBrush}" />
+							<Setter Property="BorderThickness" Value="{Binding Active_LabelBorderThickness}" />
+							<Setter Property="CornerRadius" Value="{Binding Active_LabelCornerRadius}" />
+							<Setter Property="Margin" Value="{Binding Active_LabelMargin}" />
+							<Setter Property="Padding" Value="{Binding Active_LabelPadding}" />
+							<Setter Property="TextBlock.FontFamily" Value="{Binding Active_LabelFontFamily}" />
+							<Setter Property="TextBlock.FontSize" Value="{Binding Active_LabelFontSize}" />
+							<Setter Property="TextBlock.FontWeight" Value="{Binding Active_LabelFontWeight}" />
+							<Setter Property="TextBlock.Foreground" Value="{Binding Active_LabelForeground}" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
 				<Style TargetType="ContentPresenter">
-					<Setter Property="Content" Value="{Binding IconContent}" />
+					<Setter Property="Content" Value="{Binding Base_LabelContent}" />
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
-							<Setter Property="Content" Value="{Binding Active_IconContent}" />
+							<Setter Property="Content" Value="{Binding Active_LabelContent}" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
@@ -100,18 +100,18 @@
 					<Setter Property="EdgePadding" Value="{Binding Active_EdgePadding}" />
 
 					<Setter Property="ContentRadius" Value="{Binding Active_ContentRadius}" />
-					<Setter Property="IconWidth" Value="{Binding Active_IconWidth}" />
-					<Setter Property="IconHeight" Value="{Binding Active_IconHeight}" />
-					<Setter Property="IconBackground" Value="{Binding Active_IconBackground}" />
-					<Setter Property="IconForeground" Value="{Binding Active_IconForeground}" />
+					<Setter Property="Base_LabelWidth" Value="{Binding Active_LabelWidth}" />
+					<Setter Property="Base_LabelHeight" Value="{Binding Active_LabelHeight}" />
+					<Setter Property="Base_LabelBackground" Value="{Binding Active_LabelBackground}" />
+					<Setter Property="Base_LabelForeground" Value="{Binding Active_LabelForeground}" />
 				</Trigger>
 			</Style.Triggers>
 		</Style>
 	</RadialMenu:RadialMenuItem.Resources>
 	<Grid HorizontalAlignment="Stretch"
 			VerticalAlignment="Stretch"
-			Width="{Binding IconWidth}"
-			Height="{Binding IconHeight}">
+			Width="{Binding Base_LabelWidth}"
+			Height="{Binding Base_LabelHeight}">
 		<Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<ContentPresenter x:Name="Content" HorizontalAlignment="Center" VerticalAlignment="Center" />
 		</Border>
