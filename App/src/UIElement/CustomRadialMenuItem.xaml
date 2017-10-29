@@ -42,25 +42,68 @@
 			<Style.Resources>
 				<Style TargetType="TextBlock">
 					<Style.Triggers>
-						<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=RadialMenu:RadialMenuItem}, Path=IsMouseOver}" Value="True">
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
 							<Setter Property="Foreground" Value="#FFFF0000" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
-				<Style TargetType="Grid">
-				</Style>
 				<Style TargetType="Border">
-					<Setter Property="BorderThickness" Value="1" />
-					<Setter Property="BorderBrush" Value="red" />
+					<Setter Property="Background" Value="{Binding IconBackground}" />
+					<Setter Property="BorderBrush" Value="{Binding IconBorderBrush}" />
+					<Setter Property="BorderThickness" Value="{Binding IconBorderThickness}" />
+					<Setter Property="CornerRadius" Value="{Binding IconCornerRadius}" />
+					<Setter Property="Margin" Value="{Binding IconMargin}" />
+					<Setter Property="Padding" Value="{Binding IconPadding}" />
+					<Setter Property="TextBlock.FontFamily" Value="{Binding IconFontFamily}" />
+					<Setter Property="TextBlock.FontSize" Value="{Binding IconFontSize}" />
+					<Setter Property="TextBlock.FontWeight" Value="{Binding IconFontWeight}" />
+					<Setter Property="TextBlock.Foreground" Value="{Binding IconForeground}" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
+							<Setter Property="Background" Value="{Binding Active_IconBackground}" />
+							<Setter Property="BorderBrush" Value="{Binding Active_IconBorderBrush}" />
+							<Setter Property="BorderThickness" Value="{Binding Active_IconBorderThickness}" />
+							<Setter Property="CornerRadius" Value="{Binding Active_IconCornerRadius}" />
+							<Setter Property="Margin" Value="{Binding Active_IconMargin}" />
+							<Setter Property="Padding" Value="{Binding Active_IconPadding}" />
+							<Setter Property="TextBlock.FontFamily" Value="{Binding Active_IconFontFamily}" />
+							<Setter Property="TextBlock.FontSize" Value="{Binding Active_IconFontSize}" />
+							<Setter Property="TextBlock.FontWeight" Value="{Binding Active_IconFontWeight}" />
+							<Setter Property="TextBlock.Foreground" Value="{Binding Active_IconForeground}" />
+						</DataTrigger>
+					</Style.Triggers>
+				</Style>
+				<Style TargetType="ContentPresenter">
+					<Setter Property="Content" Value="{Binding IconContent}" />
+					<Style.Triggers>
+						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
+							<Setter Property="Content" Value="{Binding Active_IconContent}" />
+						</DataTrigger>
+					</Style.Triggers>
 				</Style>
 			</Style.Resources>
 
 			<Style.Triggers>
 				<Trigger Property="IsMouseOver" Value="True">
-					<Setter Property="Background" Value="DeepSkyBlue" />
-					<Setter Property="BorderBrush" Value="DeepSkyBlue" />
-					<Setter Property="EdgeBackground" Value="#00000000" />
-					<Setter Property="TextBlock.Foreground" Value="#FF00FFDD" />
+					<Setter Property="InnerRadius" Value="{Binding Active_InnerRadius}" />
+					<Setter Property="Background" Value="{Binding Active_Background}" />
+					<Setter Property="Padding" Value="{Binding Active_Padding}" />
+					<Setter Property="BorderThickness" Value="{Binding Active_BorderThickness}" />
+					<Setter Property="BorderBrush" Value="{Binding Active_BorderBrush}" />
+
+					<Setter Property="OuterRadius" Value="{Binding Active_OuterRadius}" />
+					<Setter Property="EdgeBackground" Value="{Binding Active_EdgeBackground}" />
+					<Setter Property="EdgeBorderBrush" Value="{Binding Active_EdgeBorderBrush}" />
+					<Setter Property="EdgeBorderThickness" Value="{Binding Active_EdgeBorderThickness}" />
+					<Setter Property="EdgeInnerRadius" Value="{Binding Active_EdgeInnerRadius}" />
+					<Setter Property="EdgeOuterRadius" Value="{Binding Active_EdgeOuterRadius}" />
+					<Setter Property="EdgePadding" Value="{Binding Active_EdgePadding}" />
+
+					<Setter Property="ContentRadius" Value="{Binding Active_ContentRadius}" />
+					<Setter Property="IconWidth" Value="{Binding Active_IconWidth}" />
+					<Setter Property="IconHeight" Value="{Binding Active_IconHeight}" />
+					<Setter Property="IconBackground" Value="{Binding Active_IconBackground}" />
+					<Setter Property="IconForeground" Value="{Binding Active_IconForeground}" />
 				</Trigger>
 			</Style.Triggers>
 		</Style>
@@ -69,22 +112,8 @@
 			VerticalAlignment="Stretch"
 			Width="{Binding IconWidth}"
 			Height="{Binding IconHeight}">
-		<Border HorizontalAlignment="Stretch"
-				VerticalAlignment="Stretch"
-				Background="{Binding IconBackground}"
-				CornerRadius="{Binding IconCornerRadius}"
-				BorderBrush="{Binding IconBorderBrush}"
-				BorderThickness="{Binding IconBorderThickness}"
-				Margin="{Binding IconMargin}"
-				Padding="{Binding IconPadding}"
-				TextBlock.FontFamily="{Binding IconFontFamily}"
-				TextBlock.FontSize="{Binding IconFontSize}"
-				TextBlock.FontWeight="{Binding IconFontWeight}"
-				TextBlock.Foreground="{Binding IconForeground}">
-			<ContentPresenter x:Name="Content"
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
-					Content="{Binding IconContent}" />
+		<Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<ContentPresenter x:Name="Content" HorizontalAlignment="Center" VerticalAlignment="Center" />
 		</Border>
 	</Grid>
 </RadialMenu:RadialMenuItem>

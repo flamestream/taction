@@ -362,7 +362,10 @@
 				"size": {
 					"type": "number",
 					"minimum": 0,
-					"exclusiveMinimum": true
+				},
+				"start-distance": {
+					"type": "number",
+					"minimum": 0,
 				},
 				"content": {"$ref": "#/definitions/contentType"},
 				"text-style": {"$ref": "#/definitions/textStyleType"},
@@ -379,8 +382,7 @@
 			"properties": {
 				"size": {
 					"type": "number",
-					"minimum": 0,
-					"exclusiveMinimum": true
+					"minimum": 0
 				},
 				"start-distance": {
 					"type": "number",

@@ -272,25 +272,28 @@ namespace Taction {
 		public RadialMenuItemLabelSpecs LabelSpecs { get; set; }
 
 		[JsonProperty("inner-edge")]
-		public RadialMenuItemEdgeSpecs DefaultInnerEdgeSpecs { get; set; }
+		public RadialMenuItemEdgeSpecs InnerEdgeSpecs { get; set; }
 
 		[JsonProperty("outer-edge")]
-		public RadialMenuItemEdgeSpecs DefaultOuterEdgeSpecs { get; set; }
+		public RadialMenuItemEdgeSpecs OuterEdgeSpecs { get; set; }
 	}
 
 	public class RadialMenuItemLabelSpecs : ButtonStyleSpecs {
 
 		[JsonProperty("size")]
 		public double? Size { get; set; }
+
+		[JsonProperty("start-distance")]
+		public double? StartDistance { get; set; }
 	}
 
 	public class RadialMenuItemEdgeSpecs {
 
 		[JsonProperty("size")]
-		public double Size { get; set; }
+		public double? Size { get; set; }
 
 		[JsonProperty("start-distance")]
-		public double StartDistance { get; set; }
+		public double? StartDistance { get; set; }
 
 		[JsonProperty("color")]
 		[JsonConverter(typeof(BrushJsonConverter))]
