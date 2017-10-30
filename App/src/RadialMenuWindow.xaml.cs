@@ -2,17 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Taction.UIElement;
 using System.ComponentModel;
 
@@ -28,8 +19,6 @@ namespace Taction {
 			InitializeComponent();
 			DataContext = this;
 
-			// Set initial state (Nullify designer state)
-			RadialMenu.IsOpen = false;
 			RadialMenu.IsVisibleChanged += (s, e) => SetVisibility((bool)e.NewValue);
 		}
 
@@ -42,6 +31,7 @@ namespace Taction {
 
 			RadialMenu.HalfShiftedItems = specs.HalfShiftedItems;
 			RadialMenu.Items = items;
+			RadialMenu.IsOpen = App.Instance.Config.Layout.DisableRadialMenuAnimation;
 		}
 
 		protected override void OnActivated(EventArgs e) {
@@ -57,12 +47,31 @@ namespace Taction {
 			SetVisibility(false);
 		}
 
+		protected override void OnPreviewStylusInRange(StylusEventArgs e) {
+			base.OnPreviewStylusInRange(e);
+			Debug.WriteLine(string.Format("grid in range {0}", e.GetPosition(this)));
+		}
+
+		protected override void OnPreviewStylusInAirMove(StylusEventArgs e) {
+			base.OnPreviewStylusInAirMove(e);
+			Debug.WriteLine(string.Format("grid preview air {0}", e.GetPosition(this)));
+		}
+
+		protected override void OnStylusInAirMove(StylusEventArgs e) {
+			base.OnStylusInAirMove(e);
+			Debug.WriteLine(string.Format("grid air {0}", e.GetPosition(this)));
+		}
+
 		public void SetVisibility(bool isWanted, bool isSkipAnimationWanted = true) {
 
 			WinApi.SetWindowExTransparent(this, !isWanted);
-			RadialMenu.IsOpen = isWanted;
 
-			if (!isSkipAnimationWanted)
+			var isAnimationDisabled = App.Instance.Config.Layout.DisableRadialMenuAnimation;
+
+			if (!isAnimationDisabled)
+				RadialMenu.IsOpen = isWanted;
+
+			if (!isAnimationDisabled && !isSkipAnimationWanted)
 				return;
 
 			Visibility = isWanted ? Visibility.Visible : Visibility.Collapsed;
@@ -70,7 +79,7 @@ namespace Taction {
 
 		public ICommand CloseCommand {
 			get {
-				return new RelayCommand(() => RadialMenu.IsOpen = false);
+				return new RelayCommand(() => SetVisibility(false));
 			}
 		}
 	}

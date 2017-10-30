@@ -10,6 +10,7 @@
 		x:Name="LayoutRoot"
 		d:DesignHeight="300" d:DesignWidth="300">
 	<RadialMenu:RadialMenuItem.Resources>
+		<local:AnyDataConverter x:Key="AnyDataConverter" />
 		<Style TargetType="UIElement:CustomRadialMenuItem">
 			<!-- Default values -->
 			<Setter Property="InnerRadius" Value="{Binding Base_InnerRadius, TargetNullValue=70}" />
@@ -43,13 +44,6 @@
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
 							<Setter Property="Width" Value="{Binding Active_LabelWidth}" />
 							<Setter Property="Height" Value="{Binding Active_LabelHeight}" />
-						</DataTrigger>
-					</Style.Triggers>
-				</Style>
-				<Style TargetType="TextBlock">
-					<Style.Triggers>
-						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
-							<Setter Property="Foreground" Value="#FFFF0000" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
@@ -90,23 +84,31 @@
 			</Style.Resources>
 
 			<Style.Triggers>
-				<Trigger Property="IsMouseOver" Value="True">
-					<Setter Property="InnerRadius" Value="{Binding Active_InnerRadius}" />
-					<Setter Property="Background" Value="{Binding Active_Background}" />
-					<Setter Property="Padding" Value="{Binding Active_Padding}" />
-					<Setter Property="BorderThickness" Value="{Binding Active_BorderThickness}" />
-					<Setter Property="BorderBrush" Value="{Binding Active_BorderBrush}" />
+				<DataTrigger Value="True">
+					<DataTrigger.Binding>
+						<MultiBinding Converter="{StaticResource AnyDataConverter}">
+							<Binding Path="IsMouseOver"></Binding>
+							<Binding Path="IsStylusOver"></Binding>
+						</MultiBinding>
+					</DataTrigger.Binding>
+					<DataTrigger.Setters>
+						<Setter Property="InnerRadius" Value="{Binding Active_InnerRadius}" />
+						<Setter Property="Background" Value="{Binding Active_Background}" />
+						<Setter Property="Padding" Value="{Binding Active_Padding}" />
+						<Setter Property="BorderThickness" Value="{Binding Active_BorderThickness}" />
+						<Setter Property="BorderBrush" Value="{Binding Active_BorderBrush}" />
 
-					<Setter Property="OuterRadius" Value="{Binding Active_OuterRadius}" />
-					<Setter Property="EdgeBackground" Value="{Binding Active_EdgeBackground}" />
-					<Setter Property="EdgeBorderBrush" Value="{Binding Active_EdgeBorderBrush}" />
-					<Setter Property="EdgeBorderThickness" Value="{Binding Active_EdgeBorderThickness}" />
-					<Setter Property="EdgeInnerRadius" Value="{Binding Active_EdgeInnerRadius}" />
-					<Setter Property="EdgeOuterRadius" Value="{Binding Active_EdgeOuterRadius}" />
-					<Setter Property="EdgePadding" Value="{Binding Active_EdgePadding}" />
+						<Setter Property="OuterRadius" Value="{Binding Active_OuterRadius}" />
+						<Setter Property="EdgeBackground" Value="{Binding Active_EdgeBackground}" />
+						<Setter Property="EdgeBorderBrush" Value="{Binding Active_EdgeBorderBrush}" />
+						<Setter Property="EdgeBorderThickness" Value="{Binding Active_EdgeBorderThickness}" />
+						<Setter Property="EdgeInnerRadius" Value="{Binding Active_EdgeInnerRadius}" />
+						<Setter Property="EdgeOuterRadius" Value="{Binding Active_EdgeOuterRadius}" />
+						<Setter Property="EdgePadding" Value="{Binding Active_EdgePadding}" />
 
-					<Setter Property="ContentRadius" Value="{Binding Active_ContentRadius}" />
-				</Trigger>
+						<Setter Property="ContentRadius" Value="{Binding Active_ContentRadius}" />
+					</DataTrigger.Setters>
+				</DataTrigger>
 			</Style.Triggers>
 		</Style>
 	</RadialMenu:RadialMenuItem.Resources>

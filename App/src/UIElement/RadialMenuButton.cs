@@ -19,6 +19,9 @@ namespace Taction.UIElement {
 
 			base.OnTouchDown(e);
 			radialMenuWindow.SetVisibility(true);
+
+			// Windows always appear over owner -- This ensures that the panel is always above the radial menu
+			App.Instance.MainPanel.Owner = radialMenuWindow;
 		}
 	}
 }
