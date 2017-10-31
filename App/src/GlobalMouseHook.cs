@@ -14,7 +14,8 @@ namespace Taction {
 		}
 
 		public struct EventArgs {
-			public EventSource source;
+			public EventSource Source;
+			public Point Coords;
 		}
 
 		private bool _isInAppBoundaries;
@@ -114,16 +115,18 @@ namespace Taction {
 			if (OnMouseLeaveBoundaries != null && code >= 0 && WinApi.WM.WM_MOUSEMOVE == (WinApi.WM)wParam) {
 
 				WinApi.MSLLHOOKSTRUCT hookStruct = (WinApi.MSLLHOOKSTRUCT)Marshal.PtrToStructure(lParam, typeof(WinApi.MSLLHOOKSTRUCT));
-				Point coords = new Point(hookStruct.pt.x, hookStruct.pt.y);
+				var coords = new Point(hookStruct.pt.x, hookStruct.pt.y);
 
 				// Boundary check
 				var isNowInAppBoundaries = IsInAppBoundaries(coords);
 				if (_isInAppBoundaries && !isNowInAppBoundaries) {
 
-					EventSource source = GetMouseEventSource(hookStruct);
-					OnMouseLeaveBoundaries.Invoke(null, new EventArgs {
-						source = source
-					});
+					var source = GetMouseEventSource(hookStruct);
+					var eventArgs = new EventArgs {
+						Source = source,
+						Coords = coords
+					};
+					OnMouseLeaveBoundaries.Invoke(null, eventArgs);
 				}
 
 				_isInAppBoundaries = isNowInAppBoundaries;

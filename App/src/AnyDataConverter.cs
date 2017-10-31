@@ -6,7 +6,7 @@ namespace Taction {
 
 	public class AnyDataConverter : IMultiValueConverter {
 
-		public object Convert(object[] values, Type targetType, object parameter, System.Globalization.CultureInfo culture) {
+		public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) {
 
 			foreach (var v in values) {
 

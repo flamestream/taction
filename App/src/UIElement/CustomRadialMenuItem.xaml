@@ -87,8 +87,8 @@
 				<DataTrigger Value="True">
 					<DataTrigger.Binding>
 						<MultiBinding Converter="{StaticResource AnyDataConverter}">
-							<Binding Path="IsMouseOver"></Binding>
-							<Binding Path="IsStylusOver"></Binding>
+							<Binding Path="IsMouseOver" />
+							<Binding Path="IsStylusOver" />
 						</MultiBinding>
 					</DataTrigger.Binding>
 					<DataTrigger.Setters>
