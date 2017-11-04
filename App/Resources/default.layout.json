@@ -159,39 +159,39 @@
 			"radial-menu": {
 				"items": [
 					{
-						"command": "VK_A",
-						"style": {
-							"base": {
-								"label": {
-									"content": {
-										"type": "text",
-										"value": "A"
-									}
-								}
-							}
-						}
-					},
-					{
 						"command": "VK_B",
 						"style": {
 							"base": {
 								"label": {
 									"content": {
 										"type": "text",
-										"value": "B"
+										"value": "Brush (B)"
 									}
 								}
 							}
 						}
 					},
 					{
-						"command": "VK_C",
+						"command": "VK_E",
 						"style": {
 							"base": {
 								"label": {
 									"content": {
 										"type": "text",
-										"value": "C"
+										"value": "Eraser (E)"
+									}
+								}
+							}
+						}
+					},
+					{
+						"command": "VK_P",
+						"style": {
+							"base": {
+								"label": {
+									"content": {
+										"type": "text",
+										"value": "Pen (P)"
 									}
 								}
 							}

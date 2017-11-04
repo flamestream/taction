@@ -40,26 +40,35 @@ namespace Taction {
 			WinApi.CancelActivation(this);
 		}
 
+		/// <summary>
+		/// Right-click or middle-click closes window.
+		/// For force-close in case the layout borks.
+		/// </summary>
+		/// <param name="e"></param>
+		protected override void OnPreviewMouseDown(MouseButtonEventArgs e) {
+
+			base.OnPreviewMouseDown(e);
+			if (e.RightButton == MouseButtonState.Pressed || e.MiddleButton == MouseButtonState.Pressed) {
+
+				SetVisibility(false, false);
+				e.Handled = true;
+			}
+		}
+
+		/// <summary>
+		/// Hide window instead of closing.
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnClosing(CancelEventArgs e) {
 
 			base.OnClosing(e);
 			e.Cancel = true;
+
+			// Cancel is ignored on shutdown. This prevents crash on attempting to change visibility of actually closing window.
+			if (App.Instance.ShutdownMode == ShutdownMode.OnExplicitShutdown)
+				return;
+
 			SetVisibility(false);
-		}
-
-		protected override void OnPreviewStylusInRange(StylusEventArgs e) {
-			base.OnPreviewStylusInRange(e);
-			Debug.WriteLine(string.Format("grid in range {0}", e.GetPosition(this)));
-		}
-
-		protected override void OnPreviewStylusInAirMove(StylusEventArgs e) {
-			base.OnPreviewStylusInAirMove(e);
-			Debug.WriteLine(string.Format("grid preview air {0}", e.GetPosition(this)));
-		}
-
-		protected override void OnStylusInAirMove(StylusEventArgs e) {
-			base.OnStylusInAirMove(e);
-			Debug.WriteLine(string.Format("grid air {0}", e.GetPosition(this)));
 		}
 
 		public void SetVisibility(bool isWanted, bool isSkipAnimationWanted = true) {
@@ -79,7 +88,7 @@ namespace Taction {
 
 		public ICommand CloseCommand {
 			get {
-				return new RelayCommand(() => SetVisibility(false));
+				return new RelayCommand(() => SetVisibility(false, false));
 			}
 		}
 	}

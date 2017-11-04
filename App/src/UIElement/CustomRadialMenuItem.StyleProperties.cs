@@ -34,21 +34,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_BorderThicknessProperty = DependencyProperty.Register(
 			"Base_BorderThickness",
-			typeof(Thickness),
+			typeof(Thickness?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_BorderThickness(CustomRadialMenuItem element, Thickness value) {
+		public static void SetBase_BorderThickness(CustomRadialMenuItem element, Thickness? value) {
 
 			element.SetValue(Base_BorderThicknessProperty, value);
 		}
 
-		public static Thickness GetBase_BorderThickness(CustomRadialMenuItem element) {
-			return (Thickness)element.GetValue(Base_BorderThicknessProperty);
+		public static Thickness? GetBase_BorderThickness(CustomRadialMenuItem element) {
+			return (Thickness?)element.GetValue(Base_BorderThicknessProperty);
 		}
 
-		public Thickness Base_BorderThickness {
-			get { return (Thickness)GetValue(Base_BorderThicknessProperty); }
+		public Thickness? Base_BorderThickness {
+			get { return (Thickness?)GetValue(Base_BorderThicknessProperty); }
 			set { SetValue(Base_BorderThicknessProperty, value); }
 		}
 
@@ -82,21 +82,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_ContentRadiusProperty = DependencyProperty.Register(
 			"Base_ContentRadius",
-			typeof(double),
+			typeof(double?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_ContentRadius(CustomRadialMenuItem element, double value) {
+		public static void SetBase_ContentRadius(CustomRadialMenuItem element, double? value) {
 
 			element.SetValue(Base_ContentRadiusProperty, value);
 		}
 
-		public static double GetBase_ContentRadius(CustomRadialMenuItem element) {
-			return (double)element.GetValue(Base_ContentRadiusProperty);
+		public static double? GetBase_ContentRadius(CustomRadialMenuItem element) {
+			return (double?)element.GetValue(Base_ContentRadiusProperty);
 		}
 
-		public double Base_ContentRadius {
-			get { return (double)GetValue(Base_ContentRadiusProperty); }
+		public double? Base_ContentRadius {
+			get { return (double?)GetValue(Base_ContentRadiusProperty); }
 			set { SetValue(Base_ContentRadiusProperty, value); }
 		}
 
@@ -106,21 +106,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_InnerRadiusProperty = DependencyProperty.Register(
 			"Base_InnerRadius",
-			typeof(double),
+			typeof(double?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_InnerRadius(CustomRadialMenuItem element, double value) {
+		public static void SetBase_InnerRadius(CustomRadialMenuItem element, double? value) {
 
 			element.SetValue(Base_InnerRadiusProperty, value);
 		}
 
-		public static double GetBase_InnerRadius(CustomRadialMenuItem element) {
-			return (double)element.GetValue(Base_InnerRadiusProperty);
+		public static double? GetBase_InnerRadius(CustomRadialMenuItem element) {
+			return (double?)element.GetValue(Base_InnerRadiusProperty);
 		}
 
-		public double Base_InnerRadius {
-			get { return (double)GetValue(Base_InnerRadiusProperty); }
+		public double? Base_InnerRadius {
+			get { return (double?)GetValue(Base_InnerRadiusProperty); }
 			set { SetValue(Base_InnerRadiusProperty, value); }
 		}
 
@@ -130,21 +130,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_OuterRadiusProperty = DependencyProperty.Register(
 			"Base_OuterRadius",
-			typeof(double),
+			typeof(double?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_OuterRadius(CustomRadialMenuItem element, double value) {
+		public static void SetBase_OuterRadius(CustomRadialMenuItem element, double? value) {
 
 			element.SetValue(Base_OuterRadiusProperty, value);
 		}
 
-		public static double GetBase_OuterRadius(CustomRadialMenuItem element) {
-			return (double)element.GetValue(Base_OuterRadiusProperty);
+		public static double? GetBase_OuterRadius(CustomRadialMenuItem element) {
+			return (double?)element.GetValue(Base_OuterRadiusProperty);
 		}
 
-		public double Base_OuterRadius {
-			get { return (double)GetValue(Base_OuterRadiusProperty); }
+		public double? Base_OuterRadius {
+			get { return (double?)GetValue(Base_OuterRadiusProperty); }
 			set { SetValue(Base_OuterRadiusProperty, value); }
 		}
 
@@ -178,21 +178,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_EdgeBorderThicknessProperty = DependencyProperty.Register(
 			"Base_EdgeBorderThickness",
-			typeof(double),
+			typeof(double?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_EdgeBorderThickness(CustomRadialMenuItem element, double value) {
+		public static void SetBase_EdgeBorderThickness(CustomRadialMenuItem element, double? value) {
 
 			element.SetValue(Base_EdgeBorderThicknessProperty, value);
 		}
 
-		public static double GetBase_EdgeBorderThickness(CustomRadialMenuItem element) {
-			return (double)element.GetValue(Base_EdgeBorderThicknessProperty);
+		public static double? GetBase_EdgeBorderThickness(CustomRadialMenuItem element) {
+			return (double?)element.GetValue(Base_EdgeBorderThicknessProperty);
 		}
 
-		public double Base_EdgeBorderThickness {
-			get { return (double)GetValue(Base_EdgeBorderThicknessProperty); }
+		public double? Base_EdgeBorderThickness {
+			get { return (double?)GetValue(Base_EdgeBorderThicknessProperty); }
 			set { SetValue(Base_EdgeBorderThicknessProperty, value); }
 		}
 
@@ -226,21 +226,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_EdgeInnerRadiusProperty = DependencyProperty.Register(
 			"Base_EdgeInnerRadius",
-			typeof(double),
+			typeof(double?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_EdgeInnerRadius(CustomRadialMenuItem element, double value) {
+		public static void SetBase_EdgeInnerRadius(CustomRadialMenuItem element, double? value) {
 
 			element.SetValue(Base_EdgeInnerRadiusProperty, value);
 		}
 
-		public static double GetBase_EdgeInnerRadius(CustomRadialMenuItem element) {
-			return (double)element.GetValue(Base_EdgeInnerRadiusProperty);
+		public static double? GetBase_EdgeInnerRadius(CustomRadialMenuItem element) {
+			return (double?)element.GetValue(Base_EdgeInnerRadiusProperty);
 		}
 
-		public double Base_EdgeInnerRadius {
-			get { return (double)GetValue(Base_EdgeInnerRadiusProperty); }
+		public double? Base_EdgeInnerRadius {
+			get { return (double?)GetValue(Base_EdgeInnerRadiusProperty); }
 			set { SetValue(Base_EdgeInnerRadiusProperty, value); }
 		}
 
@@ -250,21 +250,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_EdgeOuterRadiusProperty = DependencyProperty.Register(
 			"Base_EdgeOuterRadius",
-			typeof(double),
+			typeof(double?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_EdgeOuterRadius(CustomRadialMenuItem element, double value) {
+		public static void SetBase_EdgeOuterRadius(CustomRadialMenuItem element, double? value) {
 
 			element.SetValue(Base_EdgeOuterRadiusProperty, value);
 		}
 
-		public static double GetBase_EdgeOuterRadius(CustomRadialMenuItem element) {
-			return (double)element.GetValue(Base_EdgeOuterRadiusProperty);
+		public static double? GetBase_EdgeOuterRadius(CustomRadialMenuItem element) {
+			return (double?)element.GetValue(Base_EdgeOuterRadiusProperty);
 		}
 
-		public double Base_EdgeOuterRadius {
-			get { return (double)GetValue(Base_EdgeOuterRadiusProperty); }
+		public double? Base_EdgeOuterRadius {
+			get { return (double?)GetValue(Base_EdgeOuterRadiusProperty); }
 			set { SetValue(Base_EdgeOuterRadiusProperty, value); }
 		}
 
@@ -322,21 +322,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_LabelCornerRadiusProperty = DependencyProperty.Register(
 			"Base_LabelCornerRadius",
-			typeof(CornerRadius),
+			typeof(CornerRadius?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_LabelCornerRadius(CustomRadialMenuItem element, CornerRadius value) {
+		public static void SetBase_LabelCornerRadius(CustomRadialMenuItem element, CornerRadius? value) {
 
 			element.SetValue(Base_LabelCornerRadiusProperty, value);
 		}
 
-		public static CornerRadius GetBase_LabelCornerRadius(CustomRadialMenuItem element) {
-			return (CornerRadius)element.GetValue(Base_LabelCornerRadiusProperty);
+		public static CornerRadius? GetBase_LabelCornerRadius(CustomRadialMenuItem element) {
+			return (CornerRadius?)element.GetValue(Base_LabelCornerRadiusProperty);
 		}
 
-		public CornerRadius Base_LabelCornerRadius {
-			get { return (CornerRadius)GetValue(Base_LabelCornerRadiusProperty); }
+		public CornerRadius? Base_LabelCornerRadius {
+			get { return (CornerRadius?)GetValue(Base_LabelCornerRadiusProperty); }
 			set { SetValue(Base_LabelCornerRadiusProperty, value); }
 		}
 
@@ -370,21 +370,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_LabelBorderThicknessProperty = DependencyProperty.Register(
 			"Base_LabelBorderThickness",
-			typeof(Thickness),
+			typeof(Thickness?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_LabelBorderThickness(CustomRadialMenuItem element, Thickness value) {
+		public static void SetBase_LabelBorderThickness(CustomRadialMenuItem element, Thickness? value) {
 
 			element.SetValue(Base_LabelBorderThicknessProperty, value);
 		}
 
-		public static Thickness GetBase_LabelBorderThickness(CustomRadialMenuItem element) {
-			return (Thickness)element.GetValue(Base_LabelBorderThicknessProperty);
+		public static Thickness? GetBase_LabelBorderThickness(CustomRadialMenuItem element) {
+			return (Thickness?)element.GetValue(Base_LabelBorderThicknessProperty);
 		}
 
-		public Thickness Base_LabelBorderThickness {
-			get { return (Thickness)GetValue(Base_LabelBorderThicknessProperty); }
+		public Thickness? Base_LabelBorderThickness {
+			get { return (Thickness?)GetValue(Base_LabelBorderThicknessProperty); }
 			set { SetValue(Base_LabelBorderThicknessProperty, value); }
 		}
 
@@ -418,21 +418,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_LabelFontSizeProperty = DependencyProperty.Register(
 			"Base_LabelFontSize",
-			typeof(double),
+			typeof(double?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_LabelFontSize(CustomRadialMenuItem element, double value) {
+		public static void SetBase_LabelFontSize(CustomRadialMenuItem element, double? value) {
 
 			element.SetValue(Base_LabelFontSizeProperty, value);
 		}
 
-		public static double GetBase_LabelFontSize(CustomRadialMenuItem element) {
-			return (double)element.GetValue(Base_LabelFontSizeProperty);
+		public static double? GetBase_LabelFontSize(CustomRadialMenuItem element) {
+			return (double?)element.GetValue(Base_LabelFontSizeProperty);
 		}
 
-		public double Base_LabelFontSize {
-			get { return (double)GetValue(Base_LabelFontSizeProperty); }
+		public double? Base_LabelFontSize {
+			get { return (double?)GetValue(Base_LabelFontSizeProperty); }
 			set { SetValue(Base_LabelFontSizeProperty, value); }
 		}
 
@@ -442,21 +442,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_LabelFontWeightProperty = DependencyProperty.Register(
 			"Base_LabelFontWeight",
-			typeof(FontWeight),
+			typeof(FontWeight?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_LabelFontWeight(CustomRadialMenuItem element, FontWeight value) {
+		public static void SetBase_LabelFontWeight(CustomRadialMenuItem element, FontWeight? value) {
 
 			element.SetValue(Base_LabelFontWeightProperty, value);
 		}
 
-		public static FontWeight GetBase_LabelFontWeight(CustomRadialMenuItem element) {
-			return (FontWeight)element.GetValue(Base_LabelFontWeightProperty);
+		public static FontWeight? GetBase_LabelFontWeight(CustomRadialMenuItem element) {
+			return (FontWeight?)element.GetValue(Base_LabelFontWeightProperty);
 		}
 
-		public FontWeight Base_LabelFontWeight {
-			get { return (FontWeight)GetValue(Base_LabelFontWeightProperty); }
+		public FontWeight? Base_LabelFontWeight {
+			get { return (FontWeight?)GetValue(Base_LabelFontWeightProperty); }
 			set { SetValue(Base_LabelFontWeightProperty, value); }
 		}
 
@@ -490,21 +490,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_LabelWidthProperty = DependencyProperty.Register(
 			"Base_LabelWidth",
-			typeof(double),
+			typeof(double?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_LabelWidth(CustomRadialMenuItem element, double value) {
+		public static void SetBase_LabelWidth(CustomRadialMenuItem element, double? value) {
 
 			element.SetValue(Base_LabelWidthProperty, value);
 		}
 
-		public static double GetBase_LabelWidth(CustomRadialMenuItem element) {
-			return (double)element.GetValue(Base_LabelWidthProperty);
+		public static double? GetBase_LabelWidth(CustomRadialMenuItem element) {
+			return (double?)element.GetValue(Base_LabelWidthProperty);
 		}
 
-		public double Base_LabelWidth {
-			get { return (double)GetValue(Base_LabelWidthProperty); }
+		public double? Base_LabelWidth {
+			get { return (double?)GetValue(Base_LabelWidthProperty); }
 			set { SetValue(Base_LabelWidthProperty, value); }
 		}
 
@@ -514,21 +514,21 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_LabelHeightProperty = DependencyProperty.Register(
 			"Base_LabelHeight",
-			typeof(double),
+			typeof(double?),
 			typeof(CustomRadialMenuItem)
 		);
 
-		public static void SetBase_LabelHeight(CustomRadialMenuItem element, double value) {
+		public static void SetBase_LabelHeight(CustomRadialMenuItem element, double? value) {
 
 			element.SetValue(Base_LabelHeightProperty, value);
 		}
 
-		public static double GetBase_LabelHeight(CustomRadialMenuItem element) {
-			return (double)element.GetValue(Base_LabelHeightProperty);
+		public static double? GetBase_LabelHeight(CustomRadialMenuItem element) {
+			return (double?)element.GetValue(Base_LabelHeightProperty);
 		}
 
-		public double Base_LabelHeight {
-			get { return (double)GetValue(Base_LabelHeightProperty); }
+		public double? Base_LabelHeight {
+			get { return (double?)GetValue(Base_LabelHeightProperty); }
 			set { SetValue(Base_LabelHeightProperty, value); }
 		}
 
@@ -538,7 +538,7 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_LabelMarginProperty = DependencyProperty.Register(
 			"Base_LabelMargin",
-			typeof(Thickness),
+			typeof(Thickness?),
 			typeof(CustomRadialMenuItem)
 		);
 
@@ -547,12 +547,12 @@ namespace Taction.UIElement {
 			element.SetValue(Base_LabelMarginProperty, value);
 		}
 
-		public static Thickness GetBase_LabelMargin(CustomRadialMenuItem element) {
-			return (Thickness)element.GetValue(Base_LabelMarginProperty);
+		public static Thickness? GetBase_LabelMargin(CustomRadialMenuItem element) {
+			return (Thickness?)element.GetValue(Base_LabelMarginProperty);
 		}
 
-		public Thickness Base_LabelMargin {
-			get { return (Thickness)GetValue(Base_LabelMarginProperty); }
+		public Thickness? Base_LabelMargin {
+			get { return (Thickness?)GetValue(Base_LabelMarginProperty); }
 			set { SetValue(Base_LabelMarginProperty, value); }
 		}
 
@@ -562,7 +562,7 @@ namespace Taction.UIElement {
 
 		public static readonly DependencyProperty Base_LabelPaddingProperty = DependencyProperty.Register(
 			"Base_LabelPadding",
-			typeof(Thickness),
+			typeof(Thickness?),
 			typeof(CustomRadialMenuItem)
 		);
 
@@ -571,17 +571,17 @@ namespace Taction.UIElement {
 			element.SetValue(Base_LabelPaddingProperty, value);
 		}
 
-		public static Thickness GetBase_LabelPadding(CustomRadialMenuItem element) {
-			return (Thickness)element.GetValue(Base_LabelPaddingProperty);
+		public static Thickness? GetBase_LabelPadding(CustomRadialMenuItem element) {
+			return (Thickness?)element.GetValue(Base_LabelPaddingProperty);
 		}
 
-		public Thickness Base_LabelContentPadding {
-			get { return (Thickness)GetValue(Base_LabelPaddingProperty); }
+		public Thickness? Base_LabelContentPadding {
+			get { return (Thickness?)GetValue(Base_LabelPaddingProperty); }
 			set { SetValue(Base_LabelPaddingProperty, value); }
 		}
 
-		public Thickness Base_LabelPadding {
-			get { return (Thickness)GetValue(Base_LabelPaddingProperty); }
+		public Thickness? Base_LabelPadding {
+			get { return (Thickness?)GetValue(Base_LabelPaddingProperty); }
 			set { SetValue(Base_LabelPaddingProperty, value); }
 		}
 
