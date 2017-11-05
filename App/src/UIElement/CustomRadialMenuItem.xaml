@@ -35,7 +35,6 @@
 		<local:AnyDataConverter x:Key="AnyDataConverter" />
 
 		<Style TargetType="UIElement:CustomRadialMenuItem">
-			<!-- Default values -->
 			<Setter Property="InnerRadius" Value="{Binding Base_InnerRadius}" />
 			<Setter Property="OuterRadius" Value="{Binding Base_OuterRadius}" />
 			<Setter Property="Background" Value="{Binding Base_Background}" />

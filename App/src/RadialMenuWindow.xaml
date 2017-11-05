@@ -3,6 +3,7 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:clr="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:Taction"
 		xmlns:RadialMenu="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
 		xmlns:UIElement="clr-namespace:Taction.UIElement"
@@ -16,36 +17,64 @@
 		WindowState="Maximized">
 
 	<Window.Resources>
-		<Style TargetType="RadialMenu:RadialMenuCentralItem" BasedOn="{StaticResource {x:Type RadialMenu:RadialMenuCentralItem}}">
-			<Setter Property="Background" Value="#AA222222" />
-			<Setter Property="BorderThickness" Value="2" />
-			<Setter Property="Width" Value="125" />
-			<Setter Property="Height" Value="125" />
+		<local:AnyDataConverter x:Key="AnyDataConverter" />
+
+		<TextBlock x:Key="Default_CenterContent">❌</TextBlock>
+		<SolidColorBrush x:Key="Default_CenterBackground">#8222</SolidColorBrush>
+		<clr:Double x:Key="Default_CenterBorderThickness">0</clr:Double>
+		<clr:Double x:Key="Default_CenterHeight">140</clr:Double>
+		<clr:Double x:Key="Default_CenterWidth">140</clr:Double>
+		<SolidColorBrush x:Key="Default_CenterForeground">#DDD</SolidColorBrush>
+
+		<clr:Double x:Key="Default_Active_CenterFontSize">14</clr:Double>
+		<SolidColorBrush x:Key="Default_Active_CenterBackground">#A222</SolidColorBrush>
+
+		<Style TargetType="RadialMenu:RadialMenuCentralItem">
+			<Setter Property="Background" Value="{Binding Base_CenterBackground}" />
+			<Setter Property="BorderBrush" Value="{Binding Base_CenterBorderBrush}" />
+			<Setter Property="BorderThickness" Value="{Binding Base_CenterBorderThickness}" />
+			<Setter Property="Height" Value="{Binding Base_CenterHeight}" />
+			<Setter Property="Width" Value="{Binding Base_CenterWidth}" />
+			<Setter Property="TextBlock.FontFamily" Value="{Binding Base_CenterFontFamily}" />
+			<Setter Property="TextBlock.FontSize" Value="{Binding Base_CenterFontSize}" />
+			<Setter Property="TextBlock.FontWeight" Value="{Binding Base_CenterFontWeight}" />
+			<Setter Property="TextBlock.Foreground" Value="{Binding Base_CenterForeground}" />
+			<Style.Triggers>
+				<DataTrigger Value="True">
+					<DataTrigger.Binding>
+						<MultiBinding Converter="{StaticResource AnyDataConverter}">
+							<Binding Path="IsMouseOver" RelativeSource="{RelativeSource Self}" />
+							<Binding Path="IsStylusOver" RelativeSource="{RelativeSource Self}" />
+						</MultiBinding>
+					</DataTrigger.Binding>
+					<DataTrigger.Setters>
+						<Setter Property="Background" Value="{Binding Active_CenterBackground}" />
+						<Setter Property="BorderBrush" Value="{Binding Active_CenterBorderBrush}" />
+						<Setter Property="BorderThickness" Value="{Binding Active_CenterBorderThickness}" />
+						<Setter Property="Height" Value="{Binding Active_CenterHeight}" />
+						<Setter Property="Width" Value="{Binding Active_CenterWidth}" />
+						<Setter Property="TextBlock.FontFamily" Value="{Binding Active_CenterFontFamily}" />
+						<Setter Property="TextBlock.FontSize" Value="{Binding Active_CenterFontSize}" />
+						<Setter Property="TextBlock.FontWeight" Value="{Binding Active_CenterFontWeight}" />
+						<Setter Property="TextBlock.Foreground" Value="{Binding Active_CenterForeground}" />
+					</DataTrigger.Setters>
+				</DataTrigger>
+			</Style.Triggers>
 		</Style>
-		<Style TargetType="TextBlock">
-			<Setter Property="Foreground" Value="#FFDDDDDD" />
+		<Style TargetType="ContentPresenter">
+			<Setter Property="Content" Value="{Binding Base_CenterContent}" />
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuCentralItem}}, Path=IsMouseOver}" Value="True">
+					<Setter Property="Content" Value="{Binding Active_CenterContent}" />
+				</DataTrigger>
+			</Style.Triggers>
 		</Style>
 	</Window.Resources>
 	<Grid>
 		<RadialMenu:RadialMenu Name="RadialMenu" IsOpen="True">
-
-			<UIElement:CustomRadialMenuItem
-				Command="{Binding CloseCommand}"
-				Base_LabelBackground="Red"
-				Base_LabelContent="Exit"
-				Base_LabelCornerRadius="10"
-				Base_LabelBorderThickness="2"
-				Base_LabelBorderBrush="Black" />
-			<UIElement:CustomRadialMenuItem Base_LabelBackground="Blue" Base_LabelContent="1" Base_LabelCornerRadius="100" />
-			<UIElement:CustomRadialMenuItem Base_LabelBackground="Green" Base_LabelContent="2" />
-			<UIElement:CustomRadialMenuItem Base_LabelBackground="Orange" Base_LabelContent="3" />
-			<UIElement:CustomRadialMenuItem Base_LabelBackground="Purple" Base_LabelContent="4" />
-
 			<RadialMenu:RadialMenu.CentralItem>
 				<RadialMenu:RadialMenuCentralItem Command="{Binding CloseCommand}">
-					<StackPanel>
-						<TextBlock Text="Brush" />
-					</StackPanel>
+					<ContentPresenter x:Name="CenterContent" HorizontalAlignment="Center" VerticalAlignment="Center" />
 				</RadialMenu:RadialMenuCentralItem>
 			</RadialMenu:RadialMenu.CentralItem>
 		</RadialMenu:RadialMenu>

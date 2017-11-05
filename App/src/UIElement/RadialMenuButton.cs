@@ -28,9 +28,8 @@ namespace Taction.UIElement {
 			mainPanel.CloseAllRadialMenuWindows();
 
 			// Open own menu
-			RadialMenuWindow.SetVisibility(true, false);
+			RadialMenuWindow.SetVisibility(true);
 
-			// Windows always appear over owner
 			// This ensures that the panel is always above the radial menu
 			mainPanel.Owner = RadialMenuWindow;
 		}
