@@ -9,9 +9,6 @@ using System.ComponentModel;
 
 namespace Taction {
 
-	/// <summary>
-	/// Interaction logic for RadialMenuWindow.xaml
-	/// </summary>
 	public partial class RadialMenuWindow : Window {
 
 		public RadialMenuWindow() {
@@ -19,21 +16,28 @@ namespace Taction {
 			InitializeComponent();
 			DataContext = this;
 
+			// Sync window visibility with radial menu's
 			RadialMenu.IsVisibleChanged += (s, e) => SetVisibility((bool)e.NewValue);
 		}
 
 		public RadialMenuWindow(RadialMenuSpecs specs) : this() {
 
+			// Generate layout
 			var items = new List<RadialMenuItem>();
-
 			foreach (var itemSpecs in specs.Items)
 				items.Add(new CustomRadialMenuItem(itemSpecs, specs.DefaultItemStyle));
 
-			RadialMenu.HalfShiftedItems = specs.HalfShiftedItems;
 			RadialMenu.Items = items;
+
+			// Initial visibility of the radial menu
+			RadialMenu.HalfShiftedItems = specs.HalfShiftedItems;
 			RadialMenu.IsOpen = App.Instance.Config.Layout.DisableRadialMenuAnimation;
 		}
 
+		/// <summary>
+		/// Prevent this window from being focused.
+		/// </summary>
+		/// <param name="e"></param>
 		protected override void OnActivated(EventArgs e) {
 
 			base.OnActivated(e);
@@ -64,13 +68,21 @@ namespace Taction {
 			base.OnClosing(e);
 			e.Cancel = true;
 
-			// Cancel is ignored on shutdown. This prevents crash on attempting to change visibility of actually closing window.
+			// Cancel is ignored on shutdown.
+			// This prevents crash on attempting to change visibility of actually closing window.
 			if (App.Instance.ShutdownMode == ShutdownMode.OnExplicitShutdown)
 				return;
 
 			SetVisibility(false);
 		}
 
+		/// <summary>
+		/// Sets visibility if the window.
+		/// Click-through is tied to visibility so the user can immediately interact with
+		/// the underlying application while there is a closing animation, if any.
+		/// </summary>
+		/// <param name="isWanted"></param>
+		/// <param name="isSkipAnimationWanted"></param>
 		public void SetVisibility(bool isWanted, bool isSkipAnimationWanted = true) {
 
 			WinApi.SetWindowExTransparent(this, !isWanted);

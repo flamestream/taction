@@ -237,5 +237,13 @@ namespace Taction {
 
 			return false;
 		}
+
+		public void CloseAllRadialMenuWindows() {
+
+			foreach (var el in FindVisualChildren<RadialMenuButton>(this)) {
+
+				el.RadialMenuWindow.SetVisibility(false, false);
+			}
+		}
 	}
 }
