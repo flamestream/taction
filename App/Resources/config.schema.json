@@ -179,6 +179,7 @@
 			"properties": {
 				"base": {"$ref": "#/definitions/buttonStyleType"},
 				"active": {"$ref": "#/definitions/buttonStyleType"},
+				"additionalProperties": false
 			}
 		},
 		"buttonStyleType": {

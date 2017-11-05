@@ -152,7 +152,10 @@
 				"base": {
 					"content": {
 						"type": "text",
-						"value": "☀"
+						"value": "⌾",
+					},
+					"text-style": {
+						"font-size": 24
 					}
 				}
 			},
