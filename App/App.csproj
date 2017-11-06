@@ -81,6 +81,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="NewReleaseWindow.xaml.cs">
+      <DependentUpon>NewReleaseWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\AnyDataConverter.cs" />
     <Compile Include="src\Config.cs" />
     <Compile Include="src\ConfigLayout.cs" />
@@ -126,9 +129,14 @@
     <Compile Include="src\UIElement\CustomRadialMenuItem.xaml.cs">
       <DependentUpon>CustomRadialMenuItem.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\Updater.cs" />
     <Compile Include="src\WinApi.cs" />
     <Compile Include="src\WindowEventNotifier.cs" />
     <Compile Include="src\WindowManipulator.cs" />
+    <Page Include="NewReleaseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\RadialMenuWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

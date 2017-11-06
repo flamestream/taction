@@ -30,7 +30,7 @@ namespace Taction.UIElement {
 			// Open own menu
 			RadialMenuWindow.SetVisibility(true);
 
-			// This ensures that the panel is always above the radial menu
+			// Ensure that the panel is always above the radial menu
 			mainPanel.Owner = RadialMenuWindow;
 		}
 	}

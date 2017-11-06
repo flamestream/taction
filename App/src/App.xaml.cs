@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using Taction.UIElement;
@@ -58,6 +59,12 @@ namespace Taction {
 		internal Version GetVersion() {
 
 			return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+		}
+
+		internal string GetVersionTagName() {
+
+			var version = GetVersion();
+			return string.Format("v{0}.{1}.{2}", version.Major, version.Minor, version.Revision);
 		}
 
 		public void Enable() {
