@@ -32,8 +32,39 @@ namespace Taction {
 
 			RadialMenu.Items = items;
 
-			// Style center
+			var appCustomStyle = App.Instance.Config.Layout;
+
+			// Apply base style
+			{
+				// Apply app default style
+				if (appCustomStyle != null) {
+
+					ApplyBaseStyle(appCustomStyle.DefaultRadialMenuCentralItemStyle);
+				}
+
+				// Apply own style
+				if (specs != null) {
+
+					ApplyBaseStyle(specs.CentralItemSpecs);
+				}
+			}
+
 			SpreadBaseStyle();
+
+			// Apply active style
+			{
+				// Apply app default style
+				if (appCustomStyle != null) {
+
+					ApplyActiveStyle(appCustomStyle.DefaultRadialMenuCentralItemStyle);
+				}
+
+				// Apply own style
+				if (specs != null) {
+
+					ApplyActiveStyle(specs.CentralItemSpecs);
+				}
+			}
 
 			// Initial visibility of the radial menu
 			RadialMenu.HalfShiftedItems = specs.HalfShiftedItems;
@@ -167,6 +198,10 @@ namespace Taction {
 			if (Default_CenterBorderThickness != null)
 				Base_CenterBorderThickness = Default_CenterBorderThickness;
 
+			var Default_CenterPadding = TryFindResource("Default_CenterPadding") as Thickness?;
+			if (Default_CenterPadding != null)
+				Base_CenterPadding = Default_CenterPadding;
+
 			// Active style
 			var Default_Active_CenterContent = TryFindResource("Default_Active_CenterContent");
 			if (Default_Active_CenterContent != null)
@@ -207,6 +242,135 @@ namespace Taction {
 			var Default_Active_CenterBorderThickness = TryFindResource("Default_Active_CenterBorderThickness") as double?;
 			if (Default_Active_CenterBorderThickness != null)
 				Active_CenterBorderThickness = Default_Active_CenterBorderThickness;
+
+			var Default_Active_CenterPadding = TryFindResource("Default_Active_CenterPadding") as Thickness?;
+			if (Default_Active_CenterPadding != null)
+				Active_CenterPadding = Default_Active_CenterPadding;
+		}
+
+		public void ApplyBaseStyle(RadialMenuCentralItemStyleSetSpecs styleSet) {
+
+			if (styleSet == null)
+				return;
+
+			ApplyBaseStyle(styleSet.Base);
+		}
+
+		public void ApplyBaseStyle(RadialMenuCentralItemStyleSpecs style) {
+
+			if (style == null)
+				return;
+
+			var border = style.Border;
+			if (border != null) {
+
+				var borderColor = border.Color;
+				if (borderColor != null)
+					Base_CenterBorderBrush = borderColor;
+
+				var borderThickness = border.Thickness;
+				if (borderThickness != null)
+					Base_CenterBorderThickness = borderThickness.Value.Top;
+			}
+
+			var color = style.Color;
+			if (color != null)
+				Base_CenterBackground = color;
+
+			var content = style.Content;
+			if (content != null)
+				Base_CenterContent = content;
+
+			var padding = style.Padding;
+			if (padding != null)
+				Base_CenterPadding = padding;
+
+			var size = style.Size;
+			if (size != null)
+				CenterSize = size;
+
+			var textStyle = style.TextStyle;
+			if (textStyle != null) {
+
+				var textColor = textStyle.Color;
+				if (textColor != null)
+					Base_CenterForeground = textColor;
+
+				var textFontFamily = textStyle.FontFamily;
+				if (textFontFamily != null)
+					Base_CenterFontFamily = textFontFamily;
+
+				var textFontSize = textStyle.FontSize;
+				if (textFontSize != null)
+					Base_CenterFontSize = textFontSize;
+
+				var textFontWeight = textStyle.FontWeight;
+				if (textFontWeight != null)
+					Base_CenterFontWeight = textFontWeight;
+			}
+		}
+
+		public void ApplyActiveStyle(RadialMenuCentralItemStyleSetSpecs styleSet) {
+
+			if (styleSet == null)
+				return;
+
+			ApplyActiveStyle(styleSet.Base);
+			ApplyActiveStyle(styleSet.Active);
+		}
+
+		public void ApplyActiveStyle(RadialMenuCentralItemStyleSpecs style) {
+
+			if (style == null)
+				return;
+
+			var border = style.Border;
+			if (border != null) {
+
+				var borderColor = border.Color;
+				if (borderColor != null)
+					Active_CenterBorderBrush = borderColor;
+
+				var borderThickness = border.Thickness;
+				if (borderThickness != null)
+					Active_CenterBorderThickness = borderThickness.Value.Top;
+			}
+
+			var color = style.Color;
+			if (color != null)
+				Active_CenterBackground = color;
+
+			var content = style.Content;
+			if (content != null)
+				Active_CenterContent = content;
+
+			var padding = style.Padding;
+			if (padding != null)
+				Active_CenterPadding = padding;
+
+			var size = style.Size;
+			if (size != null)
+				Active_CenterSize = size;
+
+			var textStyle = style.TextStyle;
+			if (textStyle != null) {
+
+				var textColor = textStyle.Color;
+				if (textColor != null)
+					Active_CenterForeground = textColor;
+
+				var textFontFamily = textStyle.FontFamily;
+				if (textFontFamily != null)
+					Active_CenterFontFamily = textFontFamily;
+
+				var textFontSize = textStyle.FontSize;
+				if (textFontSize != null)
+					Active_CenterFontSize = textFontSize;
+
+				var textFontWeight = textStyle.FontWeight;
+				if (textFontWeight != null)
+					Active_CenterFontWeight = textFontWeight;
+			}
 		}
 
 		public void SpreadBaseStyle() {
@@ -231,7 +395,41 @@ namespace Taction {
 				Active_CenterBorderBrush = Base_CenterBorderBrush;
 			if (Active_CenterBorderThickness == null)
 				Active_CenterBorderThickness = Base_CenterBorderThickness;
+			if (Active_CenterPadding == null)
+				Active_CenterPadding = Base_CenterPadding;
 		}
+
+		#region CenterSize
+
+		public double? CenterSize {
+			get {
+				return Base_CenterWidth != null ?
+					(double?)Base_CenterWidth.Value * 0.5 :
+					null;
+			}
+			set {
+				Base_CenterWidth = value * 2;
+				Base_CenterHeight = value * 2;
+			}
+		}
+
+		#endregion CenterSize
+
+		#region Active_CenterSize
+
+		public double? Active_CenterSize {
+			get {
+				return Active_CenterWidth != null ?
+					(double?)Active_CenterWidth.Value * 0.5 :
+					null;
+			}
+			set {
+				Active_CenterWidth = value * 2;
+				Active_CenterHeight = value * 2;
+			}
+		}
+
+		#endregion Active_CenterSize
 
 		#region Base_CenterContent
 
@@ -473,6 +671,30 @@ namespace Taction {
 
 		#endregion Base_CenterFontWeight
 
+		#region Base_CenterPadding
+
+		public static readonly DependencyProperty Base_CenterPaddingProperty = DependencyProperty.Register(
+			"Base_CenterPadding",
+			typeof(Thickness),
+			typeof(RadialMenu.Controls.RadialMenu)
+		);
+
+		public static void SetBase_CenterPadding(RadialMenu.Controls.RadialMenu element, Thickness? value) {
+
+			element.SetValue(Base_CenterPaddingProperty, value);
+		}
+
+		public static Thickness? GetBase_CenterPadding(RadialMenu.Controls.RadialMenu element) {
+			return (Thickness?)element.GetValue(Base_CenterPaddingProperty);
+		}
+
+		public Thickness? Base_CenterPadding {
+			get { return (Thickness?)GetValue(Base_CenterPaddingProperty); }
+			set { SetValue(Base_CenterPaddingProperty, value); }
+		}
+
+		#endregion Base_CenterPadding
+
 		#region Active_CenterContent
 
 		public static readonly DependencyProperty Active_CenterContentProperty = DependencyProperty.Register(
@@ -712,5 +934,29 @@ namespace Taction {
 		}
 
 		#endregion Active_CenterFontWeight
+
+		#region Active_CenterPadding
+
+		public static readonly DependencyProperty Active_CenterPaddingProperty = DependencyProperty.Register(
+			"Active_CenterPadding",
+			typeof(Thickness),
+			typeof(RadialMenu.Controls.RadialMenu)
+		);
+
+		public static void SetActive_CenterPadding(RadialMenu.Controls.RadialMenu element, Thickness? value) {
+
+			element.SetValue(Active_CenterPaddingProperty, value);
+		}
+
+		public static Thickness? GetActive_CenterPadding(RadialMenu.Controls.RadialMenu element) {
+			return (Thickness?)element.GetValue(Active_CenterPaddingProperty);
+		}
+
+		public Thickness? Active_CenterPadding {
+			get { return (Thickness?)GetValue(Active_CenterPaddingProperty); }
+			set { SetValue(Active_CenterPaddingProperty, value); }
+		}
+
+		#endregion Active_CenterPadding
 	}
 }

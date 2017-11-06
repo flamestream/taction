@@ -8,7 +8,7 @@
 		xmlns:RadialMenu="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
 		xmlns:UIElement="clr-namespace:Taction.UIElement"
 		mc:Ignorable="d"
-		Title="RadialMenuWindow"
+		Title="Taction Radial Menu"
 		Topmost="True"
 		WindowStyle="None"
 		AllowsTransparency="True"
@@ -44,7 +44,6 @@
 					<DataTrigger.Binding>
 						<MultiBinding Converter="{StaticResource AnyDataConverter}">
 							<Binding Path="IsMouseOver" RelativeSource="{RelativeSource Self}" />
-							<Binding Path="IsStylusOver" RelativeSource="{RelativeSource Self}" />
 						</MultiBinding>
 					</DataTrigger.Binding>
 					<DataTrigger.Setters>
@@ -61,6 +60,14 @@
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
+		<Style TargetType="Border">
+			<Setter Property="Padding" Value="{Binding Base_CenterPadding}" />
+			<Style.Triggers>
+				<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuCentralItem}}, Path=IsMouseOver}" Value="True">
+					<Setter Property="Padding" Value="{Binding Active_CenterPadding}" />
+				</DataTrigger>
+			</Style.Triggers>
+		</Style>
 		<Style TargetType="ContentPresenter">
 			<Setter Property="Content" Value="{Binding Base_CenterContent}" />
 			<Style.Triggers>
@@ -74,7 +81,9 @@
 		<RadialMenu:RadialMenu Name="RadialMenu" IsOpen="True">
 			<RadialMenu:RadialMenu.CentralItem>
 				<RadialMenu:RadialMenuCentralItem Command="{Binding CloseCommand}">
-					<ContentPresenter x:Name="CenterContent" HorizontalAlignment="Center" VerticalAlignment="Center" />
+					<Border>
+						<ContentPresenter x:Name="CenterContent" HorizontalAlignment="Center" VerticalAlignment="Center" />
+					</Border>
 				</RadialMenu:RadialMenuCentralItem>
 			</RadialMenu:RadialMenu.CentralItem>
 		</RadialMenu:RadialMenu>

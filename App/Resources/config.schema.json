@@ -30,6 +30,7 @@
 		"color": {"$ref": "#/definitions/colorType"},
 		"default-button-style": {"$ref": "#/definitions/buttonStyleSetType"},
 		"default-radial-menu-item-style": {"$ref": "#/definitions/radialMenuItemStyleSetType"},
+		"default-radial-menu-central-item-style": {"$ref": "#/definitions/radialMenuCentralItemStyleSetType"},
 		"items": {"$ref": "#/definitions/itemsType"},
 	},
 	"additionalProperties": false,
@@ -354,7 +355,7 @@
 			"properties": {
 				"label": {"$ref": "#/definitions/radialMenuItemLabelStyleType"},
 				"inner-edge": {"$ref": "#/definitions/radialMenuItemEdgeStyleType"},
-				"outer-edge": {"$ref": "#/definitions/radialMenuItemEdgeStyleType"}
+				"outer-edge": {"$ref": "#/definitions/radialMenuItemEdgeStyleType"},
 			},
 			"additionalProperties": false,
 			"required": []
@@ -402,22 +403,21 @@
 			"properties": {
 				"base": {"$ref": "#/definitions/radialMenuCentralItemStyleType"},
 				"active": {"$ref": "#/definitions/radialMenuCentralItemStyleType"},
-			}
+			},
+			"additionalProperties": false,
 		},
 		"radialMenuCentralItemStyleType": {
 			"type": "object",
 			"properties": {
 				"size": {
 					"type": "number",
-					"minimum": 0,
-					"exclusiveMinimum": true
+					"minimum": 0
 				},
 				"content": {"$ref": "#/definitions/contentType"},
 				"text-style": {"$ref": "#/definitions/textStyleType"},
 				"color": {"$ref": "#/definitions/colorType"},
-				"margin": {"type": "string"},
-				"padding": {"type": "string"},
 				"border": {"$ref": "#/definitions/borderType"},
+				"padding": {"type": "string"},
 			},
 			"additionalProperties": false,
 			"required": []

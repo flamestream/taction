@@ -90,6 +90,9 @@ namespace Taction {
 
 		[JsonProperty("default-radial-menu-item-style")]
 		public RadialMenuItemStyleSetSpecs DefaultRadialMenuItemStyle { get; set; }
+
+		[JsonProperty("default-radial-menu-central-item-style")]
+		public RadialMenuCentralItemStyleSetSpecs DefaultRadialMenuCentralItemStyle { get; set; }
 	}
 
 	public interface IPanelItemSpecs {
@@ -247,7 +250,7 @@ namespace Taction {
 		public RadialMenuItemStyleSetSpecs DefaultItemStyle { get; set; }
 
 		[JsonProperty("central-item-style")]
-		public RadialMenuCentralItemSpecs CentralItemSpecs { get; set; }
+		public RadialMenuCentralItemStyleSetSpecs CentralItemSpecs { get; set; }
 
 		[JsonProperty("items")]
 		public List<RadialMenuItemSpecs> Items { get; set; }
@@ -309,9 +312,36 @@ namespace Taction {
 		public BorderSpecs Border { get; set; }
 	}
 
-	public class RadialMenuCentralItemSpecs : ButtonStyleSpecs {
+	public class RadialMenuCentralItemStyleSetSpecs {
+
+		[JsonProperty("base")]
+		public RadialMenuCentralItemStyleSpecs Base { get; set; }
+
+		[JsonProperty("active")]
+		public RadialMenuCentralItemStyleSpecs Active { get; set; }
+	}
+
+	public class RadialMenuCentralItemStyleSpecs {
 
 		[JsonProperty("size")]
-		public double Size { get; set; }
+		public double? Size { get; set; }
+
+		[JsonProperty("content")]
+		[JsonConverter(typeof(ContentJsonConverter))]
+		public Object Content { get; set; }
+
+		[JsonProperty("text-style")]
+		public TextStyleSpecs TextStyle { get; set; }
+
+		[JsonProperty("color")]
+		[JsonConverter(typeof(BrushJsonConverter))]
+		public Brush Color { get; set; }
+
+		[JsonProperty("border")]
+		public BorderSpecs Border { get; set; }
+
+		[JsonProperty("padding")]
+		[JsonConverter(typeof(ThicknessJsonConverter))]
+		public Thickness? Padding { get; set; }
 	}
 }

@@ -2,9 +2,6 @@
 
 namespace Taction {
 
-	/// <summary>
-	/// Interaction logic for NewReleaseWindow.xaml
-	/// </summary>
 	public partial class NewReleaseWindow : Window {
 
 		public string ReleaseVersion { get; set; }
