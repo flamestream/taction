@@ -51,7 +51,7 @@ namespace Taction {
 		}
 
 		/// <summary>
-		/// Right-click or middle-click closes window.
+		/// Right-click or middle-click closes the window.
 		/// For force-close in case the layout borks.
 		/// </summary>
 		/// <param name="e"></param>
@@ -62,6 +62,20 @@ namespace Taction {
 
 				SetVisibility(false, false);
 				e.Handled = true;
+			}
+		}
+
+		/// <summary>
+		/// Clicking anywhere outside the menu closes the window.
+		/// </summary>
+		/// <param name="e"></param>
+		protected override void OnMouseDown(MouseButtonEventArgs e) {
+
+			base.OnMouseDown(e);
+
+			if (e.LeftButton == MouseButtonState.Pressed) {
+
+				SetVisibility(false, false);
 			}
 		}
 
