@@ -247,5 +247,20 @@ namespace Taction {
 				el.RadialMenuWindow.SetVisibility(false, false);
 			}
 		}
+
+		public void ToggleHideAll() {
+
+			foreach (var c in FindVisualChildren<System.Windows.Controls.ContentControl>(this)) {
+
+				if (c is MoveButton)
+					continue;
+
+				var element = c as System.Windows.UIElement;
+				if (element.Visibility == Visibility.Collapsed)
+					element.Visibility = Visibility.Visible;
+				else
+					element.Visibility = Visibility.Collapsed;
+			}
+		}
 	}
 }

@@ -35,10 +35,16 @@ namespace Taction.UIElement {
 
 			e.Handled = true;
 
-			Window.GetWindow(this).DragMove();
+			var window = Window.GetWindow(this);
+			var originalPosition = new Point(window.Top, window.Left);
+			window.DragMove();
+			var newPosition = new Point(window.Top, window.Left);
 
 			// DragMove is blocking, so this works
 			IsPressed = false;
+
+			if (originalPosition == newPosition)
+				App.Instance.MainPanel.ToggleHideAll();
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e) {
