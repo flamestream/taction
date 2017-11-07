@@ -1,14 +1,7 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using static Taction.Config;
+﻿using System.Windows.Input;
 
 namespace Taction.UIElement {
 
-	/// <summary>
-	/// A button that supports holding down to execute key command.
-	/// </summary>
 	internal class HoldButton : CustomButton {
 
 		internal KeyCommand KeyCommand { set; get; }
@@ -38,6 +31,5 @@ namespace Taction.UIElement {
 
 			App.Instance.InputSimulator.SimulateKeyUp(KeyCommand);
 		}
-
 	}
 }

@@ -56,7 +56,7 @@ namespace Taction {
 
 			} catch (Exception e) {
 
-				App.Instance.ErrorLogger.Log(e.Message);
+				App.Instance.LogError(e.Message);
 			}
 
 			return null;

@@ -81,6 +81,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\App.Api.cs" />
     <Compile Include="src\NewReleaseWindow.xaml.cs">
       <DependentUpon>NewReleaseWindow.xaml</DependentUpon>
     </Compile>

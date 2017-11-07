@@ -80,7 +80,7 @@ namespace Taction {
 							File.Delete(f);
 						} catch (Exception ex) {
 							// Silently log error
-							App.Instance.ErrorLogger.Log(ex.ToString());
+							App.Instance.LogError(ex.ToString());
 						}
 					}
 				}
@@ -176,7 +176,7 @@ namespace Taction {
 			} catch (Exception e) {
 
 				// Load error, but continue with default state
-				App.Instance.ErrorLogger.Log(string.Format("Failed to load state: {0}\n{1}", e.Message, e.StackTrace));
+				App.Instance.LogError(string.Format("Failed to load state: {0}\n{1}", e.Message, e.StackTrace));
 				ResetState();
 			}
 		}

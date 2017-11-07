@@ -1,13 +1,7 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace Taction.UIElement {
 
-	/// <summary>
-	/// A button that executes key command only once.
-	/// </summary>
 	internal class TapButton : CustomButton {
 
 		internal KeyCommand KeyCommand { set; get; }

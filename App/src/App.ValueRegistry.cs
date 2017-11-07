@@ -17,6 +17,8 @@ namespace Taction {
 		internal const int ErrorLogTrimLineCount = 500;
 		internal const int KeyUpScanInterval = 500;
 		internal const int UpdateNagWaitTime = 24 * 60 * 60 * 1000;
+		internal const string ReleaseHtml = "https://github.com/flamestream/taction/releases";
+		internal const string ReleaseApi = "https://api.github.com/repos/flamestream/taction/releases/latest";
 
 		#endregion -- Application Settings/Constants --
 
@@ -30,7 +32,7 @@ namespace Taction {
 		private static Dictionary<string, Type> _stringVsPanelItemSpecs;
 		private static JSchema _layoutJsonSchema;
 
-		public static App Instance => (App)Current;
+		public static App Instance => Current as App;
 
 		public static string AppDataDir {
 			get {
