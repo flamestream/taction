@@ -1,8 +1,11 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace Taction.UIElement {
 
-	internal class RadialMenuButton : CustomButton {
+	internal class RadialMenuButton : ToggleButton {
 
 		public RadialMenuWindow RadialMenuWindow;
 
@@ -10,18 +13,24 @@ namespace Taction.UIElement {
 
 			var s = (RadialMenuButtonSpecs)specs;
 			RadialMenuWindow = new RadialMenuWindow(s.RadialMenuSpecs);
+			RadialMenuWindow.IsVisibleChanged += RadialMenuWindow_IsVisibleChanged;
+
+			// Event binding
+			Checked += RadialMenuButton_Checked;
+			Unchecked += RadialMenuButton_Unchecked;
 		}
 
-		protected override void OnTouchDown(TouchEventArgs e) {
+		private void RadialMenuWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
 
-			base.OnTouchDown(e);
+			// Match check status to child window visibility
+			IsChecked = (bool)e.NewValue;
+		}
 
-			// Visibility check
-			if (RadialMenuWindow.IsVisible) {
+		private void RadialMenuButton_Checked(Object sender, RoutedEventArgs e) {
 
-				RadialMenuWindow.SetVisibility(false, false);
+			// Already there check
+			if (RadialMenuWindow.Visibility == Visibility.Visible)
 				return;
-			}
 
 			// Close all radial menu windows
 			var mainPanel = App.Instance.MainPanel;
@@ -32,6 +41,15 @@ namespace Taction.UIElement {
 
 			// Ensure that the panel is always above the radial menu
 			mainPanel.Owner = RadialMenuWindow;
+		}
+
+		private void RadialMenuButton_Unchecked(Object sender, RoutedEventArgs e) {
+
+			// Not there check
+			if (RadialMenuWindow.Visibility != Visibility.Visible)
+				return;
+
+			RadialMenuWindow.SetVisibility(false, false);
 		}
 	}
 }

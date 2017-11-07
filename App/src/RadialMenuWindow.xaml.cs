@@ -125,6 +125,7 @@ namespace Taction {
 				return;
 
 			SetVisibility(false);
+
 		}
 
 		/// <summary>
