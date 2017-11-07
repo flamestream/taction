@@ -14,7 +14,7 @@ namespace Taction {
 				return string.Format(
 					"Version {0} has been released.\nCurrent version is {1}.\nWould you like to review its content?",
 					ReleaseVersion,
-					App.Instance.GetVersionTagName()
+					UpdateChecker.GetVersionTagName()
 				);
 			}
 		}

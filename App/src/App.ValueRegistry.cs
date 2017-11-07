@@ -16,6 +16,7 @@ namespace Taction {
 		internal const int MaxErrorLogSize = 2 * 1024;
 		internal const int ErrorLogTrimLineCount = 500;
 		internal const int KeyUpScanInterval = 500;
+		internal const int UpdateNagWaitTime = 24 * 60 * 60 * 1000;
 
 		#endregion -- Application Settings/Constants --
 

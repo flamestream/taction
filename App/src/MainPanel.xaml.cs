@@ -37,8 +37,6 @@ namespace Taction {
 			App.Instance.InputSimulator.OnDetectedKeyUp += HandleDetectedKeyUp;
 
 			ReloadLayout();
-
-			App.Instance.CheckForUpdates();
 		}
 
 		protected override void OnActivated(EventArgs e) {

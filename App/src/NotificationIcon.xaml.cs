@@ -1,8 +1,14 @@
-﻿using System.Windows;
+﻿using Hardcodet.Wpf.TaskbarNotification;
+using System.Windows;
 
 namespace Taction {
 
-	partial class NotificationIcon {
+	partial class NotificationIcon : TaskbarIcon {
+
+		public NotificationIcon() {
+
+			InitializeComponent();
+		}
 
 		private void ExitMenuItem_Click(object sender, System.Windows.RoutedEventArgs e) {
 
@@ -27,6 +33,11 @@ namespace Taction {
 		private void TaskbarIcon_TrayLeftMouseDown(object sender, RoutedEventArgs e) {
 
 			App.Instance.ToggleEnable();
+		}
+
+		private void CheckUpdateMenuItem_Click(object sender, RoutedEventArgs e) {
+
+			App.Instance.OpenReleasePage();
 		}
 	}
 }

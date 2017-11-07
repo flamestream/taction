@@ -27,9 +27,7 @@ namespace Taction {
 				ReleaseInfo = RequestInfo();
 
 				// Same version check
-				var app = App.Instance;
-				var c = app.GetVersionTagName();
-				if (app.GetVersionTagName() == ReleaseInfo.TagName)
+				if (GetVersionTagName() == ReleaseInfo.TagName)
 					return;
 
 				// Subscriber check
@@ -62,6 +60,12 @@ namespace Taction {
 			}
 
 			return null;
+		}
+
+		public static string GetVersionTagName() {
+
+			var version = App.Instance.GetVersion();
+			return string.Format("v{0}.{1}.{2}", version.Major, version.Minor, version.Revision);
 		}
 
 		public class ReleaseInfoResponse {

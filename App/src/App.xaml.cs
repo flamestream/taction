@@ -4,7 +4,6 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using Taction.UIElement;
@@ -18,15 +17,18 @@ namespace Taction {
 
 		internal Config Config;
 		internal ErrorLogger ErrorLogger;
-		internal MainPanel MainPanel => (MainPanel)MainWindow;
-		internal TaskbarIcon NotificationIcon { get; private set; }
+		internal MainPanel MainPanel => MainWindow as MainPanel;
+		internal NotificationIcon NotificationIcon { get; private set; }
 		internal GlobalMouseHook GlobalMouseHook { get; private set; }
 		internal InputSimulatorHelper InputSimulator { get; private set; }
 		internal UpdateChecker UpdateChecker { get; private set; }
 
-		protected override void OnStartup(StartupEventArgs e) {
+		protected override void OnStartup(StartupEventArgs ev) {
 
-			base.OnStartup(e);
+			base.OnStartup(ev);
+
+			// Only exit application when on explicit endpoint
+			Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
 			// Ensure app data directory
 			Directory.CreateDirectory(AppDataDir);
@@ -38,22 +40,32 @@ namespace Taction {
 			Config = new Config();
 			ErrorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
 			UpdateChecker = new UpdateChecker("https://api.github.com/repos/flamestream/taction/releases/latest");
-
-			// Setup Notification icon
-			{
-				var res = new ResourceDictionary {
-					Source = new Uri(@"pack://application:,,,/src/NotificationIcon.xaml")
-				};
-				NotificationIcon = (TaskbarIcon)res["Definition"];
-			}
+			NotificationIcon = new NotificationIcon();
 
 			// Setup Updater
 			UpdateChecker.OnUpdateAvailable += (o, releaseInfo) => {
 
-				// Skip check
+				// Update notification menu
+				NotificationIcon.CheckUpdateMenuItem.Header = string.Format("New release available ({0})", releaseInfo.TagName);
+				//NotificationIcon.CheckUpdateMenuItem.FontWeight = FontWeights.Bold;
+
+				// Version skip check
 				if (Config.State.SkipReleaseVersion == releaseInfo.TagName)
 					return;
 
+				// Nag limit check
+				var lastCheck = Config.State.LastUpdateNagDate;
+				if (lastCheck != default(DateTime)) {
+
+					var nextCheck = lastCheck.AddMilliseconds(UpdateNagWaitTime);
+					if (nextCheck > DateTime.Now)
+						return;
+				}
+
+				Config.State.LastUpdateNagDate = DateTime.Now;
+				Config.Save();
+
+				// Show update windpw
 				var window = new NewReleaseWindow() {
 					ReleaseVersion = releaseInfo.TagName,
 					HtmlUrl = releaseInfo.HtmlUrl,
@@ -65,6 +77,11 @@ namespace Taction {
 
 			Config.LoadState();
 			LoadSavedLayout(true);
+
+			MainWindow = new MainPanel();
+			MainWindow.Show();
+
+			CheckForUpdates();
 		}
 
 		protected override void OnExit(ExitEventArgs e) {
@@ -77,12 +94,6 @@ namespace Taction {
 		internal Version GetVersion() {
 
 			return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-		}
-
-		internal string GetVersionTagName() {
-
-			var version = GetVersion();
-			return string.Format("v{0}.{1}.{2}", version.Major, version.Minor, version.Revision);
 		}
 
 		public void Enable() {
@@ -290,20 +301,12 @@ namespace Taction {
 
 		public void CheckForUpdates() {
 
-			var lastCheck = Config.State.LastUpdateCheck;
-
-			// Last check date check
-			if (lastCheck != default(DateTime)) {
-
-				var nextCheck = lastCheck.AddDays(1);
-				if (nextCheck > DateTime.Now)
-					return;
-			}
-
-			Config.State.LastUpdateCheck = DateTime.Now;
-			Config.Save();
-
 			UpdateChecker.Run();
+		}
+
+		public void OpenReleasePage() {
+
+			Process.Start("https://github.com/flamestream/taction/releases");
 		}
 	}
 }
