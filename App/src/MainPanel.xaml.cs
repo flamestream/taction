@@ -17,6 +17,7 @@ namespace Taction {
 
 		private Config Config => App.Instance.Config;
 
+		private bool IsCollapsed { get; set; }
 		private bool IsPassthrough { get; set; }
 		private WindowEventNotifier WindowEventMessenger { get; set; }
 
@@ -248,19 +249,25 @@ namespace Taction {
 			}
 		}
 
-		public void ToggleHideAll() {
+		public void ToggleHideAll(System.Windows.UIElement exception) {
 
-			foreach (var c in FindVisualChildren<System.Windows.Controls.ContentControl>(this)) {
+			var root = Container.Children[0] as System.Windows.Controls.StackPanel;
+			if (root == null)
+				return;
 
-				if (c is MoveButton)
-					continue;
+			foreach (var c in root.Children) {
 
 				var element = c as System.Windows.UIElement;
-				if (element.Visibility == Visibility.Collapsed)
-					element.Visibility = Visibility.Visible;
-				else
-					element.Visibility = Visibility.Collapsed;
+				if (element == null)
+					continue;
+
+				element.Visibility = IsCollapsed ?
+					Visibility.Visible :
+					Visibility.Collapsed;
 			}
+
+			exception.Visibility = Visibility.Visible;
+			IsCollapsed = !IsCollapsed;
 		}
 	}
 }

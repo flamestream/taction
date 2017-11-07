@@ -44,7 +44,7 @@ namespace Taction.UIElement {
 			IsPressed = false;
 
 			if (originalPosition == newPosition)
-				App.Instance.MainPanel.ToggleHideAll();
+				App.Instance.MainPanel.ToggleHideAll(this);
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e) {
