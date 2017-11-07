@@ -108,6 +108,7 @@
     <Compile Include="src\UIElement\CustomButton.StyleProperties.cs" />
     <Compile Include="src\UIElement\CustomRadialMenuItem.StyleProperties.Active.cs" />
     <Compile Include="src\UIElement\CustomRadialMenuItem.StyleProperties.cs" />
+    <Compile Include="src\UIElement\RadialMenuButton.StyleProperties.cs" />
     <Compile Include="src\UIElement\ICustomStylizable.cs" />
     <Compile Include="src\UIElement\CustomButton.cs" />
     <Compile Include="src\UIElement\NotificationToast.xaml.cs">

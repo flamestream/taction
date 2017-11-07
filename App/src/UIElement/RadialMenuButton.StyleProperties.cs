@@ -4,14 +4,14 @@ using System.Windows.Media;
 
 namespace Taction.UIElement {
 
-	partial class CustomButton : ICustomStylizable {
+	partial class RadialMenuButton : ICustomStylizable {
 
 		#region CornerRadius
 
 		public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
 			"CornerRadius",
 			typeof(CornerRadius),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
 		public static void SetCornerRadius(CustomButton element, CornerRadius value) {
@@ -35,15 +35,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_BackgroundProperty = DependencyProperty.Register(
 			"Active_Background",
 			typeof(Brush),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_Background(CustomButton element, Brush value) {
+		public static void SetActive_Background(RadialMenuButton element, Brush value) {
 
 			element.SetValue(Active_BackgroundProperty, value);
 		}
 
-		public static Brush GetActive_Background(CustomButton element) {
+		public static Brush GetActive_Background(RadialMenuButton element) {
 			return (Brush)element.GetValue(Active_BackgroundProperty);
 		}
 
@@ -59,15 +59,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_BorderBrushProperty = DependencyProperty.Register(
 			"Active_BorderBrush",
 			typeof(Brush),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_BorderBrush(CustomButton element, Brush value) {
+		public static void SetActive_BorderBrush(RadialMenuButton element, Brush value) {
 
 			element.SetValue(Active_BorderBrushProperty, value);
 		}
 
-		public static Brush GetActive_BorderBrush(CustomButton element) {
+		public static Brush GetActive_BorderBrush(RadialMenuButton element) {
 			return (Brush)element.GetValue(Active_BorderBrushProperty);
 		}
 
@@ -83,15 +83,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_BorderThicknessProperty = DependencyProperty.Register(
 			"Active_BorderThickness",
 			typeof(Thickness),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_BorderThickness(CustomButton element, Thickness value) {
+		public static void SetActive_BorderThickness(RadialMenuButton element, Thickness value) {
 
 			element.SetValue(Active_BorderThicknessProperty, value);
 		}
 
-		public static Thickness GetActive_BorderThickness(CustomButton element) {
+		public static Thickness GetActive_BorderThickness(RadialMenuButton element) {
 			return (Thickness)element.GetValue(Active_BorderThicknessProperty);
 		}
 
@@ -107,15 +107,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_ContentProperty = DependencyProperty.Register(
 			"Active_Content",
 			typeof(Object),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_Content(CustomButton element, Object value) {
+		public static void SetActive_Content(RadialMenuButton element, Object value) {
 
 			element.SetValue(Active_ContentProperty, value);
 		}
 
-		public static Object GetActive_Content(CustomButton element) {
+		public static Object GetActive_Content(RadialMenuButton element) {
 			return (Object)element.GetValue(Active_ContentProperty);
 		}
 
@@ -131,7 +131,7 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_CornerRadiusProperty = DependencyProperty.Register(
 			"Active_CornerRadius",
 			typeof(CornerRadius),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
 		public static void SetActive_CornerRadius(CustomButton element, CornerRadius value) {
@@ -155,15 +155,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_FontFamilyProperty = DependencyProperty.Register(
 			"Active_FontFamily",
 			typeof(FontFamily),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_FontFamily(CustomButton element, FontFamily value) {
+		public static void SetActive_FontFamily(RadialMenuButton element, FontFamily value) {
 
 			element.SetValue(Active_FontFamilyProperty, value);
 		}
 
-		public static FontFamily GetActive_FontFamily(CustomButton element) {
+		public static FontFamily GetActive_FontFamily(RadialMenuButton element) {
 			return (FontFamily)element.GetValue(Active_FontFamilyProperty);
 		}
 
@@ -179,15 +179,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_FontSizeProperty = DependencyProperty.Register(
 			"Active_FontSize",
 			typeof(double),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_FontSize(CustomButton element, double value) {
+		public static void SetActive_FontSize(RadialMenuButton element, double value) {
 
 			element.SetValue(Active_FontSizeProperty, value);
 		}
 
-		public static double GetActive_FontSize(CustomButton element) {
+		public static double GetActive_FontSize(RadialMenuButton element) {
 			return (double)element.GetValue(Active_FontSizeProperty);
 		}
 
@@ -203,15 +203,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_FontWeightProperty = DependencyProperty.Register(
 			"Active_FontWeight",
 			typeof(FontWeight),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_FontWeight(CustomButton element, FontWeight value) {
+		public static void SetActive_FontWeight(RadialMenuButton element, FontWeight value) {
 
 			element.SetValue(Active_FontWeightProperty, value);
 		}
 
-		public static FontWeight GetActive_FontWeight(CustomButton element) {
+		public static FontWeight GetActive_FontWeight(RadialMenuButton element) {
 			return (FontWeight)element.GetValue(Active_FontWeightProperty);
 		}
 
@@ -227,15 +227,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_ForegroundProperty = DependencyProperty.Register(
 			"Active_Foreground",
 			typeof(Brush),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_Foreground(CustomButton element, Brush value) {
+		public static void SetActive_Foreground(RadialMenuButton element, Brush value) {
 
 			element.SetValue(Active_ForegroundProperty, value);
 		}
 
-		public static Brush GetActive_Foreground(CustomButton element) {
+		public static Brush GetActive_Foreground(RadialMenuButton element) {
 			return (Brush)element.GetValue(Active_ForegroundProperty);
 		}
 
@@ -251,15 +251,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_SizeProperty = DependencyProperty.Register(
 			"Active_Size",
 			typeof(double),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_Size(CustomButton element, Brush value) {
+		public static void SetActive_Size(RadialMenuButton element, Brush value) {
 
 			element.SetValue(Active_SizeProperty, value);
 		}
 
-		public static double GetActive_Size(CustomButton element) {
+		public static double GetActive_Size(RadialMenuButton element) {
 			return (double)element.GetValue(Active_SizeProperty);
 		}
 
@@ -275,15 +275,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_MarginProperty = DependencyProperty.Register(
 			"Active_Margin",
 			typeof(Thickness),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_Margin(CustomButton element, Brush value) {
+		public static void SetActive_Margin(RadialMenuButton element, Brush value) {
 
 			element.SetValue(Active_MarginProperty, value);
 		}
 
-		public static Thickness GetActive_Margin(CustomButton element) {
+		public static Thickness GetActive_Margin(RadialMenuButton element) {
 			return (Thickness)element.GetValue(Active_MarginProperty);
 		}
 
@@ -299,15 +299,15 @@ namespace Taction.UIElement {
 		public static readonly DependencyProperty Active_PaddingProperty = DependencyProperty.Register(
 			"Active_Padding",
 			typeof(Thickness),
-			typeof(CustomButton)
+			typeof(RadialMenuButton)
 		);
 
-		public static void SetActive_Padding(CustomButton element, Brush value) {
+		public static void SetActive_Padding(RadialMenuButton element, Brush value) {
 
 			element.SetValue(Active_PaddingProperty, value);
 		}
 
-		public static Thickness GetActive_Padding(CustomButton element) {
+		public static Thickness GetActive_Padding(RadialMenuButton element) {
 			return (Thickness)element.GetValue(Active_PaddingProperty);
 		}
 
@@ -317,8 +317,8 @@ namespace Taction.UIElement {
 		}
 
 		public Thickness Active_Padding {
-			get { return (Thickness)GetValue(Active_PaddingProperty); }
-			set { SetValue(Active_PaddingProperty, value); }
+			get { return (Thickness)GetValue(Active_MarginProperty); }
+			set { SetValue(Active_MarginProperty, value); }
 		}
 
 		#endregion Active_Padding

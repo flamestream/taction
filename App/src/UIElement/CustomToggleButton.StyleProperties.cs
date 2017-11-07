@@ -6,6 +6,30 @@ namespace Taction.UIElement {
 
 	partial class CustomToggleButton : ICustomStylizable {
 
+		#region CornerRadius
+
+		public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
+			"CornerRadius",
+			typeof(CornerRadius),
+			typeof(CustomToggleButton)
+		);
+
+		public static void SetCornerRadius(CustomButton element, CornerRadius value) {
+
+			element.SetValue(CornerRadiusProperty, value);
+		}
+
+		public static CornerRadius GetCornerRadius(CustomButton element) {
+			return (CornerRadius)element.GetValue(CornerRadiusProperty);
+		}
+
+		public CornerRadius CornerRadius {
+			get { return (CornerRadius)GetValue(CornerRadiusProperty); }
+			set { SetValue(CornerRadiusProperty, value); }
+		}
+
+		#endregion CornerRadius
+
 		#region Active_Background
 
 		public static readonly DependencyProperty Active_BackgroundProperty = DependencyProperty.Register(
@@ -101,6 +125,30 @@ namespace Taction.UIElement {
 		}
 
 		#endregion Active_Content
+
+		#region Active_CornerRadius
+
+		public static readonly DependencyProperty Active_CornerRadiusProperty = DependencyProperty.Register(
+			"Active_CornerRadius",
+			typeof(CornerRadius),
+			typeof(CustomToggleButton)
+		);
+
+		public static void SetActive_CornerRadius(CustomButton element, CornerRadius value) {
+
+			element.SetValue(Active_CornerRadiusProperty, value);
+		}
+
+		public static CornerRadius GetActive_CornerRadius(CustomButton element) {
+			return (CornerRadius)element.GetValue(Active_CornerRadiusProperty);
+		}
+
+		public CornerRadius Active_CornerRadius {
+			get { return (CornerRadius)GetValue(Active_CornerRadiusProperty); }
+			set { SetValue(Active_CornerRadiusProperty, value); }
+		}
+
+		#endregion Active_CornerRadius
 
 		#region Active_FontFamily
 
