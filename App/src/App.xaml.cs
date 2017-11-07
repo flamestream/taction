@@ -40,8 +40,7 @@ namespace Taction {
 			Config.LoadState();
 			LoadSavedLayout(true);
 
-			var panel = new MainPanel();
-			MainWindow = panel;
+			MainWindow = new MainPanel();
 			MainWindow.Show();
 
 			CheckForUpdates();

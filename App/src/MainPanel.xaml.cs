@@ -33,8 +33,8 @@ namespace Taction {
 			// Add event handlers
 			SizeChanged += HandleSizeChanged;
 			App.Instance.GlobalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
-			WindowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
 			App.Instance.InputSimulator.OnDetectedKeyUp += HandleDetectedKeyUp;
+			WindowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
 
 			ReloadLayout();
 		}

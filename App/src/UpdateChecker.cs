@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -8,6 +9,8 @@ namespace Taction {
 
 	internal class UpdateChecker {
 
+		public bool IsRunning { get; private set; }
+		public CancellationTokenSource CancelToken { get; private set; }
 		public Uri Uri { get; private set; }
 		public ReleaseInfoResponse ReleaseInfo { get; private set; }
 
@@ -20,25 +23,50 @@ namespace Taction {
 			Uri = new Uri(apiUri);
 		}
 
-		public async void Run() {
+		private async void Run(int interval, CancellationToken token) {
 
-			await Task.Run(() => {
+			while (true) {
 
-				ReleaseInfo = RequestInfo();
+				await Task.Run(() => {
 
-				// Same version check
-				if (GetVersionTagName() == ReleaseInfo.TagName)
-					return;
+					ReleaseInfo = RequestInfo();
 
-				// Subscriber check
-				if (OnUpdateAvailable == null)
-					return;
+					// Same version check
+					if (GetVersionTagName() == ReleaseInfo.TagName)
+						return;
 
-				// Trigger event on main thread
-				Application.Current.Dispatcher.Invoke(() => {
-					OnUpdateAvailable.Invoke(this, ReleaseInfo);
+					// Subscriber check
+					if (OnUpdateAvailable == null)
+						return;
+
+					// Trigger event on main thread
+					Application.Current.Dispatcher.Invoke(() => {
+						OnUpdateAvailable.Invoke(this, ReleaseInfo);
+					});
 				});
-			});
+
+				await Task.Delay(interval, token);
+
+				if (token.IsCancellationRequested)
+					return;
+			}
+		}
+
+		public void Start(int? interval = null) {
+
+			Stop();
+
+			if (interval == null)
+				interval = App.UpdateCheckInterval;
+
+			CancelToken = new CancellationTokenSource();
+			Run(interval.Value, CancelToken.Token);
+		}
+
+		public void Stop() {
+
+			if (CancelToken != null)
+				CancelToken.Cancel();
 		}
 
 		public ReleaseInfoResponse RequestInfo() {
@@ -48,7 +76,7 @@ namespace Taction {
 				using (var client = new WebClient()) {
 
 					// Github API needs this
-					client.Headers["User-Agent"] = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2;)";
+					client.Headers["User-Agent"] = App.UpdateCheckerUserAgent;
 
 					var json = client.DownloadString(Uri);
 					return JsonConvert.DeserializeObject<ReleaseInfoResponse>(json);

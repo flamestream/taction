@@ -221,7 +221,7 @@ namespace Taction {
 
 		public void CheckForUpdates() {
 
-			UpdateChecker.Run();
+			UpdateChecker.Start();
 		}
 
 		public void OpenReleasePage() {
