@@ -8,7 +8,7 @@
 		WindowStartupLocation="CenterScreen"
 		ResizeMode="NoResize"
 		SizeToContent="Height"
-		Title="New Version Available" MinHeight="150" Width="300">
+		Title="New Version Available" MinHeight="150" Width="330">
 	<DockPanel Margin="10" LastChildFill="False">
 		<TextBlock DockPanel.Dock="Top" Margin="0 0 0 20" TextWrapping="Wrap" Text="{Binding BodyText, FallbackValue=A new version has been released. Would you like to review its content?}" />
 		<Button Name="YesButton" DockPanel.Dock="Right" Content="_Yes" Margin="7 0 0 0" Padding="21 2" VerticalAlignment="Bottom" Click="YesButton_Click" IsDefault="True" />

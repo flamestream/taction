@@ -22,6 +22,7 @@ namespace Taction {
 		internal TaskbarIcon NotificationIcon { get; private set; }
 		internal GlobalMouseHook GlobalMouseHook { get; private set; }
 		internal InputSimulatorHelper InputSimulator { get; private set; }
+		internal UpdateChecker UpdateChecker { get; private set; }
 
 		protected override void OnStartup(StartupEventArgs e) {
 
@@ -36,6 +37,7 @@ namespace Taction {
 			InputSimulator = new InputSimulatorHelper();
 			Config = new Config();
 			ErrorLogger = new ErrorLogger(ErrorFilePath, MaxErrorLogSize, ErrorLogTrimLineCount);
+			UpdateChecker = new UpdateChecker("https://api.github.com/repos/flamestream/taction/releases/latest");
 
 			// Setup Notification icon
 			{
@@ -44,6 +46,22 @@ namespace Taction {
 				};
 				NotificationIcon = (TaskbarIcon)res["Definition"];
 			}
+
+			// Setup Updater
+			UpdateChecker.OnUpdateAvailable += (o, releaseInfo) => {
+
+				// Skip check
+				if (Config.State.SkipReleaseVersion == releaseInfo.TagName)
+					return;
+
+				var window = new NewReleaseWindow() {
+					ReleaseVersion = releaseInfo.TagName,
+					HtmlUrl = releaseInfo.HtmlUrl,
+				};
+
+				window.Owner = MainWindow;
+				window.ShowDialog();
+			};
 
 			Config.LoadState();
 			LoadSavedLayout(true);
@@ -268,6 +286,24 @@ namespace Taction {
 
 			NotificationIcon.ToolTipText = string.Format("{0} - {1}", Taction.Properties.Resources.AppName, Config.Layout.Name);
 			return true;
+		}
+
+		public void CheckForUpdates() {
+
+			var lastCheck = Config.State.LastUpdateCheck;
+
+			// Last check date check
+			if (lastCheck != default(DateTime)) {
+
+				var nextCheck = lastCheck.AddDays(1);
+				if (nextCheck > DateTime.Now)
+					return;
+			}
+
+			Config.State.LastUpdateCheck = DateTime.Now;
+			Config.Save();
+
+			UpdateChecker.Run();
 		}
 	}
 }

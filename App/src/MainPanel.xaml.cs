@@ -38,7 +38,7 @@ namespace Taction {
 
 			ReloadLayout();
 
-			Updater.Check();
+			App.Instance.CheckForUpdates();
 		}
 
 		protected override void OnActivated(EventArgs e) {
