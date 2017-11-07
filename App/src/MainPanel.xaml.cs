@@ -17,8 +17,11 @@ namespace Taction {
 
 		private Config Config => App.Instance.Config;
 
-		private bool IsCollapsed { get; set; }
-		private bool IsPassthrough { get; set; }
+		public DateTime LastMoved { get; private set; }
+		public Point LastPosition { get; private set; }
+		public bool IsCollapsed { get; private set; }
+		public bool IsPassthrough { get; private set; }
+
 		private WindowEventNotifier WindowEventMessenger { get; set; }
 
 		public MainPanel() {
@@ -56,6 +59,9 @@ namespace Taction {
 			ClearLayout();
 			Designer.GenerateLayout(this);
 			WindowManipulator.FitToNearestDesktop(this);
+
+			LastMoved = DateTime.Now;
+			LastPosition = new Point(Top, Left);
 		}
 
 		private void ClearLayout() {
@@ -156,7 +162,10 @@ namespace Taction {
 			Config.State.X = Left;
 			Config.State.Y = Top;
 			Config.Save();
-			Debug.WriteLine(string.Format("{0}, {1}", Left, Top));
+
+			var newPosition = new Point(Top, Left);
+			if (newPosition != LastPosition)
+				LastMoved = DateTime.Now;
 		}
 
 		private void HandleSizeChanged(object sender, SizeChangedEventArgs e) {
@@ -249,7 +258,7 @@ namespace Taction {
 			}
 		}
 
-		public void ToggleHideAll(System.Windows.UIElement exception) {
+		public void ToggleCollapse(System.Windows.UIElement exception) {
 
 			var root = Container.Children[0] as System.Windows.Controls.StackPanel;
 			if (root == null)

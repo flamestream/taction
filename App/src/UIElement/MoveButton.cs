@@ -35,16 +35,16 @@ namespace Taction.UIElement {
 
 			e.Handled = true;
 
-			var window = Window.GetWindow(this);
-			var originalPosition = new Point(window.Top, window.Left);
+			var window = Window.GetWindow(this) as MainPanel;
+			var lastMoved = window.LastMoved;
 			window.DragMove();
-			var newPosition = new Point(window.Top, window.Left);
 
 			// DragMove is blocking, so this works
 			IsPressed = false;
 
-			if (originalPosition == newPosition)
-				App.Instance.MainPanel.ToggleHideAll(this);
+			// Collapse if not moved
+			if (lastMoved == window.LastMoved)
+				App.Instance.MainPanel.ToggleCollapse(this);
 		}
 
 		protected override void OnMouseMove(MouseEventArgs e) {
