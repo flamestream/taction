@@ -9,8 +9,8 @@ namespace Taction.UIElement {
 
 		public RadialMenuButton(RadialMenuButtonSpecs specs) : base(specs.Style) {
 
-			var s = (RadialMenuButtonSpecs)specs;
-			RadialMenuWindow = new RadialMenuWindow(s.RadialMenuSpecs);
+			// Set up radial menu window
+			RadialMenuWindow = new RadialMenuWindow(specs.RadialMenuSpecs);
 			RadialMenuWindow.IsVisibleChanged += RadialMenuWindow_IsVisibleChanged;
 
 			// Event binding

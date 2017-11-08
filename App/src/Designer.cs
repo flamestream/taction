@@ -67,7 +67,7 @@ namespace Taction {
 				var itemType = attr.Value;
 
 				FrameworkElement item;
-				if (itemType == typeof(HoldButton) || itemType == typeof(RadialMenuButton)) {
+				if (itemType == typeof(HoldButton) || itemType == typeof(RadialMenuButton) || itemType == typeof(MoveButton)) {
 
 					// Compute specs
 					var computedSpecs = specs as IButtonSpecs;

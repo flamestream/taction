@@ -3,24 +3,28 @@ using System.Windows.Input;
 
 namespace Taction.UIElement {
 
-	internal class MoveButton : CustomButton {
+	internal class MoveButton : StyleButton {
 
-		public MoveButton(IPanelItemSpecs specs) {
+		public MoveButton(MoveButtonSpecs specs) : base(specs.Style) {
+
+			SetResourceReference(StyleProperty, typeof(StyleButton));
 
 			// Special default text
-			if (Content == null)
-				Content = "☰☰";
+			specs.Style.Base.Content = specs.Style.Base.Content ?? "☰☰";
+			specs.Style.Active.Content = specs.Style.Active.Content ?? specs.Style.Base.Content;
 
-			// Add move cursor
-			var setter = new Setter {
-				Property = CursorProperty,
-				Value = Cursors.SizeAll
-			};
+			// Force move cursor
+			{
+				var setter = new Setter {
+					Property = CursorProperty,
+					Value = Cursors.SizeAll
+				};
 
-			// Style is locked, so copy to modify
-			var s = new Style(GetType(), Style);
-			s.Setters.Add(setter);
-			Style = s;
+				// Style is locked, so copy to modify
+				var s = new Style(GetType(), Style);
+				s.Setters.Add(setter);
+				Style = s;
+			}
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e) {
