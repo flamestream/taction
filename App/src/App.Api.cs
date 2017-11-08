@@ -97,6 +97,7 @@ namespace Taction {
 				MainPanel.ReloadLayout();
 
 			// Persist for later
+			File.Delete(FileBundlePath);
 			File.WriteAllText(FileLayoutPath, text, encoding);
 
 			ShowToast(string.Format("{0} has been succesfully applied.", Config.Layout.Name), "Layout Loaded");
