@@ -8,6 +8,8 @@ A touch panel intended for artists working on Windows Tablet PCs.
   * The panel only responds to touch input. On mouse or pen detection, it automatically hides itself and lets you click on anything under it. As touch-designed buttons tend to be big, this actually doesn't remove any precious screen space.
 * Simultaneous Touch+Pen Handling
   * Inferred from the above point. The panel lets you use touch and pen input while working. A typical usage is an eyedropper button; Holding down that button would enable the eyedropper tool and let you pick colour at the same time with the pen until you let go of the button.
+* Radial Menu Support
+  * For those that fancy an invocable overlay tool selector
 * Fairly customizable with little requirement
   * A full layout can be made with a single JSON file. If images or custom font is wanted, they can be grouped into a bundle file for simple distribution.
 
