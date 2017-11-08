@@ -35,19 +35,19 @@
 		<local:AnyDataConverter x:Key="AnyDataConverter" />
 
 		<Style TargetType="UIElement:CustomRadialMenuItem">
-			<Setter Property="InnerRadius" Value="{Binding Base_InnerRadius}" />
-			<Setter Property="OuterRadius" Value="{Binding Base_OuterRadius}" />
-			<Setter Property="Background" Value="{Binding Base_Background}" />
-			<Setter Property="Padding" Value="{Binding Base_Padding}" />
-			<Setter Property="BorderThickness" Value="{Binding Base_BorderThickness}" />
-			<Setter Property="BorderBrush" Value="{Binding Base_BorderBrush}" />
+			<Setter Property="InnerRadius" Value="{Binding ComputedBaseInnerRadius}" />
+			<Setter Property="OuterRadius" Value="{Binding ComputedBaseOuterRadius}" />
+			<Setter Property="Background" Value="{Binding StyleSetSpecs.Base.InnerEdgeSpecs.Color}" />
+			<Setter Property="BorderThickness" Value="{Binding ComputedBaseBorderThickness}" />
+			<Setter Property="BorderBrush" Value="{Binding StyleSetSpecs.Base.InnerEdgeSpecs.Border.Color}" />
+			<!--<Setter Property="Padding" Value="{Binding Base_Padding}" />-->
 
-			<Setter Property="EdgeInnerRadius" Value="{Binding Base_EdgeInnerRadius}" />
-			<Setter Property="EdgeOuterRadius" Value="{Binding Base_EdgeOuterRadius}" />
-			<Setter Property="EdgeBackground" Value="{Binding Base_EdgeBackground}" />
-			<Setter Property="EdgeBorderBrush" Value="{Binding Base_EdgeBorderBrush}" />
-			<Setter Property="EdgeBorderThickness" Value="{Binding Base_EdgeBorderThickness}" />
-			<Setter Property="EdgePadding" Value="{Binding Base_EdgePadding}" />
+			<Setter Property="EdgeInnerRadius" Value="{Binding ComputedBaseEdgeInnerRadius}" />
+			<Setter Property="EdgeOuterRadius" Value="{Binding ComputedBaseEdgeOuterRadius}" />
+			<Setter Property="EdgeBackground" Value="{Binding StyleSetSpecs.Base.OuterEdgeSpecs.Color}" />
+			<Setter Property="EdgeBorderBrush" Value="{Binding StyleSetSpecs.Base.OuterEdgeSpecs.Border.Color}" />
+			<Setter Property="EdgeBorderThickness" Value="{Binding ComputedBaseEdgeBorderThickness}" />
+			<!--<Setter Property="EdgePadding" Value="{Binding Base_EdgePadding}" />-->
 
 			<Setter Property="ArrowBackground" Value="#0000" />
 			<Setter Property="ArrowBorderBrush" Value="#0000" />
@@ -56,50 +56,50 @@
 			<Setter Property="ArrowRadius" Value="200" />
 			<Setter Property="ArrowWidth" Value="10" />
 
-			<Setter Property="ContentRadius" Value="{Binding Base_ContentRadius}" />
+			<Setter Property="ContentRadius" Value="{Binding StyleSetSpecs.Base.LabelSpecs.StartDistance}" />
 
 			<Style.Resources>
 				<Style TargetType="Grid">
-					<Setter Property="Width" Value="{Binding Base_LabelWidth}" />
-					<Setter Property="Height" Value="{Binding Base_LabelHeight}" />
+					<Setter Property="Width" Value="{Binding ComputedLabelBaseSize}" />
+					<Setter Property="Height" Value="{Binding ComputedLabelBaseSize}" />
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
-							<Setter Property="Width" Value="{Binding Active_LabelWidth}" />
-							<Setter Property="Height" Value="{Binding Active_LabelHeight}" />
+							<Setter Property="Width" Value="{Binding ComputedLabelActiveSize}" />
+							<Setter Property="Height" Value="{Binding ComputedLabelActiveSize}" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
 				<Style TargetType="Border">
-					<Setter Property="Background" Value="{Binding Base_LabelBackground}" />
-					<Setter Property="BorderBrush" Value="{Binding Base_LabelBorderBrush}" />
-					<Setter Property="BorderThickness" Value="{Binding Base_LabelBorderThickness}" />
-					<Setter Property="CornerRadius" Value="{Binding Base_LabelCornerRadius}" />
-					<Setter Property="Margin" Value="{Binding Base_LabelMargin}" />
-					<Setter Property="Padding" Value="{Binding Base_LabelPadding}" />
-					<Setter Property="TextBlock.FontFamily" Value="{Binding Base_LabelFontFamily}" />
-					<Setter Property="TextBlock.FontSize" Value="{Binding Base_LabelFontSize}" />
-					<Setter Property="TextBlock.FontWeight" Value="{Binding Base_LabelFontWeight}" />
-					<Setter Property="TextBlock.Foreground" Value="{Binding Base_LabelForeground}" />
+					<Setter Property="Background" Value="{Binding StyleSetSpecs.Base.LabelSpecs.Color}" />
+					<Setter Property="BorderBrush" Value="{Binding StyleSetSpecs.Base.LabelSpecs.Border.Color}" />
+					<Setter Property="BorderThickness" Value="{Binding StyleSetSpecs.Base.LabelSpecs.Border.Thickness}" />
+					<Setter Property="CornerRadius" Value="{Binding StyleSetSpecs.Base.LabelSpecs.Border.Radius}" />
+					<Setter Property="Margin" Value="{Binding StyleSetSpecs.Base.LabelSpecs.Margin}" />
+					<Setter Property="Padding" Value="{Binding StyleSetSpecs.Base.LabelSpecs.Padding}" />
+					<Setter Property="TextBlock.FontFamily" Value="{Binding StyleSetSpecs.Base.LabelSpecs.TextStyle.FontFamily}" />
+					<Setter Property="TextBlock.FontSize" Value="{Binding StyleSetSpecs.Base.LabelSpecs.TextStyle.FontSize}" />
+					<Setter Property="TextBlock.FontWeight" Value="{Binding StyleSetSpecs.Base.LabelSpecs.TextStyle.FontWeight}" />
+					<Setter Property="TextBlock.Foreground" Value="{Binding StyleSetSpecs.Base.LabelSpecs.TextStyle.Color}" />
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
-							<Setter Property="Background" Value="{Binding Active_LabelBackground}" />
-							<Setter Property="BorderBrush" Value="{Binding Active_LabelBorderBrush}" />
-							<Setter Property="BorderThickness" Value="{Binding Active_LabelBorderThickness}" />
-							<Setter Property="CornerRadius" Value="{Binding Active_LabelCornerRadius}" />
-							<Setter Property="Margin" Value="{Binding Active_LabelMargin}" />
-							<Setter Property="Padding" Value="{Binding Active_LabelPadding}" />
-							<Setter Property="TextBlock.FontFamily" Value="{Binding Active_LabelFontFamily}" />
-							<Setter Property="TextBlock.FontSize" Value="{Binding Active_LabelFontSize}" />
-							<Setter Property="TextBlock.FontWeight" Value="{Binding Active_LabelFontWeight}" />
-							<Setter Property="TextBlock.Foreground" Value="{Binding Active_LabelForeground}" />
+							<Setter Property="Background" Value="{Binding StyleSetSpecs.Active.LabelSpecs.Color}" />
+							<Setter Property="BorderBrush" Value="{Binding StyleSetSpecs.Active.LabelSpecs.Border.Color}" />
+							<Setter Property="BorderThickness" Value="{Binding StyleSetSpecs.Active.LabelSpecs.Border.Thickness}" />
+							<Setter Property="CornerRadius" Value="{Binding StyleSetSpecs.Active.LabelSpecs.Border.Radius}" />
+							<Setter Property="Margin" Value="{Binding StyleSetSpecs.Active.LabelSpecs.Margin}" />
+							<Setter Property="Padding" Value="{Binding StyleSetSpecs.Active.LabelSpecs.Padding}" />
+							<Setter Property="TextBlock.FontFamily" Value="{Binding StyleSetSpecs.Active.LabelSpecs.TextStyle.FontFamily}" />
+							<Setter Property="TextBlock.FontSize" Value="{Binding StyleSetSpecs.Active.LabelSpecs.TextStyle.FontSize}" />
+							<Setter Property="TextBlock.FontWeight" Value="{Binding StyleSetSpecs.Active.LabelSpecs.TextStyle.FontWeight}" />
+							<Setter Property="TextBlock.Foreground" Value="{Binding StyleSetSpecs.Active.LabelSpecs.TextStyle.Color}" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
 				<Style TargetType="ContentPresenter">
-					<Setter Property="Content" Value="{Binding Base_LabelContent}" />
+					<Setter Property="Content" Value="{Binding StyleSetSpecs.Base.LabelSpecs.Content}" />
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
-							<Setter Property="Content" Value="{Binding Active_LabelContent}" />
+							<Setter Property="Content" Value="{Binding StyleSetSpecs.Active.LabelSpecs.Content}" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
@@ -114,27 +114,28 @@
 						</MultiBinding>
 					</DataTrigger.Binding>
 					<DataTrigger.Setters>
-						<Setter Property="InnerRadius" Value="{Binding Active_InnerRadius}" />
-						<Setter Property="Background" Value="{Binding Active_Background}" />
-						<Setter Property="Padding" Value="{Binding Active_Padding}" />
-						<Setter Property="BorderThickness" Value="{Binding Active_BorderThickness}" />
-						<Setter Property="BorderBrush" Value="{Binding Active_BorderBrush}" />
 
-						<Setter Property="OuterRadius" Value="{Binding Active_OuterRadius}" />
-						<Setter Property="EdgeBackground" Value="{Binding Active_EdgeBackground}" />
-						<Setter Property="EdgeBorderBrush" Value="{Binding Active_EdgeBorderBrush}" />
-						<Setter Property="EdgeBorderThickness" Value="{Binding Active_EdgeBorderThickness}" />
-						<Setter Property="EdgeInnerRadius" Value="{Binding Active_EdgeInnerRadius}" />
-						<Setter Property="EdgeOuterRadius" Value="{Binding Active_EdgeOuterRadius}" />
-						<Setter Property="EdgePadding" Value="{Binding Active_EdgePadding}" />
+						<Setter Property="InnerRadius" Value="{Binding ComputedActiveInnerRadius}" />
+						<Setter Property="OuterRadius" Value="{Binding ComputedActiveOuterRadius}" />
+						<Setter Property="Background" Value="{Binding StyleSetSpecs.Active.InnerEdgeSpecs.Color}" />
+						<Setter Property="BorderThickness" Value="{Binding ComputedActiveBorderThickness}" />
+						<Setter Property="BorderBrush" Value="{Binding StyleSetSpecs.Active.InnerEdgeSpecs.Border.Color}" />
+						<!--<Setter Property="Padding" Value="{Binding Active_Padding}" />-->
 
-						<Setter Property="ContentRadius" Value="{Binding Active_ContentRadius}" />
+						<Setter Property="EdgeInnerRadius" Value="{Binding ComputedActiveEdgeInnerRadius}" />
+						<Setter Property="EdgeOuterRadius" Value="{Binding ComputedActiveEdgeOuterRadius}" />
+						<Setter Property="EdgeBackground" Value="{Binding StyleSetSpecs.Active.OuterEdgeSpecs.Color}" />
+						<Setter Property="EdgeBorderBrush" Value="{Binding StyleSetSpecs.Active.OuterEdgeSpecs.Border.Color}" />
+						<Setter Property="EdgeBorderThickness" Value="{Binding ComputedActiveEdgeBorderThickness}" />
+						<!--<Setter Property="EdgePadding" Value="{Binding Active_EdgePadding}" />-->
+
+						<Setter Property="ContentRadius" Value="{Binding StyleSetSpecs.Active.LabelSpecs.StartDistance}" />
 					</DataTrigger.Setters>
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
 	</RadialMenu:RadialMenuItem.Resources>
-	<Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+	<Grid Name="Container" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 		<Border x:Name="Label" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 			<ContentPresenter x:Name="LabelContent" HorizontalAlignment="Center" VerticalAlignment="Center" />
 		</Border>

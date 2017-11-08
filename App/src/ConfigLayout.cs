@@ -276,10 +276,16 @@ namespace Taction {
 		[JsonProperty("items")]
 		public List<RadialMenuItemSpecs> Items { get; set; }
 
+		public RadialMenuSpecs() {
+
+			DefaultItemStyle = new RadialMenuItemStyleSetSpecs();
+			CentralItemSpecs = new RadialMenuCentralItemStyleSetSpecs();
+		}
+
 		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
-	public class RadialMenuItemSpecs {
+	public class RadialMenuItemSpecs : INotifyPropertyChanged {
 
 		[JsonProperty("command")]
 		[JsonConverter(typeof(KeyCommandListJsonConverter))]
@@ -287,6 +293,13 @@ namespace Taction {
 
 		[JsonProperty("style")]
 		public RadialMenuItemStyleSetSpecs Style { get; set; }
+
+		public RadialMenuItemSpecs() {
+
+			Style = new RadialMenuItemStyleSetSpecs();
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
 	public class RadialMenuItemStyleSetSpecs {
@@ -296,6 +309,12 @@ namespace Taction {
 
 		[JsonProperty("active")]
 		public RadialMenuItemStyleSpecs Active { get; set; }
+
+		public RadialMenuItemStyleSetSpecs() {
+
+			Base = new RadialMenuItemStyleSpecs();
+			Active = new RadialMenuItemStyleSpecs();
+		}
 	}
 
 	public class RadialMenuItemStyleSpecs {
@@ -308,6 +327,13 @@ namespace Taction {
 
 		[JsonProperty("outer-edge")]
 		public RadialMenuItemEdgeSpecs OuterEdgeSpecs { get; set; }
+
+		public RadialMenuItemStyleSpecs() {
+
+			LabelSpecs = new RadialMenuItemLabelSpecs();
+			InnerEdgeSpecs = new RadialMenuItemEdgeSpecs();
+			OuterEdgeSpecs = new RadialMenuItemEdgeSpecs();
+		}
 	}
 
 	public class RadialMenuItemLabelSpecs : ButtonStyleSpecs {
@@ -319,7 +345,7 @@ namespace Taction {
 		public double? StartDistance { get; set; }
 	}
 
-	public class RadialMenuItemEdgeSpecs {
+	public class RadialMenuItemEdgeSpecs : INotifyPropertyChanged {
 
 		[JsonProperty("size")]
 		public double? Size { get; set; }
@@ -333,6 +359,13 @@ namespace Taction {
 
 		[JsonProperty("border")]
 		public BorderSpecs Border { get; set; }
+
+		public RadialMenuItemEdgeSpecs() {
+
+			Border = new BorderSpecs();
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
 	public class RadialMenuCentralItemStyleSetSpecs {
@@ -342,9 +375,15 @@ namespace Taction {
 
 		[JsonProperty("active")]
 		public RadialMenuCentralItemStyleSpecs Active { get; set; }
+
+		public RadialMenuCentralItemStyleSetSpecs() {
+
+			Base = new RadialMenuCentralItemStyleSpecs();
+			Active = new RadialMenuCentralItemStyleSpecs();
+		}
 	}
 
-	public class RadialMenuCentralItemStyleSpecs {
+	public class RadialMenuCentralItemStyleSpecs : INotifyPropertyChanged {
 
 		[JsonProperty("size")]
 		public double? Size { get; set; }
@@ -366,5 +405,13 @@ namespace Taction {
 		[JsonProperty("padding")]
 		[JsonConverter(typeof(ThicknessJsonConverter))]
 		public Thickness? Padding { get; set; }
+
+		public RadialMenuCentralItemStyleSpecs() {
+
+			TextStyle = new TextStyleSpecs();
+			Border = new BorderSpecs();
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 }
