@@ -49,7 +49,7 @@ namespace Taction.UIElement {
 			if (RadialMenuWindow.Visibility != Visibility.Visible)
 				return;
 
-			RadialMenuWindow.SetVisibility(false, false);
+			RadialMenuWindow.SetVisibility(false);
 		}
 	}
 }

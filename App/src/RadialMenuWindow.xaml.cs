@@ -17,7 +17,7 @@ namespace Taction {
 			DataContext = this;
 
 			// Sync window visibility with radial menu's
-			RadialMenu.IsVisibleChanged += (s, e) => SetVisibility((bool)e.NewValue);
+			RadialMenu.IsVisibleChanged += (s, e) => SetVisibility((bool)e.NewValue, true);
 
 			// Style center
 			ApplyDefaultStyle();
@@ -91,7 +91,7 @@ namespace Taction {
 			base.OnPreviewMouseDown(e);
 			if (e.RightButton == MouseButtonState.Pressed || e.MiddleButton == MouseButtonState.Pressed) {
 
-				SetVisibility(false, false);
+				SetVisibility(false);
 				e.Handled = true;
 			}
 		}
@@ -106,7 +106,7 @@ namespace Taction {
 
 			if (e.LeftButton == MouseButtonState.Pressed) {
 
-				SetVisibility(false, false);
+				SetVisibility(false);
 			}
 		}
 
@@ -135,24 +135,35 @@ namespace Taction {
 		/// </summary>
 		/// <param name="isWanted"></param>
 		/// <param name="isSkipAnimationWanted"></param>
-		public void SetVisibility(bool isWanted, bool isSkipAnimationWanted = true) {
+		public void SetVisibility(bool isWanted, bool isCalledFromRadialMenu = false) {
 
+			// Immediately switch control
 			WinApi.SetWindowExTransparent(this, !isWanted);
 
 			var isAnimationDisabled = App.Instance.Config.Layout.DisableRadialMenuAnimation;
+			if (!isAnimationDisabled) {
 
-			if (!isAnimationDisabled)
+				// Play animation
 				RadialMenu.IsOpen = isWanted;
+			}
 
-			if (!isAnimationDisabled && !isSkipAnimationWanted)
-				return;
+			if (isWanted) {
 
-			Visibility = isWanted ? Visibility.Visible : Visibility.Collapsed;
+				// Immediately show window if visible
+				Visibility = Visibility.Visible;
+
+			} else if (isAnimationDisabled || isCalledFromRadialMenu) {
+
+				// Immediately hide if skip animation
+				// @NOTE Hide visibility on animation mode tied to radial menu's visibility event
+				Visibility = Visibility.Collapsed;
+			}
+
 		}
 
 		public ICommand CloseCommand {
 			get {
-				return new RelayCommand(() => SetVisibility(false, false));
+				return new RelayCommand(() => SetVisibility(false));
 			}
 		}
 

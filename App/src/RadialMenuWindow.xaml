@@ -44,6 +44,7 @@
 					<DataTrigger.Binding>
 						<MultiBinding Converter="{StaticResource AnyDataConverter}">
 							<Binding Path="IsMouseOver" RelativeSource="{RelativeSource Self}" />
+							<Binding Path="IsStylusOver" RelativeSource="{RelativeSource Self}" />
 						</MultiBinding>
 					</DataTrigger.Binding>
 					<DataTrigger.Setters>

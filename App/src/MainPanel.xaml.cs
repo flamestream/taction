@@ -252,7 +252,7 @@ namespace Taction {
 
 			foreach (var el in FindVisualChildren<RadialMenuButton>(this)) {
 
-				el.RadialMenuWindow.SetVisibility(false, false);
+				el.RadialMenuWindow.SetVisibility(false);
 			}
 		}
 

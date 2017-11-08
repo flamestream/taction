@@ -28,7 +28,7 @@ namespace Taction.UIElement {
 					return;
 
 				var radialMenuwindow = (RadialMenuWindow)window;
-				radialMenuwindow.SetVisibility(false, false);
+				radialMenuwindow.SetVisibility(false);
 			});
 
 			StyleSetSpecs = ApplyStyle(App.Instance.Config.Layout.DefaultRadialMenuItemStyle, defaultStyle, specs.Style);
