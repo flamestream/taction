@@ -2,14 +2,14 @@
 
 namespace Taction.UIElement {
 
-	internal class TapButton : CustomButton {
+	internal class TapButton : StyleButton {
 
 		internal KeyCommand KeyCommand { set; get; }
 
-		public TapButton(IPanelItemSpecs specs) {
+		public TapButton(TapButtonSpecs specs) : base(specs.Style) {
 
-			var s = (TapButtonSpecs)specs;
-			KeyCommand = s.KeyCommand;
+			SetResourceReference(StyleProperty, typeof(StyleButton));
+			KeyCommand = specs.KeyCommand;
 		}
 
 		protected override void OnTouchDown(TouchEventArgs e) {

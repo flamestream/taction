@@ -110,8 +110,6 @@
       <DependentUpon>RadialMenuWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\RelayCommand.cs" />
-    <Compile Include="src\UIElement\ICustomStylizable.cs" />
-    <Compile Include="src\UIElement\CustomButton.cs" />
     <Compile Include="src\UIElement\NotificationToast.xaml.cs">
       <DependentUpon>NotificationToast.xaml</DependentUpon>
     </Compile>

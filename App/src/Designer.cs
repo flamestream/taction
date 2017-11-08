@@ -69,7 +69,7 @@ namespace Taction {
 				FrameworkElement item;
 
 				// Refactored items
-				if (itemType == typeof(HoldButton) || itemType == typeof(RadialMenuButton) || itemType == typeof(MoveButton) || itemType == typeof(CustomToggleButton)) {
+				if (itemType != typeof(StackPanel)) {
 
 					// Compute specs
 					var computedSpecs = specs as IButtonSpecs;
@@ -91,10 +91,6 @@ namespace Taction {
 
 						item.Width = specs.Size;
 					}
-
-					// Set base style
-					if (specs is IButtonSpecs)
-						ApplyStyle(layout, (ContentControl)item, (IButtonSpecs)specs, panel);
 				}
 
 				// Add to tree
@@ -211,73 +207,6 @@ namespace Taction {
 
 				if (baseStyle.TextStyle.FontWeight != null)
 					item.FontWeight = baseStyle.TextStyle.FontWeight.Value;
-			}
-		}
-
-		private static void ApplyActiveStyle(ICustomStylizable item, ButtonStyleSetSpecs style) {
-
-			if (style == null)
-				return;
-
-			var activeStyle = style.Active;
-			if (activeStyle == null)
-				return;
-
-			if (activeStyle.Color != null)
-				item.Active_Background = activeStyle.Color;
-
-			if (activeStyle.Content != null)
-				item.Active_Content = activeStyle.Content;
-
-			if (activeStyle.Margin != null)
-				item.Active_Margin = activeStyle.Margin.Value;
-
-			if (activeStyle.Border != null) {
-
-				if (activeStyle.Border.Color != null)
-					item.Active_BorderBrush = activeStyle.Border.Color;
-
-				if (activeStyle.Border.Thickness != null)
-					item.Active_BorderThickness = activeStyle.Border.Thickness.Value;
-			}
-
-			if (activeStyle.TextStyle != null) {
-
-				if (activeStyle.TextStyle.Color != null)
-					item.Active_Foreground = activeStyle.TextStyle.Color;
-
-				if (activeStyle.TextStyle.FontFamily != null)
-					item.Active_FontFamily = activeStyle.TextStyle.FontFamily;
-
-				if (activeStyle.TextStyle.FontSize != null)
-					item.Active_FontSize = activeStyle.TextStyle.FontSize.Value;
-
-				if (activeStyle.TextStyle.FontWeight != null)
-					item.Active_FontWeight = activeStyle.TextStyle.FontWeight.Value;
-			}
-		}
-
-		private static void ApplyStyle(ConfigLayout layout, ContentControl item, IButtonSpecs specs, StackPanel panel) {
-
-			// Set base style
-			ApplyBaseStyle(item, layout.DefaultButtonStyle);
-			ApplyBaseStyle(item, specs.Style);
-
-			if (item is ICustomStylizable i) {
-
-				// Copy base
-				i.Active_Background = item.Background;
-				i.Active_BorderBrush = item.BorderBrush;
-				i.Active_BorderThickness = item.BorderThickness;
-				i.Active_Content = item.Content;
-				i.Active_FontFamily = item.FontFamily;
-				i.Active_FontSize = item.FontSize;
-				i.Active_Foreground = item.Foreground;
-				i.Active_Margin = item.Margin;
-
-				// Set active style
-				ApplyActiveStyle(i, layout.DefaultButtonStyle);
-				ApplyActiveStyle(i, specs.Style);
 			}
 		}
 

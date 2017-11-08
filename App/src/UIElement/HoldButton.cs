@@ -8,9 +8,8 @@ namespace Taction.UIElement {
 
 		public HoldButton(HoldButtonSpecs specs) : base(specs.Style) {
 
-			KeyCommand = specs.KeyCommand;
-
 			SetResourceReference(StyleProperty, typeof(StyleButton));
+			KeyCommand = specs.KeyCommand;
 		}
 
 		protected override void OnTouchDown(TouchEventArgs e) {
