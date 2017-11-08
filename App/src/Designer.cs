@@ -67,7 +67,9 @@ namespace Taction {
 				var itemType = attr.Value;
 
 				FrameworkElement item;
-				if (itemType == typeof(HoldButton) || itemType == typeof(RadialMenuButton) || itemType == typeof(MoveButton)) {
+
+				// Refactored items
+				if (itemType == typeof(HoldButton) || itemType == typeof(RadialMenuButton) || itemType == typeof(MoveButton) || itemType == typeof(CustomToggleButton)) {
 
 					// Compute specs
 					var computedSpecs = specs as IButtonSpecs;
@@ -76,7 +78,7 @@ namespace Taction {
 					computedSpecs.Style = computedStyle;
 					item = (FrameworkElement)Activator.CreateInstance(itemType, computedSpecs);
 
-				} else {
+				} else { // Old items
 
 					item = (FrameworkElement)Activator.CreateInstance(itemType, specs);
 

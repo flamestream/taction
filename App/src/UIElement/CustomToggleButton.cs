@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 
 namespace Taction.UIElement {
 
@@ -8,16 +7,15 @@ namespace Taction.UIElement {
 
 		internal KeyCommand KeyCommand { get; set; }
 
-		public CustomToggleButton(IPanelItemSpecs specs) {
+		public CustomToggleButton(ToggleButtonSpecs specs) : base(specs.Style) {
 
-			var s = (ToggleButtonSpecs)specs;
-			KeyCommand = s.KeyCommand;
+			SetResourceReference(StyleProperty, typeof(StyleToggleButton));
+
+			KeyCommand = specs.KeyCommand;
 
 			// Event binding
 			Checked += HandleChecked;
 			Unchecked += HandleUnchecked;
-
-			SetResourceReference(StyleProperty, typeof(StyleToggleButton));
 		}
 
 		protected void HandleChecked(Object sender, RoutedEventArgs e) {

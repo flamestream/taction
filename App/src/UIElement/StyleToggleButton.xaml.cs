@@ -14,7 +14,7 @@ namespace Taction.UIElement {
 
 				var parent = Parent as StackPanel;
 				if (parent == null || parent.Orientation == Orientation.Vertical)
-					return StyleSetSpecs.Size;
+					return StyleSetSpecs?.Size;
 
 				return null;
 			}
@@ -26,7 +26,7 @@ namespace Taction.UIElement {
 
 				var parent = Parent as StackPanel;
 				if (parent == null || parent.Orientation == Orientation.Horizontal)
-					return StyleSetSpecs.Size;
+					return StyleSetSpecs?.Size;
 
 				return null;
 			}
