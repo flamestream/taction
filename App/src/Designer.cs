@@ -18,17 +18,22 @@ namespace Taction {
 
 			// Setup window
 			window.Opacity = layoutData.Opacity;
-			window.Background = layoutData.Color;
+			window.Border.Background = layoutData.Color ?? default(Brush);
 
-			window.BorderThickness = default(Thickness);
-			window.BorderBrush = null;
+			window.Border.BorderThickness = default(Thickness);
+			window.Border.BorderBrush = default(Brush);
+			window.Border.CornerRadius = default(CornerRadius);
+
 			if (layoutData.Border != null) {
 
 				if (layoutData.Border.Thickness != null)
-					window.BorderThickness = layoutData.Border.Thickness.Value;
+					window.Border.BorderThickness = layoutData.Border.Thickness.Value;
 
 				if (layoutData.Border.Color != null)
-					window.BorderBrush = layoutData.Border.Color;
+					window.Border.BorderBrush = layoutData.Border.Color;
+
+				if (layoutData.Border.Radius != null)
+					window.Border.CornerRadius = layoutData.Border.Radius.Value;
 			}
 
 			// Setup main panel
