@@ -124,6 +124,9 @@ namespace Taction.UIElement {
 
 			foreach (var s in args) {
 
+				if (s == null)
+					continue;
+
 				ApplyStyle(output.Base, s.Base);
 				ApplyStyle(output.Active, s.Active);
 			}

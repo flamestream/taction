@@ -17,9 +17,28 @@
 			"text-style": {
 				"color": {
 					"type": "solid",
-					"value": "#FFDDDDDD"
+					"value": "#DDDDDD"
 				},
 				"font-weight": "bold"
+			}
+		}
+	},
+	"default-radial-menu-item-style": {
+		"active": {
+			"inner-edge": {
+				"color": {
+					"type": "solid",
+					"value": "DeepSkyBlue"
+				}
+			},
+			"label": {
+				"text-style": {
+					"color": {
+						"type": "solid",
+						"value": "#DDDDDD"
+					},
+					"font-weight": "bold"
+				}
 			}
 		}
 	},

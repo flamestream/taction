@@ -3,7 +3,6 @@
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:clr="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:Taction"
 		xmlns:UIElement="clr-namespace:Taction.UIElement"
 		xmlns:RadialMenu="clr-namespace:RadialMenu.Controls;assembly=RadialMenu"
@@ -11,42 +10,22 @@
 		x:Name="LayoutRoot"
 		d:DesignHeight="300" d:DesignWidth="300">
 	<RadialMenu:RadialMenuItem.Resources>
-		<clr:Double x:Key="Default_InnerRadius">70</clr:Double>
-		<clr:Double x:Key="Default_OuterRadius">120</clr:Double>
-		<clr:Double x:Key="Default_Padding">0</clr:Double>
-		<Thickness x:Key="Default_BorderThickness">1</Thickness>
-		<SolidColorBrush x:Key="Default_Background">#FFDDDDDD</SolidColorBrush>
-		<SolidColorBrush x:Key="Default_BorderBrush">#707070</SolidColorBrush>
-
-		<SolidColorBrush x:Key="Default_Active_Background">DeepSkyBlue</SolidColorBrush>
-
-		<clr:Double x:Key="Default_EdgeInnerRadius">120</clr:Double>
-		<clr:Double x:Key="Default_EdgeOuterRadius">10000</clr:Double>
-		<SolidColorBrush x:Key="Default_EdgeBackground">#0000</SolidColorBrush>
-		<SolidColorBrush x:Key="Default_EdgeBorderBrush">#000</SolidColorBrush>
-		<clr:Double x:Key="Default_EdgeBorderThickness">0</clr:Double>
-		<clr:Double x:Key="Default_EdgePadding">0</clr:Double>
-
-		<clr:Double x:Key="Default_ContentRadius">95</clr:Double>
-		<clr:Double x:Key="Default_LabelWidth">50</clr:Double>
-		<clr:Double x:Key="Default_LabelHeight">50</clr:Double>
-		<SolidColorBrush x:Key="Default_LabelForeground">Black</SolidColorBrush>
 
 		<local:AnyDataConverter x:Key="AnyDataConverter" />
 
 		<Style TargetType="UIElement:CustomRadialMenuItem">
-			<Setter Property="InnerRadius" Value="{Binding ComputedBaseInnerRadius}" />
-			<Setter Property="OuterRadius" Value="{Binding ComputedBaseOuterRadius}" />
-			<Setter Property="Background" Value="{Binding StyleSetSpecs.Base.InnerEdgeSpecs.Color}" />
-			<Setter Property="BorderThickness" Value="{Binding ComputedBaseBorderThickness}" />
-			<Setter Property="BorderBrush" Value="{Binding StyleSetSpecs.Base.InnerEdgeSpecs.Border.Color}" />
+			<Setter Property="InnerRadius" Value="{Binding ComputedBaseInnerRadius, TargetNullValue=70}" />
+			<Setter Property="OuterRadius" Value="{Binding ComputedBaseOuterRadius, TargetNullValue=120}" />
+			<Setter Property="Background" Value="{Binding StyleSetSpecs.Base.InnerEdgeSpecs.Color, TargetNullValue=#DDD}" />
+			<Setter Property="BorderThickness" Value="{Binding ComputedBaseBorderThickness, TargetNullValue=1}" />
+			<Setter Property="BorderBrush" Value="{Binding StyleSetSpecs.Base.InnerEdgeSpecs.Border.Color, TargetNullValue=#707070}" />
 			<!--<Setter Property="Padding" Value="{Binding Base_Padding}" />-->
 
-			<Setter Property="EdgeInnerRadius" Value="{Binding ComputedBaseEdgeInnerRadius}" />
-			<Setter Property="EdgeOuterRadius" Value="{Binding ComputedBaseEdgeOuterRadius}" />
-			<Setter Property="EdgeBackground" Value="{Binding StyleSetSpecs.Base.OuterEdgeSpecs.Color}" />
-			<Setter Property="EdgeBorderBrush" Value="{Binding StyleSetSpecs.Base.OuterEdgeSpecs.Border.Color}" />
-			<Setter Property="EdgeBorderThickness" Value="{Binding ComputedBaseEdgeBorderThickness}" />
+			<Setter Property="EdgeInnerRadius" Value="{Binding ComputedBaseEdgeInnerRadius, TargetNullValue=120}" />
+			<Setter Property="EdgeOuterRadius" Value="{Binding ComputedBaseEdgeOuterRadius, TargetNullValue=1000}" />
+			<Setter Property="EdgeBackground" Value="{Binding StyleSetSpecs.Base.OuterEdgeSpecs.Color, TargetNullValue=#0000}" />
+			<Setter Property="EdgeBorderBrush" Value="{Binding StyleSetSpecs.Base.OuterEdgeSpecs.Border.Color, TargetNullValue=#000}" />
+			<Setter Property="EdgeBorderThickness" Value="{Binding ComputedBaseEdgeBorderThickness, TargetNullValue=0}" />
 			<!--<Setter Property="EdgePadding" Value="{Binding Base_EdgePadding}" />-->
 
 			<Setter Property="ArrowBackground" Value="#0000" />
@@ -56,16 +35,16 @@
 			<Setter Property="ArrowRadius" Value="200" />
 			<Setter Property="ArrowWidth" Value="10" />
 
-			<Setter Property="ContentRadius" Value="{Binding StyleSetSpecs.Base.LabelSpecs.StartDistance}" />
+			<Setter Property="ContentRadius" Value="{Binding StyleSetSpecs.Base.LabelSpecs.StartDistance, TargetNullValue=95}" />
 
 			<Style.Resources>
 				<Style TargetType="Grid">
-					<Setter Property="Width" Value="{Binding ComputedLabelBaseSize}" />
-					<Setter Property="Height" Value="{Binding ComputedLabelBaseSize}" />
+					<Setter Property="Width" Value="{Binding ComputedLabelBaseSize, TargetNullValue=60}" />
+					<Setter Property="Height" Value="{Binding ComputedLabelBaseSize, TargetNullValue=60}" />
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
-							<Setter Property="Width" Value="{Binding ComputedLabelActiveSize}" />
-							<Setter Property="Height" Value="{Binding ComputedLabelActiveSize}" />
+							<Setter Property="Width" Value="{Binding ComputedLabelActiveSize, TargetNullValue=60}" />
+							<Setter Property="Height" Value="{Binding ComputedLabelActiveSize, TargetNullValue=60}" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
@@ -80,7 +59,7 @@
 					<Setter Property="TextBlock.FontFamily" Value="{Binding StyleSetSpecs.Base.LabelSpecs.TextStyle.FontFamily}" />
 					<Setter Property="TextBlock.FontSize" Value="{Binding StyleSetSpecs.Base.LabelSpecs.TextStyle.FontSize}" />
 					<Setter Property="TextBlock.FontWeight" Value="{Binding StyleSetSpecs.Base.LabelSpecs.TextStyle.FontWeight}" />
-					<Setter Property="TextBlock.Foreground" Value="{Binding StyleSetSpecs.Base.LabelSpecs.TextStyle.Color}" />
+					<Setter Property="TextBlock.Foreground" Value="{Binding StyleSetSpecs.Base.LabelSpecs.TextStyle.Color, TargetNullValue=Black}" />
 					<Style.Triggers>
 						<DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type RadialMenu:RadialMenuItem}}, Path=IsMouseOver}" Value="True">
 							<Setter Property="Background" Value="{Binding StyleSetSpecs.Active.LabelSpecs.Color}" />
@@ -93,7 +72,7 @@
 							<Setter Property="TextBlock.FontFamily" Value="{Binding StyleSetSpecs.Active.LabelSpecs.TextStyle.FontFamily}" />
 							<Setter Property="TextBlock.FontSize" Value="{Binding StyleSetSpecs.Active.LabelSpecs.TextStyle.FontSize}" />
 							<Setter Property="TextBlock.FontWeight" Value="{Binding StyleSetSpecs.Active.LabelSpecs.TextStyle.FontWeight}" />
-							<Setter Property="TextBlock.Foreground" Value="{Binding StyleSetSpecs.Active.LabelSpecs.TextStyle.Color}" />
+							<Setter Property="TextBlock.Foreground" Value="{Binding StyleSetSpecs.Active.LabelSpecs.TextStyle.Color, TargetNullValue=Black}" />
 						</DataTrigger>
 					</Style.Triggers>
 				</Style>
@@ -117,21 +96,21 @@
 					</DataTrigger.Binding>
 					<DataTrigger.Setters>
 
-						<Setter Property="InnerRadius" Value="{Binding ComputedActiveInnerRadius}" />
-						<Setter Property="OuterRadius" Value="{Binding ComputedActiveOuterRadius}" />
-						<Setter Property="Background" Value="{Binding StyleSetSpecs.Active.InnerEdgeSpecs.Color}" />
-						<Setter Property="BorderThickness" Value="{Binding ComputedActiveBorderThickness}" />
-						<Setter Property="BorderBrush" Value="{Binding StyleSetSpecs.Active.InnerEdgeSpecs.Border.Color}" />
+						<Setter Property="InnerRadius" Value="{Binding ComputedActiveInnerRadius, TargetNullValue=70}" />
+						<Setter Property="OuterRadius" Value="{Binding ComputedActiveOuterRadius, TargetNullValue=120}" />
+						<Setter Property="Background" Value="{Binding StyleSetSpecs.Active.InnerEdgeSpecs.Color, TargetNullValue=DeepSkyBlue}" />
+						<Setter Property="BorderThickness" Value="{Binding ComputedActiveBorderThickness, TargetNullValue=1}" />
+						<Setter Property="BorderBrush" Value="{Binding StyleSetSpecs.Active.InnerEdgeSpecs.Border.Color, TargetNullValue=#707070}" />
 						<!--<Setter Property="Padding" Value="{Binding Active_Padding}" />-->
 
-						<Setter Property="EdgeInnerRadius" Value="{Binding ComputedActiveEdgeInnerRadius}" />
-						<Setter Property="EdgeOuterRadius" Value="{Binding ComputedActiveEdgeOuterRadius}" />
-						<Setter Property="EdgeBackground" Value="{Binding StyleSetSpecs.Active.OuterEdgeSpecs.Color}" />
-						<Setter Property="EdgeBorderBrush" Value="{Binding StyleSetSpecs.Active.OuterEdgeSpecs.Border.Color}" />
+						<Setter Property="EdgeInnerRadius" Value="{Binding ComputedActiveEdgeInnerRadius, TargetNullValue=120}" />
+						<Setter Property="EdgeOuterRadius" Value="{Binding ComputedActiveEdgeOuterRadius, TargetNullValue=1000}" />
+						<Setter Property="EdgeBackground" Value="{Binding StyleSetSpecs.Active.OuterEdgeSpecs.Color, TargetNullValue=#0000}" />
+						<Setter Property="EdgeBorderBrush" Value="{Binding StyleSetSpecs.Active.OuterEdgeSpecs.Border.Color, TargetNullValue=#000}" />
 						<Setter Property="EdgeBorderThickness" Value="{Binding ComputedActiveEdgeBorderThickness}" />
 						<!--<Setter Property="EdgePadding" Value="{Binding Active_EdgePadding}" />-->
 
-						<Setter Property="ContentRadius" Value="{Binding StyleSetSpecs.Active.LabelSpecs.StartDistance}" />
+						<Setter Property="ContentRadius" Value="{Binding StyleSetSpecs.Active.LabelSpecs.StartDistance, TargetNullValue=95}" />
 					</DataTrigger.Setters>
 				</DataTrigger>
 			</Style.Triggers>
