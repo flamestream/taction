@@ -189,7 +189,7 @@ namespace Taction {
 		public RadialMenuSpecs RadialMenuSpecs { get; set; }
 	}
 
-	public class ButtonStyleSpecs : INotifyPropertyChanged {
+	public class ButtonStyleSpecs {
 
 		[JsonProperty("margin")]
 		[JsonConverter(typeof(ThicknessJsonConverter))]
@@ -221,11 +221,9 @@ namespace Taction {
 			Border = new BorderSpecs();
 			TextStyle = new TextStyleSpecs();
 		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
-	public class TextStyleSpecs : INotifyPropertyChanged {
+	public class TextStyleSpecs {
 
 		[JsonProperty("font-size")]
 		public double? FontSize { get; set; }
@@ -241,11 +239,9 @@ namespace Taction {
 		[JsonProperty("font-weight")]
 		[JsonConverter(typeof(FontWeightJsonConverter))]
 		public FontWeight? FontWeight { get; set; }
-
-		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
-	public class BorderSpecs : INotifyPropertyChanged {
+	public class BorderSpecs {
 
 		[JsonProperty("color")]
 		[JsonConverter(typeof(BrushJsonConverter))]
@@ -258,11 +254,9 @@ namespace Taction {
 		[JsonProperty("radius")]
 		[JsonConverter(typeof(CornerRadiusJsonConverter))]
 		public CornerRadius? Radius { get; set; }
-
-		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
-	public class RadialMenuSpecs : INotifyPropertyChanged {
+	public class RadialMenuSpecs {
 
 		[JsonProperty("half-shifted-items")]
 		public bool HalfShiftedItems { get; set; }
@@ -281,11 +275,9 @@ namespace Taction {
 			DefaultItemStyle = new RadialMenuItemStyleSetSpecs();
 			CentralItemSpecs = new RadialMenuCentralItemStyleSetSpecs();
 		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
-	public class RadialMenuItemSpecs : INotifyPropertyChanged {
+	public class RadialMenuItemSpecs {
 
 		[JsonProperty("command")]
 		[JsonConverter(typeof(KeyCommandListJsonConverter))]
@@ -298,8 +290,6 @@ namespace Taction {
 
 			Style = new RadialMenuItemStyleSetSpecs();
 		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
 	public class RadialMenuItemStyleSetSpecs {
@@ -345,7 +335,7 @@ namespace Taction {
 		public double? StartDistance { get; set; }
 	}
 
-	public class RadialMenuItemEdgeSpecs : INotifyPropertyChanged {
+	public class RadialMenuItemEdgeSpecs {
 
 		[JsonProperty("size")]
 		public double? Size { get; set; }
@@ -364,8 +354,6 @@ namespace Taction {
 
 			Border = new BorderSpecs();
 		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
 	public class RadialMenuCentralItemStyleSetSpecs {
@@ -383,7 +371,7 @@ namespace Taction {
 		}
 	}
 
-	public class RadialMenuCentralItemStyleSpecs : INotifyPropertyChanged {
+	public class RadialMenuCentralItemStyleSpecs {
 
 		[JsonProperty("size")]
 		public double? Size { get; set; }
@@ -411,7 +399,5 @@ namespace Taction {
 			TextStyle = new TextStyleSpecs();
 			Border = new BorderSpecs();
 		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
 	}
 }

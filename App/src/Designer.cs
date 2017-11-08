@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Taction.Attribute;
-using Taction.UIElement;
 
 namespace Taction {
 
