@@ -2,14 +2,17 @@
 
 namespace Taction.UIElement {
 
-	internal class HoldButton : CustomButton {
+	internal class HoldButton : StyleButton {
 
 		internal KeyCommand KeyCommand { set; get; }
 
-		public HoldButton(IPanelItemSpecs specs) {
+		public HoldButton(HoldButtonSpecs specs) : base(specs.Style) {
 
 			var s = (HoldButtonSpecs)specs;
 			KeyCommand = s.KeyCommand;
+
+			SetResourceReference(StyleProperty, typeof(StyleButton));
+			StyleSetSpecs = s.Style;
 		}
 
 		protected override void OnTouchDown(TouchEventArgs e) {

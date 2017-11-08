@@ -1,13 +1,12 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Taction.UIElement {
 
 	public partial class StyleButton : Button {
 
-		public ButtonStyleSetSpecs StyleSetSpecs { get; private set; }
+		public ButtonStyleSetSpecs StyleSetSpecs { get; protected set; }
+		public Rect Boundaries { get; protected set; }
 
 		public double? ComputedHeight {
 			get {
@@ -32,24 +31,39 @@ namespace Taction.UIElement {
 			}
 		}
 
-		public StyleButton(ButtonStyleSetSpecs specs) {
+		public StyleButton() {
 
 			InitializeComponent();
 			DataContext = this;
 
-			StyleSetSpecs = specs;
-			StyleSetSpecs.Size = 100;
-			StyleSetSpecs.Base.Color = new SolidColorBrush(Colors.Red);
-			StyleSetSpecs.Active.Color = new SolidColorBrush(Colors.Yellow);
-			StyleSetSpecs.Base.Border.Thickness = new Thickness(4);
-			StyleSetSpecs.Base.Border.Color = new SolidColorBrush(Colors.Yellow);
-			StyleSetSpecs.Active.Border.Color = new SolidColorBrush(Colors.Green);
-			StyleSetSpecs.Base.TextStyle.Color = new SolidColorBrush(Colors.Wheat);
-			StyleSetSpecs.Active.TextStyle.Color = new SolidColorBrush(Colors.White);
-			StyleSetSpecs.Base.Content = StyleSetSpecs.Active.Content = "rawr";
-			StyleSetSpecs.Base.Opacity = 0.7;
+		}
 
-			//Height2 = 200;
+		public StyleButton(ButtonStyleSetSpecs specs) : this() {
+
+			StyleSetSpecs = specs;
+		}
+
+		protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo) {
+
+			base.OnRenderSizeChanged(sizeInfo);
+
+			UpdateBoundaries();
+
+			Designer.AdjustGradientColor(this, Background);
+			Designer.AdjustGradientColor(this, BorderBrush);
+		}
+
+		public void UpdateBoundaries() {
+
+			Boundaries = GetBoundaries();
+		}
+
+		public Rect GetBoundaries() {
+
+			var origin = TranslatePoint(new Point(), null);
+			var bounds = new Rect(origin.X, origin.Y, ActualWidth, ActualHeight);
+
+			return bounds;
 		}
 	}
 }

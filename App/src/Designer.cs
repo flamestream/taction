@@ -65,21 +65,35 @@ namespace Taction {
 				var specsType = specs.GetType();
 				var attr = (AssociatedClassAttribute)specsType.GetCustomAttributes(typeof(AssociatedClassAttribute), true)[0];
 				var itemType = attr.Value;
-				var item = (FrameworkElement)Activator.CreateInstance(itemType, specs);
 
-				// Set size
-				if (panel.Orientation == Orientation.Vertical) {
+				FrameworkElement item;
+				if (itemType == typeof(HoldButton)) {
 
-					item.Height = specs.Size;
+					// Compute specs
+					var computedSpecs = specs as IButtonSpecs;
+					var computedStyle = ApplyStyle(layout.DefaultButtonStyle, computedSpecs.Style);
+					computedStyle.Size = computedSpecs.Size;
+					computedSpecs.Style = computedStyle;
+					item = (FrameworkElement)Activator.CreateInstance(itemType, computedSpecs);
 
 				} else {
 
-					item.Width = specs.Size;
-				}
+					item = (FrameworkElement)Activator.CreateInstance(itemType, specs);
 
-				// Set base style
-				if (specs is IButtonSpecs)
-					ApplyStyle(layout, (ContentControl)item, (IButtonSpecs)specs, panel);
+					// Set size
+					if (panel.Orientation == Orientation.Vertical) {
+
+						item.Height = specs.Size;
+
+					} else {
+
+						item.Width = specs.Size;
+					}
+
+					// Set base style
+					if (specs is IButtonSpecs)
+						ApplyStyle(layout, (ContentControl)item, (IButtonSpecs)specs, panel);
+				}
 
 				// Add to tree
 				panel.Children.Add(item);
@@ -95,6 +109,61 @@ namespace Taction {
 					ProcessLayout(layout, ((PivotSpecs)specs).Items, childPanel);
 				}
 			}
+		}
+
+		private static ButtonStyleSetSpecs ApplyStyle(params ButtonStyleSetSpecs[] args) {
+
+			var output = new ButtonStyleSetSpecs();
+
+			foreach (var s in args) {
+
+				ApplyStyle(output.Base, s.Base);
+				ApplyStyle(output.Active, s.Active);
+				output.Size = s.Size;
+			}
+
+			ApplyStyle(output.Active, output.Base, true);
+
+			return output;
+		}
+
+		private static void ApplyStyle(ButtonStyleSpecs source, ButtonStyleSpecs apply, bool ignoreIfNotNull = false) {
+
+			if (source.Border.Color == null || !ignoreIfNotNull)
+				source.Border.Color = apply.Border.Color ?? source.Border.Color;
+
+			if (source.Border.Radius == null || !ignoreIfNotNull)
+				source.Border.Radius = apply.Border.Radius ?? source.Border.Radius;
+
+			if (source.Border.Thickness == null || !ignoreIfNotNull)
+				source.Border.Thickness = apply.Border.Thickness ?? source.Border.Thickness;
+
+			if (source.Color == null || !ignoreIfNotNull)
+				source.Color = apply.Color ?? source.Color;
+
+			if (source.Content == null || !ignoreIfNotNull)
+				source.Content = apply.Content ?? source.Content;
+
+			if (source.ContentPadding == null || !ignoreIfNotNull)
+				source.ContentPadding = apply.ContentPadding ?? source.ContentPadding;
+
+			if (source.Margin == null || !ignoreIfNotNull)
+				source.Margin = apply.Margin ?? source.Margin;
+
+			if (source.Opacity == null || !ignoreIfNotNull)
+				source.Opacity = apply.Opacity ?? source.Opacity;
+
+			if (source.TextStyle.Color == null || !ignoreIfNotNull)
+				source.TextStyle.Color = apply.TextStyle.Color ?? source.TextStyle.Color;
+
+			if (source.TextStyle.FontFamily == null || !ignoreIfNotNull)
+				source.TextStyle.FontFamily = apply.TextStyle.FontFamily ?? source.TextStyle.FontFamily;
+
+			if (source.TextStyle.FontSize == null || !ignoreIfNotNull)
+				source.TextStyle.FontSize = apply.TextStyle.FontSize ?? source.TextStyle.FontSize;
+
+			if (source.TextStyle.FontWeight == null || !ignoreIfNotNull)
+				source.TextStyle.FontWeight = apply.TextStyle.FontWeight ?? source.TextStyle.FontWeight;
 		}
 
 		private static void ApplyBaseStyle(ContentControl item, ButtonStyleSetSpecs style) {

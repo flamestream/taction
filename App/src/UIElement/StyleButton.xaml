@@ -18,7 +18,7 @@
 								BorderBrush="{Binding Border.Color, FallbackValue=#707070}"
 								BorderThickness="{Binding Border.Thickness, FallbackValue=1}"
 								CornerRadius="{Binding Border.Radius}"
-								Height="{Binding ComputedHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}}"
+								Height="{Binding ComputedHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Button}, FallbackValue=100}"
 								Margin="{Binding Margin}"
 								Opacity="{Binding Opacity}"
 								TextBlock.FontFamily="{Binding TextStyle.FontFamily, FallbackValue=Black}"
