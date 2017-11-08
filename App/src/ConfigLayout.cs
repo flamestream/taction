@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -116,6 +117,12 @@ namespace Taction {
 
 		[JsonProperty("active")]
 		public ButtonStyleSpecs Active { get; set; }
+
+		public ButtonStyleSetSpecs() {
+
+			Base = new ButtonStyleSpecs();
+			Active = new ButtonStyleSpecs();
+		}
 	}
 
 	public interface ICommandButtonSpecs : IButtonSpecs {
@@ -183,7 +190,7 @@ namespace Taction {
 		public RadialMenuSpecs RadialMenuSpecs { get; set; }
 	}
 
-	public class ButtonStyleSpecs {
+	public class ButtonStyleSpecs : INotifyPropertyChanged {
 
 		[JsonProperty("margin")]
 		[JsonConverter(typeof(ThicknessJsonConverter))]
@@ -206,9 +213,20 @@ namespace Taction {
 
 		[JsonProperty("text-style")]
 		public TextStyleSpecs TextStyle { get; set; }
+
+		[JsonProperty("opacity")]
+		public double? Opacity { get; set; }
+
+		public ButtonStyleSpecs() {
+
+			Border = new BorderSpecs();
+			TextStyle = new TextStyleSpecs();
+		}
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
-	public class TextStyleSpecs {
+	public class TextStyleSpecs : INotifyPropertyChanged {
 
 		[JsonProperty("font-size")]
 		public double? FontSize { get; set; }
@@ -224,9 +242,11 @@ namespace Taction {
 		[JsonProperty("font-weight")]
 		[JsonConverter(typeof(FontWeightJsonConverter))]
 		public FontWeight? FontWeight { get; set; }
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
-	public class BorderSpecs {
+	public class BorderSpecs : INotifyPropertyChanged {
 
 		[JsonProperty("color")]
 		[JsonConverter(typeof(BrushJsonConverter))]
@@ -239,9 +259,11 @@ namespace Taction {
 		[JsonProperty("radius")]
 		[JsonConverter(typeof(CornerRadiusJsonConverter))]
 		public CornerRadius? Radius { get; set; }
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
-	public class RadialMenuSpecs {
+	public class RadialMenuSpecs : INotifyPropertyChanged {
 
 		[JsonProperty("half-shifted-items")]
 		public bool HalfShiftedItems { get; set; }
@@ -254,6 +276,8 @@ namespace Taction {
 
 		[JsonProperty("items")]
 		public List<RadialMenuItemSpecs> Items { get; set; }
+
+		public event PropertyChangedEventHandler PropertyChanged;
 	}
 
 	public class RadialMenuItemSpecs {
