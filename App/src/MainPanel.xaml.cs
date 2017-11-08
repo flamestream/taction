@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
@@ -16,7 +17,11 @@ namespace Taction {
 
 		private Config Config => App.Instance.Config;
 
-		private bool IsPassthrough { get; set; }
+		public DateTime LastMoved { get; private set; }
+		public Point LastPosition { get; private set; }
+		public bool IsCollapsed { get; private set; }
+		public bool IsPassthrough { get; private set; }
+
 		private WindowEventNotifier WindowEventMessenger { get; set; }
 
 		public MainPanel() {
@@ -28,10 +33,23 @@ namespace Taction {
 			// Add event handlers
 			SizeChanged += HandleSizeChanged;
 			App.Instance.GlobalMouseHook.OnMouseLeaveBoundaries += HandleMouseLeaveBoundaries;
-			WindowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
 			App.Instance.InputSimulator.OnDetectedKeyUp += HandleDetectedKeyUp;
+			WindowEventMessenger.OnExitSizeMove += HandleExitSizeMove;
 
 			ReloadLayout();
+		}
+
+		protected override void OnActivated(EventArgs e) {
+
+			base.OnActivated(e);
+			WinApi.CancelActivation(this);
+		}
+
+		protected override void OnClosing(CancelEventArgs e) {
+
+			base.OnClosing(e);
+			e.Cancel = true;
+			App.Instance.Disable();
 		}
 
 		public void ReloadLayout() {
@@ -39,6 +57,9 @@ namespace Taction {
 			ClearLayout();
 			Designer.GenerateLayout(this);
 			WindowManipulator.FitToNearestDesktop(this);
+
+			LastMoved = DateTime.Now;
+			LastPosition = new Point(Top, Left);
 		}
 
 		private void ClearLayout() {
@@ -139,7 +160,10 @@ namespace Taction {
 			Config.State.X = Left;
 			Config.State.Y = Top;
 			Config.Save();
-			Debug.WriteLine(string.Format("{0}, {1}", Left, Top));
+
+			var newPosition = new Point(Top, Left);
+			if (newPosition != LastPosition)
+				LastMoved = DateTime.Now;
 		}
 
 		private void HandleSizeChanged(object sender, SizeChangedEventArgs e) {
@@ -161,12 +185,6 @@ namespace Taction {
 					toggleButton.IsChecked = false;
 				}
 			}
-		}
-
-		protected override void OnActivated(EventArgs e) {
-
-			base.OnActivated(e);
-			WinApi.CancelActivation(this);
 		}
 
 		private void Window_MouseMove(object sender, MouseEventArgs e) {
@@ -228,6 +246,35 @@ namespace Taction {
 			}
 
 			return false;
+		}
+
+		public void CloseAllRadialMenuWindows() {
+
+			foreach (var el in FindVisualChildren<RadialMenuButton>(this)) {
+
+				el.RadialMenuWindow.SetVisibility(false);
+			}
+		}
+
+		public void ToggleCollapse(System.Windows.UIElement exception) {
+
+			var root = Container.Children[0] as System.Windows.Controls.StackPanel;
+			if (root == null)
+				return;
+
+			foreach (var c in root.Children) {
+
+				var element = c as System.Windows.UIElement;
+				if (element == null)
+					continue;
+
+				element.Visibility = IsCollapsed ?
+					Visibility.Visible :
+					Visibility.Collapsed;
+			}
+
+			exception.Visibility = Visibility.Visible;
+			IsCollapsed = !IsCollapsed;
 		}
 	}
 }

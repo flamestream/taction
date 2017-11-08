@@ -4,14 +4,14 @@ using System.Windows;
 
 namespace Taction.JsonConverter {
 
-	internal class ThicknessJsonConverter : Newtonsoft.Json.JsonConverter {
+	internal class CornerRadiusJsonConverter : Newtonsoft.Json.JsonConverter {
 
 		public override bool CanWrite => false;
 		public override bool CanRead => true;
 
 		public override bool CanConvert(Type objectType) {
 
-			return objectType == typeof(Thickness);
+			return objectType == typeof(CornerRadius);
 		}
 
 		public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer) {
@@ -25,9 +25,9 @@ namespace Taction.JsonConverter {
 			return FromString(value);
 		}
 
-		public static Thickness FromString(string input) {
+		public static CornerRadius FromString(string input) {
 
-			var o = default(Thickness);
+			var o = default(CornerRadius);
 
 			if (input == null)
 				return o;
@@ -39,19 +39,19 @@ namespace Taction.JsonConverter {
 			if (values.Length == 0 || values.Length > 4)
 				return o;
 
-			if (!double.TryParse(values[0], out var top))
+			if (!double.TryParse(values[0], out var topLeft))
 				return o;
 
-			if (values.Length <= 1 || !double.TryParse(values[1], out var right))
-				right = top;
+			if (values.Length <= 1 || !double.TryParse(values[1], out var topRight))
+				topRight = topLeft;
 
-			if (values.Length <= 2 || !double.TryParse(values[2], out var bottom))
-				bottom = top;
+			if (values.Length <= 2 || !double.TryParse(values[2], out var bottomRight))
+				bottomRight = topLeft;
 
-			if (values.Length <= 3 || !double.TryParse(values[3], out var left))
-				left = right;
+			if (values.Length <= 3 || !double.TryParse(values[3], out var bottomLeft))
+				bottomLeft = topRight;
 
-			o = new Thickness(left, top, right, bottom);
+			o = new CornerRadius(topLeft, topRight, bottomRight, bottomLeft);
 
 			return o;
 		}

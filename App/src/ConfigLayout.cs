@@ -82,11 +82,17 @@ namespace Taction {
 		[JsonProperty("disable-fade-animation")]
 		public bool DisableFadeAnimation { get; set; }
 
-		[JsonProperty("default-base-style")]
-		public StyleSpecs DefaultBaseStyle { get; set; }
+		[JsonProperty("disable-radial-menu-animation")]
+		public bool DisableRadialMenuAnimation { get; set; }
 
-		[JsonProperty("default-active-style")]
-		public StyleSpecs DefaultActiveStyle { get; set; }
+		[JsonProperty("default-button-style")]
+		public ButtonStyleSetSpecs DefaultButtonStyle { get; set; }
+
+		[JsonProperty("default-radial-menu-item-style")]
+		public RadialMenuItemStyleSetSpecs DefaultRadialMenuItemStyle { get; set; }
+
+		[JsonProperty("default-radial-menu-central-item-style")]
+		public RadialMenuCentralItemStyleSetSpecs DefaultRadialMenuCentralItemStyle { get; set; }
 	}
 
 	public interface IPanelItemSpecs {
@@ -97,11 +103,25 @@ namespace Taction {
 
 	public interface IButtonSpecs : IPanelItemSpecs {
 
-		[JsonProperty("base-style")]
-		StyleSpecs BaseStyle { get; set; }
+		[JsonProperty("style")]
+		ButtonStyleSetSpecs Style { get; set; }
+	}
 
-		[JsonProperty("active-style")]
-		StyleSpecs ActiveStyle { get; set; }
+	public class ButtonStyleSetSpecs : IPanelItemSpecs {
+
+		public double Size { get; set; }
+
+		[JsonProperty("base")]
+		public ButtonStyleSpecs Base { get; set; }
+
+		[JsonProperty("active")]
+		public ButtonStyleSpecs Active { get; set; }
+
+		public ButtonStyleSetSpecs() {
+
+			Base = new ButtonStyleSpecs();
+			Active = new ButtonStyleSpecs();
+		}
 	}
 
 	public interface ICommandButtonSpecs : IButtonSpecs {
@@ -128,8 +148,7 @@ namespace Taction {
 	public class HoldButtonSpecs : ICommandButtonSpecs {
 
 		public double Size { get; set; }
-		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs ActiveStyle { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -138,8 +157,7 @@ namespace Taction {
 	public class TapButtonSpecs : ICommandButtonSpecs {
 
 		public double Size { get; set; }
-		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs ActiveStyle { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -148,8 +166,7 @@ namespace Taction {
 	public class ToggleButtonSpecs : ICommandButtonSpecs {
 
 		public double Size { get; set; }
-		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs ActiveStyle { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
 		public KeyCommand KeyCommand { get; set; }
 	}
 
@@ -158,11 +175,21 @@ namespace Taction {
 	public class MoveButtonSpecs : IButtonSpecs {
 
 		public double Size { get; set; }
-		public StyleSpecs BaseStyle { get; set; }
-		public StyleSpecs ActiveStyle { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
 	}
 
-	public class StyleSpecs {
+	[AssociatedClass(typeof(RadialMenuButton))]
+	[JsonStringTypeValue("radial-menu")]
+	public class RadialMenuButtonSpecs : IButtonSpecs {
+
+		public double Size { get; set; }
+		public ButtonStyleSetSpecs Style { get; set; }
+
+		[JsonProperty("radial-menu")]
+		public RadialMenuSpecs RadialMenuSpecs { get; set; }
+	}
+
+	public class ButtonStyleSpecs {
 
 		[JsonProperty("margin")]
 		[JsonConverter(typeof(ThicknessJsonConverter))]
@@ -170,7 +197,7 @@ namespace Taction {
 
 		[JsonProperty("padding")]
 		[JsonConverter(typeof(ThicknessJsonConverter))]
-		public Thickness? ContentPadding { get; set; }
+		public Thickness? Padding { get; set; }
 
 		[JsonProperty("border")]
 		public BorderSpecs Border { get; set; }
@@ -185,6 +212,15 @@ namespace Taction {
 
 		[JsonProperty("text-style")]
 		public TextStyleSpecs TextStyle { get; set; }
+
+		[JsonProperty("opacity")]
+		public double? Opacity { get; set; }
+
+		public ButtonStyleSpecs() {
+
+			Border = new BorderSpecs();
+			TextStyle = new TextStyleSpecs();
+		}
 	}
 
 	public class TextStyleSpecs {
@@ -214,5 +250,154 @@ namespace Taction {
 		[JsonProperty("thickness")]
 		[JsonConverter(typeof(ThicknessJsonConverter))]
 		public Thickness? Thickness { get; set; }
+
+		[JsonProperty("radius")]
+		[JsonConverter(typeof(CornerRadiusJsonConverter))]
+		public CornerRadius? Radius { get; set; }
+	}
+
+	public class RadialMenuSpecs {
+
+		[JsonProperty("half-shifted-items")]
+		public bool HalfShiftedItems { get; set; }
+
+		[JsonProperty("default-item-style")]
+		public RadialMenuItemStyleSetSpecs DefaultItemStyle { get; set; }
+
+		[JsonProperty("central-item-style")]
+		public RadialMenuCentralItemStyleSetSpecs CentralItemSpecs { get; set; }
+
+		[JsonProperty("items")]
+		public List<RadialMenuItemSpecs> Items { get; set; }
+
+		public RadialMenuSpecs() {
+
+			DefaultItemStyle = new RadialMenuItemStyleSetSpecs();
+			CentralItemSpecs = new RadialMenuCentralItemStyleSetSpecs();
+		}
+	}
+
+	public class RadialMenuItemSpecs {
+
+		[JsonProperty("command")]
+		[JsonConverter(typeof(KeyCommandListJsonConverter))]
+		public KeyCommand KeyCommand { get; set; }
+
+		[JsonProperty("style")]
+		public RadialMenuItemStyleSetSpecs Style { get; set; }
+
+		public RadialMenuItemSpecs() {
+
+			Style = new RadialMenuItemStyleSetSpecs();
+		}
+	}
+
+	public class RadialMenuItemStyleSetSpecs {
+
+		[JsonProperty("base")]
+		public RadialMenuItemStyleSpecs Base { get; set; }
+
+		[JsonProperty("active")]
+		public RadialMenuItemStyleSpecs Active { get; set; }
+
+		public RadialMenuItemStyleSetSpecs() {
+
+			Base = new RadialMenuItemStyleSpecs();
+			Active = new RadialMenuItemStyleSpecs();
+		}
+	}
+
+	public class RadialMenuItemStyleSpecs {
+
+		[JsonProperty("label")]
+		public RadialMenuItemLabelSpecs LabelSpecs { get; set; }
+
+		[JsonProperty("inner-edge")]
+		public RadialMenuItemEdgeSpecs InnerEdgeSpecs { get; set; }
+
+		[JsonProperty("outer-edge")]
+		public RadialMenuItemEdgeSpecs OuterEdgeSpecs { get; set; }
+
+		public RadialMenuItemStyleSpecs() {
+
+			LabelSpecs = new RadialMenuItemLabelSpecs();
+			InnerEdgeSpecs = new RadialMenuItemEdgeSpecs();
+			OuterEdgeSpecs = new RadialMenuItemEdgeSpecs();
+		}
+	}
+
+	public class RadialMenuItemLabelSpecs : ButtonStyleSpecs {
+
+		[JsonProperty("size")]
+		public double? Size { get; set; }
+
+		[JsonProperty("start-distance")]
+		public double? StartDistance { get; set; }
+	}
+
+	public class RadialMenuItemEdgeSpecs {
+
+		[JsonProperty("size")]
+		public double? Size { get; set; }
+
+		[JsonProperty("start-distance")]
+		public double? StartDistance { get; set; }
+
+		[JsonProperty("color")]
+		[JsonConverter(typeof(BrushJsonConverter))]
+		public Brush Color { get; set; }
+
+		[JsonProperty("border")]
+		public BorderSpecs Border { get; set; }
+
+		public RadialMenuItemEdgeSpecs() {
+
+			Border = new BorderSpecs();
+		}
+	}
+
+	public class RadialMenuCentralItemStyleSetSpecs {
+
+		[JsonProperty("base")]
+		public RadialMenuCentralItemStyleSpecs Base { get; set; }
+
+		[JsonProperty("active")]
+		public RadialMenuCentralItemStyleSpecs Active { get; set; }
+
+		public RadialMenuCentralItemStyleSetSpecs() {
+
+			Base = new RadialMenuCentralItemStyleSpecs();
+			Active = new RadialMenuCentralItemStyleSpecs();
+		}
+	}
+
+	public class RadialMenuCentralItemStyleSpecs {
+
+		[JsonProperty("size")]
+		public double? Size { get; set; }
+
+		[JsonProperty("content")]
+		[JsonConverter(typeof(ContentJsonConverter))]
+		public Object Content { get; set; }
+
+		[JsonProperty("text-style")]
+		public TextStyleSpecs TextStyle { get; set; }
+
+		[JsonProperty("color")]
+		[JsonConverter(typeof(BrushJsonConverter))]
+		public Brush Color { get; set; }
+
+		[JsonProperty("border")]
+		public BorderSpecs Border { get; set; }
+
+		[JsonProperty("padding")]
+		[JsonConverter(typeof(ThicknessJsonConverter))]
+		public Thickness? Padding { get; set; }
+
+		public RadialMenuCentralItemStyleSpecs() {
+
+			TextStyle = new TextStyleSpecs();
+			Border = new BorderSpecs();
+		}
 	}
 }

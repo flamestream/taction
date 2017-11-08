@@ -23,12 +23,14 @@
 		"name": {"type": "string"},
 		"disable-fade-animation": {"type": "boolean"},
 		"disable-hide": {"type": "boolean"},
+		"disable-radial-menu-animation": {"type": "boolean"},
 		"margin": {"type": "string"},
 		"border": {"$ref": "#/definitions/borderType"},
 		"orientation": {"$ref": "#/definitions/orientationType"},
 		"color": {"$ref": "#/definitions/colorType"},
-		"default-base-style": {"$ref": "#/definitions/styleType"},
-		"default-active-style": {"$ref": "#/definitions/styleType"},
+		"default-button-style": {"$ref": "#/definitions/buttonStyleSetType"},
+		"default-radial-menu-item-style": {"$ref": "#/definitions/radialMenuItemStyleSetType"},
+		"default-radial-menu-central-item-style": {"$ref": "#/definitions/radialMenuCentralItemStyleSetType"},
 		"items": {"$ref": "#/definitions/itemsType"},
 	},
 	"additionalProperties": false,
@@ -43,6 +45,7 @@
 			"type": "object",
 			"properties": {
 				"thickness": {"type": "string"},
+				"radius": {"type": "string"},
 				"color": {"$ref": "#/definitions/colorType"}
 			},
 			"additionalProperties": false,
@@ -51,15 +54,16 @@
 			"type": "array",
 			"items": {
 				"oneOf": [
-					{"$ref": "#/definitions/pivotItemType"},
-					{"$ref": "#/definitions/holdItemType"},
-					{"$ref": "#/definitions/tapItemType"},
-					{"$ref": "#/definitions/toggleItemType"},
-					{"$ref": "#/definitions/moveItemType"}
+					{"$ref": "#/definitions/pivotButtonType"},
+					{"$ref": "#/definitions/holdButtonType"},
+					{"$ref": "#/definitions/tapButtonType"},
+					{"$ref": "#/definitions/toggleButtonType"},
+					{"$ref": "#/definitions/moveButtonType"},
+					{"$ref": "#/definitions/radialMenuButtonType"}
 				]
 			}
 		},
-		"pivotItemType": {
+		"pivotButtonType": {
 			"description": "An container used to re-orient items in the opposite direction of the parent's.",
 			"type": "object",
 			"properties": {
@@ -77,7 +81,7 @@
 			"additionalProperties": false,
 			"required": ["type", "size", "items"]
 		},
-		"holdItemType": {
+		"holdButtonType": {
 			"description": "An item that sends input down only as long as touch is held down.",
 			"type": "object",
 			"properties": {
@@ -91,13 +95,12 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"base-style": {"$ref": "#/definitions/styleType"},
-				"active-style": {"$ref": "#/definitions/styleType"},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
 		},
-		"tapItemType": {
+		"tapButtonType": {
 			"description": "An item that sends input immediately once.",
 			"type": "object",
 			"properties": {
@@ -111,13 +114,12 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"base-style": {"$ref": "#/definitions/styleType"},
-				"active-style": {"$ref": "#/definitions/styleType"},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
 		},
-		"toggleItemType": {
+		"toggleButtonType": {
 			"description": "An item that sends input in a toggling manner. Press once to hold down the key, and once more to release it.",
 			"type": "object",
 			"properties": {
@@ -131,13 +133,12 @@
 					"exclusiveMinimum": true
 				},
 				"command": {"type": "string"},
-				"base-style": {"$ref": "#/definitions/styleType"},
-				"active-style": {"$ref": "#/definitions/styleType"},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size", "command"]
 		},
-		"moveItemType": {
+		"moveButtonType": {
 			"description": "An item used to move the panel around the screen.",
 			"type": "object",
 			"properties": {
@@ -150,13 +151,39 @@
 					"minimum": 0,
 					"exclusiveMinimum": true
 				},
-				"base-style": {"$ref": "#/definitions/styleType"},
-				"active-style": {"$ref": "#/definitions/styleType"},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
 			},
 			"additionalProperties": false,
 			"required": ["type", "size"]
 		},
-		"styleType": {
+		"radialMenuButtonType": {
+			"description": "An item used to invoke a radial menu.",
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "string",
+					"enum": ["radial-menu"]
+				},
+				"size": {
+					"type": "number",
+					"minimum": 0,
+					"exclusiveMinimum": true
+				},
+				"style": {"$ref": "#/definitions/buttonStyleSetType"},
+				"radial-menu": {"$ref": "#/definitions/radialMenuType"},
+			},
+			"additionalProperties": false,
+			"required": ["type", "size", "radial-menu"]
+		},
+		"buttonStyleSetType": {
+			"type": "object",
+			"properties": {
+				"base": {"$ref": "#/definitions/buttonStyleType"},
+				"active": {"$ref": "#/definitions/buttonStyleType"},
+				"additionalProperties": false
+			}
+		},
+		"buttonStyleType": {
 			"type": "object",
 			"properties": {
 				"content": {"$ref": "#/definitions/contentType"},
@@ -165,7 +192,19 @@
 				"margin": {"type": "string"},
 				"padding": {"type": "string"},
 				"border": {"$ref": "#/definitions/borderType"},
+				"opacity": {
+					"type": "number",
+					"default": 1.0,
+					"minimum": 0.0,
+				},
 			},
+		},
+		"radialMenuItemStyleSetType": {
+			"type": "object",
+			"properties": {
+				"base": {"$ref": "#/definitions/radialMenuItemStyleType"},
+				"active": {"$ref": "#/definitions/radialMenuItemStyleType"},
+			}
 		},
 		"textStyleType": {
 			"type": "object",
@@ -291,6 +330,107 @@
 			},
 			"additionalProperties": false,
 			"required": ["type", "values"]
+		},
+		"radialMenuType": {
+			"type": "object",
+			"properties": {
+				"half-shifted-items": {"type": "boolean"},
+				"default-item-style": {"$ref": "#/definitions/radialMenuItemStyleSetType"},
+				"central-item-style": {"$ref": "#/definitions/radialMenuCentralItemStyleSetType"},
+				"items": {
+					"type": "array",
+					"items": {"$ref": "#/definitions/radialMenuItemType"},
+				},
+			},
+			"additionalProperties": false,
+			"required": ["items"]
+		},
+		"radialMenuItemType": {
+			"description": "An container used to re-orient items in the opposite direction of the parent's.",
+			"type": "object",
+			"properties": {
+				"command": {"type": "string"},
+				"style": {"$ref": "#/definitions/radialMenuItemStyleSetType"},
+			},
+			"additionalProperties": false,
+			"required": ["command"]
+		},
+		"radialMenuItemStyleType": {
+			"type": "object",
+			"properties": {
+				"label": {"$ref": "#/definitions/radialMenuItemLabelStyleType"},
+				"inner-edge": {"$ref": "#/definitions/radialMenuItemEdgeStyleType"},
+				"outer-edge": {"$ref": "#/definitions/radialMenuItemEdgeStyleType"},
+			},
+			"additionalProperties": false,
+			"required": []
+		},
+		"radialMenuItemLabelStyleType": {
+			"type": "object",
+			"properties": {
+				"size": {
+					"type": "number",
+					"minimum": 0,
+				},
+				"start-distance": {
+					"type": "number",
+					"minimum": 0,
+				},
+				"content": {"$ref": "#/definitions/contentType"},
+				"text-style": {"$ref": "#/definitions/textStyleType"},
+				"color": {"$ref": "#/definitions/colorType"},
+				"margin": {"type": "string"},
+				"padding": {"type": "string"},
+				"border": {"$ref": "#/definitions/borderType"},
+				"opacity": {
+					"type": "number",
+					"default": 1.0,
+					"minimum": 0.0,
+				},
+			},
+			"additionalProperties": false,
+			"required": []
+		},
+		"radialMenuItemEdgeStyleType": {
+			"type": "object",
+			"properties": {
+				"size": {
+					"type": "number",
+					"minimum": 0
+				},
+				"start-distance": {
+					"type": "number",
+					"minimum": 0,
+				},
+				"color": {"$ref": "#/definitions/colorType"},
+				"border": {"$ref": "#/definitions/borderType"},
+			},
+			"additionalProperties": false,
+			"required": []
+		},
+		"radialMenuCentralItemStyleSetType": {
+			"type": "object",
+			"properties": {
+				"base": {"$ref": "#/definitions/radialMenuCentralItemStyleType"},
+				"active": {"$ref": "#/definitions/radialMenuCentralItemStyleType"},
+			},
+			"additionalProperties": false,
+		},
+		"radialMenuCentralItemStyleType": {
+			"type": "object",
+			"properties": {
+				"size": {
+					"type": "number",
+					"minimum": 0
+				},
+				"content": {"$ref": "#/definitions/contentType"},
+				"text-style": {"$ref": "#/definitions/textStyleType"},
+				"color": {"$ref": "#/definitions/colorType"},
+				"border": {"$ref": "#/definitions/borderType"},
+				"padding": {"type": "string"},
+			},
+			"additionalProperties": false,
+			"required": []
 		}
 	}
 }

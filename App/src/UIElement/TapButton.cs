@@ -1,21 +1,15 @@
-﻿using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 
 namespace Taction.UIElement {
 
-	/// <summary>
-	/// A button that executes key command only once.
-	/// </summary>
-	internal class TapButton : CustomButton {
+	internal class TapButton : StyleButton {
 
 		internal KeyCommand KeyCommand { set; get; }
 
-		public TapButton(IPanelItemSpecs specs) {
+		public TapButton(TapButtonSpecs specs) : base(specs.Style) {
 
-			var s = (TapButtonSpecs)specs;
-			KeyCommand = s.KeyCommand;
+			SetResourceReference(StyleProperty, typeof(StyleButton));
+			KeyCommand = specs.KeyCommand;
 		}
 
 		protected override void OnTouchDown(TouchEventArgs e) {

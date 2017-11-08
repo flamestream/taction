@@ -19,25 +19,37 @@ namespace Taction {
 
 		public void Log(string message) {
 
-			using (var file = new StreamWriter(FilePath, true, Encoding.UTF8)) {
+			try {
 
-				// Add header
-				file.WriteLine(string.Format(@"[{0}] {1}", DateTime.Now, message));
-				file.Close();
+				using (var file = new StreamWriter(FilePath, true, Encoding.UTF8)) {
+
+					// Add header
+					file.WriteLine(string.Format(@"[{0}] {1}", DateTime.Now, message));
+					file.Close();
+				}
+
+				var fileInfo = new FileInfo(FilePath);
+				if (fileInfo.Length > MaxFileSize)
+					Trim();
+
+			} catch {
+				// Ignore; Nothing else can be done
 			}
-
-			var fileInfo = new FileInfo(FilePath);
-			if (fileInfo.Length > MaxFileSize)
-				Trim();
 		}
 
 		protected void Trim() {
 
-			var lastLines = ReadEndTokens(FilePath, TrimLineCount, Encoding.UTF8, Environment.NewLine);
-			using (var file = new StreamWriter(FilePath, false, Encoding.UTF8)) {
+			try {
 
-				file.Write(lastLines);
-				file.Close();
+				var lastLines = ReadEndTokens(FilePath, TrimLineCount, Encoding.UTF8, Environment.NewLine);
+				using (var file = new StreamWriter(FilePath, false, Encoding.UTF8)) {
+
+					file.Write(lastLines);
+					file.Close();
+				}
+
+			} catch {
+				// Ignore; Nothing else can be done
 			}
 		}
 

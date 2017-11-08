@@ -1,132 +1,226 @@
 {
 	"name": "Default layout",
-	"version": 3,
-	"opacity": 0.9,
+	"version": 4,
+	"opacity": 1,
 	"opacity-hide": 0.1,
 	"disable-hide": false,
 	"fade-animation-time": 500,
 	"disable-fade-animation": false,
 	"size": 80,
 	"orientation": "vertical",
-	"default-active-style": {
-		"color": {
-			"type": "solid",
-			"value": "#FFBCDDEE"
-		},
-		"text-style": {
-			"font-weight": "bold"
+	"default-button-style": {
+		"active": {
+			"color": {
+				"type": "solid",
+				"value": "DeepSkyBlue"
+			},
+			"text-style": {
+				"color": {
+					"type": "solid",
+					"value": "#DDDDDD"
+				},
+				"font-weight": "bold"
+			}
 		}
 	},
-	"items": [{
-		"type": "move",
-		"size": 30
-	}, {
-		"type": "tap",
-		"size": 75,
-		"base-style": {
-			"content": {
-				"type": "text",
-				"value": "ESC"
+	"default-radial-menu-item-style": {
+		"active": {
+			"inner-edge": {
+				"color": {
+					"type": "solid",
+					"value": "DeepSkyBlue"
+				}
 			},
+			"label": {
+				"text-style": {
+					"color": {
+						"type": "solid",
+						"value": "#DDDDDD"
+					},
+					"font-weight": "bold"
+				}
+			}
+		}
+	},
+	"items": [
+		{
+			"type": "move",
+			"size": 30
 		},
-		"command": "ESCAPE"
-	}, {
-		"type": "tap",
-		"size": 75,
-		"base-style": {
-			"content": {
-				"type": "text",
-				"value": "Tab"
-			},
-		},
-		"command": "TAB"
-	}, {
-		"type": "hold",
-		"size": 75,
-		"base-style": {
-			"content": {
-				"type": "text",
-				"value": "Eyedropper (I)"
-			},
-		},
-		"command": "VK_I"
-	}, {
-		"type": "hold",
-		"size": 75,
-		"base-style": {
-			"content": {
-				"type": "text",
-				"value": "Eraser (E)"
-			},
-		},
-		"command": "VK_E"
-	}, {
-		"type": "hold",
-		"size": 75,
-		"base-style": {
-			"content": {
-				"type": "text",
-				"value": "Marquee (M)"
-			},
-		},
-		"command": "VK_M"
-	}, {
-		"type": "tap",
-		"size": 75,
-		"base-style": {
-			"content": {
-				"type": "text",
-				"value": "Save"
-			},
-		},
-		"command": "LCONTROL VK_S"
-	}, {
-		"type": "toggle",
-		"size": 40,
-		"base-style": {
-			"content": {
-				"type": "text",
-				"value": "CTRL"
-			},
-		},
-		"active-style": {
-			"content": {
-				"type": "text",
-				"value": "CTRL (ON)"
+		{
+			"type": "tap",
+			"size": 75,
+			"command": "ESCAPE",
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "ESC"
+					}
+				}
 			}
 		},
-		"command": "LCONTROL"
-	}, {
-		"type": "toggle",
-		"size": 40,
-		"base-style": {
-			"content": {
-				"type": "text",
-				"value": "SHIFT"
-			},
-		},
-		"active-style": {
-			"content": {
-				"type": "text",
-				"value": "SHIFT (ON)"
+		{
+			"type": "tap",
+			"size": 75,
+			"command": "TAB",
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "Tab"
+					}
+				}
 			}
 		},
-		"command": "SHIFT"
-	}, {
-		"type": "toggle",
-		"size": 40,
-		"base-style": {
-			"content": {
-				"type": "text",
-				"value": "ALT"
-			},
-		},
-		"active-style": {
-			"content": {
-				"type": "text",
-				"value": "ALT (ON)"
+		{
+			"type": "hold",
+			"size": 75,
+			"command": "VK_I",
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "Eyedropper (I)"
+					}
+				}
 			}
 		},
-		"command": "MENU"
-	}]
+		{
+			"type": "hold",
+			"size": 75,
+			"command": "VK_E",
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "Eraser (E)"
+					}
+				}
+			}
+		},
+		{
+			"type": "hold",
+			"size": 75,
+			"command": "VK_M",
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "Marquee (M)"
+					}
+				}
+			}
+		},
+		{
+			"type": "tap",
+			"size": 75,
+			"command": "LCONTROL VK_S",
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "Save"
+					}
+				}
+			}
+		},
+		{
+			"type": "toggle",
+			"size": 40,
+			"command": "LCONTROL",
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "CTRL"
+					}
+				}
+			}
+		},
+		{
+			"type": "toggle",
+			"size": 40,
+			"command": "SHIFT",
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "SHIFT"
+					}
+				}
+			}
+		},
+		{
+			"type": "toggle",
+			"size": 40,
+			"command": "MENU",
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "ALT"
+					}
+				}
+			}
+		},
+		{
+			"type": "radial-menu",
+			"size": 80,
+			"style": {
+				"base": {
+					"content": {
+						"type": "text",
+						"value": "⌾",
+					},
+					"text-style": {
+						"font-size": 24
+					}
+				}
+			},
+			"radial-menu": {
+				"items": [
+					{
+						"command": "VK_B",
+						"style": {
+							"base": {
+								"label": {
+									"content": {
+										"type": "text",
+										"value": "Brush (B)"
+									}
+								}
+							}
+						}
+					},
+					{
+						"command": "VK_E",
+						"style": {
+							"base": {
+								"label": {
+									"content": {
+										"type": "text",
+										"value": "Eraser (E)"
+									}
+								}
+							}
+						}
+					},
+					{
+						"command": "VK_P",
+						"style": {
+							"base": {
+								"label": {
+									"content": {
+										"type": "text",
+										"value": "Pen (P)"
+									}
+								}
+							}
+						}
+					},
+				]
+			}
+		}
+	]
 }

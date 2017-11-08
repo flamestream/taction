@@ -1,29 +1,21 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 
 namespace Taction.UIElement {
 
-	/// <summary>
-	/// A button that executes key command only once.
-	/// </summary>
-	partial class CustomToggleButton : ToggleButton {
+	partial class CustomToggleButton : StyleToggleButton {
 
 		internal KeyCommand KeyCommand { get; set; }
 
-		public CustomToggleButton(IPanelItemSpecs specs) {
+		public CustomToggleButton(ToggleButtonSpecs specs) : base(specs.Style) {
 
-			var s = (ToggleButtonSpecs)specs;
-			KeyCommand = s.KeyCommand;
+			SetResourceReference(StyleProperty, typeof(StyleToggleButton));
+
+			KeyCommand = specs.KeyCommand;
 
 			// Event binding
 			Checked += HandleChecked;
 			Unchecked += HandleUnchecked;
-
-			var res = new ResourceDictionary {
-				Source = new Uri(@"pack://application:,,,/src/UIElement/Button.xaml")
-			};
-			Style = (Style)res["ToggleButtonStyle"];
 		}
 
 		protected void HandleChecked(Object sender, RoutedEventArgs e) {
