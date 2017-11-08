@@ -110,10 +110,6 @@
       <DependentUpon>RadialMenuWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\RelayCommand.cs" />
-    <Compile Include="src\UIElement\CustomButton.StyleProperties.cs" />
-    <Compile Include="src\UIElement\CustomRadialMenuItem.StyleProperties.Active.cs" />
-    <Compile Include="src\UIElement\CustomRadialMenuItem.StyleProperties.cs" />
-    <Compile Include="src\UIElement\RadialMenuButton.StyleProperties.cs" />
     <Compile Include="src\UIElement\ICustomStylizable.cs" />
     <Compile Include="src\UIElement\CustomButton.cs" />
     <Compile Include="src\UIElement\NotificationToast.xaml.cs">
@@ -135,7 +131,6 @@
     <Compile Include="src\UIElement\TapButton.cs" />
     <Compile Include="src\UIElement\CustomToggleButton.cs" />
     <Compile Include="src\UIElement\HoldButton.cs" />
-    <Compile Include="src\UIElement\CustomToggleButton.StyleProperties.cs" />
     <Compile Include="src\UIElement\CustomRadialMenuItem.xaml.cs">
       <DependentUpon>CustomRadialMenuItem.xaml</DependentUpon>
     </Compile>
@@ -151,10 +146,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="src\RadialMenuWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="src\UIElement\Button.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
