@@ -164,52 +164,6 @@ namespace Taction {
 				source.TextStyle.FontWeight = apply.TextStyle.FontWeight ?? source.TextStyle.FontWeight;
 		}
 
-		private static void ApplyBaseStyle(ContentControl item, ButtonStyleSetSpecs style) {
-
-			if (style == null)
-				return;
-
-			var baseStyle = style.Base;
-			if (baseStyle == null)
-				return;
-
-			if (baseStyle.Color != null)
-				item.Background = baseStyle.Color;
-
-			if (baseStyle.Content != null)
-				item.Content = baseStyle.Content;
-
-			if (baseStyle.Margin != null)
-				item.Margin = baseStyle.Margin.Value;
-
-			if (baseStyle.Padding != null)
-				item.Padding = baseStyle.Padding.Value;
-
-			if (baseStyle.Border != null) {
-
-				if (baseStyle.Border.Color != null)
-					item.BorderBrush = baseStyle.Border.Color;
-
-				if (baseStyle.Border.Thickness != null)
-					item.BorderThickness = baseStyle.Border.Thickness.Value;
-			}
-
-			if (baseStyle.TextStyle != null) {
-
-				if (baseStyle.TextStyle.Color != null)
-					item.Foreground = baseStyle.TextStyle.Color;
-
-				if (baseStyle.TextStyle.FontFamily != null)
-					item.FontFamily = baseStyle.TextStyle.FontFamily;
-
-				if (baseStyle.TextStyle.FontSize != null)
-					item.FontSize = baseStyle.TextStyle.FontSize.Value;
-
-				if (baseStyle.TextStyle.FontWeight != null)
-					item.FontWeight = baseStyle.TextStyle.FontWeight.Value;
-			}
-		}
-
 		public static void AdjustGradientColor(ContentControl item, Brush brush) {
 
 			// Type heck
