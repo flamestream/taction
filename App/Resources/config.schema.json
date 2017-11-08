@@ -382,6 +382,11 @@
 				"margin": {"type": "string"},
 				"padding": {"type": "string"},
 				"border": {"$ref": "#/definitions/borderType"},
+				"opacity": {
+					"type": "number",
+					"default": 1.0,
+					"minimum": 0.0,
+				},
 			},
 			"additionalProperties": false,
 			"required": []
