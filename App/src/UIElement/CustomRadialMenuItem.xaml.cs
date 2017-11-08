@@ -174,8 +174,8 @@ namespace Taction.UIElement {
 				if (labelStyle.Content != null)
 					Base_LabelContent = labelStyle.Content;
 
-				if (labelStyle.ContentPadding != null)
-					Base_LabelPadding = labelStyle.ContentPadding.Value;
+				if (labelStyle.Padding != null)
+					Base_LabelPadding = labelStyle.Padding.Value;
 
 				if (labelStyle.Margin != null)
 					Base_LabelMargin = labelStyle.Margin.Value;
@@ -297,8 +297,8 @@ namespace Taction.UIElement {
 				if (labelStyle.Content != null)
 					Active_LabelContent = labelStyle.Content;
 
-				if (labelStyle.ContentPadding != null)
-					Active_LabelPadding = labelStyle.ContentPadding.Value;
+				if (labelStyle.Padding != null)
+					Active_LabelPadding = labelStyle.Padding.Value;
 
 				if (labelStyle.Margin != null)
 					Active_LabelMargin = labelStyle.Margin.Value;

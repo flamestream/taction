@@ -4,10 +4,7 @@ using System.Windows.Controls.Primitives;
 
 namespace Taction.UIElement {
 
-	/// <summary>
-	/// A button that executes key command only once.
-	/// </summary>
-	partial class CustomToggleButton : ToggleButton {
+	partial class CustomToggleButton : StyleToggleButton {
 
 		internal KeyCommand KeyCommand { get; set; }
 
@@ -20,10 +17,7 @@ namespace Taction.UIElement {
 			Checked += HandleChecked;
 			Unchecked += HandleUnchecked;
 
-			var res = new ResourceDictionary {
-				Source = new Uri(@"pack://application:,,,/src/UIElement/Button.xaml")
-			};
-			Style = (Style)res["ToggleButtonStyle"];
+			SetResourceReference(StyleProperty, typeof(StyleToggleButton));
 		}
 
 		protected void HandleChecked(Object sender, RoutedEventArgs e) {

@@ -129,6 +129,9 @@
     </Compile>
     <Compile Include="src\UIElement\CustomStackPanel.cs" />
     <Compile Include="src\UIElement\RadialMenuButton.cs" />
+    <Compile Include="src\UIElement\StyleToggleButton.xaml.cs">
+      <DependentUpon>StyleToggleButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="src\UIElement\TapButton.cs" />
     <Compile Include="src\UIElement\CustomToggleButton.cs" />
     <Compile Include="src\UIElement\HoldButton.cs" />
@@ -180,6 +183,10 @@
     <Page Include="src\UIElement\CustomRadialMenuItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\UIElement\StyleToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="src\UIElement\StyleButton.xaml">
       <SubType>Designer</SubType>

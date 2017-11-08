@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 
 namespace Taction.UIElement {
 
-	internal partial class RadialMenuButton : ToggleButton {
+	internal partial class RadialMenuButton : StyleToggleButton {
 
 		public RadialMenuWindow RadialMenuWindow;
 
-		public RadialMenuButton(IPanelItemSpecs specs) {
+		public RadialMenuButton(RadialMenuButtonSpecs specs) : base(specs.Style) {
 
 			var s = (RadialMenuButtonSpecs)specs;
 			RadialMenuWindow = new RadialMenuWindow(s.RadialMenuSpecs);
@@ -18,10 +17,7 @@ namespace Taction.UIElement {
 			Checked += RadialMenuButton_Checked;
 			Unchecked += RadialMenuButton_Unchecked;
 
-			var res = new ResourceDictionary {
-				Source = new Uri(@"pack://application:,,,/src/UIElement/Button.xaml")
-			};
-			Style = (Style)res["RadialMenuButtonStyle"];
+			SetResourceReference(StyleProperty, typeof(StyleToggleButton));
 		}
 
 		private void RadialMenuWindow_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {

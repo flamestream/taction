@@ -67,7 +67,7 @@ namespace Taction {
 				var itemType = attr.Value;
 
 				FrameworkElement item;
-				if (itemType == typeof(HoldButton)) {
+				if (itemType == typeof(HoldButton) || itemType == typeof(RadialMenuButton)) {
 
 					// Compute specs
 					var computedSpecs = specs as IButtonSpecs;
@@ -144,8 +144,8 @@ namespace Taction {
 			if (source.Content == null || !ignoreIfNotNull)
 				source.Content = apply.Content ?? source.Content;
 
-			if (source.ContentPadding == null || !ignoreIfNotNull)
-				source.ContentPadding = apply.ContentPadding ?? source.ContentPadding;
+			if (source.Padding == null || !ignoreIfNotNull)
+				source.Padding = apply.Padding ?? source.Padding;
 
 			if (source.Margin == null || !ignoreIfNotNull)
 				source.Margin = apply.Margin ?? source.Margin;
@@ -184,8 +184,8 @@ namespace Taction {
 			if (baseStyle.Margin != null)
 				item.Margin = baseStyle.Margin.Value;
 
-			if (baseStyle.ContentPadding != null)
-				item.Padding = baseStyle.ContentPadding.Value;
+			if (baseStyle.Padding != null)
+				item.Padding = baseStyle.Padding.Value;
 
 			if (baseStyle.Border != null) {
 

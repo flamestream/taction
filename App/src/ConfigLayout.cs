@@ -198,7 +198,7 @@ namespace Taction {
 
 		[JsonProperty("padding")]
 		[JsonConverter(typeof(ThicknessJsonConverter))]
-		public Thickness? ContentPadding { get; set; }
+		public Thickness? Padding { get; set; }
 
 		[JsonProperty("border")]
 		public BorderSpecs Border { get; set; }
