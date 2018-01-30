@@ -30,6 +30,8 @@ module.exports = {
     // enforce tab indentation
     "no-tabs": 0,
     "indent": ["error", "tab"],
-    "padded-blocks": 0
+    "padded-blocks": 0,
+    "space-before-function-paren": 0,
+    "curly": 0 //"multi-or-nest"
   }
 }

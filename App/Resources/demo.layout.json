@@ -13,11 +13,11 @@
 		"command": "ESCAPE",
 		"content": {
 			"type": "text",
-			"value": "ESC",
+			"value": "ESC"
 		},
 		"text-style": {
 			"font-family": "Segoe UI Black",
-			"size": 16,
+			"size": 16
 		},
 		"color": {
 			"type": "solid",
@@ -47,7 +47,7 @@
 		"command": "VK_I",
 		"content": {
 			"type": "text",
-			"value": "Eyedropper (I)",
+			"value": "Eyedropper (I)"
 		}
 	}, {
 		"type": "toggle",
@@ -55,7 +55,7 @@
 		"command": "CONTROL",
 		"content": {
 			"type": "text",
-			"value": "CTRL",
+			"value": "CTRL"
 		},
 		"text-style": {
 			"color": {
@@ -76,7 +76,7 @@
 		},
 		"content": {
 			"type": "text",
-			"value": "SAVE",
-		},
+			"value": "SAVE"
+		}
 	}]
 }

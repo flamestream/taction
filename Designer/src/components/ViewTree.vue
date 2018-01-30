@@ -1,7 +1,7 @@
 <template>
 	<div>
 		ViewTree
-		<Tree v-if="state && state.loadedLayout" :items="state.loadedLayout.items"></Tree>
+		<Tree v-if="layout" :items="layout.items"></Tree>
 	</div>
 </template>
 
@@ -9,7 +9,7 @@
 import Tree from './Tree'
 export default {
 	name: 'ViewTree',
-	props: ['state'],
+	props: ['layout'],
 	components: {
 		Tree
 	},
@@ -18,9 +18,6 @@ export default {
 		}
 	},
 	methods: {
-		onLayoutLoad(loadedLayout) {
-			this.state.loadedLayout = loadedLayout;
-		}
 	}
 }
 </script>

@@ -1,28 +1,49 @@
 <template>
 	<table>
-		<caption>Global</caption>
-		<PropertiesRowText :label="'Opacity'" :value="loadedLayout['opacity']"/>
-		<PropertiesRowText :label="'Opacity (hidden)'" :value="loadedLayout['opacity-hide']"/>
-		<PropertiesRowText :label="'Fade animation time'" :value="loadedLayout['fade-animation-time']"/>
-		<PropertiesRowText :label="'Size'" :value="loadedLayout['size']"/>
-		<PropertiesRowText :label="'Name'" :value="loadedLayout['name']"/>
-		<PropertiesRowText :label="'Disable fade animation'" :value="loadedLayout['disable-fade-animation']"/>
-		<PropertiesRowText :label="'Disable hide'" :value="loadedLayout['disable-hide']"/>
-		<PropertiesRowText :label="'Margin'" :value="loadedLayout['margin']"/>
-		<PropertiesRowText :label="'Border'" :value="loadedLayout['border']"/>
-		<PropertiesRowText :label="'Background color'" :value="loadedLayout['color']"/>
-		<PropertiesRowText :label="'Orientation'" :value="loadedLayout['orientation']"/>
+		<caption>▼ Global</caption>
+		<PropertyRow v-for="(property, index) in properties" :label="property.label" :value="property.value" :type="property.type" :key="index"/>
 	</table>
 </template>
 
 <script>
-import PropertiesRowText from './PropertiesRowText'
+import PropertyRow from './PropertyRow'
 export default {
 	name: 'PropertyGlobal',
 	components: {
-		PropertiesRowText
+		PropertyRow
 	},
-	props: [ 'loadedLayout' ]
+	props: {
+		layout: {
+			type: Object,
+			default: () => {}
+		}
+	},
+	computed: {
+		properties() {
+			let layout = this.layout || {};
+			return [
+				new PropertyRowSpecs('Name', layout['name']),
+				new PropertyRowSpecs('Orientation', layout['orientation'], 'orientation'),
+				new PropertyRowSpecs('Size', layout['size'], 'number-positive'),
+				new PropertyRowSpecs('Background color', layout['color'], 'color'),
+				new PropertyRowSpecs('Border', layout['border'], 'border'),
+				new PropertyRowSpecs('Margin', layout['margin'], 'rectangle'),
+				new PropertyRowSpecs('Opacity', layout['opacity'], 'number-100'),
+				new PropertyRowSpecs('Disable hide', layout['disable-hide'], 'boolean'),
+				new PropertyRowSpecs('Disable fade animation', layout['disable-fade-animation'], 'boolean'), // @TODO auto-set when 0
+				new PropertyRowSpecs('Fade animation time', layout['fade-animation-time'], 'number-positive'),
+				new PropertyRowSpecs('Opacity (hidden)', layout['opacity-hide'], 'number-100')
+			]
+		}
+	}
+}
+
+class PropertyRowSpecs {
+	constructor(label, value, type) {
+		this.label = label;
+		this.value = value;
+		this.type = type;
+	}
 }
 </script>
 

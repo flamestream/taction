@@ -1,32 +1,49 @@
 <template>
 	<table>
-		<caption>{{ caption }}</caption>
-		<PropertiesRowText :label="'Content'" :value="buttonProps['content']"/>
-		<PropertiesRowText :label="'Text style'" :value="buttonProps['text-style']"/>
-		<PropertiesRowText :label="'Color'" :value="buttonProps['color']"/>
-		<PropertiesRowText :label="'Margin'" :value="buttonProps['margin']"/>
-		<PropertiesRowText :label="'Padding'" :value="buttonProps['padding']"/>
-		<PropertiesRowText :label="'Border'" :value="buttonProps['border']"/>
-		<PropertiesRowText :label="'Opacity'" :value="buttonProps['opacity']"/>
+		<caption>▶ {{ caption }}</caption>
+		<PropertyRow v-for="(property, index) in properties" :label="property.label" :value="property.value" :type="property.type" :key="index"/>
 	</table>
 </template>
 
 <script>
-import PropertiesRowText from './PropertiesRowText'
+import PropertyRow from './PropertyRow'
 export default {
 	name: 'PropertyButton',
 	components: {
-		PropertiesRowText
+		PropertyRow
 	},
 	props: {
 		buttonProps: {
 			type: Object,
-			default: {}
+			default: () => {}
 		},
 		caption: {
 			type: String,
 			default: 'Button style'
 		}
+	},
+	computed: {
+		properties() {
+			let p = this.buttonProps || {};
+			return [
+				// new PropertyRowSpecs('Type', p['type']),
+				new PropertyRowSpecs('Content', p['content'], 'content'),
+				new PropertyRowSpecs('Color', p['color'], 'color'),
+				new PropertyRowSpecs('Text style', p['text-style'], 'text-style'),
+				new PropertyRowSpecs('Margin', p['margin'], 'rectangle'),
+				new PropertyRowSpecs('Padding', p['padding'], 'rectangle'),
+				new PropertyRowSpecs('Border', p['border'], 'border'),
+				new PropertyRowSpecs('Opacity', p['opacity'], 'number')
+			]
+		}
+	}
+}
+
+class PropertyRowSpecs {
+	constructor(label, value, type) {
+		this.label = label;
+		this.value = value;
+		this.type = type;
 	}
 }
 </script>
@@ -34,6 +51,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 table {
+	display: block;
 	background-color: #FF00FF55;
 }
+
 </style>

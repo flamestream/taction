@@ -1,7 +1,7 @@
 <template>
 	<div class="hello">
 		Preview
-		{{ state.loadedLayout }}
+		{{ state.layout }}
 	</div>
 </template>
 
@@ -9,7 +9,7 @@
 export default {
 	name: 'ViewPreview',
 	props: ['state'],
-	data () {
+	data() {
 		return {
 			msg: 'Welcome to Your Vue.js App'
 		}

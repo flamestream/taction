@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<TreeNode v-for="item in items" :itemData="item"/>
+		<TreeNode v-for="(item, index) in items" :itemData="item" :key="index" />
 	</div>
 </template>
 

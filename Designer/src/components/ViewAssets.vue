@@ -1,7 +1,7 @@
 <template>
 	<div>
 		ViewAssets
-		<div v-for="asset in assets">
+		<div v-for="(asset, index) in assets" :key="index">
 			{{ asset.name }}
 		</div>
 	</div>
@@ -13,16 +13,7 @@ export default {
 	props: {
 		assets: {
 			type: Object,
-			default: {}
-		}
-	},
-	data() {
-		return {
-		}
-	},
-	methods: {
-		onLayoutLoad(loadedLayout) {
-			this.state.loadedLayout = loadedLayout;
+			default: () => {}
 		}
 	}
 }

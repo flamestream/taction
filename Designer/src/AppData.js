@@ -1,3 +1,0 @@
-global.AppData = {
-	loadedLayout: null,
-};
