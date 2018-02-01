@@ -1,7 +1,8 @@
 <template>
 	<div>
 		<form>
-			<button @click="handleExportButtonClick">Export</button>
+			<button @click.prevent="handleResetButtonClick">Reset</button>
+			<button @click.prevent="handleExportButtonClick">Export</button>
 			<input type="file" accept=".json, .taction-bundle" @change="handleFileChange"/>
 			{{status}}
 		</form>
@@ -18,8 +19,10 @@ export default {
 		}
 	},
 	methods: {
+		handleResetButtonClick(ev) {
+			this.$emit('reset');
+		},
 		handleExportButtonClick(ev) {
-			ev.preventDefault();
 			this.$emit('exportButtonClick');
 		},
 		async handleFileChange(evt) {

@@ -1,6 +1,6 @@
 <template>
 	<div id="app">
-		<ViewFilePane @fileLoad="onFileLoad" @exportButtonClick="onExportButtonClick"/>
+		<ViewFilePane @fileLoad="onFileLoad" @reset="handleReset" @exportButtonClick="onExportButtonClick"/>
 		<div id="workspace">
 			<ViewProperties id="view_properties" :layout="layout"/>
 			<div id="view_selectors">
@@ -86,6 +86,10 @@ export default {
 			let name = layout.name || 'Untitled';
 			name = name.substr(0, 63 - ext.length) + '.' + ext;
 			FileSaver.saveAs(blob, name);
+		},
+		handleReset() {
+
+			this.layout = {}
 		}
 	}
 }
