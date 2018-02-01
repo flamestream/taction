@@ -50,18 +50,24 @@ export default {
 			// Raw format check
 			let { raw } = this;
 
-			if (typeof raw !== 'string')
-				return;
+			let top, right, bottom, left;
+			if (raw) {
 
-			this.hasError = !raw.match(/^\d+(\.\d+)?( \d+(\.\d+)?){0,3}$/);
-			if (this.hasError)
-				return;
+				this.hasError = !raw.match(/^\d+(\.\d+)?( \d+(\.\d+)?){0,3}$/);
+				if (!this.hasError) {
 
-			let individualValues = raw.split(' ');
-			this.top = individualValues[0];
-			this.right = individualValues.length >= 1 && individualValues[1] || this.top;
-			this.bottom = individualValues.length >= 2 && individualValues[2] || this.top;
-			this.left = individualValues.length >= 3 && individualValues[3] || this.right;
+					let individualValues = raw.split(' ');
+					top = individualValues[0];
+					right = individualValues.length >= 1 && individualValues[1] || top;
+					bottom = individualValues.length >= 2 && individualValues[2] || top;
+					left = individualValues.length >= 3 && individualValues[3] || right;
+				}
+			}
+
+			this.top = top
+			this.right = right
+			this.bottom = bottom;
+			this.left = left;
 		},
 		updateFromIndividualValues() {
 
