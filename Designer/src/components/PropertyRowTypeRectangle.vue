@@ -4,19 +4,19 @@
 		<table>
 			<tr>
 				<th>top</th>
-				<td><input type="number" v-model="top" min="0" @change="updateFromIndividualValues"/></td>
+				<td><input type="number" min="0" :value="top" @change="ev => { handleSingleInputChange(ev, 'top') }"/></td>
 			</tr>
 			<tr>
 				<th>right</th>
-				<td><input type="number" v-model="right" min="0" @change="updateFromIndividualValues"/></td>
+				<td><input type="number" min="0" :value="right" @change="ev => { handleSingleInputChange(ev, 'right') }"/></td>
 			</tr>
 			<tr>
 				<th>bottom</th>
-				<td><input type="number" v-model="bottom" min="0" @change="updateFromIndividualValues"/></td>
+				<td><input type="number" min="0" :value="bottom" @change="ev => { handleSingleInputChange(ev, 'bottom') }"/></td>
 			</tr>
 			<tr>
 				<th>left</th>
-				<td><input type="number" v-model="left" min="0" @change="updateFromIndividualValues"/></td>
+				<td><input type="number" min="0" :value="left" @change="ev => { handleSingleInputChange(ev, 'left') }"/></td>
 			</tr>
 		</table>
 	</div>
@@ -69,14 +69,26 @@ export default {
 			this.bottom = bottom;
 			this.left = left;
 		},
+		handleSingleInputChange(ev, name) {
+
+			console.log('faousghkjasdf');
+			let { currentTarget } = ev;
+			let { value } = currentTarget;
+			console.log(value);
+			let validatedValue = Number.parseFloat(value) || 0;
+			this[name] = validatedValue;
+
+			this.updateFromIndividualValues();
+		},
 		updateFromIndividualValues() {
 
-			if (this.top === undefined) this.top = 0;
-			if (this.right === undefined) this.right = 0;
-			if (this.bottom === undefined) this.bottom = 0;
-			if (this.left === undefined) this.left = 0;
+			let { top, right, bottom, left } = this;
+			if (!top) top = 0;
+			if (!right) right = 0;
+			if (!bottom) bottom = 0;
+			if (!left) left = 0;
 
-			this.raw = `${this.top} ${this.right} ${this.bottom} ${this.left}`;
+			this.raw = `${top} ${right} ${bottom} ${left}`;
 		}
 	}
 }
