@@ -11,3 +11,7 @@ new Vue({
 	components: { App },
 	template: '<App/>'
 })
+
+document.addEventListener('dragover', function(ev) {
+	ev.preventDefault();
+});

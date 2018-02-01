@@ -6,6 +6,7 @@
 		<td v-else-if="type === 'number-100'"><input type="number" :value="value" min="0" max="100"/></td>
 		<td v-else-if="type === 'boolean'"><input type="checkbox" :value="value === 'true'"/></td>
 		<td v-else-if="type === 'rectangle'"><PropertyRowTypeRectangle :value="value"/></td>
+		<td v-else-if="type === 'border'"><PropertyRowTypeBorder :value="value"/></td>
 		<td v-else-if="type === 'color'"><PropertyRowTypeColor :value="value"/></td>
 		<td v-else-if="type === 'orientation'">
 			<select :value="value">
@@ -20,11 +21,13 @@
 <script>
 import PropertyRowTypeRectangle from './PropertyRowTypeRectangle'
 import PropertyRowTypeColor from './PropertyRowTypeColor'
+import PropertyRowTypeBorder from './PropertyRowTypeBorder'
 export default {
 	name: 'PropertyRow',
 	components: {
 		PropertyRowTypeRectangle,
-		PropertyRowTypeColor
+		PropertyRowTypeColor,
+		PropertyRowTypeBorder
 	},
 	props: [ 'label', 'value', 'type' ]
 }

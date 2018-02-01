@@ -2,22 +2,14 @@ class Color {
 
 	constructor(r, g, b, a) {
 
-		if (arguments.length === 1) {
+		// Copy constructor-ish
+		if (arguments.length === 1 && r instanceof Object) {
 
-			let color;
-			if (typeof r === 'string')
-				color = Color.fromHex(r) || Color.fromName(r);
-			else if (r instanceof Object)
-				color = r;
-
-
-			if (color) {
-
-				r = color.red;
-				g = color.green;
-				b = color.blue;
-				a = color.alpha;
-			}
+			let color = r;
+			r = color.red;
+			g = color.green;
+			b = color.blue;
+			a = color.alpha;
 		}
 
 		// Range: 0-255
@@ -67,11 +59,11 @@ class Color {
 	}
 };
 
-Color.fromHex = function(hex) {
+Color.fromHex = function(hex, fallback = true) {
 
 	hex = sanitizeHex(hex);
 	if (!hex)
-		return;
+		return fallback && new Color() || undefined;
 
 	if (hex.length !== 8)
 		hex = hex + 'FF';
@@ -88,11 +80,11 @@ Color.fromHex = function(hex) {
 	);
 };
 
-Color.fromWpfHex = function(hex) {
+Color.fromWpfHex = function(hex, fallback = true) {
 
 	hex = sanitizeHex(hex);
 	if (!hex)
-		return;
+		return fallback && new Color() || undefined;
 
 	if (hex.length !== 8)
 		hex = 'FF' + hex;
@@ -105,11 +97,44 @@ Color.fromWpfHex = function(hex) {
 	);
 };
 
-Color.fromName = function(name) {
+Color.fromName = function(name, fallback = true) {
 
+	/* eslint no-mixed-operators: 0 */
 	name = name.toLowerCase();
 	let hex = namedColor[name];
-	return hex && Color.fromHex(hex);
+	return hex && Color.fromHex(hex) || fallback && new Color();
+}
+
+Color.hexWpf2Web = function(hex) {
+
+	hex = sanitizeHex(hex);
+	if (!hex)
+		return;
+
+	if (hex.length !== 8)
+		return '#' + hex;
+
+	let alpha = hex[0] + hex[1];
+	let out = hex + alpha;
+	out = '#' + out.substr(2);
+
+	return out;
+}
+
+Color.hexWeb2Wpf = function(hex) {
+
+	hex = sanitizeHex(hex);
+	if (!hex)
+		return;
+
+	if (hex.length !== 8)
+		return '#' + hex;
+
+	let alpha = hex[6] + hex[7];
+	let out = alpha + hex;
+	out = '#' + out.substr(2);
+
+	return out;
 }
 
 function toValidNumber(n, defaultValue = 0) {

@@ -1,7 +1,9 @@
 <template>
 	<span>
 		<input ref="input" type="color" :value="hexColor" @click="handleColorInputClick"/>
-		<input ref="alpha" type="range" min="0" max="255" step="1" :value="alpha" @input="handleAlphaChange"/>
+		<div class="alpha" ref="alpha">
+			<input type="range" min="0" max="255" step="1" :value="alpha" @input="handleAlphaChange"/>
+		</div>
 	</span>
 </template>
 
@@ -33,7 +35,7 @@ export default {
 	},
 	watch: {
 		value(newValue) {
-			this.color = new Color(newValue);
+			this.syncInputValue();
 		}
 	},
 	methods: {
@@ -49,9 +51,18 @@ export default {
 			this.color.alpha = parseInt(target.value);
 		},
 		setColorFromHexDigits(hex) {
+
 			let newColor = Color.fromHex(`#${hex}`);
 			newColor.alpha = this.color.alpha;
 			this.color = newColor;
+		},
+		syncInputValue() {
+
+			let { value } = this;
+			let hex = value.getSimpleHex();
+
+			this.color = value;
+			this.picker.set(hex);
 		}
 	},
 	mounted() {
@@ -65,16 +76,46 @@ export default {
 
 		let panel = scrollparent(this.$el);
 		if (panel) {
+
+			picker.on('enter', function() {
+
+				this._initScrollPosition = {
+					x: panel.scrollTop,
+					y: panel.scrollLeft
+				};
+
+				this.picker.style.marginTop = '0px';
+				this.picker.style.marginLeft = '0px';
+			});
+
 			panel.addEventListener('scroll', function() {
-				picker.picker.style.marginTop = '-' + this.scrollTop + 'px';
+
+				if (!picker._initScrollPosition) return;
+				picker.picker.style.marginTop = picker._initScrollPosition.x - this.scrollTop + 'px';
+				picker.picker.style.marginLeft = picker._initScrollPosition.y - this.scrollLeft + 'px';
+
 			}, false);
 		}
 	}
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
+.color-picker .alpha {
+
+	display: flex;
+	padding: 4px 4px 2px;
+	background-color: #111;
+	border: 1px solid #000;
+}
+
+.color-picker .alpha > input[type=range] {
+
+	flex-grow: 1;
+}
+
+/* Library CSS */
 
 .color-picker,
 .color-picker:before,
@@ -97,21 +138,19 @@ export default {
   -webkit-box-shadow:1px 5px 10px rgba(0,0,0,.5);
   -moz-box-shadow:1px 5px 10px rgba(0,0,0,.5);
   box-shadow:1px 5px 10px rgba(0,0,0,.5);
+  white-space:nowrap;
+  font-size:0px;
 }
 .color-picker-control *,
 .color-picker-control *:before,
 .color-picker-control *:after {border-color:inherit}
-.color-picker-control:after {
-  content:" ";
-  display:table;
-  clear:both;
-}
+
 .color-picker i {font:inherit}
 .color-picker-h {
   position:relative;
   width:20px;
   height:150px;
-  float:right;
+  display:inline-block;
   border-left:1px solid;
   border-left-color:inherit;
   cursor:ns-resize;
@@ -150,7 +189,7 @@ export default {
   position:relative;
   width:150px;
   height:150px;
-  float:left;
+  display:inline-block;
   background:transparent url('../assets/color-picker-sv.png') no-repeat 50% 50%;
   background-image:-webkit-linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,rgba(255,255,255,0));
   background-image:-moz-linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,rgba(255,255,255,0));

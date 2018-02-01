@@ -1,8 +1,5 @@
 <template>
-	<div class="hello">
-		Preview
-		{{ state.layout }}
-	</div>
+	<pre>{{ state.layout }}</pre>
 </template>
 
 <script>
