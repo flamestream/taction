@@ -6,7 +6,7 @@
 				<div class="color" :style="getStopColorStyle(stop)"></div>
 			</div>
 		</div>
-		<input type="number" min="0" max="1" v-model="getActiveStop().position" @change="handleInputNumberChange">
+		<input type="number" min="0" max="1" step="0.1" v-model="getActiveStop().position" @change="handleInputNumberChange">
 		<input type="range" min="0" max="1" step="0.001" v-model="getActiveStop().position">
 		<InputColorSolid :value="getActiveStop().color" @change="handleColorChange"/>
 	</div>
