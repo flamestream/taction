@@ -33,7 +33,7 @@ export default {
 				new PropertyRowSpecs('Margin', p['margin'], 'rectangle'),
 				new PropertyRowSpecs('Padding', p['padding'], 'rectangle'),
 				new PropertyRowSpecs('Border', p['border'], 'border'),
-				new PropertyRowSpecs('Opacity', p['opacity'], 'number')
+				new PropertyRowSpecs('Opacity', p['opacity'], 'number-100')
 			]
 		}
 	}

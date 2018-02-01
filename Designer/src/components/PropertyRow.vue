@@ -3,7 +3,7 @@
 		<th>{{ label }}</th>
 		<td v-if="type === 'number'"><input type="number" :value="value"/></td>
 		<td v-else-if="type === 'number-positive'"><input type="number" :value="value" min="0"/></td>
-		<td v-else-if="type === 'number-100'"><input type="number" :value="value" min="0" max="100"/></td>
+		<td v-else-if="type === 'number-100'"><input type="range" min="0" max="1" step="0.01" :value="value || 1"/></td>
 		<td v-else-if="type === 'boolean'"><input type="checkbox" :value="value === 'true'"/></td>
 		<td v-else-if="type === 'rectangle'"><PropertyRowTypeRectangle :value="value"/></td>
 		<td v-else-if="type === 'border'"><PropertyRowTypeBorder :value="value"/></td>
