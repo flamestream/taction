@@ -135,10 +135,8 @@ export default {
 		},
 		handleStopDrag: debounce(function(ev, stopObj) {
 
-			let { currentTarget } = ev;
 			let rect = this.cachedPreviewRect;
 			let x = ev.pageX - rect.left;
-			let y = ev.pageY - rect.top;
 
 			x = Math.max(0, Math.min(rect.width, x));
 			let ratio = x / rect.width;
@@ -192,7 +190,7 @@ export default {
 
 .preview {
 	height: 2em;
-	border: 1px solid #00000055;
+	border: 1px solid black;
 }
 
 input[type=number] {

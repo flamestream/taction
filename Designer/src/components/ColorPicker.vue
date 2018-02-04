@@ -1,8 +1,14 @@
 <template>
 	<span>
 		<input ref="input" type="color" :value="hexColor" @click="handleColorInputClick"/>
-		<div class="alpha" ref="alpha">
-			<input type="range" min="0" max="255" step="1" :value="alpha" @input="handleAlphaChange"/>
+		<div class="extra" ref="extra">
+			<div class="alpha">
+				<input type="text" v-model="alpha" @click="handleClickToSelect"/>
+				<input type="range" min="0" max="1" step="0.001" v-model="alpha"/>
+			</div>
+			<div class="name">
+				<input type="text" :value="name" @change="handleInputNameChange" @click="handleClickToSelect"/>
+			</div>
 		</div>
 	</span>
 </template>
@@ -29,8 +35,28 @@ export default {
 		hexColor() {
 			return this.color.getSimpleHex();
 		},
-		alpha() {
-			return this.color.alpha;
+		alpha: {
+			get() {
+				let v = (this.color.alpha / 255).toFixed(3);
+				return v;
+			},
+			set(v) {
+
+				let value = parseFloat(v);
+				if (Number.isNaN(value)) value = 1;
+				value *= 255;
+				this.color.alpha = value >> 0;
+			}
+		},
+		name: {
+			get() {
+				return this.color.getHex();
+			},
+			set(v) {
+
+				let color = Color.fromHex(v, false) || Color.fromName(v);
+				this.picker.set(color.getSimpleHex());
+			}
 		}
 	},
 	watch: {
@@ -40,15 +66,22 @@ export default {
 	},
 	methods: {
 		handleColorChange() {
+			console.log('colro chaneg!', this.color);
 			this.$emit('colorChange', this.color);
 		},
 		handleColorInputClick(ev) {
 			ev.preventDefault();
 		},
-		handleAlphaChange(ev) {
+		handleInputNameChange(ev) {
 
-			let { target } = ev;
-			this.color.alpha = parseInt(target.value);
+			let {currentTarget} = ev;
+			console.log(currentTarget.value);
+			this.name = currentTarget.value;
+		},
+		handleClickToSelect(ev) {
+
+			let {currentTarget} = ev;
+			currentTarget.select();
 		},
 		setColorFromHexDigits(hex) {
 
@@ -70,7 +103,7 @@ export default {
 		this.picker = new CP(this.$refs.input);
 
 		let { picker } = this;
-		picker.picker.appendChild(this.$refs.alpha);
+		picker.picker.appendChild(this.$refs.extra);
 		picker.on('change', h => this.setColorFromHexDigits(h));
 		picker.on('exit', () => this.handleColorChange());
 
@@ -102,17 +135,40 @@ export default {
 
 <style>
 
-.color-picker .alpha {
+.color-picker {
 
-	display: flex;
-	padding: 4px 4px 2px;
-	background-color: #111;
-	border: 1px solid #000;
+	width: 184px !important;
+	border: 6px solid #111;
+	border-radius: 4px;
 }
 
-.color-picker .alpha > input[type=range] {
+.color-picker .extra > div {
 
-	flex-grow: 1;
+	display: flex;
+	background-color: #111;
+	padding-top: 3px
+}
+
+.color-picker .alpha input[type=text] {
+
+	width: 50px;
+	margin-right: 4px;
+	flex: 0;
+	text-align: right;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.color-picker .alpha input[type=range] {
+
+	flex: 1 1;
+	width: 30px;
+}
+
+.color-picker .name input {
+
+	flex: 1 1;
+	width: 30px;
 }
 
 /* Library CSS */
@@ -123,23 +179,24 @@ export default {
 .color-picker *,
 .color-picker *:before,
 .color-picker *:after {
-  -webkit-box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
 }
 .color-picker {
-  position:absolute;
-  top:0;
-  left:0;
-  z-index:9999;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:9999;
+	width: 172px;
 }
 .color-picker-control {
-  border:1px solid #000;
-  -webkit-box-shadow:1px 5px 10px rgba(0,0,0,.5);
-  -moz-box-shadow:1px 5px 10px rgba(0,0,0,.5);
-  box-shadow:1px 5px 10px rgba(0,0,0,.5);
-  white-space:nowrap;
-  font-size:0px;
+	border:1px solid #000;
+	-webkit-box-shadow:1px 5px 10px rgba(0,0,0,.5);
+	-moz-box-shadow:1px 5px 10px rgba(0,0,0,.5);
+	box-shadow:1px 5px 10px rgba(0,0,0,.5);
+	white-space:nowrap;
+	font-size:0px;
 }
 .color-picker-control *,
 .color-picker-control *:before,
@@ -147,98 +204,98 @@ export default {
 
 .color-picker i {font:inherit}
 .color-picker-h {
-  position:relative;
-  width:20px;
-  height:150px;
-  display:inline-block;
-  border-left:1px solid;
-  border-left-color:inherit;
-  cursor:ns-resize;
-  background:transparent url('../assets/color-picker-h.png') no-repeat 50% 50%;
-  background-image:-webkit-linear-gradient(to top,#f00 0%,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,#f00 100%);
-  background-image:-moz-linear-gradient(to top,#f00 0%,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,#f00 100%);
-  background-image:linear-gradient(to top,#f00 0%,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,#f00 100%);
-  -webkit-background-size:100% 100%;
-  -moz-background-size:100% 100%;
-  background-size:100% 100%;
-  overflow:hidden;
+	position:relative;
+	width:20px;
+	height:150px;
+	display:inline-block;
+	border-left:1px solid;
+	border-left-color:inherit;
+	cursor:ns-resize;
+	background:transparent url('../assets/color-picker-h.png') no-repeat 50% 50%;
+	background-image:-webkit-linear-gradient(to top,#f00 0%,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,#f00 100%);
+	background-image:-moz-linear-gradient(to top,#f00 0%,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,#f00 100%);
+	background-image:linear-gradient(to top,#f00 0%,#ff0 17%,#0f0 33%,#0ff 50%,#00f 67%,#f0f 83%,#f00 100%);
+	-webkit-background-size:100% 100%;
+	-moz-background-size:100% 100%;
+	background-size:100% 100%;
+	overflow:hidden;
 }
 .color-picker-h i {
-  position:absolute;
-  top:-3px;
-  right:0;
-  left:0;
-  z-index:3;
-  display:block;
-  height:6px;
+	position:absolute;
+	top:-3px;
+	right:0;
+	left:0;
+	z-index:3;
+	display:block;
+	height:6px;
 }
 .color-picker-h i:before {
-  content:"";
-  position:absolute;
-  top:0;
-  right:0;
-  bottom:0;
-  left:0;
-  display:block;
-  border:3px solid;
-  border-color:inherit;
-  border-top-color:transparent;
-  border-bottom-color:transparent;
+	content:"";
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	display:block;
+	border:3px solid;
+	border-color:inherit;
+	border-top-color:transparent;
+	border-bottom-color:transparent;
 }
 .color-picker-sv {
-  position:relative;
-  width:150px;
-  height:150px;
-  display:inline-block;
-  background:transparent url('../assets/color-picker-sv.png') no-repeat 50% 50%;
-  background-image:-webkit-linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,rgba(255,255,255,0));
-  background-image:-moz-linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,rgba(255,255,255,0));
-  background-image:linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,rgba(255,255,255,0));
-  -webkit-background-size:100% 100%;
-  -moz-background-size:100% 100%;
-  background-size:100% 100%;
-  cursor:crosshair;
+	position:relative;
+	width:150px;
+	height:150px;
+	display:inline-block;
+	background:transparent url('../assets/color-picker-sv.png') no-repeat 50% 50%;
+	background-image:-webkit-linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,rgba(255,255,255,0));
+	background-image:-moz-linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,rgba(255,255,255,0));
+	background-image:linear-gradient(to top,#000,rgba(0,0,0,0)),linear-gradient(to right,#fff,rgba(255,255,255,0));
+	-webkit-background-size:100% 100%;
+	-moz-background-size:100% 100%;
+	background-size:100% 100%;
+	cursor:crosshair;
 }
 .color-picker-sv i {
-  position:absolute;
-  top:-4px;
-  right:-4px;
-  z-index:3;
-  display:block;
-  width:8px;
-  height:8px;
+	position:absolute;
+	top:-4px;
+	right:-4px;
+	z-index:3;
+	display:block;
+	width:8px;
+	height:8px;
 }
 .color-picker-sv i:before,
 .color-picker-sv i:after {
-  content:"";
-  position:absolute;
-  top:0;
-  right:0;
-  bottom:0;
-  left:0;
-  display:block;
-  border:1px solid;
-  border-color:inherit;
-  -webkit-border-radius:100%;
-  -moz-border-radius:100%;
-  border-radius:100%;
+	content:"";
+	position:absolute;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	display:block;
+	border:1px solid;
+	border-color:inherit;
+	-webkit-border-radius:100%;
+	-moz-border-radius:100%;
+	border-radius:100%;
 }
 .color-picker-sv i:before {
-  top:-1px;
-  right:-1px;
-  bottom:-1px;
-  left:-1px;
-  border-color:#fff;
+	top:-1px;
+	right:-1px;
+	bottom:-1px;
+	left:-1px;
+	border-color:#fff;
 }
 .color-picker-h,
 .color-picker-sv {
-  -webkit-touch-callout:none;
-  -webkit-user-select:none;
-  -moz-user-select:none;
-  -ms-user-select:none;
-  user-select:none;
-  -webkit-tap-highlight-color:rgba(0,0,0,0);
-  -webkit-tap-highlight-color:transparent;
+	-webkit-touch-callout:none;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	-webkit-tap-highlight-color:transparent;
 }
 
 </style>
