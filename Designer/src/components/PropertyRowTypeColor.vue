@@ -1,59 +1,52 @@
 <template>
 	<div>
-		<select v-model="type">
+		<select :value="type">
 			<option>solid</option>
 			<option>gradient</option>
 			<option>image</option>
 		</select>
-		<InputColorSolid v-if="type === 'solid'" :value="colorValue"/>
-		<InputColorGradient v-if="type === 'gradient'" :value="value && value.values"/>
+		<InputColorSolid v-if="type === 'solid'" :obj="colorObj"/>
+		<InputColorGradient v-if="type === 'gradient'" :parent="obj" :obj="colorObj"/>
+		<InputLoadedFile v-if="type === 'image'" filter="png"/>
 	</div>
 </template>
 
 <script>
-import Color from '../helpers/Color';
+import ColorType from '../layout/ColorType';
 import InputColorSolid from './InputColorSolid';
 import InputColorGradient from './InputColorGradient';
+import InputLoadedFile from './InputLoadedFile';
 export default {
 	name: 'PropertyRowTypeColor',
 	components: {
 		InputColorSolid,
-		InputColorGradient
+		InputColorGradient,
+		InputLoadedFile
 	},
 	props: {
-		value: {
-			type: Object,
-			default: () => {}
-		}
-	},
-	data() {
-		return {
-			type: undefined,
-			color: new Color()
-		}
+		obj: { type: ColorType }
 	},
 	computed: {
-		colorValue() {
-			return this.value && this.value.value;
+		value() {
+			let obj = this.obj || {};
+			return obj.value;
+		},
+		typeObj() {
+			let value = this.value || {};
+			return value.type;
+		},
+		type() {
+			let typeObj = this.typeObj || {};
+			return typeObj.value;
+		},
+		colorObj() {
+			let value = this.value || {};
+			return value.value || value.values;
 		}
-	},
-	watch: {
-		value(newVal, oldVal) {
-			this.syncInputValue();
-		}
-	},
-	methods: {
-		syncInputValue() {
-			this.type = this.value && this.value.type;
-		}
-	},
-	mounted() {
-		this.syncInputValue();
 	}
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

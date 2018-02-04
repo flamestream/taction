@@ -1,20 +1,18 @@
 <template>
 	<div>
 		ViewAssets
-		<div v-for="(asset, index) in assets" :key="index">
+		<div v-for="asset in assets" :key="asset.name">
 			{{ asset.name }}
 		</div>
 	</div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
 	name: 'ViewAssets',
-	props: {
-		assets: {
-			type: Object,
-			default: () => {}
-		}
+	computed: {
+		...mapGetters(['assets'])
 	}
 }
 </script>

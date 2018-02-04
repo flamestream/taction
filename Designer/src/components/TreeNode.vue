@@ -2,7 +2,7 @@
 	<div>
 		<div>{{ itemData.type }}</div>
 		<div v-if="itemData.items">
-			<TreeNode v-for="(item, index) in itemData.items" :itemData="item" :key="index"/>
+			<TreeNode v-for="item in itemData.items" :itemData="item.value" :key="item.id"/>
 		</div>
 	</div>
 </template>

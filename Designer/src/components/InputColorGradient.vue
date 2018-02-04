@@ -1,20 +1,31 @@
 <template>
 	<div>
-		<div class="preview" ref="preview" :style="previewStyle" @click="handlePreviewClick"></div>
-		<div class="stoppers">
-			<div v-for="stop in stops" :style="getStopStyle(stop)" :class="getStopClassName(stop)" draggable="true" @mousedown="handleStopMouseDown(stop)" @dragstart="handleStopDragStart" @drag="(ev) => { handleStopDrag(ev, stop) }" :key="stop.id">
-				<div class="color" :style="getStopColorStyle(stop)"></div>
+		<div>
+			<div class="preview" ref="preview" :style="previewStyle" @click="handlePreviewClick"></div>
+			<div class="stoppers">
+				<div v-for="stopObj in stopObjs" :style="getStopStyle(stopObj)"
+						:class="getStopClassName(stopObj)"
+						draggable="true"
+						@dblclick="removeStop(stopObj)"
+						@mousedown="activeStop = stopObj"
+						@dragstart="handleStopDragStart"
+						@drag.prevent="(ev) => { handleStopDrag(ev, stopObj) }"
+						:key="stopObj.id">
+					<div class="color" :style="getStopColorStyle(stopObj)"></div>
+				</div>
 			</div>
 		</div>
-		<input type="number" min="0" max="1" step="0.1" v-model="getActiveStop().position" @change="handleInputNumberChange">
-		<input type="range" min="0" max="1" step="0.001" v-model="getActiveStop().position">
-		<InputColorSolid :value="getActiveStop().color" @change="handleColorChange"/>
+		<div v-if="activeStop">
+			<input type="number" min="0" max="1" step="0.1" v-model="activeStopPosition" @change="handleInputNumberChange">
+			<input type="range" min="0" max="1" step="0.001" v-model="activeStopPosition">
+			<InputColorSolid :obj="activeStopColorObj"/>
+		</div>
 	</div>
 </template>
 
 <script>
-import Color from '../helpers/Color';
-import debounce from '../helpers/debounce';
+import ColorType from '../layout/ColorType';
+import { debounce } from 'lodash';
 import InputColorSolid from './InputColorSolid';
 export default {
 	name: 'InputColorGradient',
@@ -22,55 +33,81 @@ export default {
 		InputColorSolid
 	},
 	props: {
-		value: {
-			type: Array,
-			default: () => []
-		}
+		obj: { type: Array },
+		parent: { type: ColorType }
 	},
 	data() {
 		return {
+			stopObjs: [],
 			dragImage: new Image(),
-			activeStop: undefined,
-			stops: []
+			rawActiveStop: undefined,
+			cachedPreviewRect: undefined
 		}
 	},
 	computed: {
 		previewStyle() {
 
 			/* eslint no-mixed-operators: 0 */
-			if (!this.stops.length)
+			if (!this.stopObjs || !this.stopObjs.length)
 				return;
 
 			let out = '';
-			let sortedStops = this.stops.slice(0);
-			if (sortedStops.length === 1)
-				sortedStops.push(sortedStops[0]);
+			let sortedStopObjs = this.stopObjs.slice(0);
+			if (sortedStopObjs.length === 1)
+				sortedStopObjs.push(sortedStopObjs[0]);
 			else
-				sortedStops.sort((a, b) => a.position - b.position);
-			out += sortedStops.map(s => { return (Color.hexWpf2Web(s.color) || '#fff') + ' ' + ((s.position || 0) * 100) + '%' }).join(', ');
+				sortedStopObjs.sort((a, b) => a.value.position.value - b.value.position.value);
+
+			out += sortedStopObjs.map(s => { return s.value.color.value.getHex() + ' ' + ((s.value.position.value || 0) * 100) + '%' }).join(', ');
 			out = `linear-gradient(90deg, ${out})`;
 			return { background: out };
+		},
+		activeStop: {
+			get() {
+				return this.rawActiveStop || this.stopObjs && this.stopObjs[0];
+			},
+			set(v) {
+				this.rawActiveStop = v;
+			}
+		},
+		activeStopPosition: {
+			get() {
+
+				let { activeStop } = this;
+				if (!activeStop) return;
+				return activeStop.value.position.value;
+			},
+			set(value) {
+
+				let { activeStop } = this;
+				if (!activeStop) return;
+
+				this.$store.commit({
+					type: 'setValue',
+					obj: activeStop.value.position,
+					value
+				});
+			}
+		},
+		activeStopColorObj() {
+
+			let { activeStop } = this;
+			if (!activeStop) return;
+			return activeStop.value.color;
 		}
 	},
 	watch: {
-		value(newVal, oldVal) {
-			this.syncStops();
+		obj(newVal, oldVal) {
+			this.syncObj();
 		}
 	},
 	methods: {
-		syncStops() {
-
-			let { value, stops } = this;
-			stops = value.map(el => new Stop(el));
-
-			// Force minimum
-			if (!stops.length)
-				stops = [new Stop()];
-
-			this.stops = stops;
+		syncObj() {
+			this.stopObjs = this.obj;
+			this.activeStop = this.stopObjs && this.stopObjs[this.stopObjs.length - 1];
 		},
-		getActiveStop() {
-			return this.activeStop || this.stops.length && this.stops[0];
+		setActiveStop(stopObj) {
+			this.activeStop = stopObj;
 		},
 		handleInputNumberChange(ev) {
 
@@ -84,84 +121,70 @@ export default {
 			let rect = ev.currentTarget.getBoundingClientRect();
 			let x = ev.pageX - rect.left;
 			let ratio = x / rect.width;
-			this.activeStop = new Stop(`${ratio}`);
-			this.stops.push(this.activeStop);
-		},
-		handleStopMouseDown(stop) {
-			this.activeStop = stop;
+
+			this.$store.commit({
+				type: 'addValueElement',
+				parent: this.parent,
+				key: 'values',
+				data: ratio.toString()
+			});
 		},
 		handleStopDragStart(ev) {
+			this.cachedPreviewRect = this.$refs.preview.getBoundingClientRect();
 			ev.dataTransfer.setDragImage(this.dragImage, 0, 0);
 		},
-		handleStopDrag: debounce(function(ev, stop) {
+		handleStopDrag: debounce(function(ev, stopObj) {
 
-			ev.preventDefault();
-			let rect = this.$refs.preview.getBoundingClientRect();
+			let { currentTarget } = ev;
+			let rect = this.cachedPreviewRect;
 			let x = ev.pageX - rect.left;
 			let y = ev.pageY - rect.top;
 
-			// Remove check
-			if (this.stops.length > 1 && y > rect.height + 50) {
-				let idx = this.stops.indexOf(this.activeStop);
-				if (idx !== -1) {
-					this.stops.splice(idx, 1);
-					this.activeStop = undefined;
-				}
-			}
-
 			x = Math.max(0, Math.min(rect.width, x));
 			let ratio = x / rect.width;
-			stop.position = ratio;
-		}, 2, true),
+
+			this.$store.commit({
+				type: 'setValue',
+				obj: stopObj.value.position,
+				value: ratio.toFixed(3)
+			});
+		}, 2),
+		removeStop(stopObj) {
+
+			this.$store.commit({
+				type: 'removeValueElement',
+				parent: this.parent,
+				key: 'values',
+				obj: stopObj
+			});
+		},
 		getOffsetFromRatio(ratio) {
 
 			return (this.$refs.preview.clientWidth * ratio) >> 0;
 		},
-		getStopStyle(stop) {
+		getStopStyle(stopObj) {
 
-			let offset = this.getOffsetFromRatio(stop.position) + 'px';
+			let offset = this.getOffsetFromRatio(stopObj.value.position.value) + 'px';
 			return { 'left': offset };
 		},
-		getStopColorStyle(stop) {
+		getStopColorStyle(stopObj) {
 
-			return { 'background-color': Color.hexWpf2Web(stop.color) };
+			return { 'background-color': stopObj.value.color.value.getHex() };
 		},
-		getStopClassName(stop) {
+		getStopClassName(stopObj) {
 
 			return {
 				stop: true,
 				arrow_box: true,
-				active: stop === this.getActiveStop()
+				active: stopObj === this.activeStop
 			}
-		},
-		handleColorChange(color) {
-			this.getActiveStop().color = color.getWpfHex();
 		}
 	},
 	mounted() {
-		this.syncStops();
+		this.syncObj();
 	}
 }
 
-class Stop {
-	constructor(v) {
-
-		if (typeof v !== 'string')
-			v = '';
-
-		let values = v.split(' ');
-
-		this.position = 0;
-		try {
-			this.position = Number.parseFloat(values[0]);
-		} catch (e) { }
-
-		this.color = values[1] || '#fff';
-
-		this.id = ++Stop.currentId;
-	}
-}
-Stop.currentId = -1;
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

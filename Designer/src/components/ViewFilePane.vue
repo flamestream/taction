@@ -3,7 +3,7 @@
 		<form>
 			<button @click.prevent="handleResetButtonClick">Reset</button>
 			<button @click.prevent="handleExportButtonClick">Export</button>
-			<input type="file" accept=".json, .taction-bundle" @change="handleFileChange"/>
+			<input type="file" accept=".json, .taction-bundle" @click="handleFileClick" @change="handleFileChange"/>
 			{{status}}
 		</form>
 	</div>
@@ -11,6 +11,7 @@
 
 <script>
 import JSZip from 'jszip'
+import FileSaver from 'file-saver'
 export default {
 	name: 'UploadPane',
 	data() {
@@ -20,20 +21,45 @@ export default {
 	},
 	methods: {
 		handleResetButtonClick(ev) {
-			this.$emit('reset');
+			this.$store.dispatch({
+				type: 'reset'
+			});
 		},
-		handleExportButtonClick(ev) {
-			this.$emit('exportButtonClick');
+		async handleExportButtonClick(ev) {
+
+			let zip = this.state.zip;
+			let layout = this.state.layout || {};
+			let data = JSON.stringify(layout, 4, 4);
+
+			let ext, blob;
+			if (zip && Object.keys(zip).length) {
+
+				ext = 'taction-bundle';
+				await zip.file('layout.json', data);
+				blob = await zip.generateAsync({type: 'blob'});
+
+			} else {
+
+				ext = 'json';
+				blob = new Blob([data], {type: 'application/json;charset=utf-8'});
+			}
+
+			let name = layout.name || 'Untitled';
+			name = name.substr(0, 63 - ext.length) + '.' + ext;
+			FileSaver.saveAs(blob, name);
 		},
-		async handleFileChange(evt) {
-			let files = evt.target.files; // FileList object
+		handleFileClick(ev) {
+			ev.target.value = null;
+		},
+		async handleFileChange(ev) {
+
+			let files = ev.target.files; // FileList object
 			if (!files.length) return;
 			let file = files[0];
-			console.log(file);
 			// @TODO max file fize
 
 			this.status = '';
-			this.$emit('fileLoad', {});
+			this.$store.dispatch({type: 'reset'});
 			try {
 				let layout;
 				let zip;
@@ -42,10 +68,14 @@ export default {
 				} else {
 					layout = await getLayoutContent(file);
 				}
-				this.$emit('fileLoad', { layout, zip });
+				this.$store.dispatch({
+					type: 'reset',
+					data: { layout, zip }
+				});
 				this.status = 'Loaded file';
 			} catch (e) {
 				this.status = `Error loading file: ${e.message}`;
+				console.error(e.stack);
 			}
 		}
 	}

@@ -1,8 +1,8 @@
 <template>
-	<table>
-		<caption>▼ Global</caption>
-		<PropertyRow v-for="(property, index) in properties" :label="property.label" :value="property.value" :type="property.type" :key="index"/>
-	</table>
+	<div>
+		<div class="label">▼ Global</div>
+		<PropertyRow v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :key="label"/>
+	</div>
 </template>
 
 <script>
@@ -12,44 +12,89 @@ export default {
 	components: {
 		PropertyRow
 	},
-	props: {
-		layout: {
-			type: Object,
-			default: () => {}
-		}
-	},
 	computed: {
+		layout() {
+
+			let { layout } = this.$store.state;
+			return layout && layout.value;
+		},
 		properties() {
+
 			let layout = this.layout || {};
-			return [
-				new PropertyRowSpecs('Name', layout['name']),
-				new PropertyRowSpecs('Orientation', layout['orientation'], 'orientation'),
-				new PropertyRowSpecs('Size', layout['size'], 'number-positive'),
-				new PropertyRowSpecs('Background color', layout['color'], 'color'),
-				new PropertyRowSpecs('Border', layout['border'], 'border'),
-				new PropertyRowSpecs('Margin', layout['margin'], 'rectangle'),
-				new PropertyRowSpecs('Opacity', layout['opacity'], 'number-100'),
-				new PropertyRowSpecs('Disable hide', layout['disable-hide'], 'boolean'),
-				new PropertyRowSpecs('Disable fade animation', layout['disable-fade-animation'], 'boolean'), // @TODO auto-set when 0
-				new PropertyRowSpecs('Fade animation time', layout['fade-animation-time'], 'number-positive'),
-				new PropertyRowSpecs('Opacity (hidden)', layout['opacity-hide'], 'number-100')
-			]
+
+			return {
+				'Name': {
+					obj: layout.name
+				},
+				'Orientation': {
+					obj: layout.orientation,
+					type: 'option',
+					options: {
+						options: ['vertical', 'horizontal']
+					}
+				},
+				'Size': {
+					obj: layout.size,
+					type: 'number',
+					options: {
+						min: 0
+					}
+				},
+				'Background color': {
+					obj: layout.color,
+					type: 'color'
+				},
+				'Border': {
+					obj: layout.border,
+					type: 'border'
+				},
+				'Margin': {
+					obj: layout.margin,
+					type: 'rectangle'
+				},
+				'Opacity': {
+					obj: layout.opacity,
+					type: 'range',
+					options: {
+						min: 0,
+						max: 1,
+						step: 0.001
+					}
+				},
+				'Disable hide': {
+					obj: layout['disable-hide'],
+					type: 'checkbox'
+				},
+				'Disable fade animation': {
+					obj: layout['disable-fade-animation'],
+					type: 'checkbox'
+				},
+				'Fade animation time': {
+					obj: layout['fade-animation-time'],
+					type: 'number',
+					options: {
+						min: 0
+					}
+				},
+				'Opacity (hidden)': {
+					obj: layout['opacity-hide'],
+					type: 'range',
+					options: {
+						min: 0,
+						max: 1,
+						step: 0.001
+					}
+				}
+			};
 		}
 	}
 }
 
-class PropertyRowSpecs {
-	constructor(label, value, type) {
-		this.label = label;
-		this.value = value;
-		this.type = type;
-	}
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-table {
+div {
 	background-color: #FF00FF55;
 }
 </style>

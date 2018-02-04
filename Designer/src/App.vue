@@ -1,20 +1,18 @@
 <template>
 	<div id="app">
-		<ViewFilePane @fileLoad="onFileLoad" @reset="handleReset" @exportButtonClick="onExportButtonClick"/>
+		<ViewFilePane/>
 		<div id="workspace">
-			<ViewProperties id="view_properties" :layout="layout"/>
+			<ViewProperties id="view_properties"/>
 			<div id="view_selectors">
-				<ViewTree id="view_tree" :layout="layout"/>
-				<ViewAssets id="view_assets" :assets="assets"/>
+				<ViewTree id="view_tree"/>
+				<ViewAssets id="view_assets"/>
 			</div>
-			<ViewPreview id="view_preview" :state="state"/>
+			<ViewPreview id="view_preview"/>
 		</div>
 	</div>
 </template>
 
 <script>
-import FileSaver from 'file-saver'
-
 import ViewPreview from './components/ViewPreview'
 import ViewTree from './components/ViewTree'
 import ViewAssets from './components/ViewAssets'
@@ -32,64 +30,7 @@ export default {
 	},
 	data() {
 		return {
-			layout: {},
-			zip: undefined
-		}
-	},
-	computed: {
-		assets() {
-			let zip = this.zip;
-			return zip && zip.files;
-		},
-		state() {
-			let { layout, zip } = this;
-			return { layout, zip };
-		}
-	},
-	methods: {
-		resetState(layout, zip) {
-
-			// Reset layout
-			this.layout = layout || {};
-
-			// Clean up memory
-			if (this.zip) {
-				this.zip.remove('/');
-			}
-
-			// Update zip
-			this.zip = zip;
-		},
-		onFileLoad(data) {
-
-			this.resetState(data.layout, data.zip);
-		},
-		async onExportButtonClick() {
-
-			let zip = this.state.zip;
-			let layout = this.state.layout || {};
-			let data = JSON.stringify(layout, 4, 4);
-
-			let ext, blob;
-			if (zip && Object.keys(zip).length) {
-
-				ext = 'taction-bundle';
-				await zip.file('layout.json', data);
-				blob = await zip.generateAsync({type: 'blob'});
-
-			} else {
-
-				ext = 'json';
-				blob = new Blob([data], {type: 'application/json;charset=utf-8'});
-			}
-
-			let name = layout.name || 'Untitled';
-			name = name.substr(0, 63 - ext.length) + '.' + ext;
-			FileSaver.saveAs(blob, name);
-		},
-		handleReset() {
-
-			this.layout = {}
+			activeItemId: undefined
 		}
 	}
 }

@@ -13,9 +13,9 @@ class Color {
 		}
 
 		// Range: 0-255
-		this.red = toValidNumber(r);
-		this.green = toValidNumber(g);
-		this.blue = toValidNumber(b);
+		this.red = toValidNumber(r, 255);
+		this.green = toValidNumber(g, 255);
+		this.blue = toValidNumber(b, 255);
 		this.alpha = toValidNumber(a, 255);
 	}
 
@@ -100,6 +100,9 @@ Color.fromWpfHex = function(hex, fallback = true) {
 Color.fromName = function(name, fallback = true) {
 
 	/* eslint no-mixed-operators: 0 */
+	if (typeof name !== 'string')
+		name = '';
+
 	name = name.toLowerCase();
 	let hex = namedColor[name];
 	return hex && Color.fromHex(hex) || fallback && new Color();

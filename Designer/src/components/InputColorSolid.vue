@@ -6,6 +6,7 @@
 </template>
 
 <script>
+import SolidColorType from '../layout/SolidColorType';
 import Color from '../helpers/Color';
 import ColorPicker from './ColorPicker';
 export default {
@@ -14,51 +15,52 @@ export default {
 		ColorPicker
 	},
 	props: {
-		value: {
-			type: String,
-			default: () => ''
-		}
+		obj: { type: SolidColorType }
 	},
 	data() {
 		return {
+			// Cached color
 			color: new Color()
 		}
 	},
 	computed: {
+		value() {
+			let obj = this.obj || {};
+			return obj.value;
+		},
 		hexColor() {
-			return this.color.getWpfHex();
+			return this.value.getHex();
 		}
 	},
 	watch: {
-		value(newVal, oldVal) {
-			this.syncColor();
+		obj(newVal, oldVal) {
+			this.syncObj();
 		}
 	},
 	methods: {
+		syncObj() {
+			this.color = this.value;
+		},
 		handleColorChange(color) {
-			this.color = new Color(color);
-			this.$emit('change', this.color);
+			this.commitChange(color);
 		},
 		handleInputChange(ev) {
 			let { value } = ev.target;
-			this.color = Color.fromWpfHex(value, false) || Color.fromName(value);
+			var color = Color.fromHex(value, false) || Color.fromName(value);
+			this.color = color;
+			this.commitChange(color);
 		},
-		setColorFromHex(hex) {
+		commitChange(color) {
 
-			if (hex.length === 3 || hex.length === 4)
-				hex = hex.replace(/./g, '$&$&');
-
-			this.red = parseInt(hex[0] + hex[1], 16);
-			this.green = parseInt(hex[2] + hex[3], 16);
-			this.blue = parseInt(hex[4] + hex[5], 16);
-		},
-		syncColor() {
-			let { value } = this;
-			this.color = Color.fromWpfHex(value, false) || Color.fromName(value);
+			this.$store.commit({
+				type: 'setValue',
+				obj: this.obj,
+				value: color.getWpfHex()
+			});
 		}
 	},
 	mounted() {
-		this.syncColor();
+		this.syncObj();
 	}
 }
 </script>

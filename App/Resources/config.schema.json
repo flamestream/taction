@@ -12,6 +12,7 @@
 		},
 		"fade-animation-time": {
 			"type": "integer",
+			"minimum": 0,
 			"default": 500
 		},
 		"size": {

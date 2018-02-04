@@ -1,47 +1,72 @@
 <template>
-	<tr>
-		<th>{{ label }}</th>
-		<td v-if="type === 'number'"><input type="number" :value="value"/></td>
-		<td v-else-if="type === 'number-positive'"><input type="number" :value="value" min="0"/></td>
-		<td v-else-if="type === 'number-100'"><input type="range" min="0" max="1" step="0.01" :value="value || 1"/></td>
-		<td v-else-if="type === 'boolean'"><input type="checkbox" :value="value === 'true'"/></td>
-		<td v-else-if="type === 'rectangle'"><PropertyRowTypeRectangle :value="value"/></td>
-		<td v-else-if="type === 'border'"><PropertyRowTypeBorder :value="value"/></td>
-		<td v-else-if="type === 'color'"><PropertyRowTypeColor :value="value"/></td>
-		<td v-else-if="type === 'orientation'">
-			<select :value="value">
-				<option>vertical</option>
-				<option>horizontal</option>
+	<div class="item">
+		<div class="label">{{ label }}</div>
+		<div v-if="type === 'number'">
+			<input type="number" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
+		</div>
+		<div v-else-if="type === 'checkbox'">
+			<input type="checkbox" v-model="value"/>
+		</div>
+		<div v-else-if="type === 'range'">
+			<input type="range" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
+		</div>
+		<div v-else-if="type === 'rectangle'">
+			<PropertyRowTypeRectangle :obj="obj"/>
+		</div>
+		<div v-else-if="type === 'border'">
+			<PropertyRowTypeBorder :obj="obj"/>
+		</div>
+		<div v-else-if="type === 'color'">
+			<PropertyRowTypeColor :obj="obj"/>
+		</div>
+		<div v-else-if="type === 'option'">
+			<select v-model="value">
+				<option v-for="v in options.options" :key="v">{{ v }}</option>
 			</select>
-		</td>
-		<td v-else><input type="text" :value="value"/></td>
-	</tr>
+		</div>
+		<div v-else><input type="text" v-model="value"/></div>
+	</div>
 </template>
 
 <script>
 import PropertyRowTypeRectangle from './PropertyRowTypeRectangle'
-import PropertyRowTypeColor from './PropertyRowTypeColor'
 import PropertyRowTypeBorder from './PropertyRowTypeBorder'
+import PropertyRowTypeColor from './PropertyRowTypeColor'
 export default {
 	name: 'PropertyRow',
 	components: {
 		PropertyRowTypeRectangle,
-		PropertyRowTypeColor,
-		PropertyRowTypeBorder
+		PropertyRowTypeBorder,
+		PropertyRowTypeColor
 	},
-	props: [ 'label', 'value', 'type' ]
+	props: ['label', 'obj', 'type', 'options'],
+	computed: {
+		value: {
+			get() {
+				let obj = this.obj || {};
+				return obj.value;
+			},
+			set(value) {
+
+				this.$store.commit({
+					type: 'setValue',
+					obj: this.obj,
+					value
+				});
+			}
+		}
+	}
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-th {
-	text-align: left;
-}
+.item {
 
-input[type=number] {
-	width: 4em;
+	background-color: #00000033;
+	border-radius: 3px;
+	margin-bottom: 5px;
+	padding: 5px;
 }
-
 </style>

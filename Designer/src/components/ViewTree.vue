@@ -1,23 +1,20 @@
 <template>
 	<div>
 		ViewTree
-		<Tree v-if="layout" :items="layout.items"></Tree>
+		<Tree v-if="layout" :items="layout.value && layout.value.items"></Tree>
 	</div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Tree from './Tree'
 export default {
 	name: 'ViewTree',
-	props: ['layout'],
 	components: {
 		Tree
 	},
-	data() {
-		return {
-		}
-	},
-	methods: {
+	computed: {
+		...mapState(['layout'])
 	}
 }
 </script>
