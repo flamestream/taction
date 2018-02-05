@@ -59,8 +59,8 @@ export default {
 			// @TODO max file fize
 
 			this.status = '';
-			this.$store.dispatch({type: 'reset'});
 			try {
+
 				let layout;
 				let zip;
 				if (file.name.endsWith('.taction-bundle')) {
@@ -68,12 +68,16 @@ export default {
 				} else {
 					layout = await getLayoutContent(file);
 				}
+
 				this.$store.dispatch({
 					type: 'reset',
 					data: { layout, zip }
 				});
 				this.status = 'Loaded file';
+
 			} catch (e) {
+
+				this.$store.dispatch({type: 'reset'});
 				this.status = `Error loading file: ${e.message}`;
 				console.error(e.stack);
 			}
@@ -81,7 +85,7 @@ export default {
 	}
 }
 
-async function getLayoutContent (file) {
+async function getLayoutContent(file) {
 
 	let fnResolve;
 	let promise = new Promise((resolve, reject) => { fnResolve = resolve });

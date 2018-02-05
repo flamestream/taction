@@ -68,7 +68,7 @@ const definitionGlobal = {
 	'disable-radial-menu-animation': { cls: BooleanType },
 	'margin': { cls: RectangleType },
 	'border': { cls: RectangleType },
-	'orientation': { cls: StringType, required: true, data: { options: ['vertical', 'horizontal'] } },
+	'orientation': { cls: StringType, data: { options: ['vertical', 'horizontal'] } },
 	'color': { cls: ColorType }
 };
 

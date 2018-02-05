@@ -1,16 +1,16 @@
 <template>
 	<div>
 		<div class="label">▼ Global</div>
-		<PropertyRow v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :key="label"/>
+		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :key="label"/>
 	</div>
 </template>
 
 <script>
-import PropertyRow from './PropertyRow'
+import PropertyItem from './PropertyItem'
 export default {
 	name: 'PropertyGlobal',
 	components: {
-		PropertyRow
+		PropertyItem
 	},
 	computed: {
 		layout() {

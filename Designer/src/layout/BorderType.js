@@ -1,8 +1,8 @@
-import Type from './Type';
+import ComplexType from './ComplexType';
 import RectangleType from './RectangleType';
 import ColorType from './ColorType';
 
-class BorderType extends Type {
+class BorderType extends ComplexType {
 
 }
 

@@ -10,19 +10,15 @@ class RectangleType extends Type {
 
 	init(v) {
 
-		if (v === undefined && !this.required)
-			return;
+		if (v !== undefined) {
 
-		if (typeof v !== 'string')
-			v = '';
+			if (typeof v !== 'string')
+				v = '';
 
-		this.valid = this._isValueValid(v);
+			this.valid = this._isValueValid(v);
+		}
+
 		this.value = v;
-	}
-
-	toJSON() {
-
-		return this.value || undefined;
 	}
 
 	_isValueValid(v) {

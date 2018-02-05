@@ -2,91 +2,54 @@ import registry from './registry';
 
 class Type {
 
-	constructor({value, required, defaultValue}) {
+	constructor({value, defaultValue, array} = {}) {
 
-		this.required = !!required;
+		// If set, undefined value fallback (acts as required flag)
 		this.defaultValue = defaultValue;
+		// Constructor name
 		this.type = this.constructor.name;
-		this.init(value);
+
+		this._value = undefined;
+
+		if (this.init) this.init(value);
+
+		// Flag indicating if the field is undefined
+		// @NOTE has to be after init, since init will generate containers
+		this.notDefined = value === undefined;
+
 		registry.$register(this.type, this);
 	}
 
-	init(input, { append } = {}) {
+	get required() {
 
-		/* eslint no-mixed-operators: 0 */
-		if (input === undefined && !this.required)
+		return this.defaultValue !== undefined;
+	}
+
+	get value() {
+
+		if (this.notDefined)
 			return;
 
-		let value = {};
-		let { prototype } = this.constructor;
+		return this._value;
+	}
 
-		if (prototype.$typedDefinition) {
-			let type = typeof input === 'object' && input.type || this.value && this.value.type.value;
+	set value(v) {
 
-			let definition = prototype.$typedDefinition[type];
-			value = this._process({
-				input,
-				definition
-			});
+		if (v === undefined) {
 
-		} else if (prototype.$definition) {
+			if (!this.required) {
 
-			value = this._process({
-				input,
-				definition: prototype.$definition
-			});
-		}
-
-		if (append && this.value && typeof this.value === 'object') {
-
-			for (let k in value) {
-
-				let v = value[k];
-				if (v === undefined) continue;
-
-				if (Array.isArray(this.value[k]))
-					this.value[k].push(v);
-				else
-					this.value[k] = v;
+				this.notDefined = true;
+				return;
 			}
 
-		} else {
-
-			this.value = value;// || v; // @NOTE Keeps unknowns
-		}
-	}
-
-	_process({input, definition}) {
-
-		if (!definition)
+			this.value = this.defaultValue;
 			return;
-
-		let out = {};
-
-		for (let key in definition) {
-
-			let value = input[key];
-			if (value === undefined) continue;
-
-			out[key] = this._init({key, value, definition});
 		}
 
-		return out;
-	}
-
-	_init({key, value, definition}) {
-
-		let def = definition[key];
-		if (!def) return;
-
-		let { cls, data } = def;
-
-		/* eslint new-cap: 0 */
-		if (Array.isArray(value)) {
-			return value.map(i => new (cls)({value: i, ...data})).filter(i => !!i.value);
-		} else {
-			return new (cls)({value, ...data});
-		}
+		this.notDefined = false;
+		console.log('set!', v, this.type, this.notDefined)
+		this._value = v;
 	}
 
 	toJSON() {

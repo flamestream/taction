@@ -1,16 +1,16 @@
 <template>
 	<table>
 		<caption>▶ {{ caption }}</caption>
-		<PropertyRow v-for="(property, index) in properties" :label="property.label" :value="property.value" :type="property.type" :key="index"/>
+		<PropertyItem v-for="(property, index) in properties" :label="property.label" :value="property.value" :type="property.type" :key="index"/>
 	</table>
 </template>
 
 <script>
-import PropertyRow from './PropertyRow'
+import PropertyItem from './PropertyItem'
 export default {
 	name: 'PropertyButton',
 	components: {
-		PropertyRow
+		PropertyItem
 	},
 	props: {
 		buttonProps: {
@@ -26,20 +26,20 @@ export default {
 		properties() {
 			let p = this.buttonProps || {};
 			return [
-				// new PropertyRowSpecs('Type', p['type']),
-				new PropertyRowSpecs('Content', p['content'], 'content'),
-				new PropertyRowSpecs('Color', p['color'], 'color'),
-				new PropertyRowSpecs('Text style', p['text-style'], 'text-style'),
-				new PropertyRowSpecs('Margin', p['margin'], 'rectangle'),
-				new PropertyRowSpecs('Padding', p['padding'], 'rectangle'),
-				new PropertyRowSpecs('Border', p['border'], 'border'),
-				new PropertyRowSpecs('Opacity', p['opacity'], 'number-100')
+				// new PropertyItemSpecs('Type', p['type']),
+				new PropertyItemSpecs('Content', p['content'], 'content'),
+				new PropertyItemSpecs('Color', p['color'], 'color'),
+				new PropertyItemSpecs('Text style', p['text-style'], 'text-style'),
+				new PropertyItemSpecs('Margin', p['margin'], 'rectangle'),
+				new PropertyItemSpecs('Padding', p['padding'], 'rectangle'),
+				new PropertyItemSpecs('Border', p['border'], 'border'),
+				new PropertyItemSpecs('Opacity', p['opacity'], 'number-100')
 			]
 		}
 	}
 }
 
-class PropertyRowSpecs {
+class PropertyItemSpecs {
 	constructor(label, value, type) {
 		this.label = label;
 		this.value = value;

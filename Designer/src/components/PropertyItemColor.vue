@@ -17,7 +17,7 @@ import InputColorSolid from './InputColorSolid';
 import InputColorGradient from './InputColorGradient';
 import InputLoadedFile from './InputLoadedFile';
 export default {
-	name: 'PropertyRowTypeColor',
+	name: 'PropertyItemColor',
 	components: {
 		InputColorSolid,
 		InputColorGradient,

@@ -1,25 +1,25 @@
-import Type from './Type';
+import ComplexType from './ComplexType';
 import NumberType from './NumberType';
 import StringType from './StringType';
 import RectangleType from './RectangleType';
 import SolidColorType from './SolidColorType';
 
-class ContentType extends Type {
+class ContentType extends ComplexType {
 
 }
 
 ContentType.prototype.$typedDefinition = {
 	text: {
-		type: { cls: StringType, data: { required: true } },
+		type: { cls: StringType, data: { defaultValue: 'text' } },
 		value: { cls: StringType }
 	},
 	image: {
-		type: { cls: StringType, data: { required: true } },
+		type: { cls: StringType, data: { defaultValue: 'type' } },
 		opacity: { cls: NumberType, data: { min: 0, max: 1, defaultValue: 1 } },
-		stretch: { cls: StringType, data: { options: ['none', 'fill', 'uniform', 'uniform-fill'], defaultValue: 'uniform' } },
+		stretch: { cls: StringType, data: { options: ['uniform', 'none', 'fill', 'uniform-fill'] } },
 		margin: { cls: RectangleType },
 		colorize: { cls: SolidColorType },
-		source: { cls: StringType, data: { required: true } }
+		source: { cls: StringType, data: { defaultValue: '' } }
 	}
 }
 

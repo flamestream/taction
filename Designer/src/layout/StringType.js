@@ -10,26 +10,18 @@ class StringType extends Type {
 
 	init(v) {
 
-		if (v === undefined && !this.required)
-			return;
+		if (v !== undefined) {
 
-		if (typeof v !== 'string')
-			v = this.defaultValue || '';
+			if (typeof v !== 'string')
+				v = this.defaultValue || '';
 
-		let value;
-		let { options } = this;
-		/* eslint no-mixed-operators: 0 */
-		if (Array.isArray(options) && !options.includes(v))
-			value = options.includes(this.defaultValue) && this.defaultValue || options[0];
-		else
-			value = v;
+			let { options } = this;
+			/* eslint no-mixed-operators: 0 */
+			if (Array.isArray(options) && !options.includes(v))
+				v = options.includes(this.defaultValue) && this.defaultValue || options[0];
+		}
 
-		this.value = value;
-	}
-
-	toJSON() {
-
-		return this.value;
+		this.value = v;
 	}
 }
 

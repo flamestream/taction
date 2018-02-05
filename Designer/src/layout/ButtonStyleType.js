@@ -1,4 +1,4 @@
-import Type from './Type';
+import ComplexType from './ComplexType';
 import NumberType from './NumberType';
 import RectangleType from './RectangleType';
 import ContentType from './ContentType';
@@ -6,7 +6,7 @@ import TextStyleType from './TextStyleType';
 import ColorType from './ColorType';
 import BorderType from './BorderType';
 
-class ButtonStyleType extends Type {
+class ButtonStyleType extends ComplexType {
 
 }
 

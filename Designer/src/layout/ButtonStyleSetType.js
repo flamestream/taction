@@ -1,7 +1,7 @@
-import Type from './Type';
+import ComplexType from './ComplexType';
 import ButtonStyleType from './ButtonStyleType';
 
-class ButtonStyleSetType extends Type {
+class ButtonStyleSetType extends ComplexType {
 
 }
 

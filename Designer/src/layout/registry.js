@@ -19,6 +19,7 @@ class Registry {
 	}
 
 	$clear() {
+
 		for (let k in this) {
 
 			if (typeof k !== 'string' || !k.startsWith('$'))

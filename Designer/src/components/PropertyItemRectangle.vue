@@ -25,7 +25,7 @@
 <script>
 import RectangleType from '../layout/RectangleType';
 export default {
-	name: 'PropertyRowTypeRectangle',
+	name: 'PropertyItemRectangle',
 	props: {
 		obj: { type: RectangleType }
 	},

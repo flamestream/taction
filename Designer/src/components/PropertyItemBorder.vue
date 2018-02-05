@@ -2,28 +2,28 @@
 	<div>
 		<div class="item">
 			<div class="label">Thickness</div>
-			<PropertyRowTypeRectangle :obj="divicknessObj"/>
+			<PropertyItemRectangle :obj="thicknessObj"/>
 		</div>
 		<div class="item">
 			<div class="label">Roundness</div>
-			<PropertyRowTypeRectangle :obj="radiusObj"/>
+			<PropertyItemRectangle :obj="radiusObj"/>
 		</div>
 		<div class="item">
 			<div class="label">Color</div>
-			<PropertyRowTypeColor :obj="colorObj"/>
+			<PropertyItemColor :obj="colorObj"/>
 		</div>
 	</div>
 </template>
 
 <script>
 import BorderType from '../layout/BorderType';
-import PropertyRowTypeRectangle from './PropertyRowTypeRectangle'
-import PropertyRowTypeColor from './PropertyRowTypeColor'
+import PropertyItemRectangle from './PropertyItemRectangle'
+import PropertyItemColor from './PropertyItemColor'
 export default {
-	name: 'PropertyRowTypeBorder',
+	name: 'PropertyItemBorder',
 	components: {
-		PropertyRowTypeRectangle,
-		PropertyRowTypeColor
+		PropertyItemRectangle,
+		PropertyItemColor
 	},
 	props: {
 		obj: { type: BorderType }

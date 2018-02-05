@@ -11,21 +11,21 @@ class NumberType extends Type {
 	}
 
 	init(v) {
+		if (v !== undefined) {
 
-		if (v === undefined && !this.required)
-			return;
+			if (typeof v === 'string')
+				v = Number.parseFloat(v);
 
-		if (typeof v === 'string')
-			v = Number.parseFloat(v);
+			if (!isFinite(v))
+				v = this.defaultValue || 0;
 
-		if (!isFinite(v))
-			v = this.defaultValue || 0;
+			let { min, max } = this;
+			if (min !== undefined && v < min)
+				v = min;
+			else if (max !== undefined && v > max)
+				v = max;
 
-		let { min, max } = this;
-		if (min !== undefined && v < min)
-			v = min;
-		else if (max !== undefined && v > max)
-			v = max;
+		}
 
 		this.value = v;
 	}

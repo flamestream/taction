@@ -1,6 +1,6 @@
 <template>
 	<div class="item">
-		<div class="label">{{ label }}</div>
+		<div class="label"><input type="checkbox"/> {{ label }}</div>
 		<div v-if="type === 'number'">
 			<input type="number" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
 		</div>
@@ -11,13 +11,13 @@
 			<input type="range" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
 		</div>
 		<div v-else-if="type === 'rectangle'">
-			<PropertyRowTypeRectangle :obj="obj"/>
+			<PropertyItemRectangle :obj="obj"/>
 		</div>
 		<div v-else-if="type === 'border'">
-			<PropertyRowTypeBorder :obj="obj"/>
+			<PropertyItemBorder :obj="obj"/>
 		</div>
 		<div v-else-if="type === 'color'">
-			<PropertyRowTypeColor :obj="obj"/>
+			<PropertyItemColor :obj="obj"/>
 		</div>
 		<div v-else-if="type === 'option'">
 			<select v-model="value">
@@ -29,15 +29,15 @@
 </template>
 
 <script>
-import PropertyRowTypeRectangle from './PropertyRowTypeRectangle'
-import PropertyRowTypeBorder from './PropertyRowTypeBorder'
-import PropertyRowTypeColor from './PropertyRowTypeColor'
+import PropertyItemRectangle from './PropertyItemRectangle'
+import PropertyItemBorder from './PropertyItemBorder'
+import PropertyItemColor from './PropertyItemColor'
 export default {
-	name: 'PropertyRow',
+	name: 'PropertyItem',
 	components: {
-		PropertyRowTypeRectangle,
-		PropertyRowTypeBorder,
-		PropertyRowTypeColor
+		PropertyItemRectangle,
+		PropertyItemBorder,
+		PropertyItemColor
 	},
 	props: ['label', 'obj', 'type', 'options'],
 	computed: {
@@ -63,10 +63,14 @@ export default {
 <style scoped>
 
 .item {
-
 	background-color: #00000033;
 	border-radius: 3px;
 	margin-bottom: 5px;
 	padding: 5px;
 }
+
+.label > input[type=checkbox] {
+	vertical-align: middle;
+}
+
 </style>

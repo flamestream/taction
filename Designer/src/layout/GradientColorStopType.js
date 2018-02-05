@@ -6,20 +6,22 @@ class GradientColorStopType extends Type {
 
 	init(v) {
 
-		if (v === undefined && !this.required)
-			return;
+		if (v !== undefined) {
 
-		if (typeof v !== 'string')
-			v = '';
+			if (typeof v !== 'string')
+				v = '';
 
-		let data = v.split(' ');
-		let position = new NumberType({required: true, min: 0, max: 1, value: data[0]});
-		let color = new SolidColorType({required: true, value: data[1]});
+			let data = v.split(' ');
+			let position = new NumberType({defaultValue: 0, min: 0, max: 1, value: data[0]});
+			let color = new SolidColorType({defaultValue: 'white', value: data[1]});
 
-		this.value = {
-			position,
-			color
-		};
+			v = {
+				position,
+				color
+			};
+		}
+
+		this.value = v;
 	}
 
 	toJSON() {

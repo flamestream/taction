@@ -1,9 +1,9 @@
-import Type from './Type';
+import ComplexType from './ComplexType';
 import ColorType from './ColorType';
 import NumberType from './NumberType';
 import StringType from './StringType';
 
-class TextStyleType extends Type {
+class TextStyleType extends ComplexType {
 
 }
 
