@@ -34,6 +34,53 @@ class ComplexType extends Type {
 		this.value = value;
 	}
 
+	get definition() {
+
+		let o;
+		let { prototype } = this.constructor;
+		if (prototype.$typedDefinition) {
+
+			let type = this._value.type.value;
+			o = prototype.$typedDefinition[type];
+
+		} else if (prototype.$definition) {
+
+			o = prototype.$definition;
+		}
+
+		return o;
+	}
+
+	changeType(type) {
+
+		// Type check
+		let { prototype } = this.constructor;
+		let definition = prototype.$typedDefinition;
+		if (!definition)
+			return;
+
+		// @TODO Optimize replacement
+		this.init({type});
+	}
+
+	pushElement(key, value) {
+
+		// cls fetch
+		let { definition } = this;
+		if (!definition)
+			return;
+
+		// Instantiate
+		/* eslint new-cap: 0 */
+		let { cls } = definition[key];
+		this._value[key].push(new (cls)({value}));
+	}
+
+	pullElement(key, value) {
+
+		this._value[key] = this._value[key].filter(i => i !== value);
+	}
+
 	_expandValue({input, definition}) {
 
 		if (!definition)

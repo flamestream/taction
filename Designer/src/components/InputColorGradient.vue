@@ -124,9 +124,9 @@ export default {
 
 			this.$store.commit({
 				type: 'addValueElement',
-				parent: this.parent,
+				obj: this.parent,
 				key: 'values',
-				data: ratio.toString()
+				value: ratio.toString()
 			});
 		},
 		handleStopDragStart(ev) {
@@ -151,9 +151,9 @@ export default {
 
 			this.$store.commit({
 				type: 'removeValueElement',
-				parent: this.parent,
+				obj: this.parent,
 				key: 'values',
-				obj: stopObj
+				value: stopObj
 			});
 		},
 		getOffsetFromRatio(ratio) {

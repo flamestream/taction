@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<select :value="type">
+		<select v-model="type">
 			<option>solid</option>
 			<option>gradient</option>
 			<option>image</option>
 		</select>
-		<InputColorSolid v-if="type === 'solid'" :obj="colorObj"/>
-		<InputColorGradient v-if="type === 'gradient'" :parent="obj" :obj="colorObj"/>
+		<InputColorSolid v-if="type === 'solid'" :obj="value.value"/>
+		<InputColorGradient v-if="type === 'gradient'" :parent="obj" :obj="value.values"/>
 		<InputLoadedFile v-if="type === 'image'" filter="png"/>
 	</div>
 </template>
@@ -31,17 +31,18 @@ export default {
 			let obj = this.obj || {};
 			return obj.value;
 		},
-		typeObj() {
-			let value = this.value || {};
-			return value.type;
-		},
-		type() {
-			let typeObj = this.typeObj || {};
-			return typeObj.value;
-		},
-		colorObj() {
-			let value = this.value || {};
-			return value.value || value.values;
+		type: {
+			get() {
+				let { value } = this;
+				return value && value.type.value;
+			},
+			set(value) {
+				this.$store.commit({
+					type: 'changeType',
+					obj: this.obj,
+					value
+				});
+			}
 		}
 	}
 }

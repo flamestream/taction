@@ -51,6 +51,7 @@ html, body {
 	color: #2c3e50;
 	display: flex;
 	flex-direction: column;
+	user-select: none;
 }
 #workspace {
 	display: flex;
@@ -85,4 +86,15 @@ html, body {
 	min-width: 300px;
 	overflow-y: auto;
 }
+
+input[type=number] {
+	text-align: end;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
 </style>

@@ -1,30 +1,32 @@
 <template>
 	<div class="item">
-		<div class="label"><input type="checkbox"/> {{ label }}</div>
-		<div v-if="type === 'number'">
-			<input type="number" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
+		<div class="label"><span>{{ label }}</span><input v-if="required" type="checkbox" v-model="defined"/></div>
+		<div class="value" v-if="defined">
+			<div v-if="type === 'number'">
+				<input type="number" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
+			</div>
+			<div v-else-if="type === 'checkbox'">
+				<input type="checkbox" v-model="value"/>
+			</div>
+			<div v-else-if="type === 'range'">
+				<input type="range" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
+			</div>
+			<div v-else-if="type === 'rectangle'">
+				<PropertyItemRectangle :obj="obj"/>
+			</div>
+			<div v-else-if="type === 'border'">
+				<PropertyItemBorder :obj="obj"/>
+			</div>
+			<div v-else-if="type === 'color'">
+				<PropertyItemColor :obj="obj"/>
+			</div>
+			<div v-else-if="type === 'option'">
+				<select v-model="value">
+					<option v-for="v in options.options" :key="v">{{ v }}</option>
+				</select>
+			</div>
+			<div v-else><input type="text" v-model="value"/></div>
 		</div>
-		<div v-else-if="type === 'checkbox'">
-			<input type="checkbox" v-model="value"/>
-		</div>
-		<div v-else-if="type === 'range'">
-			<input type="range" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
-		</div>
-		<div v-else-if="type === 'rectangle'">
-			<PropertyItemRectangle :obj="obj"/>
-		</div>
-		<div v-else-if="type === 'border'">
-			<PropertyItemBorder :obj="obj"/>
-		</div>
-		<div v-else-if="type === 'color'">
-			<PropertyItemColor :obj="obj"/>
-		</div>
-		<div v-else-if="type === 'option'">
-			<select v-model="value">
-				<option v-for="v in options.options" :key="v">{{ v }}</option>
-			</select>
-		</div>
-		<div v-else><input type="text" v-model="value"/></div>
 	</div>
 </template>
 
@@ -43,17 +45,34 @@ export default {
 	computed: {
 		value: {
 			get() {
-				let obj = this.obj || {};
+				let { obj } = this;
 				return obj.value;
 			},
 			set(value) {
-
 				this.$store.commit({
 					type: 'setValue',
 					obj: this.obj,
 					value
 				});
 			}
+		},
+		defined: {
+			get() {
+				let { obj } = this;
+				return !obj.notDefined;
+			},
+			set(value) {
+				value = !value;
+				this.$store.commit({
+					type: 'setDefined',
+					obj: this.obj,
+					value
+				});
+			}
+		},
+		required() {
+			let { obj } = this;
+			return !obj.required;
 		}
 	}
 }
@@ -69,8 +88,21 @@ export default {
 	padding: 5px;
 }
 
+.label {
+	display: flex;
+}
+
+.label > span {
+	display: inline-block;
+	flex: 1 1;
+}
+
 .label > input[type=checkbox] {
 	vertical-align: middle;
+}
+
+.value {
+	margin-top: 5px;
 }
 
 </style>

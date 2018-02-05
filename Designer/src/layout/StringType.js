@@ -10,16 +10,13 @@ class StringType extends Type {
 
 	init(v) {
 
-		if (v !== undefined) {
+		if (typeof v !== 'string')
+			v = this.defaultValue || '';
 
-			if (typeof v !== 'string')
-				v = this.defaultValue || '';
-
-			let { options } = this;
-			/* eslint no-mixed-operators: 0 */
-			if (Array.isArray(options) && !options.includes(v))
-				v = options.includes(this.defaultValue) && this.defaultValue || options[0];
-		}
+		let { options } = this;
+		/* eslint no-mixed-operators: 0 */
+		if (Array.isArray(options) && !options.includes(v))
+			v = options.includes(this.defaultValue) && this.defaultValue || options[0];
 
 		this.value = v;
 	}

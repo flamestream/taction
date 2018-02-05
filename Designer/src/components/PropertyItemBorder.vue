@@ -1,16 +1,22 @@
 <template>
 	<div>
 		<div class="item">
-			<div class="label">Thickness</div>
-			<PropertyItemRectangle :obj="thicknessObj"/>
+			<div class="label"><span>Thickness</span><input v-if="!required(value.thickness)" type="checkbox" v-model="thicknessDefined"/></div>
+			<div class="value" v-if="thicknessDefined">
+				<PropertyItemRectangle :obj="value.thickness"/>
+			</div>
 		</div>
 		<div class="item">
-			<div class="label">Roundness</div>
-			<PropertyItemRectangle :obj="radiusObj"/>
+			<div class="label"><span>Roundness</span><input v-if="!required(value.radius)" type="checkbox" v-model="radiusDefined"/></div>
+			<div class="value" v-if="radiusDefined">
+				<PropertyItemRectangle :obj="value.radius"/>
+			</div>
 		</div>
 		<div class="item">
-			<div class="label">Color</div>
-			<PropertyItemColor :obj="colorObj"/>
+			<div class="label"><span>Color</span><input v-if="!required(value.color)" type="checkbox" v-model="colorDefined"/></div>
+			<div class="value" v-if="colorDefined">
+				<PropertyItemColor :obj="value.color"/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -30,20 +36,48 @@ export default {
 	},
 	computed: {
 		value() {
-			let obj = this.obj || {};
+			let { obj } = this;
 			return obj.value;
 		},
-		colorObj() {
-			let value = this.value || {};
-			return value && value.color;
+		thicknessDefined: {
+			get() {
+				return this.getDefined(this.value.thickness);
+			},
+			set(value) {
+				return this.setDefined(this.value.thickness, value);
+			}
 		},
-		radiusObj() {
-			let value = this.value || {};
-			return value && value.radius;
+		radiusDefined: {
+			get() {
+				return this.getDefined(this.value.radius);
+			},
+			set(value) {
+				return this.setDefined(this.value.radius, value);
+			}
 		},
-		thicknessObj() {
-			let value = this.value || {};
-			return value && value.thickness;
+		colorDefined: {
+			get() {
+				return this.getDefined(this.value.color);
+			},
+			set(value) {
+				return this.setDefined(this.value.color, value);
+			}
+		}
+	},
+	methods: {
+		required(obj) {
+			return obj.required;
+		},
+		getDefined(obj) {
+			return !obj.notDefined;
+		},
+		setDefined(obj, value) {
+			value = !value;
+			this.$store.commit({
+				type: 'setDefined',
+				obj,
+				value
+			});
 		}
 	}
 }
@@ -57,6 +91,23 @@ export default {
 	border-radius: 3px;
 	margin-bottom: 5px;
 	padding: 5px;
+}
+
+.label {
+	display: flex;
+}
+
+.label > span {
+	display: inline-block;
+	flex: 1 1;
+}
+
+.label > input[type=checkbox] {
+	vertical-align: middle;
+}
+
+.value {
+	margin-top: 5px;
 }
 
 </style>

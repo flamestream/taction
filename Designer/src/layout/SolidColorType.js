@@ -4,10 +4,8 @@ import Color from '../helpers/Color';
 class SolidColorType extends Type {
 
 	init(v) {
-		if (v !== undefined) {
 
-			v = Color.fromWpfHex(v, false) || Color.fromName(v);
-		}
+		v = Color.fromWpfHex(v, false) || Color.fromName(v);
 
 		this.value = v;
 	}

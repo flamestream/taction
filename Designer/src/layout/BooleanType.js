@@ -4,10 +4,7 @@ class BooleanType extends Type {
 
 	init(v) {
 
-		if (v !== undefined)
-			v = !!v
-
-		this.value = v;
+		this.value = !!v;
 	}
 }
 

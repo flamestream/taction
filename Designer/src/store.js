@@ -43,30 +43,27 @@ export default new Vuex.Store({
 		},
 		setValue(state, { obj, value }) {
 
+			// @TODO Do it right
 			obj.init(value);
 		},
-		addValueElement(state, { parent, key, data }) {
+		setDefined(state, { obj, value }) {
 
 			// @TODO Do it right
-			if (!parent) return false;
-
-			let values = parent.value[key];
-			if (!Array.isArray(values))
-				return false;
-
-			parent.init({[key]: data}, {
-				append: true
-			});
+			obj.notDefined = !!value;
 		},
-		removeValueElement(state, { parent, key, obj }) {
+		changeType(state, { obj, value }) {
 
 			// @TODO Do it right
-			if (!parent) return false;
+			obj.changeType && obj.changeType(value);
+		},
+		addValueElement(state, { obj, key, value }) {
 
-			let values = parent.value[key];
-			if (!Array.isArray(values)) return false;
+			// @TODO Do it right
+			obj.pushElement && obj.pushElement(key, value);
+		},
+		removeValueElement(state, { obj, key, value }) {
 
-			parent.value[key] = values.filter(i => i !== obj);
+			obj.pullElement && obj.pullElement(key, value);
 		}
 	},
 	actions: {

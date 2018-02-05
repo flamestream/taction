@@ -1,24 +1,26 @@
 <template>
-	<div>
-		<input :class="{error: hasError}" type="text" v-model="raw" @input="updateFromRaw()">
-		<table>
-			<tr>
-				<th>top</th>
-				<td><input type="number" min="0" :value="top" @input="ev => { handleSingleInputChange(ev, 'top') }"/></td>
-			</tr>
-			<tr>
-				<th>right</th>
-				<td><input type="number" min="0" :value="right" @input="ev => { handleSingleInputChange(ev, 'right') }"/></td>
-			</tr>
-			<tr>
-				<th>bottom</th>
-				<td><input type="number" min="0" :value="bottom" @input="ev => { handleSingleInputChange(ev, 'bottom') }"/></td>
-			</tr>
-			<tr>
-				<th>left</th>
-				<td><input type="number" min="0" :value="left" @input="ev => { handleSingleInputChange(ev, 'left') }"/></td>
-			</tr>
-		</table>
+	<div class="container">
+		<div class="raw">
+			<span>Value</span><input :class="{error: hasError}" type="text" v-model="raw" @input="updateFromRaw()"/>
+		</div>
+		<div class="units">
+			<div class="unit">
+				<span>▲</span>
+				<input type="number" min="0" :value="top" @input="ev => { handleSingleInputChange(ev, 'top') }"/>
+			</div>
+			<div class="unit">
+				<span>▶</span>
+				<input type="number" min="0" :value="right" @input="ev => { handleSingleInputChange(ev, 'right') }"/>
+			</div>
+			<div class="unit">
+				<span>▼</span>
+				<input type="number" min="0" :value="bottom" @input="ev => { handleSingleInputChange(ev, 'bottom') }"/>
+			</div>
+			<div class="unit">
+				<span>◀</span>
+				<input type="number" min="0" :value="left" @input="ev => { handleSingleInputChange(ev, 'left') }"/>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -125,16 +127,46 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-th {
-	text-align: left;
+.container {
+/*	margin: 5px;
+	background-color: #00000055;
+	padding: 10px;
+	border-radius: 5px*/
 }
 
-input[type=number] {
-	width: 4em;
+.raw {
+	display: flex;
+	justify-content: space-between;
+	line-height: 20px;
 }
 
-input.error {
-	background-color: #FAA;
+.raw > span {
+	display: inline-block;
+}
+
+.units {
+	margin-top: 5px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.unit {
+	display: flex;
+	justify-content: space-between;
+	flex: 1 1 auto;
+	white-space: nowrap;
+	line-height: 20px;
+	margin: 0 3px;
+}
+.unit:first-child {
+	margin-left: 0;
+}
+.unit:last-child {
+	margin-right: 0;
+}
+
+.unit > input[type=number] {
+	width: 40px;
 }
 
 </style>

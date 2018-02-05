@@ -25,6 +25,20 @@ class Type {
 		return this.defaultValue !== undefined;
 	}
 
+	get notDefined() {
+
+		return this._notDefined;
+	}
+
+	set notDefined(v) {
+
+		// Force required flag
+		if (this.required && v)
+			return;
+
+		this._notDefined = v;
+	}
+
 	get value() {
 
 		if (this.notDefined)
@@ -48,7 +62,6 @@ class Type {
 		}
 
 		this.notDefined = false;
-		console.log('set!', v, this.type, this.notDefined)
 		this._value = v;
 	}
 

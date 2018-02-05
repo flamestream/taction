@@ -34,4 +34,7 @@ export default {
 .tab {
 	display: inline-block;
 }
+pre {
+	user-select: text;
+}
 </style>

@@ -40,7 +40,7 @@ export default {
 				let v = (this.color.alpha / 255).toFixed(3);
 				return v;
 			},
-			init(v) {
+			set(v) {
 
 				let value = parseFloat(v);
 				if (Number.isNaN(value)) value = 1;
@@ -52,7 +52,7 @@ export default {
 			get() {
 				return this.color.getHex();
 			},
-			init(v) {
+			set(v) {
 
 				let color = Color.fromHex(v, false) || Color.fromName(v);
 				this.picker.set(color.getSimpleHex());
