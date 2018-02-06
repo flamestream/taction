@@ -1,4 +1,5 @@
 import Type from './Type';
+import StringType from './StringType';
 
 class ComplexType extends Type {
 
@@ -17,6 +18,13 @@ class ComplexType extends Type {
 
 			let type = input.type;
 			definition = prototype.$typedDefinition[type];
+
+			// Auto-generate type field
+			if (definition && !definition.type) {
+
+				let types = Object.keys(prototype.$typedDefinition);
+				definition['type'] = { cls: StringType, data: { options: types, defaultValue: type } };
+			}
 
 		} else if (prototype.$definition) {
 
@@ -41,9 +49,7 @@ class ComplexType extends Type {
 		if (prototype.$typedDefinition) {
 
 			let type = this._value.type.value;
-			let types = Object.keys(prototype.$typedDefinition);
 			o = prototype.$typedDefinition[type];
-			o['type'] = { cls: StringType, data: { options: types, defaultValue: types[0] } };
 
 		} else if (prototype.$definition) {
 
@@ -62,7 +68,8 @@ class ComplexType extends Type {
 			return;
 
 		// @TODO Optimize replacement
-		this.init({type});
+		let value = JSON.parse(JSON.stringify({...this._value, type}));
+		this.init(value);
 	}
 
 	pushElement(key, value) {

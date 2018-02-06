@@ -1,19 +1,19 @@
 <template>
 	<div>
-		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :key="label"></PropertyItem>
+		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :parent="obj" :key="label"></PropertyItem>
 	</div>
 </template>
 
 <script>
 import PropertyItem from './PropertyItem'
-import LayoutType from '../layout/LayoutType'
+import ItemType from '../layout/ItemType'
 export default {
-	name: 'PropertyItemGlobal',
+	name: 'PropertyItemItem',
 	components: {
 		PropertyItem
 	},
 	props: {
-		obj: { type: LayoutType }
+		obj: { type: ItemType }
 	},
 	computed: {
 		value() {
@@ -28,10 +28,7 @@ export default {
 			return {
 				'Type': {
 					obj: item.type,
-					type: 'option',
-					options: {
-						options: item.type.options
-					}
+					type: 'type'
 				},
 				'Size': {
 					obj: item.size,

@@ -1,5 +1,5 @@
 <template>
-	<div :class="rootClassNames">
+	<div v-if="obj" :class="rootClassNames">
 		<div class="label">
 			<span @click="handlePointerClick">{{ pointer }}</span>
 			<span @click="handlePointerClick" class="text">{{ label }}</span>
@@ -42,6 +42,9 @@
 			<div v-else-if="type === 'item'">
 				<PropertyItemItem :obj="obj"></PropertyItemItem>
 			</div>
+			<div v-else-if="type === 'type'">
+				<PropertyItemType :obj="obj" :parent="parent"></PropertyItemType>
+			</div>
 			<div v-else-if="type === 'option'">
 				<select v-model="value">
 					<option v-for="v in options.options" :key="v">{{ v }}</option>
@@ -55,7 +58,7 @@
 <script>
 export default {
 	name: 'PropertyItem',
-	props: ['label', 'obj', 'type', 'options'],
+	props: ['label', 'obj', 'type', 'options', 'parent'],
 	data() {
 		return {
 			hidden: false
@@ -72,6 +75,7 @@ export default {
 		this.$options.components.PropertyItemTextStyle = require('./PropertyItemTextStyle').default;
 		this.$options.components.PropertyItemGlobal = require('./PropertyItemGlobal').default;
 		this.$options.components.PropertyItemItem = require('./PropertyItemItem').default;
+		this.$options.components.PropertyItemType = require('./PropertyItemType').default;
 	},
 	computed: {
 		value: {

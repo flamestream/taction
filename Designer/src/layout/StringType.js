@@ -8,7 +8,7 @@ class StringType extends Type {
 		let choices = this.options = options;
 
 		// Init with first choice if there are some
-		if (choices) {
+		if (this.notDefined && choices) {
 			this._value = choices[0];
 		}
 	}
