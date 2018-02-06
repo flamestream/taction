@@ -1,30 +1,30 @@
 <template>
 	<div>
 		<select v-model="type">
-			<option>solid</option>
-			<option>gradient</option>
+			<option>text</option>
 			<option>image</option>
 		</select>
-		<InputColorSolid v-if="type === 'solid'" :obj="value.value"/>
-		<InputColorGradient v-if="type === 'gradient'" :parent="obj" :obj="value.values"/>
+		<InputText v-if="type === 'text'" label="Value" :obj="value.value"/>
 		<InputLoadedFile v-if="type === 'image'" filter="png" :obj="value.source"/>
 	</div>
 </template>
 
 <script>
-import ColorType from '../layout/ColorType';
+import ContentType from '../layout/ContentType';
 import InputColorSolid from './InputColorSolid';
 import InputColorGradient from './InputColorGradient';
 import InputLoadedFile from './InputLoadedFile';
+import InputText from './InputText';
 export default {
-	name: 'PropertyItemColor',
+	name: 'PropertyItemContent',
 	components: {
 		InputColorSolid,
 		InputColorGradient,
-		InputLoadedFile
+		InputLoadedFile,
+		InputText
 	},
 	props: {
-		obj: { type: ColorType }
+		obj: { type: ContentType }
 	},
 	computed: {
 		value() {

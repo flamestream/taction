@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<div id="view-header">
+		<span class="title">Taction Designer</span>
 		<form>
 			<button @click.prevent="handleResetButtonClick">Reset</button>
 			<button @click.prevent="handleExportButtonClick">Export</button>
@@ -13,7 +14,7 @@
 import JSZip from 'jszip'
 import FileSaver from 'file-saver'
 export default {
-	name: 'UploadPane',
+	name: 'ViewHeader',
 	data() {
 		return {
 			status: 'Please load a file'
@@ -147,7 +148,4 @@ function sanitizeJson(str) {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-div {
-	background-color: #00FFFF55;
-}
 </style>

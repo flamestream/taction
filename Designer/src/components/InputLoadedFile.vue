@@ -1,21 +1,49 @@
 <template>
-	<select v-model="value">
-		<option v-for="(file, name) in files" :key="name">{{ name }}</option>
-	</select>
+	<div>
+		<span>Source</span>
+		<select v-model="value">
+			<option v-for="filename in assets" :key="filename">{{ filename }}</option>
+		</select>
+	</div>
 </template>
 
 <script>
+import StringType from '../layout/StringType';
 export default {
 	name: 'InputLoadedFile',
-	props: ['filter'],
-	data() {
-		return {
-			value: undefined
-		}
+	props: {
+		obj: { type: StringType },
+		filter: { type: String }
 	},
 	computed: {
-		files() {
-			return this.$root.$data;
+		assets() {
+
+			let assets = this.$store.getters.assets;
+			let { filter } = this;
+			if (typeof filter !== 'string')
+				filter = '';
+
+			let exts = filter.split(',').filter(i => !!i);
+			return assets.filter(i => {
+				let parts = i.split('.');
+				let ext = parts[parts.length - 1];
+				return exts.includes(ext);
+			});
+		},
+		value: {
+			get() {
+
+				let obj = this.obj || {};
+				return obj.value;
+			},
+			set(value) {
+
+				this.$store.commit({
+					type: 'setValue',
+					obj: this.obj,
+					value
+				});
+			}
 		}
 	}
 }

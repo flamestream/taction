@@ -34,7 +34,7 @@ LayoutType.prototype.$definition = {
 	orientation: { cls: StringType, data: { options: ['vertical', 'horizontal'] } },
 	color: { cls: ColorType },
 	'default-button-style': { cls: ButtonStyleSetType },
-	items: { cls: ItemType, array: true, data: { defaultValue: [] } }
+	items: { cls: ItemType, array: true }
 };
 
 export default LayoutType;

@@ -41,7 +41,9 @@ class ComplexType extends Type {
 		if (prototype.$typedDefinition) {
 
 			let type = this._value.type.value;
+			let types = Object.keys(prototype.$typedDefinition);
 			o = prototype.$typedDefinition[type];
+			o['type'] = { cls: StringType, data: { options: types, defaultValue: types[0] } };
 
 		} else if (prototype.$definition) {
 
@@ -73,7 +75,10 @@ class ComplexType extends Type {
 		// Instantiate
 		/* eslint new-cap: 0 */
 		let { cls } = definition[key];
-		this._value[key].push(new (cls)({value}));
+		let el = new (cls)({value});
+		this._value[key].push(el);
+
+		return el;
 	}
 
 	pullElement(key, value) {
@@ -112,7 +117,7 @@ class ComplexType extends Type {
 			// Sanity
 			if (!Array.isArray(value)) value = [value];
 
-			return value.map(i => new (cls)({value: i, ...data}));
+			return value.map(i => new (cls)({value: i, ...data})).filter(i => !!i._value);
 
 		} else {
 

@@ -1,7 +1,11 @@
 <template>
-	<div class="item">
-		<div class="label"><span>{{ label }}</span><input v-if="required" type="checkbox" v-model="defined"/></div>
-		<div class="value" v-if="defined">
+	<div :class="rootClassNames">
+		<div class="label">
+			<span @click="handlePointerClick">{{ pointer }}</span>
+			<span @click="handlePointerClick" class="text">{{ label }}</span>
+			<input v-if="required" type="checkbox" v-model="defined"/>
+		</div>
+		<div class="value" v-if="defined && !hidden">
 			<div v-if="type === 'number'">
 				<input type="number" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
 			</div>
@@ -12,13 +16,31 @@
 				<input type="range" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
 			</div>
 			<div v-else-if="type === 'rectangle'">
-				<PropertyItemRectangle :obj="obj"/>
+				<PropertyItemRectangle :obj="obj"></PropertyItemRectangle>
 			</div>
 			<div v-else-if="type === 'border'">
-				<PropertyItemBorder :obj="obj"/>
+				<PropertyItemBorder :obj="obj"></PropertyItemBorder>
 			</div>
 			<div v-else-if="type === 'color'">
-				<PropertyItemColor :obj="obj"/>
+				<PropertyItemColor :obj="obj"></PropertyItemColor>
+			</div>
+			<div v-else-if="type === 'content'">
+				<PropertyItemContent :obj="obj"></PropertyItemContent>
+			</div>
+			<div v-else-if="type === 'button-style-set'">
+				<PropertyItemButtonStyleSet :obj="obj"></PropertyItemButtonStyleSet>
+			</div>
+			<div v-else-if="type === 'button-style'">
+				<PropertyItemButtonStyle :obj="obj"></PropertyItemButtonStyle>
+			</div>
+			<div v-else-if="type === 'text-style'">
+				<PropertyItemTextStyle :obj="obj"></PropertyItemTextStyle>
+			</div>
+			<div v-else-if="type === 'global'">
+				<PropertyItemGlobal :obj="obj"></PropertyItemGlobal>
+			</div>
+			<div v-else-if="type === 'item'">
+				<PropertyItemItem :obj="obj"></PropertyItemItem>
 			</div>
 			<div v-else-if="type === 'option'">
 				<select v-model="value">
@@ -31,17 +53,26 @@
 </template>
 
 <script>
-import PropertyItemRectangle from './PropertyItemRectangle'
-import PropertyItemBorder from './PropertyItemBorder'
-import PropertyItemColor from './PropertyItemColor'
 export default {
 	name: 'PropertyItem',
-	components: {
-		PropertyItemRectangle,
-		PropertyItemBorder,
-		PropertyItemColor
-	},
 	props: ['label', 'obj', 'type', 'options'],
+	data() {
+		return {
+			hidden: false
+		};
+	},
+	beforeCreate() {
+		// Recursive dependency avoidance
+		this.$options.components.PropertyItemRectangle = require('./PropertyItemRectangle').default;
+		this.$options.components.PropertyItemBorder = require('./PropertyItemBorder').default;
+		this.$options.components.PropertyItemColor = require('./PropertyItemColor').default;
+		this.$options.components.PropertyItemContent = require('./PropertyItemContent').default;
+		this.$options.components.PropertyItemButtonStyle = require('./PropertyItemButtonStyle').default;
+		this.$options.components.PropertyItemButtonStyleSet = require('./PropertyItemButtonStyleSet').default;
+		this.$options.components.PropertyItemTextStyle = require('./PropertyItemTextStyle').default;
+		this.$options.components.PropertyItemGlobal = require('./PropertyItemGlobal').default;
+		this.$options.components.PropertyItemItem = require('./PropertyItemItem').default;
+	},
 	computed: {
 		value: {
 			get() {
@@ -73,6 +104,27 @@ export default {
 		required() {
 			let { obj } = this;
 			return !obj.required;
+		},
+		rootClassNames() {
+
+			return {
+				item: true,
+				hidden: this.hidden,
+				undefined: !this.defined
+			}
+		},
+		pointer() {
+
+			return this.hidden ? '▶' : '▼';
+		}
+	},
+	methods: {
+		handlePointerClick(ev) {
+
+			if (!this.defined)
+				return;
+
+			this.hidden = !this.hidden;
 		}
 	}
 }
@@ -82,10 +134,13 @@ export default {
 <style scoped>
 
 .item {
-	background-color: #00000033;
+	background-color: #00000088;
 	border-radius: 3px;
 	margin-bottom: 5px;
 	padding: 5px;
+}
+.item:last-child {
+	margin-bottom: 0;
 }
 
 .label {
@@ -94,7 +149,15 @@ export default {
 
 .label > span {
 	display: inline-block;
+	line-height: 24px;
+}
+.item.undefined .label > span {
+	opacity: 0.4;
+}
+
+.label > .text {
 	flex: 1 1;
+	margin-left: 4px;
 }
 
 .label > input[type=checkbox] {

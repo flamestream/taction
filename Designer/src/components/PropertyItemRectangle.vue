@@ -58,7 +58,6 @@ export default {
 			this.updateFromRaw(true);
 		},
 		commitChange() {
-
 			this.$store.commit({
 				type: 'setValue',
 				obj: this.obj,

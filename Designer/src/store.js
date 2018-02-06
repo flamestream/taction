@@ -10,18 +10,25 @@ export default new Vuex.Store({
 	state: {
 		layout: new LayoutType(),
 		zip: undefined,
+		activeItem: undefined,
 		registry // @Note: Exceptional
 	},
 	getters: {
 		assets(state) {
 
-			let out = {};
-			if (state.zip) {
+			let { zip } = state;
+			if (!zip)
+				return [];
 
-				out = state.zip.files;
-			}
+			return Object.keys(zip.files);
+		},
+		registered: (state) => (type, id) => {
 
-			return out;
+			// Type check
+			let typeRegistry = state.registry[type];
+			if (!typeRegistry) return;
+
+			return typeRegistry[id];
 		}
 	},
 	mutations: {
@@ -63,7 +70,12 @@ export default new Vuex.Store({
 		},
 		removeValueElement(state, { obj, key, value }) {
 
+			// @TODO Do it right
 			obj.pullElement && obj.pullElement(key, value);
+		},
+		setActiveItem(state, item) {
+
+			state.activeItem = item;
 		}
 	},
 	actions: {
@@ -74,6 +86,40 @@ export default new Vuex.Store({
 			registry.$clear();
 			commit('resetLayout', layout);
 			commit('resetZip', zip);
+		},
+		setActiveItem({commit, getters}, {id}) {
+
+			let item = getters.registered('ItemType', id);
+			commit('setActiveItem', item);
+		},
+		addItem({state, commit}, {value, parent}) {
+
+			let obj = parent || state.layout;
+
+			commit('addValueElement', {
+				key: 'items',
+				value,
+				obj
+			});
+
+			// @TODO Find better way
+			let itemRegistry = registry['ItemType'];
+			let newItem = itemRegistry[itemRegistry._maxId];
+			commit('setActiveItem', newItem);
+		},
+		removeItem({state, commit}, {item, parent}) {
+
+			let obj = parent || state.layout;
+
+			commit('removeValueElement', {
+				key: 'items',
+				value: item,
+				obj
+			});
+
+			let activeItem = state.activeItem;
+			if (activeItem === item)
+				commit('setActiveItem', undefined);
 		}
 	}
 });

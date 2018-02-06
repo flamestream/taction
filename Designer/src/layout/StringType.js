@@ -5,7 +5,12 @@ class StringType extends Type {
 	constructor({options}) {
 
 		super(...arguments);
-		this.options = options;
+		let choices = this.options = options;
+
+		// Init with first choice if there are some
+		if (choices) {
+			this._value = choices[0];
+		}
 	}
 
 	init(v) {

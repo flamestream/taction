@@ -17,7 +17,7 @@ ButtonStyleType.prototype.$definition = {
 	margin: { cls: RectangleType },
 	padding: { cls: RectangleType },
 	border: { cls: BorderType },
-	opacity: { cls: NumberType, data: { min: 0, max: 1, defaultValue: 1 } }
+	opacity: { cls: NumberType, data: { min: 0, max: 1 } }
 };
 
 export default ButtonStyleType;

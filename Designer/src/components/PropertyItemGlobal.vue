@@ -1,61 +1,62 @@
 <template>
-	<div class="section">
-		<div class="label">▼ Global</div>
-		<div class="content">
-			<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :key="label"></PropertyItem>
-		</div>
+	<div>
+		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :key="label"></PropertyItem>
 	</div>
 </template>
 
 <script>
 import PropertyItem from './PropertyItem'
+import LayoutType from '../layout/LayoutType'
 export default {
-	name: 'PropertiesGlobal',
+	name: 'PropertyItemGlobal',
 	components: {
 		PropertyItem
 	},
+	props: {
+		obj: { type: LayoutType }
+	},
 	computed: {
-		layout() {
+		value() {
 
-			let { layout } = this.$store.state;
-			return layout && layout.value;
+			let obj = this.obj || {};
+			return obj.value;
 		},
 		properties() {
 
-			let layout = this.layout || {};
+			let item = this.value || {};
 
 			return {
 				'Name': {
-					obj: layout.name
+					obj: item.name
 				},
 				'Orientation': {
-					obj: layout.orientation,
+					obj: item.orientation,
 					type: 'option',
 					options: {
 						options: ['vertical', 'horizontal']
 					}
 				},
 				'Size': {
-					obj: layout.size,
+					obj: item.size,
 					type: 'number',
 					options: {
 						min: 0
 					}
 				},
 				'Background color': {
-					obj: layout.color,
+					obj: item.color,
 					type: 'color'
 				},
 				'Border': {
-					obj: layout.border,
+					obj: item.border,
 					type: 'border'
 				},
 				'Margin': {
-					obj: layout.margin,
+					obj: item.margin,
 					type: 'rectangle'
 				},
 				'Opacity': {
-					obj: layout.opacity,
+					obj: item.opacity,
 					type: 'range',
 					options: {
 						min: 0,
@@ -64,22 +65,22 @@ export default {
 					}
 				},
 				'Disable hide': {
-					obj: layout['disable-hide'],
+					obj: item['disable-hide'],
 					type: 'checkbox'
 				},
 				'Disable fade animation': {
-					obj: layout['disable-fade-animation'],
+					obj: item['disable-fade-animation'],
 					type: 'checkbox'
 				},
 				'Fade animation time': {
-					obj: layout['fade-animation-time'],
+					obj: item['fade-animation-time'],
 					type: 'number',
 					options: {
 						min: 0
 					}
 				},
 				'Opacity (hidden)': {
-					obj: layout['opacity-hide'],
+					obj: item['opacity-hide'],
 					type: 'range',
 					options: {
 						min: 0,
@@ -96,5 +97,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

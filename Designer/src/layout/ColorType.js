@@ -10,16 +10,13 @@ class ColorType extends ComplexType {
 
 ColorType.prototype.$typedDefinition = {
 	solid: {
-		type: { cls: StringType, data: { defaultValue: 'solid' } },
 		value: { cls: SolidColorType, data: { defaultValue: 'white' } }
 	},
 	gradient: {
-		type: { cls: StringType, data: { defaultValue: 'gradient' } },
 		angle: { cls: NumberType },
-		values: { cls: GradientColorStopType, array: true, data: { defaultValue: [] } }
+		values: { cls: GradientColorStopType, array: true }
 	},
 	image: {
-		type: { cls: StringType, data: { defaultValue: 'image' } },
 		tile: { cls: StringType, data: { options: ['none', 'normal', 'flip-x', 'flip-y', 'flip-xy'] } },
 		stretch: { cls: StringType, data: { options: ['uniform', 'none', 'fill', 'uniform-fill'] } },
 		colorize: { cls: SolidColorType },

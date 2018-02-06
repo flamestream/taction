@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div data-simplebar>
 		<div>
 			<div class="tab" @click="setActiveTab('ui')">UI</div>
 			<div class="tab" @click="setActiveTab('code')">Code</div>
