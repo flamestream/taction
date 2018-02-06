@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import ColorType from '../layout/ColorType';
+import ColorType from '../types/ColorType';
 import { debounce } from 'lodash';
 import InputColorSolid from './InputColorSolid';
 export default {

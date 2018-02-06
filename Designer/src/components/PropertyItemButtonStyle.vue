@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :key="label"></PropertyItem>
+		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :parent="obj" :key="label"></PropertyItem>
 	</div>
 </template>
 
 <script>
 import PropertyItem from './PropertyItem'
-import ButtonStyleType from '../layout/ButtonStyleType'
+import ButtonStyleType from '../types/ButtonStyleType'
 export default {
 	name: 'PropertyItemButtonStyle',
 	components: {
@@ -52,7 +52,7 @@ export default {
 				},
 				'Opacity': {
 					obj: item.opacity,
-					type: 'range',
+					type: 'number',
 					options: {
 						min: 0,
 						max: 1,

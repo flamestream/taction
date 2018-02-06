@@ -1,15 +1,17 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import LayoutType from './layout/LayoutType'
-import registry from './layout/registry'
+import config from './config'
+import LayoutType from './types/LayoutType'
+import registry from './types/registry'
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
 	state: {
-		layout: new LayoutType(),
+		layout: new LayoutType({value: config.defaultLayout}),
 		zip: undefined,
+		activeMenu: undefined,
 		activeItem: undefined,
 		registry // @Note: Exceptional
 	},
@@ -33,6 +35,7 @@ export default new Vuex.Store({
 	},
 	mutations: {
 		resetLayout(state, layout) {
+
 			state.layout = new LayoutType({value: layout});
 		},
 		resetZip(state, zip) {
@@ -73,19 +76,27 @@ export default new Vuex.Store({
 			// @TODO Do it right
 			obj.pullElement && obj.pullElement(key, value);
 		},
+		setActiveMenu(state, id) {
+
+			state.activeMenu = id;
+			state.activeItem = undefined;
+		},
 		setActiveItem(state, item) {
 
+			state.activeMenu = undefined;
 			state.activeItem = item;
 		}
 	},
 	actions: {
-		reset({commit}, {data}) {
-
-			let {layout, zip} = data || {};
+		reset({commit}, {layout, zip}) {
 
 			registry.$clear();
 			commit('resetLayout', layout);
 			commit('resetZip', zip);
+		},
+		setActiveMenu({commit}, {id}) {
+
+			commit('setActiveMenu', id);
 		},
 		setActiveItem({commit, getters}, {id}) {
 

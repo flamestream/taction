@@ -7,13 +7,10 @@
 		</div>
 		<div class="value" v-if="defined && !hidden">
 			<div v-if="type === 'number'">
-				<input type="number" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
+				<InputNumber :obj="obj" :options="options"></InputNumber>
 			</div>
 			<div v-else-if="type === 'checkbox'">
-				<input type="checkbox" v-model="value"/>
-			</div>
-			<div v-else-if="type === 'range'">
-				<input type="range" v-model="value" :min="options.min" :max="options.max" :step="options.step"/>
+				<InputBoolean :obj="obj" :options="options"></InputBoolean>
 			</div>
 			<div v-else-if="type === 'rectangle'">
 				<PropertyItemRectangle :obj="obj"></PropertyItemRectangle>
@@ -50,15 +47,31 @@
 					<option v-for="v in options.options" :key="v">{{ v }}</option>
 				</select>
 			</div>
-			<div v-else><input type="text" v-model="value"/></div>
+			<div v-else>
+				<InputText :obj="obj" :options="options"></InputText>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import InputText from './InputText';
+import InputNumber from './InputNumber';
+import InputBoolean from './InputBoolean';
 export default {
 	name: 'PropertyItem',
-	props: ['label', 'obj', 'type', 'options', 'parent'],
+	components: {
+		InputText,
+		InputNumber,
+		InputBoolean
+	},
+	props: {
+		obj: { type: Object },
+		parent: { type: Object },
+		label: { type: String },
+		type: { type: String },
+		options: { type: Object }
+	},
 	data() {
 		return {
 			hidden: false

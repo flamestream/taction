@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import RectangleType from '../layout/RectangleType';
+import RectangleType from '../types/RectangleType';
 export default {
 	name: 'PropertyItemRectangle',
 	props: {

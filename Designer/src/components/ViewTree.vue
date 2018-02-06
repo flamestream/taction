@@ -1,7 +1,7 @@
 <template>
 	<div class="subtle-scroll">
 		<div v-if="layout" @click.stop="handleClick">
-			<div :class="{ 'tree-node': true, active: !activeItem }">
+			<div :class="{ 'tree-node': true, root: true, active: !activeMenu && !activeItem }">
 				<div class="label">
 					<span class="text">Root</span>
 					<span class="command" @click.stop="handleAdderClick">＋</span>
@@ -21,7 +21,7 @@ export default {
 		TreeNode
 	},
 	computed: {
-		...mapState(['layout', 'activeItem']),
+		...mapState(['layout', 'activeMenu', 'activeItem']),
 		value() {
 			let layout = this.layout || {};
 			return layout.value;

@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :key="label"></PropertyItem>
+		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :parent="obj" :key="label"></PropertyItem>
 	</div>
 </template>
 
 <script>
 import PropertyItem from './PropertyItem'
-import TextStyleType from '../layout/TextStyleType'
+import TextStyleType from '../types/TextStyleType'
 export default {
 	name: 'PropertyItemTextStyle',
 	components: {

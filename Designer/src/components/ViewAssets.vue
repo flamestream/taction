@@ -1,25 +1,30 @@
 <template>
-	<div>
-		ViewAssets
-		<div v-for="filename in assets" :key="filename">
-			{{ filename }}
+	<div :class="{ 'tree-node': true, active: activeMenu === 'assets' }" @click.stop="handleClick">
+		<div class="label">
+			<span class="text">Assets</span>
 		</div>
 	</div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapState } from 'vuex';
 export default {
 	name: 'ViewAssets',
 	computed: {
-		...mapGetters(['assets'])
+		...mapState(['activeMenu'])
+	},
+	methods: {
+		handleClick(ev) {
+
+			this.$store.dispatch({
+				type: 'setActiveMenu',
+				id: 'assets'
+			});
+		}
 	}
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-div {
-	/*background-color: #0000FF55;*/
-}
 </style>

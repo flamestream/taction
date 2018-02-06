@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ColorType from '../layout/ColorType';
+import ColorType from '../types/ColorType';
 import InputColorSolid from './InputColorSolid';
 import InputColorGradient from './InputColorGradient';
 import InputLoadedFile from './InputLoadedFile';

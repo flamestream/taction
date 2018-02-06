@@ -13,6 +13,7 @@
 <script>
 import JSZip from 'jszip'
 import FileSaver from 'file-saver'
+import config from '../config'
 export default {
 	name: 'ViewHeader',
 	data() {
@@ -22,8 +23,10 @@ export default {
 	},
 	methods: {
 		handleResetButtonClick(ev) {
+
 			this.$store.dispatch({
-				type: 'reset'
+				type: 'reset',
+				layout: config.defaultLayout
 			});
 		},
 		async handleExportButtonClick(ev) {
@@ -72,13 +75,17 @@ export default {
 
 				this.$store.dispatch({
 					type: 'reset',
-					data: { layout, zip }
+					layout,
+					zip
 				});
 				this.status = 'Loaded file';
 
 			} catch (e) {
 
-				this.$store.dispatch({type: 'reset'});
+				this.$store.dispatch({
+					type: 'reset',
+					layout: config.defaultLayout
+				});
 				this.status = `Error loading file: ${e.message}`;
 				console.error(e.stack);
 			}

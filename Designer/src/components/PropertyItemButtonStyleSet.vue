@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :key="label"></PropertyItem>
+		<PropertyItem v-for="(property, label) in properties" :label="label" :obj="property.obj" :type="property.type" :options="property.options" :parent="obj" :key="label"></PropertyItem>
 	</div>
 </template>
 
 <script>
 import PropertyItem from './PropertyItem'
-import ButtonStyleSetType from '../layout/ButtonStyleSetType'
+import ButtonStyleSetType from '../types/ButtonStyleSetType'
 export default {
 	name: 'PropertyItemButtonStyleSet',
 	components: {

@@ -17,6 +17,11 @@ class LayoutType extends ComplexType {
 		// Layout is root element so it's forced-defined even if inited with nothing
 		this.notDefined = false;
 	}
+
+	get required() {
+
+		return true;
+	}
 }
 
 LayoutType.prototype.$definition = {

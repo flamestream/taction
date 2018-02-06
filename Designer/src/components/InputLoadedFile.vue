@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import StringType from '../layout/StringType';
+import StringType from '../types/StringType';
 export default {
 	name: 'InputLoadedFile',
 	props: {

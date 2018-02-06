@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import ContentType from '../layout/ContentType';
+import ContentType from '../types/ContentType';
 import InputColorSolid from './InputColorSolid';
 import InputColorGradient from './InputColorGradient';
 import InputLoadedFile from './InputLoadedFile';

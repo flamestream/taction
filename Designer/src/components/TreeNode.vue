@@ -18,7 +18,7 @@
 <script>
 import { mapState } from 'vuex'
 import TreeNode from './TreeNode'
-import ItemType from '../layout/ItemType';
+import ItemType from '../types/ItemType';
 export default {
 	name: 'TreeNode',
 	props: {

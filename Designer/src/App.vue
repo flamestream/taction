@@ -73,7 +73,7 @@ html, body {
 }
 
 #view-header {
-	background-color: #0063B1;
+	background-color: #1B2838;
 	color: #FFF;
 }
 
@@ -97,7 +97,8 @@ html, body {
 	flex-direction: column;
 	text-overflow: ellipsis;
 	flex-shrink: 0;
-	background-color: #0063B1;
+	background-color: #2D3B4B;
+	background: linear-gradient(to bottom, #2D3B4B 0%,#273D4E 100%);
 	color: #EEE;
 }
 
@@ -125,13 +126,13 @@ html, body {
 }
 
 .tree-node.active {
-	box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.7);
-	background-color: #222222aa;
+	box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.5);
+	background-color: #1B283877;
 }
 
 .tree-node.active > .label {
 	border-left-color: inherit;
-	background-color: #222;
+	background-color: #1B2838;
 }
 
 #view_assets {
@@ -144,7 +145,7 @@ html, body {
 	min-width: 300px;
 	overflow-y: auto;
 	flex-shrink: 0;
-	background-color: #222;
+	background-color: #1B2838;
 	color: #ddd;
 	padding: 12px 0;
 }

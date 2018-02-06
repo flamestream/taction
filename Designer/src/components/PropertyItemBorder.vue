@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import BorderType from '../layout/BorderType';
+import BorderType from '../types/BorderType';
 import PropertyItemRectangle from './PropertyItemRectangle'
 import PropertyItemColor from './PropertyItemColor'
 export default {

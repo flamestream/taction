@@ -6,7 +6,7 @@
 
 <script>
 import PropertyItem from './PropertyItem'
-import ItemType from '../layout/ItemType'
+import ItemType from '../types/ItemType'
 export default {
 	name: 'PropertyItemItem',
 	components: {

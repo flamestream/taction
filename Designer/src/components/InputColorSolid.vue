@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import SolidColorType from '../layout/SolidColorType';
+import SolidColorType from '../types/SolidColorType';
 import Color from '../helpers/Color';
 import ColorPicker from './ColorPicker';
 export default {

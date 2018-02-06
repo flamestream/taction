@@ -6,12 +6,11 @@
 </template>
 
 <script>
-import StringType from '../layout/StringType';
 export default {
 	name: 'InputText',
 	props: {
-		obj: { type: StringType },
-		label: { type: String }
+		obj: { type: Object },
+		options: { type: Object }
 	},
 	computed: {
 		value: {
@@ -28,6 +27,11 @@ export default {
 					value
 				});
 			}
+		},
+		label() {
+
+			let options = this.options || {};
+			return options.label;
 		}
 	}
 }
@@ -35,5 +39,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+div {
+	display: flex;
+}
+
+input {
+	flex: 1 1 auto;
+}
 
 </style>
