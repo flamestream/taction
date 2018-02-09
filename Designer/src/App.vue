@@ -2,12 +2,12 @@
 	<div id="app">
 		<ViewHeader></ViewHeader>
 		<div id="workspace">
-			<div id="view-selectors">
-				<ViewTree id="view_tree"/>
-				<ViewAssets id="view_assets"></ViewAssets>
+			<div id="view-menu">
+				<ViewTree id="view-tree-menu"/>
+				<ViewSpecialMenu id="view-special-menu"></ViewSpecialMenu>
 			</div>
 			<ViewProperties id="view-properties"></ViewProperties>
-			<ViewPreview id="view_preview"></ViewPreview>
+			<ViewPreview id="section-preview"></ViewPreview>
 		</div>
 	</div>
 </template>
@@ -15,7 +15,7 @@
 <script>
 import ViewPreview from './components/ViewPreview'
 import ViewTree from './components/ViewTree'
-import ViewAssets from './components/ViewAssets'
+import ViewSpecialMenu from './components/ViewSpecialMenu'
 import ViewProperties from './components/ViewProperties'
 import ViewHeader from './components/ViewHeader'
 
@@ -24,7 +24,7 @@ export default {
 	components: {
 		ViewPreview,
 		ViewTree,
-		ViewAssets,
+		ViewSpecialMenu,
 		ViewProperties,
 		ViewHeader
 	},
@@ -65,7 +65,7 @@ html, body {
 
 #app {
 	height: 100%;
-	font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	font-family: 'Open Sans', sans-serif;
 	color: #2c3e50;
 	display: flex;
 	flex-direction: column;
@@ -90,7 +90,7 @@ html, body {
 	flex-grow: 1;
 }
 
-#view-selectors {
+#view-menu {
 	width: 200px;
 	overflow-y: auto;
 	display: flex;
@@ -102,56 +102,62 @@ html, body {
 	color: #EEE;
 }
 
-#view_preview {
+#section-preview {
 	flex-grow: 1;
-	overflow: auto;
+	font-family: 'Active Font';
 }
 
-#view_tree {
+.menu-item {
+	cursor: pointer;
+}
+
+#view-tree-menu {
 	padding-top: 10px;
-	flex-grow: 2;
+	flex-grow: 1;
 }
 
-.tree-node {
+#view-menu .menu-item {
 	line-height: 40px;
 }
 
-.tree-node .spacer {
+#view-menu .menu-item .spacer {
 	width: 10px;
 }
 
-.tree-node > .label {
+#view-menu .menu-item > .label {
 	border-left: 3px transparent solid;
 	padding-left: 16px;
 }
 
-.tree-node.active {
+#view-menu .menu-item > .label > .command {
+	font-size: 16px;
+	font-weight: 600;
+}
+
+#view-menu .menu-item.active {
 	box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.5);
 	background-color: #1B283877;
 }
 
-.tree-node.active > .label {
+#view-menu .menu-item.active > .label {
+	color: #09B0EB;
 	border-left-color: inherit;
 	background-color: #1B2838;
 }
 
-#view_assets {
-	flex-grow: 1;
+#view-special-menu {
 	overflow-y: auto;
+	padding-bottom: 20px;
 }
 
 #view-properties {
 	display: inline-block;
-	min-width: 300px;
+	width: 300px;
 	overflow-y: auto;
 	flex-shrink: 0;
 	background-color: #1B2838;
 	color: #ddd;
 	padding: 12px 0;
-}
-#view-properties > * {
-	margin-left: 16px;
-	margin-right: 16px;
 }
 
 input[type=number] {

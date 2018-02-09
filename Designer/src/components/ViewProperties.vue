@@ -1,11 +1,6 @@
 <template>
 	<div class="subtle-scroll">
-		<div v-if="activeMenu === 'assets'">
-			<input type="file" label="Add asset"/>
-			<div v-for="filename in assets" :key="filename">
-				{{ filename }}
-			</div>
-		</div>
+		<ViewAssets v-if="activeMenu === 'assets'"></ViewAssets>
 		<div v-else-if="activeItem">
 			<PropertyItem label="Button Properties" type="item" :obj="activeItem"></PropertyItem>
 			<PropertyItem label="Style" type="button-style-set" :obj="activeItem.value.style"></PropertyItem>
@@ -20,9 +15,11 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 import PropertyItem from './PropertyItem'
+import ViewAssets from './ViewAssets'
 export default {
 	name: 'ViewProperties',
 	components: {
+		ViewAssets,
 		PropertyItem
 	},
 	computed: {
@@ -34,5 +31,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

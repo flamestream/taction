@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import fileType from 'file-type'
+import filesize from 'filesize'
+import fileReaderAsync from './helpers/fileReaderAsync'
 
 import config from './config'
 import LayoutType from './types/LayoutType'
@@ -10,19 +13,20 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		layout: new LayoutType({value: config.defaultLayout}),
-		zip: undefined,
+		assetRegistry: {},
 		activeMenu: undefined,
 		activeItem: undefined,
+		activeAsset: undefined,
 		registry // @Note: Exceptional
 	},
 	getters: {
-		assets(state) {
+		activeAssetName(state) {
 
-			let { zip } = state;
-			if (!zip)
-				return [];
+			return state.activeAsset && state.activeAsset.name;
+		},
+		assetNames(state) {
 
-			return Object.keys(zip.files);
+			return Object.keys(state.assetRegistry);
 		},
 		registered: (state) => (type, id) => {
 
@@ -79,12 +83,27 @@ export default new Vuex.Store({
 		setActiveMenu(state, id) {
 
 			state.activeMenu = id;
-			state.activeItem = undefined;
 		},
 		setActiveItem(state, item) {
 
-			state.activeMenu = undefined;
 			state.activeItem = item;
+			console.log(item);
+		},
+		setActiveAsset(state, {asset}) {
+
+			state.activeAsset = asset;
+		},
+		addAsset(state, {id, file}) {
+
+			Vue.set(state.assetRegistry, id, file);
+		},
+		removeAsset(state, {id}) {
+
+			let asset = state.assetRegistry[id];
+			if (asset === state.activeAsset)
+				state.activeAsset = undefined;
+
+			Vue.delete(state.assetRegistry, id);
 		}
 	},
 	actions: {
@@ -100,8 +119,8 @@ export default new Vuex.Store({
 		},
 		setActiveItem({commit, getters}, {id}) {
 
-			let item = getters.registered('ItemType', id);
-			commit('setActiveItem', item);
+			let asset = getters.registered('ItemType', id);
+			commit('setActiveItem', asset);
 		},
 		addItem({state, commit}, {value, parent}) {
 
@@ -131,6 +150,65 @@ export default new Vuex.Store({
 			let activeItem = state.activeItem;
 			if (activeItem === item)
 				commit('setActiveItem', undefined);
+		},
+		setActiveAsset({commit, state, getters}, {id}) {
+
+			let asset = state.assetRegistry[id];
+			commit('setActiveAsset', {asset});
+
+			if (asset.ext === 'ttf') {
+
+				var style = document.getElementById('active-font-style');
+				style.innerHTML = `@font-face { font-family: 'Active Font'; src: url('${asset.url}'); }`;
+			}
+		},
+		async addAsset({commit, dispatch}, {file, active}) {
+
+			let {name} = file;
+
+			// Size check
+			let {maximumAssetSize} = config;
+			if (file.size > maximumAssetSize) {
+
+				let maxLabel = filesize(maximumAssetSize);
+				throw new Error(`${name}: File is too big (Maximum ${maxLabel})`);
+			}
+
+			let ext = name.split('.').pop();
+			let header = file.slice(0, 4100);
+			let blob = await fileReaderAsync(header);
+			let type = fileType(blob);
+
+			if (!type)
+				throw new Error(`${name}: Error reading file`);
+
+			// Type check
+			if (!config.supportedMimeTypes.includes(type.mime))
+				throw new Error(`${name}: File type is not supported`);
+
+			// Ext vs. Type check
+			if (ext !== type.ext)
+				throw new Error(`${name}: Invalid ${ext} file`);
+
+			// Add additional information
+			file.ext = ext;
+			file.url = URL.createObjectURL(file);
+
+			commit('addAsset', {
+				id: file.name,
+				file
+			});
+
+			if (active) {
+
+				dispatch('setActiveAsset', {
+					id: file.name
+				});
+			}
+		},
+		removeAsset({commit}, {id}) {
+
+			commit('removeAsset', {id});
 		}
 	}
 });

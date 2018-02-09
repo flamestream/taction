@@ -66,7 +66,7 @@ export default {
 	},
 	methods: {
 		handleColorChange() {
-			console.log('colro chaneg!', this.color);
+
 			this.$emit('colorChange', this.color);
 		},
 		handleColorInputClick(ev) {

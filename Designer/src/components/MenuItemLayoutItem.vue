@@ -1,5 +1,5 @@
 <template>
-	<div v-if="value" :class="{ 'tree-node': true, active }" :data-id="obj.id">
+	<div v-if="value" :class="{ 'menu-item': true, active }" :data-id="obj.id">
 		<div class="label">
 			<span v-for="i in depth" class="spacer" :key="i"></span>
 			<span class="text">
@@ -10,30 +10,30 @@
 			<span v-if="active && value.type.value === 'pivot'" class="command" @click.stop="handleAdderClick">＋</span>
 		</div>
 		<div v-if="value.items">
-			<TreeNode v-for="item in value.items" :obj="item" :key="item.id" :parent="obj" :depth="depth + 1"></TreeNode>
+			<MenuItemLayoutItem v-for="item in value.items" :obj="item" :key="item.id" :parent="obj" :depth="depth + 1"></MenuItemLayoutItem>
 		</div>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import TreeNode from './TreeNode'
+import MenuItemLayoutItem from './MenuItemLayoutItem'
 import ItemType from '../types/ItemType';
 export default {
-	name: 'TreeNode',
+	name: 'MenuItemLayoutItem',
 	props: {
 		obj: { type: ItemType },
 		parent: { type: Object },
 		depth: { type: Number, default: 0 }
 	},
 	components: {
-		TreeNode
+		MenuItemLayoutItem
 	},
 	computed: {
-		...mapState(['activeItem']),
+		...mapState(['activeMenu', 'activeItem']),
 		active() {
 
-			return this.activeItem === this.obj;
+			return !this.activeMenu && this.activeItem === this.obj;
 		},
 		value() {
 

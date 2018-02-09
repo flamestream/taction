@@ -1,12 +1,12 @@
 <template>
 	<div class="subtle-scroll">
 		<div v-if="layout" @click.stop="handleClick">
-			<div :class="{ 'tree-node': true, root: true, active: !activeMenu && !activeItem }">
+			<div :class="{ 'menu-item': true, root: true, active: !activeMenu && !activeItem }">
 				<div class="label">
 					<span class="text">Root</span>
 					<span class="command" @click.stop="handleAdderClick">＋</span>
 				</div>
-				<TreeNode v-for="item in value.items" :obj="item" :key="item.id" :parent="layout" :depth="1"></TreeNode>
+				<MenuItemLayoutItem v-for="item in value.items" :obj="item" :key="item.id" :parent="layout" :depth="1"></MenuItemLayoutItem>
 			</div>
 		</div>
 	</div>
@@ -14,11 +14,11 @@
 
 <script>
 import { mapState } from 'vuex'
-import TreeNode from './TreeNode'
+import MenuItemLayoutItem from './MenuItemLayoutItem'
 export default {
 	name: 'ViewTree',
 	components: {
-		TreeNode
+		MenuItemLayoutItem
 	},
 	computed: {
 		...mapState(['layout', 'activeMenu', 'activeItem']),
@@ -29,13 +29,18 @@ export default {
 	},
 	methods: {
 		handleClick(ev) {
+
 			let { target } = ev;
-			target = target.closest('.tree-node');
+			target = target.closest('.menu-item');
 
 			let id = (!target)
 				? undefined
 				: target.dataset.id;
 
+			this.$store.dispatch({
+				type: 'setActiveMenu',
+				undefined
+			});
 			this.$store.dispatch({
 				type: 'setActiveItem',
 				id
