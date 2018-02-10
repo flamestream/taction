@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import PropertyItem from './PropertyItem'
 import ViewAssets from './ViewAssets'
 export default {
@@ -23,8 +23,8 @@ export default {
 		PropertyItem
 	},
 	computed: {
-		...mapState(['layout', 'activeItem', 'activeMenu']),
-		...mapGetters(['assets'])
+		...mapState('layout', ['layout']),
+		...mapState('ui', ['activeMenu', 'activeItem'])
 	}
 }
 </script>

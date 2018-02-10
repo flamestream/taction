@@ -22,7 +22,7 @@ export default {
 			set(value) {
 
 				this.$store.commit({
-					type: 'setValue',
+					type: 'layout/setValue',
 					obj: this.obj,
 					value
 				});

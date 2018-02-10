@@ -7,10 +7,10 @@
 		</div>
 		<div class="value" v-if="defined && !hidden">
 			<div v-if="type === 'number'">
-				<InputNumber :obj="obj" :options="options"></InputNumber>
+				<InputNumber :obj="obj" :options="options || {}"></InputNumber>
 			</div>
 			<div v-else-if="type === 'checkbox'">
-				<InputBoolean :obj="obj" :options="options"></InputBoolean>
+				<InputBoolean :obj="obj" :options="options || {}"></InputBoolean>
 			</div>
 			<div v-else-if="type === 'rectangle'">
 				<PropertyItemRectangle :obj="obj"></PropertyItemRectangle>
@@ -48,7 +48,7 @@
 				</select>
 			</div>
 			<div v-else>
-				<InputText :obj="obj" :options="options"></InputText>
+				<InputText :obj="obj" :options="options || {}"></InputText>
 			</div>
 		</div>
 	</div>
@@ -98,7 +98,7 @@ export default {
 			},
 			set(value) {
 				this.$store.commit({
-					type: 'setValue',
+					type: 'layout/setValue',
 					obj: this.obj,
 					value
 				});
@@ -110,9 +110,8 @@ export default {
 				return !obj.notDefined;
 			},
 			set(value) {
-				value = !value;
 				this.$store.commit({
-					type: 'setDefined',
+					type: 'layout/setDefined',
 					obj: this.obj,
 					value
 				});

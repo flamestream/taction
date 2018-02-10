@@ -53,7 +53,7 @@ export default {
 		commitChange(color) {
 
 			this.$store.commit({
-				type: 'setValue',
+				type: 'layout/setValue',
 				obj: this.obj,
 				value: color.getWpfHex()
 			});

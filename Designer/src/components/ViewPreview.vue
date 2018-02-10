@@ -23,7 +23,8 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['layout', 'activeMenu', 'activeAsset'])
+		...mapState('layout', ['layout']),
+		...mapState('ui', ['activeMenu', 'activeItem', 'activeAsset'])
 	},
 	methods: {
 		setActiveTab(name) {
@@ -39,12 +40,17 @@ export default {
 .asset-previewer {
 	overflow: auto;
 	background-color: #fff;
-	background: url('../assets/cubes.png');
 	vertical-align: middle;
 	display:flex;
 	align-items: center;
 	justify-content: center;
 	font-size: 32px;
+}
+
+.asset-previewer img {
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.3);
+	background-color: red;
+	background: url('../assets/transparent-bg.jpg');
 }
 
 .asset-previewer span {

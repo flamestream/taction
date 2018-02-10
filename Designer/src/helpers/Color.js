@@ -57,6 +57,19 @@ class Color {
 		let { hexRed, hexGreen, hexBlue, hexAlpha } = this._computeHex();
 		return `#${hexAlpha}${hexRed}${hexGreen}${hexBlue}`.toUpperCase();
 	}
+
+	getColorizeMatrix() {
+
+		/* eslint no-mixed-spaces-and-tabs: 0 */
+		let r = this.red / 255;
+		let g = this.green / 255;
+		let b = this.blue / 255;
+
+		return [r, 0, 0, 0, 0,
+		        0, g, 0, 0, 0,
+		        0, 0, b, 0, 0,
+		        0, 0, 0, 1, 0].join(' ');
+	}
 };
 
 Color.fromHex = function(hex, fallback = true) {

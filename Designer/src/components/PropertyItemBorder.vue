@@ -72,9 +72,8 @@ export default {
 			return !obj.notDefined;
 		},
 		setDefined(obj, value) {
-			value = !value;
 			this.$store.commit({
-				type: 'setDefined',
+				type: 'layout/setDefined',
 				obj,
 				value
 			});

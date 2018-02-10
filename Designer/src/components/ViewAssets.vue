@@ -5,7 +5,7 @@
 			<label for="file-asset" @click="handleFileClick">{{ fileButtonLabel }}</label>
 		</div>
 		<div class="asset-list">
-			<div class="menu-item" v-for="name in assetNames" :class="getAssetClassNames(name)" @click="handleAssetClick" :data-id="name" :key="name">
+			<div class="menu-item" v-for="name in names" :class="getAssetClassNames(name)" @click="handleAssetClick" :data-id="name" :key="name">
 				<span class="label">{{ name }}</span>
 				<span v-if="isActive(name)" class="command" @click.stop="handleRemoverClick">－</span>
 			</div>
@@ -16,7 +16,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import PropertyItem from './PropertyItem'
-import config from '../config'
 export default {
 	name: 'ViewAssets',
 	components: {
@@ -29,14 +28,21 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['assetNames', 'activeAssetName']),
+		...mapGetters({
+			names: 'assets/names',
+			activeAssetName: 'ui/activeAssetName'
+		}),
 		fileButtonLabel() {
 
 			return this.fileButtonError || this.defaultFileButtonLabel;
 		}
 	},
 	methods: {
-		...mapActions(['setActiveAsset', 'addAsset', 'removeAsset']),
+		...mapActions({
+			setActiveAsset: 'ui/setActiveAsset',
+			addAsset: 'assets/add',
+			removeAsset: 'assets/remove'
+		}),
 		isActive(assetName) {
 
 			return assetName === this.activeAssetName;

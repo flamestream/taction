@@ -13,13 +13,13 @@ import { mapState } from 'vuex';
 export default {
 	name: 'ViewAssets',
 	computed: {
-		...mapState(['activeMenu'])
+		...mapState('ui', ['activeMenu'])
 	},
 	methods: {
 		handleClick(ev) {
 
 			this.$store.dispatch({
-				type: 'setActiveMenu',
+				type: 'ui/setActiveMenu',
 				id: 'assets'
 			});
 		}

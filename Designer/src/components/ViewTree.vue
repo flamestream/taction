@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import MenuItemLayoutItem from './MenuItemLayoutItem'
 export default {
 	name: 'ViewTree',
@@ -21,13 +21,19 @@ export default {
 		MenuItemLayoutItem
 	},
 	computed: {
-		...mapState(['layout', 'activeMenu', 'activeItem']),
+		...mapState('layout', ['layout']),
+		...mapState('ui', ['activeMenu', 'activeItem']),
 		value() {
 			let layout = this.layout || {};
 			return layout.value;
 		}
 	},
 	methods: {
+		...mapActions({
+			setActiveMenu: 'ui/setActiveMenu',
+			setActiveItem: 'ui/setActiveItem',
+			addItem: 'layout/addItem'
+		}),
 		handleClick(ev) {
 
 			let { target } = ev;
@@ -37,23 +43,17 @@ export default {
 				? undefined
 				: target.dataset.id;
 
-			this.$store.dispatch({
-				type: 'setActiveMenu',
-				undefined
-			});
-			this.$store.dispatch({
-				type: 'setActiveItem',
-				id
-			});
+			this.setActiveMenu();
+			this.setActiveItem({id});
 		},
 		handleAdderClick(ev) {
 
-			this.$store.dispatch({
-				type: 'addItem',
+			this.addItem({
 				parent: this.layout,
 				value: {
 					type: 'hold'
-				}
+				},
+				active: true
 			});
 		}
 	}

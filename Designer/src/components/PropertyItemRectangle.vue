@@ -59,7 +59,7 @@ export default {
 		},
 		commitChange() {
 			this.$store.commit({
-				type: 'setValue',
+				type: 'layout/setValue',
 				obj: this.obj,
 				value: this.raw
 			});

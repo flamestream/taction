@@ -30,7 +30,7 @@ export default {
 		MenuItemLayoutItem
 	},
 	computed: {
-		...mapState(['activeMenu', 'activeItem']),
+		...mapState('ui', ['activeMenu', 'activeItem']),
 		active() {
 
 			return !this.activeMenu && this.activeItem === this.obj;
@@ -45,7 +45,7 @@ export default {
 		handleRemoverClick(ev) {
 
 			this.$store.dispatch({
-				type: 'removeItem',
+				type: 'layout/removeItem',
 				item: this.obj,
 				parent: this.parent
 			});
@@ -53,11 +53,12 @@ export default {
 		handleAdderClick(ev) {
 
 			this.$store.dispatch({
-				type: 'addItem',
+				type: 'layout/addItem',
 				parent: this.obj,
 				value: {
 					type: 'hold'
-				}
+				},
+				active: true
 			});
 		}
 	}

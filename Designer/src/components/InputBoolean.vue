@@ -11,7 +11,7 @@
 <script>
 import BooleanType from '../types/BooleanType';
 export default {
-	name: 'InputNumber',
+	name: 'InputBoolean',
 	props: {
 		obj: { type: BooleanType },
 		options: { type: Object }
@@ -21,12 +21,20 @@ export default {
 			get() {
 
 				let obj = this.obj || {};
-				return obj.value;
+				let value = obj.value;
+
+				if (this.options.invert)
+					value = !value;
+
+				return value;
 			},
 			set(value) {
 
+				if (this.options.invert)
+					value = !value;
+
 				this.$store.commit({
-					type: 'setValue',
+					type: 'layout/setValue',
 					obj: this.obj,
 					value
 				});

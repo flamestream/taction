@@ -64,13 +64,19 @@ export default {
 						step: 0.001
 					}
 				},
-				'Disable hide': {
+				'Fade out on mouse-over': {
 					obj: item['disable-hide'],
-					type: 'checkbox'
+					type: 'checkbox',
+					options: {
+						invert: true
+					}
 				},
-				'Disable fade animation': {
+				'Fade out animation': {
 					obj: item['disable-fade-animation'],
-					type: 'checkbox'
+					type: 'checkbox',
+					options: {
+						invert: true
+					}
 				},
 				'Fade animation time': {
 					obj: item['fade-animation-time'],

@@ -38,7 +38,7 @@ export default {
 			},
 			set(value) {
 				this.$store.commit({
-					type: 'changeType',
+					type: 'layout/changeType',
 					obj: this.obj,
 					value
 				});

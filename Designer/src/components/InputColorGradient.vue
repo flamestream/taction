@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div>
-			<div class="preview" ref="preview" :style="previewStyle" @click="handlePreviewClick"></div>
+			<div class="preview" ref="preview" @click="handlePreviewClick"><div :style="previewStyle"></div></div>
 			<div class="stoppers">
 				<div v-for="stopObj in stopObjs" :style="getStopStyle(stopObj)"
 						:class="getStopClassName(stopObj)"
@@ -83,7 +83,7 @@ export default {
 				if (!activeStop) return;
 
 				this.$store.commit({
-					type: 'setValue',
+					type: 'layout/setValue',
 					obj: activeStop.value.position,
 					value
 				});
@@ -123,7 +123,7 @@ export default {
 			let ratio = x / rect.width;
 
 			this.$store.commit({
-				type: 'addValueElement',
+				type: 'layout/addValueElement',
 				obj: this.parent,
 				key: 'values',
 				value: ratio.toString()
@@ -142,7 +142,7 @@ export default {
 			let ratio = x / rect.width;
 
 			this.$store.commit({
-				type: 'setValue',
+				type: 'layout/setValue',
 				obj: stopObj.value.position,
 				value: ratio.toFixed(3)
 			});
@@ -150,7 +150,7 @@ export default {
 		removeStop(stopObj) {
 
 			this.$store.commit({
-				type: 'removeValueElement',
+				type: 'layout/removeValueElement',
 				obj: this.parent,
 				key: 'values',
 				value: stopObj
@@ -191,6 +191,14 @@ export default {
 .preview {
 	height: 2em;
 	border: 1px solid black;
+	background-color: #fff;
+	background: url('../assets/transparent-bg.jpg');
+	background-size: 20px;
+	display: flex;
+}
+
+.preview > div {
+	flex: 1 1 auto;
 }
 
 input[type=number] {
