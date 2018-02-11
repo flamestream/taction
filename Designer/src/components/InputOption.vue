@@ -1,13 +1,15 @@
 <template>
 	<div>
 		<span v-if="label">{{ label }}</span>
-		<input type="text" v-model="value" />
+		<select v-model="value">
+			<option v-for="(value, label) in formattedOptions" :value="value" :key="value">{{ label }}</option>
+		</select>
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'InputText',
+	name: 'InputOption',
 	props: {
 		obj: { type: Object },
 		options: { type: Object }
@@ -32,6 +34,22 @@ export default {
 
 			let options = this.options || {};
 			return options.label;
+		},
+		formattedOptions() {
+
+			let options = this.options || {};
+			let choices = options.options || {};
+
+			let out = {};
+			if (Array.isArray(choices)) {
+				for (let c of choices) {
+					out[c] = c;
+				}
+			} else {
+				out = choices;
+			}
+
+			return out;
 		}
 	}
 }

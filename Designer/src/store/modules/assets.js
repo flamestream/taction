@@ -1,8 +1,7 @@
 import Vue from 'vue';
-import fileType from 'file-type'
 import filesize from 'filesize'
-import fileReaderAsync from '@/helpers/fileReaderAsync'
 import config from '@/config';
+import fileTypeAsync from '@/helpers/file-type-async'
 
 const state = {
 	registry: {}
@@ -39,6 +38,53 @@ const mutations = {
 };
 
 const actions = {
+	async loadZip({commit, dispatch}, {zip}) {
+
+		// Load files
+		let assets = [];
+		for (let name in zip.files) {
+
+			let file = zip.files[name];
+
+			// Directory check
+			if (file.dir || ~name.indexOf('/'))
+				continue;
+
+			// Ext check
+			let ext = name.split('.').pop();
+			if (!config.supportedImportExts.includes(ext))
+				continue;
+
+			let content = await zip.file(name).async('arraybuffer');
+
+			// Type check
+			var blob = new Blob([content]);
+			let type = await fileTypeAsync(blob);
+			if (!config.supportedImportExts.includes(type.ext))
+				continue;
+
+			blob.name = name;
+			assets.push(blob);
+		}
+
+		let errors;
+		for (let file of assets) {
+
+			try {
+
+				await dispatch('add', {file});
+
+			} catch (err) {
+
+				if (!errors) errors = [];
+				errors.push(err);
+			}
+		}
+
+		return {
+			errors
+		};
+	},
 	async add({commit, dispatch}, {file, active}) {
 
 		let {name} = file;
@@ -52,15 +98,13 @@ const actions = {
 		}
 
 		let ext = name.split('.').pop();
-		let header = file.slice(0, 4100);
-		let blob = await fileReaderAsync(header);
-		let type = fileType(blob);
+		let type = await fileTypeAsync(file);
 
 		if (!type)
 			throw new Error(`${name}: Error reading file`);
 
 		// Type check
-		if (!config.supportedMimeTypes.includes(type.mime))
+		if (!config.supportedImportExts.includes(type.ext))
 			throw new Error(`${name}: File type is not supported`);
 
 		// Ext vs. Type check

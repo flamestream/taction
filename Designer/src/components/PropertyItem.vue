@@ -7,48 +7,49 @@
 		</div>
 		<div class="value" v-if="defined && !hidden">
 			<div v-if="type === 'number'">
-				<InputNumber :obj="obj" :options="options || {}"></InputNumber>
+				<InputNumber :obj="obj" :options="options" :parent="parent"></InputNumber>
+			</div>
+			<div v-else-if="type === 'asset'">
+				<InputAsset :obj="obj" :options="options" :parent="parent"></InputAsset>
 			</div>
 			<div v-else-if="type === 'checkbox'">
-				<InputBoolean :obj="obj" :options="options || {}"></InputBoolean>
-			</div>
-			<div v-else-if="type === 'rectangle'">
-				<PropertyItemRectangle :obj="obj"></PropertyItemRectangle>
-			</div>
-			<div v-else-if="type === 'border'">
-				<PropertyItemBorder :obj="obj"></PropertyItemBorder>
-			</div>
-			<div v-else-if="type === 'color'">
-				<PropertyItemColor :obj="obj"></PropertyItemColor>
-			</div>
-			<div v-else-if="type === 'content'">
-				<PropertyItemContent :obj="obj"></PropertyItemContent>
-			</div>
-			<div v-else-if="type === 'button-style-set'">
-				<PropertyItemButtonStyleSet :obj="obj"></PropertyItemButtonStyleSet>
-			</div>
-			<div v-else-if="type === 'button-style'">
-				<PropertyItemButtonStyle :obj="obj"></PropertyItemButtonStyle>
-			</div>
-			<div v-else-if="type === 'text-style'">
-				<PropertyItemTextStyle :obj="obj"></PropertyItemTextStyle>
-			</div>
-			<div v-else-if="type === 'global'">
-				<PropertyItemGlobal :obj="obj"></PropertyItemGlobal>
-			</div>
-			<div v-else-if="type === 'item'">
-				<PropertyItemItem :obj="obj"></PropertyItemItem>
-			</div>
-			<div v-else-if="type === 'type'">
-				<PropertyItemType :obj="obj" :parent="parent"></PropertyItemType>
+				<InputBoolean :obj="obj" :options="options" :parent="parent"></InputBoolean>
 			</div>
 			<div v-else-if="type === 'option'">
-				<select v-model="value">
-					<option v-for="v in options.options" :key="v">{{ v }}</option>
-				</select>
+				<InputOption :obj="obj" :options="options" :parent="parent"></InputOption>
+			</div>
+			<div v-else-if="type === 'rectangle'">
+				<PropertyItemRectangle :obj="obj" :options="options" :parent="parent"></PropertyItemRectangle>
+			</div>
+			<div v-else-if="type === 'border'">
+				<PropertyItemBorder :obj="obj" :options="options" :parent="parent"></PropertyItemBorder>
+			</div>
+			<div v-else-if="type === 'color'">
+				<PropertyItemColor :obj="obj" :options="options" :parent="parent"></PropertyItemColor>
+			</div>
+			<div v-else-if="type === 'content'">
+				<PropertyItemContent :obj="obj" :options="options" :parent="parent"></PropertyItemContent>
+			</div>
+			<div v-else-if="type === 'button-style-set'">
+				<PropertyItemButtonStyleSet :obj="obj" :options="options" :parent="parent"></PropertyItemButtonStyleSet>
+			</div>
+			<div v-else-if="type === 'button-style'">
+				<PropertyItemButtonStyle :obj="obj" :options="options" :parent="parent"></PropertyItemButtonStyle>
+			</div>
+			<div v-else-if="type === 'text-style'">
+				<PropertyItemTextStyle :obj="obj" :options="options" :parent="parent"></PropertyItemTextStyle>
+			</div>
+			<div v-else-if="type === 'global'">
+				<PropertyItemGlobal :obj="obj" :options="options" :parent="parent"></PropertyItemGlobal>
+			</div>
+			<div v-else-if="type === 'item'">
+				<PropertyItemItem :obj="obj" :options="options" :parent="parent"></PropertyItemItem>
+			</div>
+			<div v-else-if="type === 'type'">
+				<PropertyItemType :obj="obj" :options="options" :parent="parent"></PropertyItemType>
 			</div>
 			<div v-else>
-				<InputText :obj="obj" :options="options || {}"></InputText>
+				<InputText :obj="obj" :options="options" :parent="parent"></InputText>
 			</div>
 		</div>
 	</div>
@@ -58,12 +59,16 @@
 import InputText from './InputText';
 import InputNumber from './InputNumber';
 import InputBoolean from './InputBoolean';
+import InputOption from './InputOption';
+import InputAsset from './InputAsset';
 export default {
 	name: 'PropertyItem',
 	components: {
 		InputText,
 		InputNumber,
-		InputBoolean
+		InputBoolean,
+		InputOption,
+		InputAsset
 	},
 	props: {
 		obj: { type: Object },

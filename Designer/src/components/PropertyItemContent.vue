@@ -4,8 +4,8 @@
 			<option>text</option>
 			<option>image</option>
 		</select>
-		<InputText v-if="type === 'text'" label="Value" :obj="value.value"/>
-		<InputLoadedFile v-if="type === 'image'" filter="png" :obj="value.source"/>
+		<InputText v-if="type === 'text'" :obj="value.value" :options="{label: 'Value: '}"></InputText>
+		<InputAsset v-if="type === 'image'" :obj="value.source" :options="{exts: 'png'}"></InputAsset>
 	</div>
 </template>
 
@@ -13,14 +13,14 @@
 import ContentType from '../types/ContentType';
 import InputColorSolid from './InputColorSolid';
 import InputColorGradient from './InputColorGradient';
-import InputLoadedFile from './InputLoadedFile';
+import InputAsset from './InputAsset';
 import InputText from './InputText';
 export default {
 	name: 'PropertyItemContent',
 	components: {
 		InputColorSolid,
 		InputColorGradient,
-		InputLoadedFile,
+		InputAsset,
 		InputText
 	},
 	props: {

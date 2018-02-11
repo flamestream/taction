@@ -75,7 +75,6 @@ export default {
 		handleInputNameChange(ev) {
 
 			let {currentTarget} = ev;
-			console.log(currentTarget.value);
 			this.name = currentTarget.value;
 		},
 		handleClickToSelect(ev) {

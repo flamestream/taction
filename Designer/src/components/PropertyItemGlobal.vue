@@ -33,7 +33,10 @@ export default {
 					obj: item.orientation,
 					type: 'option',
 					options: {
-						options: ['vertical', 'horizontal']
+						options: {
+							Vertical: 'vertical',
+							Horizontal: 'horizontal'
+						}
 					}
 				},
 				'Size': {
@@ -64,14 +67,14 @@ export default {
 						step: 0.001
 					}
 				},
-				'Fade out on mouse-over': {
+				'Hide on mouse-over': {
 					obj: item['disable-hide'],
 					type: 'checkbox',
 					options: {
 						invert: true
 					}
 				},
-				'Fade out animation': {
+				'Fade out animation on hide': {
 					obj: item['disable-fade-animation'],
 					type: 'checkbox',
 					options: {

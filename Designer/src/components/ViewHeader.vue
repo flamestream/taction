@@ -1,6 +1,6 @@
 <template>
 	<div id="view-header">
-		<span class="title">Taction Designer</span>
+		<span class="title">{{ title }}</span>
 		<form>
 			<button @click.prevent="handleResetButtonClick">Reset</button>
 			<button @click.prevent="handleExportButtonClick">Export</button>
@@ -11,14 +11,20 @@
 </template>
 
 <script>
-import JSZip from 'jszip'
-import FileSaver from 'file-saver'
 import config from '../config'
+import importAsync from '@/helpers/import-async'
+import exportAsync from '@/helpers/export-async'
 export default {
 	name: 'ViewHeader',
 	data() {
 		return {
 			status: 'Please load a file'
+		}
+	},
+	computed: {
+		title() {
+
+			return `${config.name} ${config.version}`
 		}
 	},
 	methods: {
@@ -31,26 +37,10 @@ export default {
 		},
 		async handleExportButtonClick(ev) {
 
-			let zip = this.state.zip;
-			let layout = this.state.layout || {};
-			let data = JSON.stringify(layout, 4, 4);
-
-			let ext, blob;
-			if (zip && Object.keys(zip).length) {
-
-				ext = 'taction-bundle';
-				await zip.file('layout.json', data);
-				blob = await zip.generateAsync({type: 'blob'});
-
-			} else {
-
-				ext = 'json';
-				blob = new Blob([data], {type: 'application/json;charset=utf-8'});
-			}
-
-			let name = layout.name || 'Untitled';
-			name = name.substr(0, 63 - ext.length) + '.' + ext;
-			FileSaver.saveAs(blob, name);
+			await exportAsync({
+				layout: this.$store.state.layout.layout,
+				assets: this.$store.state.assets.registry
+			});
 		},
 		handleFileClick(ev) {
 			ev.target.value = null;
@@ -59,96 +49,30 @@ export default {
 
 			let files = ev.target.files; // FileList object
 			if (!files.length) return;
-			let file = files[0];
-			// @TODO max file fize
 
+			let layout, zip, error;
 			this.status = '';
 			try {
 
-				let layout;
-				let zip;
-				if (file.name.endsWith('.taction-bundle')) {
-					[layout, zip] = await extractAssets(file);
-				} else {
-					layout = await getLayoutContent(file);
-				}
-
-				this.$store.dispatch({
-					type: 'reset',
-					layout,
-					zip
-				});
-				this.status = 'Loaded file';
+				let file = files[0];
+				let imported = await importAsync({file});
+				layout = imported.layout;
+				zip = imported.zip;
 
 			} catch (e) {
 
-				this.$store.dispatch({
-					type: 'reset',
-					layout: config.defaultLayout
-				});
-				this.status = `Error loading file: ${e.message}`;
+				error = `Error loading file: ${e.message}`;
 				console.error(e.stack);
 			}
+
+			this.$store.dispatch({
+				type: 'reset',
+				layout,
+				zip
+			});
+			this.status = error || 'Loaded file';
 		}
 	}
-}
-
-async function getLayoutContent(file) {
-
-	let fnResolve;
-	let promise = new Promise((resolve, reject) => { fnResolve = resolve });
-	let reader = new FileReader();
-	reader.onload = e => fnResolve(e.target.result);
-	reader.readAsText(file);
-	let data = await promise;
-	data = sanitizeJson(data);
-	let layout = JSON.parse(data);
-	// @TODO Convert/schema test
-	return layout;
-}
-
-async function extractAssets(file) {
-
-	// Open zip
-	let zip;
-	try {
-		zip = new JSZip();
-		await zip.loadAsync(file);
-	} catch (e) {
-		throw new Error(`Error opening zip file: ${e.message}`);
-	}
-
-	// Open zip
-	let data;
-	try {
-		data = await zip.file('layout.json').async('string');
-	} catch (e) {
-		throw new Error(`Error reading layout file: ${e.message}`);
-	}
-
-	// Read layout
-	let layout;
-	try {
-		layout = sanitizeJson(data);
-		layout = JSON.parse(layout);
-		// @TODO Convert/schema test
-	} catch (e) {
-		throw new Error(`Error parsing layout: ${e.message}`);
-	}
-
-	// Sanitize
-	for (let name in zip.files) {
-		let file = zip.files[name];
-		if (file.dir || !name.match(/\.(ttf|png)$/))
-			zip.remove(name);
-	}
-
-	return [layout, zip];
-}
-
-function sanitizeJson(str) {
-
-	return str.replace(/,(\s*\n(\s*))(}|])/g, '\n$2$3');
 }
 
 </script>

@@ -6,8 +6,8 @@
 			<option>image</option>
 		</select>
 		<InputColorSolid v-if="type === 'solid'" :obj="value.value"/>
-		<InputColorGradient v-if="type === 'gradient'" :parent="obj" :obj="value.values"/>
-		<InputLoadedFile v-if="type === 'image'" filter="png" :obj="value.source"/>
+		<InputColorGradient v-if="type === 'gradient'" :parent="obj" :obj="value.values"></InputColorGradient>
+		<InputAsset v-if="type === 'image'" :obj="value.source" :options="{exts: 'png'}"></InputAsset>
 	</div>
 </template>
 
@@ -15,13 +15,13 @@
 import ColorType from '../types/ColorType';
 import InputColorSolid from './InputColorSolid';
 import InputColorGradient from './InputColorGradient';
-import InputLoadedFile from './InputLoadedFile';
+import InputAsset from './InputAsset';
 export default {
 	name: 'PropertyItemColor',
 	components: {
 		InputColorSolid,
 		InputColorGradient,
-		InputLoadedFile
+		InputAsset
 	},
 	props: {
 		obj: { type: ColorType }

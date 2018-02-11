@@ -78,8 +78,6 @@ export default {
 			for (let file of files) {
 
 				let objectURL = URL.createObjectURL(file);
-				console.log(objectURL);
-				console.log(file);
 
 				try {
 
@@ -124,6 +122,14 @@ export default {
 	margin: 0 10px 10px;
 	border-radius: 3px;
 }
+.input label:hover {
+	background-color: #38beea;
+}
+.input label:active {
+	position: relative;
+	top: 1px;
+	left: 1px;
+}
 
 .input.error label {
 	background-color: #c10707;
@@ -144,6 +150,9 @@ export default {
 	margin-right: 10px;
 }
 
+.menu-item:hover {
+	background-color: #ffffff11;
+}
 .menu-item.active {
 	background-color: #fff;
 	color: #273D4E;

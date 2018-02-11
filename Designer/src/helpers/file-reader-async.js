@@ -1,4 +1,4 @@
-function fileReaderAsync(f) {
+function fileReaderAsync(f, options = {}) {
 
 	return new Promise((resolve, reject) => {
 
@@ -15,7 +15,10 @@ function fileReaderAsync(f) {
 		};
 		reader.onabort = reader.onerror;
 
-		reader.readAsArrayBuffer(f);
+		if (options.read === 'text')
+			reader.readAsText(f);
+		else
+			reader.readAsArrayBuffer(f);
 	});
 }
 

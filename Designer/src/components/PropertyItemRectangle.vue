@@ -5,19 +5,19 @@
 		</div>
 		<div class="units">
 			<div class="unit">
-				<span>▲</span>
+				<span :style="getArrowStyle(0)">▲</span>
 				<input type="number" min="0" :value="top" @input="ev => { handleSingleInputChange(ev, 'top') }"/>
 			</div>
 			<div class="unit">
-				<span>▶</span>
+				<span :style="getArrowStyle(1)">▲</span>
 				<input type="number" min="0" :value="right" @input="ev => { handleSingleInputChange(ev, 'right') }"/>
 			</div>
 			<div class="unit">
-				<span>▼</span>
+				<span :style="getArrowStyle(2)">▲</span>
 				<input type="number" min="0" :value="bottom" @input="ev => { handleSingleInputChange(ev, 'bottom') }"/>
 			</div>
 			<div class="unit">
-				<span>◀</span>
+				<span :style="getArrowStyle(3)">▲</span>
 				<input type="number" min="0" :value="left" @input="ev => { handleSingleInputChange(ev, 'left') }"/>
 			</div>
 		</div>
@@ -29,7 +29,8 @@ import RectangleType from '../types/RectangleType';
 export default {
 	name: 'PropertyItemRectangle',
 	props: {
-		obj: { type: RectangleType }
+		obj: { type: RectangleType },
+		options: { type: Object }
 	},
 	data() {
 		return {
@@ -63,6 +64,16 @@ export default {
 				obj: this.obj,
 				value: this.raw
 			});
+		},
+		getArrowStyle(position) {
+
+			let options = this.options || {};
+			let value = options.corner ? -45 : 0;
+			value += 90 * position;
+
+			return {
+				transform: `rotate(${value}deg)`
+			}
 		},
 		updateFromRaw(ignoreSignal) {
 			/* eslint no-mixed-operators: 0 */

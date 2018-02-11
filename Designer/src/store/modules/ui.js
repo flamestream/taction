@@ -19,7 +19,6 @@ const mutations = {
 	setActiveItem(state, {item}) {
 
 		state.activeItem = item;
-		console.log(item);
 	},
 	setActiveAsset(state, {asset}) {
 

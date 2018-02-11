@@ -35,11 +35,11 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
-		reset({commit}, {layout, zip}) {
+		reset({dispatch}, {layout, zip}) {
 
 			registry.$clear();
-			commit('layout/reset', layout);
-			commit('assets/reset', zip);
+			dispatch('layout/reset', {layout});
+			if (zip) dispatch('assets/loadZip', {zip})
 		}
 	}
 })

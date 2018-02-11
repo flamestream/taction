@@ -9,7 +9,7 @@
 		<div class="item">
 			<div class="label"><span>Roundness</span><input v-if="!required(value.radius)" type="checkbox" v-model="radiusDefined"/></div>
 			<div class="value" v-if="radiusDefined">
-				<PropertyItemRectangle :obj="value.radius"/>
+				<PropertyItemRectangle :obj="value.radius" :options="{corner: true}"/>
 			</div>
 		</div>
 		<div class="item">

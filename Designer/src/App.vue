@@ -105,6 +105,7 @@ html, body {
 #section-preview {
 	flex-grow: 1;
 	font-family: 'Active Font';
+	overflow: auto;
 }
 
 .menu-item {
@@ -139,10 +140,16 @@ html, body {
 	background-color: #1B283877;
 }
 
+#view-menu .menu-item:hover > .label {
+	background-color: #1B283899;
+}
 #view-menu .menu-item.active > .label {
 	color: #09B0EB;
 	border-left-color: inherit;
 	background-color: #1B2838;
+}
+#view-menu .menu-item.active:hover > .label {
+	color: #5bc6ea;
 }
 
 #view-special-menu {
