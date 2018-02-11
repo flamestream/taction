@@ -32,7 +32,12 @@ export default {
 		},
 		filteredAssets() {
 
-			let { assetNames } = this;
+			let {assetNames} = this;
+
+			// Prefix check
+			let options = this.options || {};
+			let {prefix} = options;
+			if (prefix) assetNames = assetNames.map(n => prefix + n);
 
 			// Filter check
 			let {exts} = this;
@@ -53,6 +58,11 @@ export default {
 				return obj.value;
 			},
 			set(value) {
+
+				let options = this.options || {};
+				let {prefix} = options;
+				if (prefix)
+					value = prefix + value;
 
 				this.$store.commit({
 					type: 'layout/setValue',

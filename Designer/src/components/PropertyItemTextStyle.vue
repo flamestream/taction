@@ -38,6 +38,7 @@ export default {
 					obj: item['font-family'],
 					type: 'asset',
 					options: {
+						prefix: './',
 						exts: 'ttf'
 					}
 				},
