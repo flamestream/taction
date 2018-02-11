@@ -1,5 +1,5 @@
 <template>
-	<div class="subtle-scroll">
+	<div data-simplebar>
 		<div v-if="layout" @click.stop="handleClick">
 			<div :class="{ 'menu-item': true, root: true, active: !activeMenu && !activeItem }">
 				<div class="label">

@@ -6,7 +6,7 @@
 				<ViewTree id="view-tree-menu"/>
 				<ViewSpecialMenu id="view-special-menu"></ViewSpecialMenu>
 			</div>
-			<ViewProperties id="view-properties"></ViewProperties>
+			<ViewProperties id="section-properties"></ViewProperties>
 			<ViewPreview id="section-preview"></ViewPreview>
 		</div>
 	</div>
@@ -45,22 +45,8 @@ html, body {
 	padding: 0;
 }
 
-.subtle-scroll {
-	overflow-y: overlay !important;
-}
-
-.subtle-scroll::-webkit-scrollbar-track {
-	background-color: transparent;
-}
-
-.subtle-scroll::-webkit-scrollbar {
-	width: 8px;
-	background-color: transparent;
-}
-
-.subtle-scroll::-webkit-scrollbar-thumb {
-	border-radius: 10px;
-	background-color: #FFFFFF33;
+.simplebar-scrollbar {
+	background-color: #fff;
 }
 
 #app {
@@ -157,14 +143,17 @@ html, body {
 	padding-bottom: 20px;
 }
 
-#view-properties {
-	display: inline-block;
+#section-properties {
+	display: flex;
 	width: 300px;
-	overflow-y: auto;
 	flex-shrink: 0;
 	background-color: #1B2838;
 	color: #ddd;
 	padding: 12px 0;
+}
+
+.view-properties > div {
+	margin: 0 10px;
 }
 
 input[type=number] {
