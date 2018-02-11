@@ -77,8 +77,6 @@ export default {
 
 			for (let file of files) {
 
-				let objectURL = URL.createObjectURL(file);
-
 				try {
 
 					await this.addAsset({

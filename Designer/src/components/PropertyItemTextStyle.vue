@@ -35,7 +35,11 @@ export default {
 					type: 'color'
 				},
 				'Font Family': {
-					obj: item['font-family']
+					obj: item['font-family'],
+					type: 'asset',
+					options: {
+						exts: 'ttf'
+					}
 				},
 				'Weight': {
 					obj: item['font-weight'],
