@@ -149,11 +149,10 @@ html, body {
 	flex-shrink: 0;
 	background-color: #1B2838;
 	color: #ddd;
-	padding: 12px 0;
 }
 
-.view-properties > div {
-	margin: 0 10px;
+.view-properties {
+	margin: 12px 10px;
 }
 
 input[type=number] {
