@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<pre v-if="activeTab === 'code'" ref="code" class="line-numbers language-javascript"><code>{{ layoutJson }}</code></pre>
-			<div v-if="!activeTab || activeTab === 'ui'" class="content" @click="handleClick">
+			<div v-if="!activeTab || activeTab === 'ui'" class="tab-content" @click="handleClick">
 				<PreviewUI></PreviewUI>
 			</div>
 		</div>
@@ -61,10 +61,6 @@ export default {
 		setActiveTab(name) {
 
 			this.activeTab = name;
-
-			if (name === 'code') {
-				Prism.highlightElement(this.$refs.code);
-			}
 		}
 	}
 }
@@ -80,7 +76,7 @@ export default {
 	display:flex;
 	align-items: center;
 	justify-content: center;
-	font-family: 'Active Font';
+	font-family: './Active Font';
 	font-size: 32px;
 }
 
@@ -120,7 +116,6 @@ export default {
 .tab.active {
 	background-color: #FFF;
 	border-bottom-color: transparent;
-	/*color: #1B2838;*/
 	color: #38BEEA;
 }
 
@@ -144,11 +139,13 @@ code {
 	flex-direction: column;
 }
 
-.content {
+.tab-content {
 	flex: 1 1 auto;
 	display: flex;
-	align-items: center;
-	justify-content: center;
+	/*align-items: center;*/
+	/*justify-content: safe center;*/
+	padding: 10px;
+	overflow: auto;
 }
 
 </style>

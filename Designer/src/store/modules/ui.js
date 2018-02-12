@@ -8,6 +8,17 @@ const getters = {
 	activeAssetName(state) {
 
 		return state.activeAsset && state.activeAsset.name;
+	},
+	activeFont(state) {
+
+		let {activeAsset} = state;
+		if (!activeAsset)
+			return;
+
+		if (!activeAsset.name.endsWith('.ttf'))
+			return;
+
+		return activeAsset;
 	}
 };
 
@@ -40,12 +51,6 @@ const actions = {
 
 		let asset = rootGetters['assets/item']({id});
 		commit('setActiveAsset', {asset});
-
-		if (asset && asset.ext === 'ttf') {
-
-			var style = document.getElementById('active-font-style');
-			style.innerHTML = `@font-face { font-family: 'Active Font'; src: url('${asset.url}'); }`;
-		}
 	}
 };
 

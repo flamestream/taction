@@ -22,7 +22,6 @@ import ViewTree from './components/ViewTree'
 import ViewSpecialMenu from './components/ViewSpecialMenu'
 import ViewProperties from './components/ViewProperties'
 import ViewHeader from './components/ViewHeader'
-
 export default {
 	name: 'App',
 	components: {
@@ -96,15 +95,6 @@ html, body {
 .menu-item {
 	cursor: pointer;
 }
-
-/*.menu-item .icon {
-	display: inline-block;
-	border: 1px solid red;
-	width: 24px;
-	height: 24px;
-	vertical-align: middle;
-	margin-right: 0.5em;
-}*/
 
 #view-tree-menu {
 	padding-top: 10px;

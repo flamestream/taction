@@ -1,6 +1,6 @@
 <template>
-	<div class="container" :style="containerCss">
-		<div class="content" :style="contentCss">
+	<div class="preview-ui-container" :style="containerCss">
+		<div class="preview-ui-content" :style="contentCss">
 			<PreviewUIItem v-for="item in items" :obj="item" :global="global" :key="item.id"></PreviewUIItem>
 		</div>
 	</div>
@@ -200,12 +200,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.container {
+.preview-ui-container {
+	margin: auto;
 	display: flex;
 	align-items: stretch;
 }
 
-.content {
+.preview-ui-content {
 	display: flex;
 	flex-direction: column;
 	align-items: stretch;

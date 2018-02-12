@@ -59,10 +59,10 @@ export default {
 			},
 			set(value) {
 
-				let options = this.options || {};
-				let {prefix} = options;
-				if (prefix)
-					value = prefix + value;
+				// let options = this.options || {};
+				// let {prefix} = options;
+				// if (prefix)
+				// 	value = prefix + value;
 
 				this.$store.commit({
 					type: 'layout/setValue',

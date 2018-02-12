@@ -1,14 +1,14 @@
 <template>
-	<div class="container" :style="containerCss" @click.stop="handleClick">
-		<div class="content" :style="contentCss">
+	<div class="preview-item-container" :style="containerCss" @click.stop="handleClick">
+		<div class="preview-item-content" :style="contentCss">
 			<span v-if="contentText"><span :style="textCss">{{ contentText }}</span></span>
-			<img v-else-if="contentImage" :src="contentImage.url">
+			<img v-else-if="contentImage" :src="contentImage.url"/>
 		</div>
 	</div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import ItemType from '@/types/ItemType'
 export default {
 	name: 'PreviewUIItem',
@@ -17,6 +17,9 @@ export default {
 		global: { type: Object }
 	},
 	computed: {
+		...mapGetters({
+			assetItem: 'assets/item'
+		}),
 		value() {
 
 			let obj = this.obj || {};
@@ -69,7 +72,24 @@ export default {
 			return text;
 		},
 		contentImage() {
-			return null;
+
+			let content = this.baseContent;
+			if (!content)
+				return;
+
+			let type = content.type.value;
+			if (type !== 'image')
+				return;
+
+			let id = content.source && content.source.value;
+			if (!id)
+				return
+
+			let asset = this.assetItem({id});
+			if (!asset)
+				return;
+
+			return asset;
 		},
 		cssWidth() {
 
@@ -219,14 +239,23 @@ export default {
 			let fontWeightValue = {
 				'thin': 100,
 				'light': 300,
-				'normal': 500,
+				'normal': 400,
 				'bold': 700,
 				'heavy': 900
 			};
 
-			let value = fontWeightValue[name] || 500;
+			let value = fontWeightValue[name] || 400;
 
 			return value;
+		},
+		cssFontFamily() {
+
+			let value = this.baseStyle && this.baseStyle['text-style'] && this.baseStyle['text-style'].value && this.baseStyle['text-style'].value['font-family'] && this.baseStyle['text-style'].value['font-family'].value;
+
+			if (value === undefined)
+				return;
+
+			return `"${value}"`;
 		},
 		cssColor() {
 
@@ -282,7 +311,8 @@ export default {
 				padding: this.cssPadding,
 				fontSize: this.cssFontSize,
 				fontWeight: this.cssFontWeight,
-				color: this.cssColor
+				color: this.cssColor,
+				fontFamily: this.cssFontFamily
 			};
 
 			return style;
@@ -329,14 +359,14 @@ export default {
 <style scoped>
 
 /* Default style */
-.container {
+.preview-item-container {
 	flex: 1 1 auto;
 	display: flex;
 	align-items: stretch;
 	background-color: #707070;
 }
 
-.content {
+.preview-item-content {
 	flex: 1 1 auto;
 	display: flex;
 	align-items: stretch;
@@ -352,11 +382,17 @@ export default {
 	font-size: 12px;
 }
 
-.content > span {
+.preview-item-content > span {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	overflow: hidden;
+}
+
+.preview-item-content img {
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
 }
 
 </style>

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import filesize from 'filesize'
+import _ from 'lodash'
 import config from '@/config';
 import fileTypeAsync from '@/helpers/file-type-async'
 
@@ -15,6 +16,11 @@ const getters = {
 	names(state) {
 
 		return Object.keys(state.registry);
+	},
+	fonts(state) {
+
+		var out = _.pickBy(state.registry, (value, key) => _.endsWith(key, '.ttf'));
+		return out;
 	}
 };
 

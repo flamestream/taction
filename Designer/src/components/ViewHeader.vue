@@ -93,6 +93,9 @@ export default {
 	flex-shrink: 0;
 	display: flex;
 	align-items: center;
+	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
+	position: relative;
+	z-index: 10;
 }
 
 .title {
@@ -104,11 +107,14 @@ export default {
 .button {
 	cursor: pointer;
 	margin-right: 16px;
-	padding: 4px 8px;
+	padding: 8px 12px;
+	padding-right: 16px;
 	color: #FFFFFFDD;
+	border-radius: 3px;
 }
 .button:hover {
 	color: #FFFFFF;
+	background-color: #2D3B4B;
 }
 .button:active {
 	position: relative;
