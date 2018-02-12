@@ -2,6 +2,7 @@
 	<div>
 		<div :class="{ 'menu-item': true, active: activeMenu === 'assets' }" @click.stop="handleClick">
 			<div class="label">
+				<span class="icon"></span>
 				<span class="text">Assets</span>
 			</div>
 		</div>

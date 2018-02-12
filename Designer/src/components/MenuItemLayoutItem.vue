@@ -70,6 +70,7 @@ export default {
 
 .label {
 	display: flex;
+	align-items: center;
 }
 
 .text {

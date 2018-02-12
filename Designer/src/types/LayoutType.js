@@ -36,7 +36,7 @@ LayoutType.prototype.$definition = {
 	'disable-radial-menu-animation': { cls: BooleanType },
 	margin: { cls: RectangleType },
 	border: { cls: BorderType },
-	orientation: { cls: StringType, data: { options: ['vertical', 'horizontal'] } },
+	orientation: { cls: StringType, data: { defaultValue: 'vertical', options: ['vertical', 'horizontal'] } },
 	color: { cls: ColorType },
 	'default-button-style': { cls: ButtonStyleSetType },
 	items: { cls: ItemType, array: true }

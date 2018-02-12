@@ -1,7 +1,7 @@
 <template>
 	<div v-if="obj" :class="rootClassNames">
 		<div class="label">
-			<span @click="handlePointerClick">{{ pointer }}</span>
+			<span @click="handlePointerClick" class="pointer">▼</span>
 			<span @click="handlePointerClick" class="text">{{ label }}</span>
 			<input v-if="required" type="checkbox" v-model="defined"/>
 		</div>
@@ -96,19 +96,6 @@ export default {
 		this.$options.components.PropertyItemType = require('./PropertyItemType').default;
 	},
 	computed: {
-		value: {
-			get() {
-				let { obj } = this;
-				return obj.value;
-			},
-			set(value) {
-				this.$store.commit({
-					type: 'layout/setValue',
-					obj: this.obj,
-					value
-				});
-			}
-		},
 		defined: {
 			get() {
 				let { obj } = this;
@@ -133,10 +120,6 @@ export default {
 				hidden: this.hidden,
 				undefined: !this.defined
 			}
-		},
-		pointer() {
-
-			return this.hidden ? '▶' : '▼';
 		}
 	},
 	methods: {
@@ -171,9 +154,14 @@ export default {
 .label > span {
 	display: inline-block;
 	line-height: 24px;
+	transition: all 0.1s ease-out;
 }
 .item.undefined .label > span {
 	opacity: 0.4;
+}
+
+.hidden .pointer {
+	transform: rotate(-90deg);
 }
 
 .label > .text {

@@ -88,7 +88,7 @@ export default {
 						min: 0
 					}
 				},
-				'Opacity (hidden)': {
+				'Opacity when hidden': {
 					obj: item['opacity-hide'],
 					type: 'number',
 					options: {

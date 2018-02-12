@@ -6,6 +6,10 @@ const state = {
 };
 
 const getters = {
+	json(state) {
+
+		return JSON.stringify(state.layout, 4, 4);
+	}
 };
 
 const mutations = {

@@ -2,12 +2,16 @@
 	<div id="app">
 		<ViewHeader></ViewHeader>
 		<div id="workspace">
-			<div id="view-menu">
-				<ViewTree id="view-tree-menu"/>
+			<div id="section-menu">
+				<ViewTree id="view-tree-menu"></ViewTree>
 				<ViewSpecialMenu id="view-special-menu"></ViewSpecialMenu>
 			</div>
-			<ViewProperties id="section-properties"></ViewProperties>
-			<ViewPreview id="section-preview"></ViewPreview>
+			<div id="section-properties" data-simplebar>
+				<ViewProperties></ViewProperties>
+			</div>
+			<div id="section-preview">
+				<ViewPreview></ViewPreview>
+			</div>
 		</div>
 	</div>
 </template>
@@ -76,7 +80,7 @@ html, body {
 	flex-grow: 1;
 }
 
-#view-menu {
+#section-menu {
 	width: 200px;
 	overflow-y: auto;
 	display: flex;
@@ -92,49 +96,60 @@ html, body {
 	flex-grow: 1;
 	font-family: 'Active Font';
 	overflow: auto;
+	display: flex;
+	background-color: green;
 }
 
 .menu-item {
 	cursor: pointer;
 }
 
+/*.menu-item .icon {
+	display: inline-block;
+	border: 1px solid red;
+	width: 24px;
+	height: 24px;
+	vertical-align: middle;
+	margin-right: 0.5em;
+}*/
+
 #view-tree-menu {
 	padding-top: 10px;
 	flex-grow: 1;
 }
 
-#view-menu .menu-item {
+#section-menu .menu-item {
 	line-height: 40px;
 }
 
-#view-menu .menu-item .spacer {
+#section-menu .menu-item .spacer {
 	width: 10px;
 }
 
-#view-menu .menu-item > .label {
+#section-menu .menu-item > .label {
 	border-left: 3px transparent solid;
 	padding-left: 16px;
 }
 
-#view-menu .menu-item > .label > .command {
+#section-menu .menu-item > .label > .command {
 	font-size: 16px;
 	font-weight: 600;
 }
 
-#view-menu .menu-item.active {
+#section-menu .menu-item.active {
 	box-shadow: 4px 0px 10px 0px rgba(0, 0, 0, 0.5);
 	background-color: #1B283877;
 }
 
-#view-menu .menu-item:hover > .label {
+#section-menu .menu-item > .label:hover {
 	background-color: #1B283899;
 }
-#view-menu .menu-item.active > .label {
+#section-menu .menu-item.active > .label {
 	color: #09B0EB;
 	border-left-color: inherit;
 	background-color: #1B2838;
 }
-#view-menu .menu-item.active:hover > .label {
+#section-menu .menu-item.active > .label:hover {
 	color: #5bc6ea;
 }
 
@@ -151,8 +166,18 @@ html, body {
 	color: #ddd;
 }
 
+.section-properties-content {
+	margin: 12px 0;
+}
+
 .view-properties {
-	margin: 12px 10px;
+	margin: 0 10px;
+}
+
+.view-previewer {
+	background-color: purple;
+	flex: 1 1 auto;
+	display: flex;
 }
 
 input[type=number] {
