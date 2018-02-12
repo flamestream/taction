@@ -108,6 +108,7 @@ export default {
 	color: #FFFFFFDD;
 	font-size: 14px;
 	border-radius: 2px 2px 0 0;
+	cursor: pointer;
 }
 .tab:hover {
 	color: #FFF;

@@ -1,16 +1,19 @@
 <template>
-	<div id="app">
-		<ViewHeader></ViewHeader>
-		<div id="workspace">
-			<div id="section-menu">
-				<ViewTree id="view-tree-menu"></ViewTree>
-				<ViewSpecialMenu id="view-special-menu"></ViewSpecialMenu>
-			</div>
-			<div id="section-properties" data-simplebar>
-				<ViewProperties></ViewProperties>
-			</div>
-			<div id="section-preview">
-				<ViewPreview></ViewPreview>
+	<div id="top">
+		<Overlay></Overlay>
+		<div id="app" :class="classNames">
+			<ViewHeader></ViewHeader>
+			<div id="workspace">
+				<div id="section-menu">
+					<ViewTree id="view-tree-menu"></ViewTree>
+					<ViewSpecialMenu id="view-special-menu"></ViewSpecialMenu>
+				</div>
+				<div id="section-properties" data-simplebar>
+					<ViewProperties></ViewProperties>
+				</div>
+				<div id="section-preview">
+					<ViewPreview></ViewPreview>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -22,6 +25,8 @@ import ViewTree from './components/ViewTree'
 import ViewSpecialMenu from './components/ViewSpecialMenu'
 import ViewProperties from './components/ViewProperties'
 import ViewHeader from './components/ViewHeader'
+import Overlay from './components/Overlay'
+import { mapState } from 'vuex'
 export default {
 	name: 'App',
 	components: {
@@ -29,11 +34,23 @@ export default {
 		ViewTree,
 		ViewSpecialMenu,
 		ViewProperties,
-		ViewHeader
+		ViewHeader,
+		Overlay
 	},
 	data() {
 		return {
 			activeItemId: undefined
+		}
+	},
+	computed: {
+		...mapState('ui', {
+			errorMsg: 'errorMsg'
+		}),
+		classNames() {
+
+			return {
+				error: !!this.errorMsg
+			}
 		}
 	}
 }
@@ -46,19 +63,28 @@ html, body {
 	width: 100%;
 	margin: 0;
 	padding: 0;
+	background-color: #1B2838;
 }
 
 .simplebar-scrollbar {
 	background-color: #fff;
 }
 
-#app {
+#top {
 	height: 100%;
 	font-family: 'Open Sans', sans-serif;
+	user-select: none;
+}
+
+#app {
+	height: 100%;
 	color: #2c3e50;
 	display: flex;
 	flex-direction: column;
-	user-select: none;
+	transition: filter 0.5s;
+}
+#app.error {
+	filter: blur(4px);
 }
 
 #view-header {

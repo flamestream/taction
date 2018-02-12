@@ -25,11 +25,6 @@ import importAsync from '@/helpers/import-async'
 import exportAsync from '@/helpers/export-async'
 export default {
 	name: 'ViewHeader',
-	data() {
-		return {
-			status: 'Please load a file'
-		}
-	},
 	computed: {
 		title() {
 
@@ -59,7 +54,7 @@ export default {
 			if (!files.length) return;
 
 			let layout, zip, error;
-			this.status = '';
+
 			try {
 
 				let file = files[0];
@@ -78,7 +73,14 @@ export default {
 				layout,
 				zip
 			});
-			this.status = error || 'Loaded file';
+
+			if (error) {
+
+				this.$store.dispatch({
+					type: 'setErrorMsg',
+					msg: error
+				});
+			}
 		}
 	}
 }

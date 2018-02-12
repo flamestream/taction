@@ -23,14 +23,18 @@ async function execute({file}) {
 
 		[layout, zip] = await extractAssetsAsync(file);
 
-	} else {
+	} else if (file.name.endsWith('.json')) {
 
 		layout = await getLayoutContentAsync(file);
+
+	} else {
+
+		throw new Error(`Unsupported file format`);
 	}
 
 	let { supportedLayoutVersion } = config;
 	if (layout.version !== supportedLayoutVersion)
-		throw new Error(`Unsupported layout format (Input ${layout.version} vs. supported ${supportedLayoutVersion})`);
+		throw new Error(`Unsupported layout version (Input ${layout.version} vs. supported ${supportedLayoutVersion})`);
 
 	return {
 		layout,
@@ -59,7 +63,12 @@ async function extractAssetsAsync(file) {
 	// Open zip
 	let data;
 	try {
-		data = await zip.file('layout.json').async('string');
+		let f = zip.file('layout.json');
+		if (!f)
+			throw new Error('Could not find layout.json');
+
+		data = await f.async('string');
+
 	} catch (e) {
 		throw new Error(`Error reading layout file: ${e.message}`);
 	}

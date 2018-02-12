@@ -40,6 +40,10 @@ export default new Vuex.Store({
 			registry.$clear();
 			await dispatch('layout/reset', {layout});
 			if (zip) await dispatch('assets/loadZip', {zip})
+		},
+		async setErrorMsg({dispatch}, {msg} = {}) {
+
+			await dispatch('ui/setErrorMsg', {msg});
 		}
 	}
 })

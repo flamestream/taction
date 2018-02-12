@@ -1,7 +1,8 @@
 const state = {
 	activeMenu: undefined,
 	activeItem: undefined,
-	activeAsset: undefined
+	activeAsset: undefined,
+	errorMsg: undefined
 };
 
 const getters = {
@@ -34,6 +35,10 @@ const mutations = {
 	setActiveAsset(state, {asset}) {
 
 		state.activeAsset = asset;
+	},
+	setErrorMsg(state, {msg}) {
+
+		state.errorMsg = msg;
 	}
 };
 
@@ -51,6 +56,10 @@ const actions = {
 
 		let asset = rootGetters['assets/item']({id});
 		commit('setActiveAsset', {asset});
+	},
+	setErrorMsg({commit}, {msg} = {}) {
+
+		commit('setErrorMsg', {msg});
 	}
 };
 
