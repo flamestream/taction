@@ -26,7 +26,7 @@ import ViewSpecialMenu from './components/ViewSpecialMenu'
 import ViewProperties from './components/ViewProperties'
 import ViewHeader from './components/ViewHeader'
 import Overlay from './components/Overlay'
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
 	name: 'App',
 	components: {
@@ -44,14 +44,29 @@ export default {
 	},
 	computed: {
 		...mapState('ui', {
-			errorMsg: 'errorMsg'
+			activeOverlay: 'activeOverlay'
 		}),
 		classNames() {
 
 			return {
-				error: !!this.errorMsg
+				overlaid: !!this.activeOverlay
 			}
 		}
+	},
+	methods: {
+		...mapActions({
+			setActiveOverlay: 'ui/setActiveOverlay'
+		})
+	},
+	mounted() {
+
+		let lastVisit = localStorage.lastVisit;
+
+		if (!lastVisit)
+			this.setActiveOverlay({id: 'changelog'});
+
+		// @TODO use async storage
+		localStorage.lastVisit = Date.now();
 	}
 }
 </script>
@@ -83,7 +98,7 @@ html, body {
 	flex-direction: column;
 	transition: filter 0.5s;
 }
-#app.error {
+#app.overlaid {
 	filter: blur(4px);
 }
 

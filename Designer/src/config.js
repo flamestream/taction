@@ -1,5 +1,5 @@
 export default {
-	name: 'Taction Designer',
+	name: 'Taction Panel Designer',
 	version: '1.0',
 	defaultLayout: {
 		name: 'My Touch Panel'

@@ -1,28 +1,39 @@
 <template>
 	<div>
-		<div :class="{ 'menu-item': true, active: activeMenu === 'assets' }" @click.stop="handleClick">
+		<div :class="{ 'menu-item': true, active: activeMenu === 'assets' }" @click.stop="handleAssetsClick">
 			<div class="label">
 				<i class="material-icons">playlist_add</i>
 				<span class="text">Assets</span>
+			</div>
+		</div>
+		<div class="menu-item" @click.stop="handleAboutClick">
+			<div class="label">
+				<i class="material-icons">new_releases</i>
+				<span class="text">Change Log</span>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 export default {
 	name: 'ViewAssets',
 	computed: {
 		...mapState('ui', ['activeMenu'])
 	},
 	methods: {
-		handleClick(ev) {
+		...mapActions({
+			setActiveOverlay: 'ui/setActiveOverlay',
+			setActiveMenu: 'ui/setActiveMenu'
+		}),
+		handleAssetsClick(ev) {
 
-			this.$store.dispatch({
-				type: 'ui/setActiveMenu',
-				id: 'assets'
-			});
+			this.setActiveMenu({id: 'assets'});
+		},
+		handleAboutClick(ev) {
+
+			this.setActiveOverlay({id: 'changelog'});
 		}
 	}
 }

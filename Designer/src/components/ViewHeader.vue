@@ -23,6 +23,7 @@
 import config from '../config'
 import importAsync from '@/helpers/import-async'
 import exportAsync from '@/helpers/export-async'
+import { mapActions } from 'vuex'
 export default {
 	name: 'ViewHeader',
 	computed: {
@@ -32,6 +33,9 @@ export default {
 		}
 	},
 	methods: {
+		...mapActions({
+			setErrorMsg: 'ui/setErrorMsg'
+		}),
 		handleResetButtonClick(ev) {
 
 			this.$store.dispatch({
@@ -76,10 +80,7 @@ export default {
 
 			if (error) {
 
-				this.$store.dispatch({
-					type: 'setErrorMsg',
-					msg: error
-				});
+				this.setErrorMsg({msg: error});
 			}
 		}
 	}

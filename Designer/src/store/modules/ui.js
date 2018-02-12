@@ -2,6 +2,7 @@ const state = {
 	activeMenu: undefined,
 	activeItem: undefined,
 	activeAsset: undefined,
+	activeOverlay: undefined,
 	errorMsg: undefined
 };
 
@@ -36,6 +37,10 @@ const mutations = {
 
 		state.activeAsset = asset;
 	},
+	setActiveOverlay(state, {id}) {
+
+		state.activeOverlay = id;
+	},
 	setErrorMsg(state, {msg}) {
 
 		state.errorMsg = msg;
@@ -57,9 +62,14 @@ const actions = {
 		let asset = rootGetters['assets/item']({id});
 		commit('setActiveAsset', {asset});
 	},
+	setActiveOverlay({commit}, {id} = {}) {
+
+		commit('setActiveOverlay', {id});
+	},
 	setErrorMsg({commit}, {msg} = {}) {
 
 		commit('setErrorMsg', {msg});
+		commit('setActiveOverlay', {id: 'error'});
 	}
 };
 
