@@ -90,6 +90,10 @@ export default {
 		cssOpacity() {
 
 			let value = this.baseStyle.opacity && this.baseStyle.opacity.value;
+
+			if (value === undefined)
+				return;
+
 			return value;
 		},
 		cssBorderWidth() {
@@ -201,6 +205,9 @@ export default {
 		cssFontSize() {
 
 			let value = this.baseStyle && this.baseStyle['text-style'] && this.baseStyle['text-style'].value && this.baseStyle['text-style'].value['font-size'] && this.baseStyle['text-style'].value['font-size'].value;
+
+			if (value === undefined)
+				return;
 
 			return value + 'px';
 		},

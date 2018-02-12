@@ -6,13 +6,19 @@
 		</div>
 		<div v-else class="previewer-layout">
 			<div class="tabs">
-				<div class="tab" @click="setActiveTab('ui')">UI</div>
-				<div class="tab" @click="setActiveTab('code')">Code</div>
+				<div :class="getTabClassNames('ui', true)" @click="setActiveTab('ui')">
+					<i class="material-icons">dashboard</i>
+					Visual Interface
+				</div>
+				<div :class="getTabClassNames('code')" @click="setActiveTab('code')">
+					<i class="material-icons">code</i>
+					Code
+				</div>
 			</div>
-			<div v-if="activeTab === 'ui'" class="content" @click="handleClick">
+			<pre v-if="activeTab === 'code'" ref="code" class="line-numbers language-javascript"><code>{{ layoutJson }}</code></pre>
+			<div v-if="!activeTab || activeTab === 'ui'" class="content" @click="handleClick">
 				<PreviewUI></PreviewUI>
 			</div>
-			<pre v-if="!activeTab || activeTab === 'code'">{{ layoutJson }}</pre>
 		</div>
 	</div>
 </template>
@@ -44,8 +50,21 @@ export default {
 
 			this.setActiveItem();
 		},
+		getTabClassNames(name, isDefault) {
+
+			/* eslint no-mixed-operators: 0 */
+			return {
+				tab: true,
+				active: !this.activeTab && isDefault || this.activeTab === name
+			}
+		},
 		setActiveTab(name) {
+
 			this.activeTab = name;
+
+			if (name === 'code') {
+				Prism.highlightElement(this.$refs.code);
+			}
 		}
 	}
 }
@@ -61,6 +80,7 @@ export default {
 	display:flex;
 	align-items: center;
 	justify-content: center;
+	font-family: 'Active Font';
 	font-size: 32px;
 }
 
@@ -74,16 +94,51 @@ export default {
 	margin: 0 1em;
 }
 
+.tabs {
+	background-color: #2D3B4B;
+	padding: 8px 12px 0;
+	display: flex;
+	flex-shrink: 0;
+}
+
 .tab {
+	padding: 4px 12px;
 	display: inline-block;
+	border-bottom: 1px solid #2D3B4B;
+	display: flex;
+	align-items: center;
+	margin-right: 8px;
+	background-color: #1B2838;
+	color: #FFFFFFDD;
+	font-size: 14px;
+	border-radius: 2px 2px 0 0;
+}
+.tab:hover {
+	color: #FFF;
+}
+
+.tab.active {
+	background-color: #FFF;
+	border-bottom-color: transparent;
+	/*color: #1B2838;*/
+	color: #38BEEA;
+}
+
+.tab i {
+	margin-right: 4px;
 }
 
 pre {
+	overflow: auto;
+	margin: 0;
+	padding: 1em;
+}
+
+code {
 	user-select: text;
 }
 
 .previewer-layout {
-	background-color: yellow;
 	flex: 1 1 auto;
 	display: flex;
 	flex-direction: column;
@@ -94,7 +149,6 @@ pre {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: white;
 }
 
 </style>

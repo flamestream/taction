@@ -67,12 +67,6 @@ html, body {
 	color: #FFF;
 }
 
-#view-header > .title {
-
-	line-height: 30px;
-	padding-left: 32px;
-}
-
 #workspace {
 	display: flex;
 	flex-direction: row;
@@ -94,10 +88,9 @@ html, body {
 
 #section-preview {
 	flex-grow: 1;
-	font-family: 'Active Font';
 	overflow: auto;
 	display: flex;
-	background-color: green;
+	background-color: #FFF;
 }
 
 .menu-item {
@@ -129,6 +122,12 @@ html, body {
 #section-menu .menu-item > .label {
 	border-left: 3px transparent solid;
 	padding-left: 16px;
+	display: flex;
+	align-items: center;
+}
+
+#section-menu .menu-item > .label > i {
+	margin-right: 8px;
 }
 
 #section-menu .menu-item > .label > .command {
@@ -175,7 +174,6 @@ html, body {
 }
 
 .view-previewer {
-	background-color: purple;
 	flex: 1 1 auto;
 	display: flex;
 }
@@ -187,6 +185,7 @@ input[type=number] {
 input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
 	-webkit-appearance: none;
+	appearance: none;
 	margin: 0;
 }
 

@@ -1,12 +1,21 @@
 <template>
 	<div id="view-header">
 		<span class="title">{{ title }}</span>
-		<form>
-			<button @click.prevent="handleResetButtonClick">Reset</button>
-			<button @click.prevent="handleExportButtonClick">Export</button>
-			<input type="file" accept=".json, .taction-bundle" @click="handleFileClick" @change="handleFileChange"/>
-			{{status}}
-		</form>
+		<span class="button" @click.prevent="handleResetButtonClick">
+			<i class="material-icons">clear</i>
+			Reset
+		</span>
+		<span class="input-file button">
+			<input type="file" accept=".json, .taction-bundle" id="file-layout" @click="handleFileClick" @change="handleFileChange"/>
+			<label for="file-layout">
+				<i class="material-icons">file_upload</i>
+				Import
+			</label>
+		</span>
+		<span class="button" @click.prevent="handleExportButtonClick">
+			<i class="material-icons">file_download</i>
+			Export
+		</span>
 	</div>
 </template>
 
@@ -24,15 +33,14 @@ export default {
 	computed: {
 		title() {
 
-			return `${config.name} ${config.version}`
+			return `${config.name}`
 		}
 	},
 	methods: {
 		handleResetButtonClick(ev) {
 
 			this.$store.dispatch({
-				type: 'reset',
-				layout: config.defaultLayout
+				type: 'reset'
 			});
 		},
 		async handleExportButtonClick(ev) {
@@ -79,4 +87,46 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+#view-header {
+	height: 64px;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+}
+
+.title {
+	flex: 1 1 auto;
+	padding-left: 24px;
+	font-size: 24px
+}
+
+.button {
+	cursor: pointer;
+	margin-right: 16px;
+	padding: 4px 8px;
+	color: #FFFFFFDD;
+}
+.button:hover {
+	color: #FFFFFF;
+}
+.button:active {
+	position: relative;
+	left: 1px;
+	top: 1px;
+}
+
+.button, .button > label {
+	display: flex;
+	align-items: center;
+}
+
+.button i {
+	margin-right: 4px;
+}
+
+.input-file input {
+	display: none;
+}
+
 </style>

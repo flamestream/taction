@@ -1,8 +1,8 @@
-import config from '@/config'
+import defaultLayout from '@/layouts/default'
 import LayoutType from '@/types/LayoutType'
 
 const state = {
-	layout: new LayoutType({value: config.defaultLayout})
+	layout: new LayoutType({value: defaultLayout})
 };
 
 const getters = {
@@ -48,7 +48,7 @@ const actions = {
 	reset({commit}, {layout}) {
 
 		if (!layout)
-			layout = config.defaultLayout;
+			layout = defaultLayout;
 
 		commit('reset', {layout});
 
