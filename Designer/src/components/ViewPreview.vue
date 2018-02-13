@@ -70,14 +70,19 @@ export default {
 <style scoped>
 
 .asset-previewer {
+	flex: 1 1 auto;
 	overflow: auto;
 	background-color: #fff;
 	vertical-align: middle;
-	display:flex;
+	display: flex;
 	align-items: center;
-	justify-content: center;
+	/*justify-content: safe center;*/
 	font-family: './Active Font';
 	font-size: 32px;
+}
+
+.asset-previewer > * {
+	margin: auto;
 }
 
 .asset-previewer img {
@@ -87,7 +92,7 @@ export default {
 }
 
 .asset-previewer span {
-	margin: 0 1em;
+	padding: 0 1em;
 }
 
 .tabs {

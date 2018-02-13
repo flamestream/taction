@@ -8,6 +8,7 @@
 </template>
 
 <script>
+/* eslint no-mixed-operators: 0 */
 import { mapGetters, mapActions } from 'vuex'
 import ItemType from '@/types/ItemType'
 export default {
@@ -20,76 +21,29 @@ export default {
 		...mapGetters({
 			assetItem: 'assets/item'
 		}),
-		value() {
-
-			let obj = this.obj || {};
-			return obj.value;
-		},
-		type() {
-
-			return this.value.type.value;
-		},
-		size() {
-
-			return this.value.size.value;
-		},
-		style() {
-
-			/* eslint no-mixed-operators: 0 */
-			return this.value.style && this.value.style.value || {};
-		},
-		baseStyle() {
-
-			/* eslint no-mixed-operators: 0 */
-			return this.style.base && this.style.base.value || {};
-		},
-		activeStyle() {
-
-			/* eslint no-mixed-operators: 0 */
-			return this.style.active && this.style.active.value || {};
-		},
-		baseContent() {
-
-			return this.baseStyle.content && this.baseStyle.content.value;
-		},
+		value() { return this.obj && this.obj.value; },
+		type() { return this.value.type.value; },
+		size() { return this.value.size.value; },
+		style() { return this.value.style && this.value.style.value || {}; },
+		baseStyle() { return this.style.base && this.style.base.value || {}; },
+		activeStyle() { return this.style.active && this.style.active.value || {}; },
+		defaultStyle() { return this.global && this.global.defaultStyle || {}; },
+		defaultBaseStyle() { return this.defaultStyle.base && this.defaultStyle.base.value || {}; },
+		defaultActiveStyle() { return this.defaultStyle.active && this.defaultStyle.active.value || {}; },
+		baseContent() { return this.baseStyle.content && this.baseStyle.content.value; },
 		contentText() {
 
-			let text;
-			let content = this.baseContent;
-			if (content) {
-
-				let type = content.type.value;
-				if (type === 'text') {
-
-					text = content.value.value;
-				}
-			}
+			let out = this.getContentText(this.baseStyle) || this.getContentText(this.defaultBaseStyle);
 
 			// Special fallback
-			if (text === undefined && this.type === 'move')
-				text = '☰☰';
+			if (out === undefined && this.type === 'move')
+				out = '☰☰';
 
-			return text;
+			return out;
 		},
 		contentImage() {
 
-			let content = this.baseContent;
-			if (!content)
-				return;
-
-			let type = content.type.value;
-			if (type !== 'image')
-				return;
-
-			let id = content.source && content.source.value;
-			if (!id)
-				return
-
-			let asset = this.assetItem({id});
-			if (!asset)
-				return;
-
-			return asset;
+			return this.getContentImage(this.baseStyle) || this.getContentImage(this.defaultBaseStyle);
 		},
 		cssWidth() {
 
@@ -109,182 +63,66 @@ export default {
 		},
 		cssOpacity() {
 
-			let value = this.baseStyle.opacity && this.baseStyle.opacity.value;
-
-			if (value === undefined)
-				return;
-
-			return value;
+			return this.getCssOpacity(this.baseStyle) || this.getCssOpacity(this.defaultBaseStyle);
 		},
 		cssBorderWidth() {
 
-			let rect = this.baseStyle && this.baseStyle.border && this.baseStyle.border.value && this.baseStyle.border.value.thickness && this.baseStyle.border.value.thickness.value;
-			if (!rect)
-				return;
-
-			let value = rect.split(' ').map(el => el + 'px').join(' ');
-			return value;
+			return this.getCssBorderWidth(this.baseStyle) || this.getCssBorderWidth(this.defaultBaseStyle);
 		},
 		cssBorderColor() {
 
-			let colorDef = this.baseStyle && this.baseStyle.border && this.baseStyle.border.value && this.baseStyle.border.value.color && this.baseStyle.border.value.color.value;
-			if (!colorDef)
-				return;
-
-			if (colorDef.type.value !== 'solid')
-				return;
-
-			let color = colorDef.value.value;
-
-			return color.getHex();
+			return this.getCssBorderColor(this.baseStyle) || this.getCssBorderColor(this.defaultBaseStyle);
 		},
 		cssBorderRadius() {
 
-			let rect = this.baseStyle && this.baseStyle.border && this.baseStyle.border.value && this.baseStyle.border.value.radius && this.baseStyle.border.value.radius.value;
-			if (!rect)
-				return;
-
-			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 + 5) : el) + 'px').join(' ');
-			return value;
+			return this.getCssBorderRadius(this.baseStyle) || this.getCssBorderRadius(this.defaultBaseStyle);
 		},
 		cssBorderImage() {
 
-			let colorDef = this.baseStyle && this.baseStyle.border && this.baseStyle.border.value && this.baseStyle.border.value.color && this.baseStyle.border.value.color.value;
-			if (!colorDef)
-				return;
-
-			if (colorDef.type.value !== 'gradient')
-				return;
-
-			let stops = colorDef.values;
-			let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
-				.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
-			let out = `linear-gradient(to top, ${values.join(', ')})`;
-
-			return out;
+			return this.getCssBorderImage(this.baseStyle) || this.getCssBorderImage(this.defaultBaseStyle);
 		},
 		cssBackgroundColor() {
 
-			let colorDef = this.baseStyle && this.baseStyle.color && this.baseStyle.color.value;
-			if (!colorDef)
-				return;
-
-			if (colorDef.type.value !== 'solid')
-				return;
-
-			let color = colorDef.value.value;
-
-			return color.getHex();
+			return this.getCssBackgroundColor(this.baseStyle) || this.getCssBackgroundColor(this.defaultBaseStyle);
 		},
 		cssBackgroundImage() {
 
-			let colorDef = this.baseStyle && this.baseStyle.color && this.baseStyle.color.value;
-			if (!colorDef)
-				return;
-
-			if (colorDef.type.value !== 'gradient')
-				return;
-
-			let stops = colorDef.values;
-			let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
-				.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
-			let out = `linear-gradient(to top, ${values.join(', ')})`;
-
-			return out;
+			return this.getCssBackgroundImage(this.baseStyle) || this.getCssBackgroundImage(this.defaultBaseStyle);
 		},
 		cssMargin() {
 
-			let rect = this.baseStyle && this.baseStyle.margin && this.baseStyle.margin.value;
-			if (!rect)
-				return;
-
-			let value = rect.split(' ').map(el => el + 'px').join(' ');
-			return value;
+			return this.getCssMargin(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
 		},
 		cssPadding() {
 
-			let rect = this.baseStyle && this.baseStyle.padding && this.baseStyle.padding.value;
-			if (!rect)
-				return;
-
-			let value = rect.split(' ').map(el => el + 'px').join(' ');
-			return value;
+			return this.getCssPadding(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
 		},
 		cssBorderInnerRadius() {
 
 			if (!this.cssBorderRadius)
 				return;
 
-			let rect = this.baseStyle && this.baseStyle.border && this.baseStyle.border.value && this.baseStyle.border.value.radius && this.baseStyle.border.value.radius.value;
-			if (!rect)
-				return;
-
-			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 - 5) : el) + 'px').join(' ');
-			return value;
+			return this.getCssBorderInnerRadius(this.baseStyle) || this.getCssBorderInnerRadius(this.defaultBaseStyle);
 		},
 		cssFontSize() {
 
-			let value = this.baseStyle && this.baseStyle['text-style'] && this.baseStyle['text-style'].value && this.baseStyle['text-style'].value['font-size'] && this.baseStyle['text-style'].value['font-size'].value;
-
-			if (value === undefined)
-				return;
-
-			return value + 'px';
+			return this.getCssFontSize(this.baseStyle) || this.getCssFontSize(this.defaultBaseStyle);
 		},
 		cssFontWeight() {
 
-			let name = this.baseStyle && this.baseStyle['text-style'] && this.baseStyle['text-style'].value && this.baseStyle['text-style'].value['font-weight'] && this.baseStyle['text-style'].value['font-weight'].value;
-
-			// @TODO Move this
-			let fontWeightValue = {
-				'thin': 100,
-				'light': 300,
-				'normal': 400,
-				'bold': 700,
-				'heavy': 900
-			};
-
-			let value = fontWeightValue[name] || 400;
-
-			return value;
+			return this.getCssFontWeight(this.baseStyle) || this.getCssFontWeight(this.defaultBaseStyle);
 		},
 		cssFontFamily() {
 
-			let value = this.baseStyle && this.baseStyle['text-style'] && this.baseStyle['text-style'].value && this.baseStyle['text-style'].value['font-family'] && this.baseStyle['text-style'].value['font-family'].value;
-
-			if (value === undefined)
-				return;
-
-			return `"${value}"`;
+			return this.getCssFontFamily(this.baseStyle) || this.getCssFontFamily(this.defaultBaseStyle);
 		},
 		cssColor() {
 
-			let colorDef = this.baseStyle && this.baseStyle['text-style'] && this.baseStyle['text-style'].value && this.baseStyle['text-style'].value.color && this.baseStyle['text-style'].value.color.value;
-			if (!colorDef)
-				return;
-
-			if (colorDef.type.value !== 'solid')
-				return;
-
-			let color = colorDef.value.value;
-
-			return color.getHex();
+			return this.getCssColor(this.baseStyle) || this.getCssColor(this.defaultBaseStyle);
 		},
 		cssTextImageColor() {
 
-			let colorDef = this.baseStyle && this.baseStyle['text-style'] && this.baseStyle['text-style'].value && this.baseStyle['text-style'].value.color && this.baseStyle['text-style'].value.color.value;
-			if (!colorDef)
-				return;
-
-			if (colorDef.type.value !== 'gradient')
-				return;
-
-			let stops = colorDef.values;
-			let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
-				.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
-			let out = `linear-gradient(to top, ${values.join(', ')})`;
-
-			return out;
+			return this.getCssTextImageColor(this.baseStyle) || this.getCssTextImageColor(this.defaultBaseStyle);
 		},
 		containerCss() {
 
@@ -350,6 +188,214 @@ export default {
 
 			let {id} = this.obj;
 			this.setActiveItem({id});
+		},
+		getContentText(style) {
+
+			let content = style.content && style.content.value;
+			if (!content)
+				return;
+
+			let type = content.type.value;
+			if (type !== 'text')
+				return;
+
+			return content.value.value;
+		},
+		getContentImage(style) {
+
+			let content = style.content && style.content.value;
+			if (!content)
+				return;
+
+			let type = content.type.value;
+			if (type !== 'image')
+				return;
+
+			let id = content.source && content.source.value;
+			if (!id)
+				return
+
+			let asset = this.assetItem({id});
+			if (!asset)
+				return;
+
+			return asset;
+		},
+		getCssOpacity(style) {
+
+			let value = style.opacity && style.opacity.value;
+
+			if (value === undefined)
+				return;
+
+			return value;
+		},
+		getCssBorderWidth(style) {
+
+			let rect = style && style.border && style.border.value && style.border.value.thickness && style.border.value.thickness.value;
+			if (!rect)
+				return;
+
+			let value = rect.split(' ').map(el => el + 'px').join(' ');
+			return value;
+		},
+		getCssBorderColor(style) {
+
+			let colorDef = style && style.border && style.border.value && style.border.value.color && style.border.value.color.value;
+			if (!colorDef)
+				return;
+
+			if (colorDef.type.value !== 'solid')
+				return;
+
+			let color = colorDef.value.value;
+
+			return color.getHex();
+		},
+		getCssBorderRadius(style) {
+
+			let rect = style && style.border && style.border.value && style.border.value.radius && style.border.value.radius.value;
+			if (!rect)
+				return;
+
+			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 + 5) : el) + 'px').join(' ');
+			return value;
+		},
+		getCssBorderImage(style) {
+
+			let colorDef = style && style.border && style.border.value && style.border.value.color && style.border.value.color.value;
+			if (!colorDef)
+				return;
+
+			if (colorDef.type.value !== 'gradient')
+				return;
+
+			let stops = colorDef.values.slice(0);
+			let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
+				.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
+			let out = `linear-gradient(to top, ${values.join(', ')})`;
+
+			return out;
+		},
+		getCssBackgroundColor(style) {
+
+			let colorDef = style && style.color && style.color.value;
+			if (!colorDef)
+				return;
+
+			if (colorDef.type.value !== 'solid')
+				return;
+
+			let color = colorDef.value.value;
+
+			return color.getHex();
+		},
+		getCssBackgroundImage(style) {
+
+			let colorDef = style && style.color && style.color.value;
+			if (!colorDef)
+				return;
+
+			if (colorDef.type.value !== 'gradient')
+				return;
+
+			let stops = colorDef.values.slice(0);
+			let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
+				.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
+			let out = `linear-gradient(to top, ${values.join(', ')})`;
+
+			return out;
+		},
+		getCssMargin(style) {
+
+			let rect = style && style.margin && style.margin.value;
+			if (!rect)
+				return;
+
+			let value = rect.split(' ').map(el => el + 'px').join(' ');
+			return value;
+		},
+		getCssPadding(style) {
+
+			let rect = style && style.padding && style.padding.value;
+			if (!rect)
+				return;
+
+			let value = rect.split(' ').map(el => el + 'px').join(' ');
+			return value;
+		},
+		getCssBorderInnerRadius(style) {
+
+			let rect = style && style.border && style.border.value && style.border.value.radius && style.border.value.radius.value;
+			if (!rect)
+				return;
+
+			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 - 5) : el) + 'px').join(' ');
+			return value;
+		},
+		getCssFontSize(style) {
+
+			let value = style && style['text-style'] && style['text-style'].value && style['text-style'].value['font-size'] && style['text-style'].value['font-size'].value;
+
+			if (value === undefined)
+				return;
+
+			return value + 'px';
+		},
+		getCssFontWeight(style) {
+
+			let name = style && style['text-style'] && style['text-style'].value && style['text-style'].value['font-weight'] && style['text-style'].value['font-weight'].value;
+
+			// @TODO Move this
+			let fontWeightValue = {
+				'thin': 100,
+				'light': 300,
+				'normal': 400,
+				'bold': 700,
+				'heavy': 900
+			};
+
+			let value = fontWeightValue[name] || 400;
+
+			return value;
+		},
+		getCssFontFamily(style) {
+
+			let value = style && style['text-style'] && style['text-style'].value && style['text-style'].value['font-family'] && style['text-style'].value['font-family'].value;
+
+			if (value === undefined)
+				return;
+
+			return `"${value}"`;
+		},
+		getCssColor(style) {
+
+			let colorDef = style && style['text-style'] && style['text-style'].value && style['text-style'].value.color && style['text-style'].value.color.value;
+			if (!colorDef)
+				return;
+
+			if (colorDef.type.value !== 'solid')
+				return;
+
+			let color = colorDef.value.value;
+
+			return color.getHex();
+		},
+		getCssTextImageColor(style) {
+
+			let colorDef = style && style['text-style'] && style['text-style'].value && style['text-style'].value.color && style['text-style'].value.color.value;
+			if (!colorDef)
+				return;
+
+			if (colorDef.type.value !== 'gradient')
+				return;
+
+			let stops = colorDef.values.slice(0);
+			let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
+				.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
+			let out = `linear-gradient(to top, ${values.join(', ')})`;
+
+			return out;
 		}
 	}
 }
@@ -378,7 +424,7 @@ export default {
 
 	color: #000000;
 	background-color: #DDDDDD;
-	font-family: 'Segoe UI';
+	font-family: 'Segoe UI', sans-serif;
 	font-size: 12px;
 }
 

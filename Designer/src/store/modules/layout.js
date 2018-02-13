@@ -51,6 +51,7 @@ const actions = {
 			layout = defaultLayout;
 
 		commit('reset', {layout});
+		commit('ui/setActiveItem', {}, {root: true});
 
 		return true;
 	},

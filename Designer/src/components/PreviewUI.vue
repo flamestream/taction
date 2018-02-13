@@ -99,7 +99,7 @@ export default {
 			if (colorDef.type.value !== 'gradient')
 				return;
 
-			let stops = colorDef.values;
+			let stops = colorDef.values.slice(0);
 			let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
 				.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
 			let out = `linear-gradient(to top, ${values.join(', ')})`;
@@ -128,7 +128,7 @@ export default {
 			if (colorDef.type.value !== 'gradient')
 				return;
 
-			let stops = colorDef.values;
+			let stops = colorDef.values.slice(0);
 			let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
 				.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
 			let out = `linear-gradient(to top, ${values.join(', ')})`;
