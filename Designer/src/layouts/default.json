@@ -1,0 +1,25 @@
+﻿{
+    "name": "My Layout",
+    "version": 4,
+    "size": 80,
+    "orientation": "vertical",
+    "items": [
+        {
+            "size": 30,
+            "type": "move"
+        },
+        {
+            "size": 75,
+            "command": "ESCAPE",
+            "style": {
+                "base": {
+                    "content": {
+                        "value": "ESC",
+                        "type": "text"
+                    }
+                }
+            },
+            "type": "tap"
+        }
+    ]
+}

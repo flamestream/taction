@@ -2,6 +2,8 @@
 
 A touch panel intended for artists working on Windows Tablet PCs.
 
+![Taction Designer](/docs/taction.png)
+
 ## Main Features
 
 * Mouse/Pen/Touch differentiation
@@ -20,15 +22,25 @@ A touch panel intended for artists working on Windows Tablet PCs.
 
 ## Creating Your Own Layout
 
+### Using the Designer
+
+You may use the designer to generate your own layout. It's currently in early development, but you may [give it a try](https://flamestream.github.io/taction/).
+
+<a href="https://flamestream.github.io/taction/">![Taction Designer](/docs/taction-designer.png)</a>
+
+### Coding one yourself
+
 At minimum, a JSON file can be used to generate a full layout. It would be validated against the following JSON schema:
 
-> https://github.com/flamestream/taction/blob/master/App/Resources/config.schema.json
+> [App/Resources/config.schema.json](App/Resources/config.schema.json)
 
-You may refer to that file for a complete list of supported features and combination.
+You may refer to that file for a complete list of supported features and combination. To get started, you may take a look at the default layout the application loads:
+
+> [App/Resources/default.layout.json](App/Resources/default.layout.json)
 
 Once your file is ready, you may load it through the notification icon context menu.
 
-### Bundle Format
+#### Bundle Format
 
 If you want images or font to be included with your layout, you may create a bundle.
 
