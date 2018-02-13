@@ -57,6 +57,9 @@ class Type {
 				return;
 			}
 
+			if (this.defaultValue === undefined)
+				return;
+
 			this.value = this.defaultValue;
 			return;
 		}

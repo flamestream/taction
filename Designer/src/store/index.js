@@ -35,11 +35,14 @@ export default new Vuex.Store({
 		}
 	},
 	actions: {
-		async reset({dispatch}, {layout, zip}) {
+		async reset({dispatch}, {layout, zip} = {}) {
 
 			registry.$clear();
 			await dispatch('layout/reset', {layout});
-			if (zip) await dispatch('assets/loadZip', {zip})
+			if (zip)
+				await dispatch('assets/loadZip', {zip})
+			else
+				await dispatch('assets/clear', {zip})
 		},
 		async setErrorMsg({dispatch}, {msg} = {}) {
 

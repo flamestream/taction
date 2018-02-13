@@ -27,6 +27,7 @@ import ViewProperties from './components/ViewProperties'
 import ViewHeader from './components/ViewHeader'
 import Overlay from './components/Overlay'
 import { mapState, mapActions } from 'vuex'
+import firstTimerLayout from '@/layouts/first-timer'
 export default {
 	name: 'App',
 	components: {
@@ -55,15 +56,18 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			setActiveOverlay: 'ui/setActiveOverlay'
+			setActiveOverlay: 'ui/setActiveOverlay',
+			reset: 'layout/reset'
 		})
 	},
 	mounted() {
 
 		let lastVisit = localStorage.lastVisit;
 
-		if (!lastVisit)
+		if (!lastVisit) {
 			this.setActiveOverlay({id: 'changelog'});
+			this.reset({layout: firstTimerLayout});
+		}
 
 		// @TODO use async storage
 		localStorage.lastVisit = Date.now();
@@ -79,6 +83,14 @@ html, body {
 	margin: 0;
 	padding: 0;
 	background-color: #1B2838;
+}
+
+a {
+	color: inherit;
+}
+a:link {
+	color: inherit;
+	text-decoration: none;
 }
 
 .simplebar-scrollbar {
@@ -184,7 +196,7 @@ html, body {
 }
 
 #view-special-menu {
-	overflow-y: auto;
+	height: 120px;
 	padding-bottom: 20px;
 }
 

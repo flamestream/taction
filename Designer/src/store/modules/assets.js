@@ -25,7 +25,7 @@ const getters = {
 };
 
 const mutations = {
-	reset(state) {
+	clear(state) {
 
 		state.registry = {};
 	},
@@ -132,6 +132,10 @@ const actions = {
 	remove({commit}, {id}) {
 
 		commit('remove', {id});
+	},
+	clear({commit}, {id}) {
+
+		commit('clear');
 	}
 };
 

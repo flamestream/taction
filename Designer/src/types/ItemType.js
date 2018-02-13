@@ -5,6 +5,10 @@ import ButtonStyleSetType from './ButtonStyleSetType';
 
 class ItemType extends ComplexType {
 
+	get required() {
+
+		return true;
+	}
 }
 
 ItemType.prototype.$typedDefinition = {
