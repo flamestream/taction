@@ -1,3 +1,5 @@
+import ItemType from '@/types/ItemType'
+
 const state = {
 	activeMenu: undefined,
 	activeItem: undefined,
@@ -54,7 +56,7 @@ const actions = {
 	},
 	setActiveItem({commit, rootGetters}, {id} = {}) {
 
-		let item = rootGetters.registered({type: 'ItemType', id});
+		let item = rootGetters.registered({type: ItemType.name, id});
 		commit('setActiveItem', {item});
 	},
 	setActiveAsset({commit, state, rootGetters}, {id} = {}) {
