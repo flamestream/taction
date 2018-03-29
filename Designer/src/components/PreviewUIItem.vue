@@ -1,7 +1,7 @@
 <template>
 	<div class="preview-item-container" :style="containerCss" @click.stop="handleClick">
 		<div class="preview-item-content" :style="contentCss">
-			<span v-if="contentText"><span :style="textCss">{{ contentText }}</span></span>
+			<span v-if="contentText"><span :style="textCss" v-html="contentText"></span></span>
 			<img v-else-if="contentImage" :src="contentImage.url"/>
 		</div>
 	</div>
@@ -199,7 +199,12 @@ export default {
 			if (type !== 'text')
 				return;
 
-			return content.value.value;
+			let value = content.value.value;
+			if (!value)
+				return;
+
+			value = value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/\s/g, '&nbsp;');
+			return value;
 		},
 		getContentImage(style) {
 
@@ -330,7 +335,7 @@ export default {
 			if (!rect)
 				return;
 
-			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 - 5) : el) + 'px').join(' ');
+			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 + 4) : el) + 'px').join(' ');
 			return value;
 		},
 		getCssFontSize(style) {
@@ -433,6 +438,11 @@ export default {
 	flex-direction: column;
 	justify-content: center;
 	overflow: hidden;
+	flex: 1 1 auto;
+}
+
+.preview-item-content > span > span {
+	margin: auto;
 }
 
 .preview-item-content img {

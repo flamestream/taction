@@ -153,7 +153,7 @@ export default {
 			if (!rect)
 				return;
 
-			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 - 5) : el) + 'px').join(' ');
+			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 + 4) : el) + 'px').join(' ');
 			return value;
 		},
 		containerCss() {
