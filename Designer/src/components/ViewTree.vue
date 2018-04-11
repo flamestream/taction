@@ -51,7 +51,16 @@ export default {
 			this.addItem({
 				parent: this.layout,
 				value: {
-					type: 'hold'
+					type: 'hold',
+					size: 50,
+					style: {
+						base: {
+							content: {
+								type: 'text',
+								value: 'New Button'
+							}
+						}
+					}
 				},
 				active: true
 			});
