@@ -8,7 +8,7 @@
 					<ViewTree id="view-tree-menu"></ViewTree>
 					<ViewSpecialMenu id="view-special-menu"></ViewSpecialMenu>
 				</div>
-				<div id="section-properties" data-simplebar>
+				<div id="section-properties">
 					<ViewProperties></ViewProperties>
 				</div>
 				<div id="section-preview">
@@ -83,6 +83,11 @@ html, body {
 	margin: 0;
 	padding: 0;
 	background-color: #1B2838;
+}
+
+* {
+	transition: all 0.1s ease-out;
+	transition-property: color background-color;
 }
 
 a {
@@ -208,14 +213,14 @@ a:link {
 	color: #ddd;
 }
 
-.section-properties-content {
-	margin: 12px 0;
+.base-section-properties-content {
+	padding-top: 12px;
 }
 
-.view-properties {
+/*.view-properties {
 	margin: 0 10px;
 }
-
+*/
 .view-previewer {
 	flex: 1 1 auto;
 	display: flex;
@@ -230,6 +235,27 @@ input[type=number]::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	appearance: none;
 	margin: 0;
+}
+
+.add-button {
+	background-color: #09B0EB;
+	text-align: center;
+	font-weight: 600;
+	display: block;
+	cursor: pointer;
+	padding: 4px;
+	margin: 0 10px 10px;
+	border-radius: 3px;
+	border: 0;
+	color: #FFF;
+}
+.add-button:hover {
+	background-color: #38beea;
+}
+.add-button:active {
+	position: relative;
+	top: 1px;
+	left: 1px;
 }
 
 </style>

@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { get } from 'lodash';
 import ColorType from '../types/ColorType';
 import InputColorSolid from './InputColorSolid';
 import InputColorGradient from './InputColorGradient';
@@ -28,13 +29,13 @@ export default {
 	},
 	computed: {
 		value() {
-			let obj = this.obj || {};
-			return obj.value;
+			let value = get(this, ['obj', 'value']);
+			return value;
 		},
 		type: {
 			get() {
-				let { value } = this;
-				return value && value.type.value;
+				let type = get(this, ['value', 'type', 'value']);
+				return type;
 			},
 			set(value) {
 				this.$store.commit({

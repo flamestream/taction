@@ -2,7 +2,7 @@
 	<div>
 		<div :class="getInputClassNames()">
 			<input ref="input" type="file" label="Add asset" id="file-asset" @change="handleFileChange" multiple/>
-			<label for="file-asset" @click="handleFileClick">{{ fileButtonLabel }}</label>
+			<label class="add-button" for="file-asset" @click="handleFileClick">{{ fileButtonLabel }}</label>
 		</div>
 		<div class="asset-list">
 			<div class="menu-item" v-for="name in names" :class="getAssetClassNames(name)" @click="handleAssetClick" :data-id="name" :key="name">

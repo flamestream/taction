@@ -17,6 +17,8 @@ class Type {
 		// @NOTE has to be after init, since init will generate containers
 		this.notDefined = value === undefined;
 
+		this.parent = null;
+
 		registry.$register(this.type, this);
 	}
 
@@ -37,6 +39,21 @@ class Type {
 			return;
 
 		this._notDefined = v;
+
+		// Update parent
+		let { parent } = this;
+		if (!parent || parent.notDefined === v) return;
+
+		if (v) {
+			for (let k in parent._value) {
+
+				let c = parent._value[k];
+				if (!c.notDefined)
+					return;
+			}
+		}
+
+		parent.notDefined = v;
 	}
 
 	get value() {
@@ -66,6 +83,42 @@ class Type {
 
 		this.notDefined = false;
 		this._value = v;
+
+		// Set parent
+		if (typeof v === 'object') {
+
+			for (let k in v) {
+
+				let c = v[k];
+				if (c instanceof Type)
+					c.parent = this;
+			}
+		}
+	}
+
+	getObj(path, getEvenIfNotDefined) {
+
+		if (!path)
+			path = [];
+		else if (!Array.isArray(path))
+			path = path.split('.');
+
+		let current = this;
+		for (let segment of path) {
+
+			let value = current._value;
+			if (!value)
+				return;
+
+			current = value[segment];
+			if (!current)
+				return;
+		}
+
+		if (current.notDefined && !getEvenIfNotDefined)
+			return;
+
+		return current;
 	}
 
 	toJSON() {

@@ -2,7 +2,7 @@
 	<div class="view-previewer">
 		<div class="asset-previewer" v-if="activeMenu === 'assets'">
 			<img v-if="activeAsset && activeAsset.ext === 'png'" :src="activeAsset.url"/>
-			<span v-else-if="activeAsset && activeAsset.ext === 'ttf'">The quick brown fox jumps over the lazy dog</span>
+			<span v-else-if="activeAsset && activeAsset.ext === 'ttf'" :style="assetFontStyle">The quick brown fox jumps over the lazy dog</span>
 		</div>
 		<div v-else class="previewer-layout">
 			<div class="tabs">
@@ -33,7 +33,8 @@ export default {
 	},
 	data() {
 		return {
-			activeTab: undefined
+			activeTab: undefined,
+			assetFontStyle: { fontFamily: '"./Active Font"' }
 		};
 	},
 	computed: {
@@ -77,7 +78,6 @@ export default {
 	display: flex;
 	align-items: center;
 	/*justify-content: safe center;*/
-	font-family: './Active Font';
 	font-size: 32px;
 }
 
@@ -114,6 +114,7 @@ export default {
 	font-size: 14px;
 	border-radius: 2px 2px 0 0;
 	cursor: pointer;
+	transition: none;
 }
 .tab:hover {
 	color: #FFF;
@@ -127,6 +128,7 @@ export default {
 
 .tab i {
 	margin-right: 4px;
+	transition: none;
 }
 
 pre {
