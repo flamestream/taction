@@ -8,8 +8,8 @@
 					<ViewTree id="view-tree-menu"></ViewTree>
 					<ViewSpecialMenu id="view-special-menu"></ViewSpecialMenu>
 				</div>
-				<div id="section-properties">
-					<ViewProperties></ViewProperties>
+				<div id="section-details">
+					<ViewDetails></ViewDetails>
 				</div>
 				<div id="section-preview">
 					<ViewPreview></ViewPreview>
@@ -23,7 +23,7 @@
 import ViewPreview from './components/ViewPreview'
 import ViewTree from './components/ViewTree'
 import ViewSpecialMenu from './components/ViewSpecialMenu'
-import ViewProperties from './components/ViewProperties'
+import ViewDetails from './components/ViewDetails'
 import ViewHeader from './components/ViewHeader'
 import Overlay from './components/Overlay'
 import { mapState, mapActions } from 'vuex'
@@ -34,7 +34,7 @@ export default {
 		ViewPreview,
 		ViewTree,
 		ViewSpecialMenu,
-		ViewProperties,
+		ViewDetails,
 		ViewHeader,
 		Overlay
 	},
@@ -86,8 +86,7 @@ html, body {
 }
 
 * {
-	transition: all 0.1s ease-out;
-	transition-property: color background-color;
+	transition: all 0.2s ease-out;
 }
 
 a {
@@ -205,7 +204,7 @@ a:link {
 	padding-bottom: 20px;
 }
 
-#section-properties {
+#section-details {
 	display: flex;
 	width: 300px;
 	flex-shrink: 0;
@@ -213,14 +212,6 @@ a:link {
 	color: #ddd;
 }
 
-.base-section-properties-content {
-	padding-top: 12px;
-}
-
-/*.view-properties {
-	margin: 0 10px;
-}
-*/
 .view-previewer {
 	flex: 1 1 auto;
 	display: flex;
