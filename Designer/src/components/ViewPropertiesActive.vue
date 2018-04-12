@@ -1,6 +1,6 @@
 <template>
-	<div class="slide-menu-container">
-		<transition name="menu" @after-enter="onMenuAfterEnter">
+	<div :class="rootClassNames">
+		<transition name="menu" @enter="onMenuEnter" @after-enter="onMenuAfterEnter">
 			<ListSelector v-if="isSubActive"
 				ref="selector"
 				:items="inactiveComponents"
@@ -42,9 +42,20 @@ export default {
 	},
 	data() {
 		return {
+			isMenuTransitioning: false,
 			isSubActive: false,
 			activeComponents: [],
 			inactiveComponents: []
+		}
+	},
+	computed: {
+		rootClassNames() {
+
+			return {
+				'slide-menu-container': true,
+				'section-details-scrollable': true,
+				scrollable: !this.isMenuTransitioning
+			}
 		}
 	},
 	methods: {
@@ -91,8 +102,13 @@ export default {
 			this.focusMain();
 			this.setComponentDefined(c)
 		},
-		onMenuAfterEnter(el, rawr) {
+		onMenuEnter(el) {
 
+			this.isMenuTransitioning = true;
+		},
+		onMenuAfterEnter(el) {
+
+			this.isMenuTransitioning = false;
 			if (typeof get(el, '__vue__.focus') === 'function')
 				el.__vue__.focus();
 		}
@@ -116,28 +132,18 @@ export default {
 	position: relative;
 	overflow: hidden;
 	flex: 1 1 auto;
+	display: flex;
 }
 
-.slide-menu-container:hover {
+.slide-menu-container.scrollable:hover {
 	overflow-y: auto;
-}
-
-.slide-menu-container::-webkit-scrollbar
-{
-	width: 5px;
-	background-color: #FFFFFF33;
-}
-
-.slide-menu-container::-webkit-scrollbar-thumb
-{
-	background-color: #FFFFFFAA;
-	border-radius: 10px;
 }
 
 .slide-menu-container > div {
 	left: 0;
 	right: 0;
 	padding: 12px 6px 0;
+	flex: 1 1 auto;
 }
 
 .menu-leave-active, .menu-enter-active {

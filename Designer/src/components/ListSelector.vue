@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="root">
 		<div class="command">
 			<i class="material-icons" @click.stop="emitBack">arrow_back</i>
 			<input ref="search" type="text"
@@ -10,8 +10,10 @@
 				@keydown.down="moveFocusedIndex(1)"
 			/>
 		</div>
-		<transition-group name="list">
-			<div v-for="(item, idx) in filteredDisplayItems" :class="itemClassNames(idx)" :key="item.label"
+		<transition-group name="list" class="items section-details-scrollable">
+			<div v-for="(item, idx) in filteredDisplayItems" ref="items"
+				:key="item.label"
+				:class="itemClassNames(idx)"
 				@mouseenter="focusedIndex = idx"
 				@click.stop="emitSelect(item)">{{ item.label }}</div>
 		</transition-group>
@@ -86,6 +88,7 @@ export default {
 			let len = this.filteredDisplayItems.length;
 			out = ((out % len) + len) % len;
 			this.focusedIndex = out;
+			this.$refs.items[out].scrollIntoView({ block: 'end' });
 		}
 	},
 	mounted() {
@@ -97,9 +100,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+.root {
+	display: flex;
+	flex-direction: column;
+}
+
 .command {
 	display: flex;
 	margin-bottom: 8px;
+	flex-shrink: 0;
 }
 
 .command i {
@@ -117,12 +126,18 @@ export default {
 	padding: 2px 4px;
 }
 
+.items {
+	flex: 1 1 auto;
+	overflow-y: auto;
+}
+
 .item {
 	cursor: pointer;
 	font-size: 15px;
 	padding: 4px 8px;
 	text-align: center;
 	overflow: hidden;
+	transition: all 0.2s;
 }
 
 .item.selected {

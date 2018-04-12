@@ -20,6 +20,14 @@ const components = [{
 		exts: 'ttf'
 	}
 }, {
+	label: 'Font Size',
+	path: 'style.base.text-style.font-size',
+	type: InputNumber,
+	options: {
+		min: 1,
+		step: 1
+	}
+}, {
 	label: 'Font Weight',
 	path: 'style.base.text-style.font-weight',
 	type: InputOption,
@@ -68,6 +76,14 @@ const components = [{
 	label: 'Active Content',
 	path: 'style.active.content',
 	type: PropertyItemContent
+}, {
+	label: 'Active Font Size',
+	path: 'style.active.text-style.font-size',
+	type: InputNumber,
+	options: {
+		min: 1,
+		step: 1
+	}
 }, {
 	label: 'Active Font Family',
 	path: 'style.active.text-style.font-family',

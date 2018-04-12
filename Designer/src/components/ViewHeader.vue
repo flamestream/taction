@@ -114,6 +114,7 @@ export default {
 	padding-right: 16px;
 	color: #FFFFFFDD;
 	border-radius: 3px;
+	transition: all 0.2s ease-out;
 }
 .button:hover {
 	color: #FFFFFF;

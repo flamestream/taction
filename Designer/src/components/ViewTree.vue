@@ -52,7 +52,6 @@ export default {
 				parent: this.layout,
 				value: {
 					type: 'hold',
-					size: 50,
 					style: {
 						base: {
 							content: {

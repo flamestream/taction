@@ -2,10 +2,12 @@ import registry from './registry';
 
 class Type {
 
-	constructor({value, defaultValue, array} = {}) {
+	constructor({value, defaultValue, initValue, array} = {}) {
 
 		// If set, undefined value fallback (acts as required flag)
 		this.defaultValue = defaultValue;
+		// Value taken when defined and no value yet
+		this.initValue = initValue;
 		// Constructor name
 		this.type = this.constructor.name;
 
@@ -61,27 +63,15 @@ class Type {
 		if (this.notDefined)
 			return;
 
-		return this._value;
+		let out = this._value;
+		if (out === undefined)
+			out = (this.initValue !== undefined) ? this.initValue : this.defaultValue;
+
+		return out;
 	}
 
 	set value(v) {
 
-		if (v === undefined) {
-
-			if (!this.required) {
-
-				this.notDefined = true;
-				return;
-			}
-
-			if (this.defaultValue === undefined)
-				return;
-
-			this.value = this.defaultValue;
-			return;
-		}
-
-		this.notDefined = false;
 		this._value = v;
 
 		// Set parent

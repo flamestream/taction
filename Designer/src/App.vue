@@ -85,10 +85,6 @@ html, body {
 	background-color: #1B2838;
 }
 
-* {
-	transition: all 0.2s ease-out;
-}
-
 a {
 	color: inherit;
 }
@@ -171,6 +167,7 @@ a:link {
 	padding-left: 16px;
 	display: flex;
 	align-items: center;
+	transition: all 0.2s ease-out;
 }
 
 #section-menu .menu-item > .label > i {
@@ -210,6 +207,18 @@ a:link {
 	flex-shrink: 0;
 	background-color: #1B2838;
 	color: #ddd;
+}
+
+.section-details-scrollable::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #FFFFFF33;
+}
+
+.section-details-scrollable::-webkit-scrollbar-thumb
+{
+	background-color: #FFFFFFAA;
+	border-radius: 10px;
 }
 
 .view-previewer {

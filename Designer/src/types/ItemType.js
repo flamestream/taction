@@ -13,22 +13,22 @@ class ItemType extends ComplexType {
 
 ItemType.prototype.$typedDefinition = {
 	hold: {
-		size: { cls: NumberType, data: { min: 0.001, defaultValue: 10 } },
+		size: { cls: NumberType, data: { min: 0.001, defaultValue: 80 } },
 		command: { cls: StringType, data: { defaultValue: '' } },
 		style: { cls: ButtonStyleSetType }
 	},
 	tap: {
-		size: { cls: NumberType, data: { min: 0.001, defaultValue: 10 } },
+		size: { cls: NumberType, data: { min: 0.001, defaultValue: 80 } },
 		command: { cls: StringType, data: { defaultValue: '' } },
 		style: { cls: ButtonStyleSetType }
 	},
 	toggle: {
-		size: { cls: NumberType, data: { min: 0.001, defaultValue: 10 } },
+		size: { cls: NumberType, data: { min: 0.001, defaultValue: 80 } },
 		command: { cls: StringType, data: { defaultValue: '' } },
 		style: { cls: ButtonStyleSetType }
 	},
 	move: {
-		size: { cls: NumberType, data: { min: 0.001, defaultValue: 10 } },
+		size: { cls: NumberType, data: { min: 0.001, defaultValue: 40 } },
 		style: { cls: ButtonStyleSetType }
 	}
 	// pivot: {
