@@ -72,6 +72,7 @@ class Type {
 
 	set value(v) {
 
+		this._notDefined = false;
 		this._value = v;
 
 		// Set parent
