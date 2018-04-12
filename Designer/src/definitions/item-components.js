@@ -1,18 +1,40 @@
 import PropertyItemContent from '@/components/PropertyItemContent';
 import PropertyItemColor from '@/components/PropertyItemColor';
 import PropertyItemRectangle from '@/components/PropertyItemRectangle';
+import PropertyItemType from '@/components/PropertyItemType';
 import InputAsset from '@/components/InputAsset';
 import InputOption from '@/components/InputOption';
 import InputNumber from '@/components/InputNumber';
+import InputText from '@/components/InputText';
 import TextStyleType from '@/types/TextStyleType';
+
 const fontWeightOptions = TextStyleType.prototype.$definition['font-weight'].data.options;
 
-const components = [{
+const component = [{
+	label: 'Type',
+	path: 'type',
+	type: PropertyItemType,
+	required: true
+}, {
+	label: 'Size',
+	path: 'size',
+	type: InputNumber,
+	required: true,
+	options: {
+		min: 1,
+		step: 1
+	}
+}, {
+	label: 'Command',
+	path: 'command',
+	type: InputText,
+	required: true
+}, {
 	label: 'Content',
 	path: 'style.base.content',
 	type: PropertyItemContent
 }, {
-	label: 'Font Family',
+	label: 'Font family',
 	path: 'style.base.text-style.font-family',
 	type: InputAsset,
 	options: {
@@ -20,7 +42,7 @@ const components = [{
 		exts: 'ttf'
 	}
 }, {
-	label: 'Font Size',
+	label: 'Font size',
 	path: 'style.base.text-style.font-size',
 	type: InputNumber,
 	options: {
@@ -28,18 +50,18 @@ const components = [{
 		step: 1
 	}
 }, {
-	label: 'Font Weight',
+	label: 'Font weight',
 	path: 'style.base.text-style.font-weight',
 	type: InputOption,
 	options: {
 		options: fontWeightOptions
 	}
 }, {
-	label: 'Text Color',
+	label: 'Text color',
 	path: 'style.base.text-style.color',
 	type: PropertyItemColor
 }, {
-	label: 'Background Color',
+	label: 'Background color',
 	path: 'style.base.color',
 	type: PropertyItemColor
 }, {
@@ -51,16 +73,16 @@ const components = [{
 	path: 'style.base.padding',
 	type: PropertyItemRectangle
 }, {
-	label: 'Border Thickness',
+	label: 'Border thickness',
 	path: 'style.base.border.thickness',
 	type: PropertyItemRectangle
 }, {
-	label: 'Border Roundness',
+	label: 'Border roundness',
 	path: 'style.base.border.radius',
 	type: PropertyItemRectangle,
 	options: { corner: true }
 }, {
-	label: 'Border Color',
+	label: 'Border color',
 	path: 'style.base.border.color',
 	type: PropertyItemColor
 }, {
@@ -73,11 +95,11 @@ const components = [{
 		step: 0.001
 	}
 }, {
-	label: 'Active Content',
+	label: 'Active content',
 	path: 'style.active.content',
 	type: PropertyItemContent
 }, {
-	label: 'Active Font Size',
+	label: 'Active font size',
 	path: 'style.active.text-style.font-size',
 	type: InputNumber,
 	options: {
@@ -85,7 +107,7 @@ const components = [{
 		step: 1
 	}
 }, {
-	label: 'Active Font Family',
+	label: 'Active font family',
 	path: 'style.active.text-style.font-family',
 	type: InputAsset,
 	options: {
@@ -93,43 +115,43 @@ const components = [{
 		exts: 'ttf'
 	}
 }, {
-	label: 'Active Font Weight',
+	label: 'Active font weight',
 	path: 'style.active.text-style.font-weight',
 	type: InputOption,
 	options: {
 		options: fontWeightOptions
 	}
 }, {
-	label: 'Active Text Color',
+	label: 'Active text color',
 	path: 'style.active.text-style.color',
 	type: PropertyItemColor
 }, {
-	label: 'Active Background Color',
+	label: 'Active background color',
 	path: 'style.active.color',
 	type: PropertyItemColor
 }, {
-	label: 'Active Margin',
+	label: 'Active margin',
 	path: 'style.active.margin',
 	type: PropertyItemRectangle
 }, {
-	label: 'Active Padding',
+	label: 'Active padding',
 	path: 'style.active.padding',
 	type: PropertyItemRectangle
 }, {
-	label: 'Active Border Thickness',
+	label: 'Active border thickness',
 	path: 'style.active.border.thickness',
 	type: PropertyItemRectangle
 }, {
-	label: 'Active Border Roundness',
+	label: 'Active border roundness',
 	path: 'style.active.border.radius',
 	type: PropertyItemRectangle,
 	options: { corner: true }
 }, {
-	label: 'Active Border Color',
+	label: 'Active border color',
 	path: 'style.active.border.color',
 	type: PropertyItemColor
 }, {
-	label: 'Active Opacity',
+	label: 'Active opacity',
 	path: 'style.active.opacity',
 	type: InputNumber,
 	options: {
@@ -139,4 +161,4 @@ const components = [{
 	}
 }];
 
-export default components;
+export default component;

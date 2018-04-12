@@ -3,9 +3,13 @@
 		<div class="label">
 			<span @click="handlePointerClick" class="pointer">▼</span>
 			<span @click="handlePointerClick" class="text">{{ typeMeta.label }}</span>
-			<span @click="handleRemoverClick" class="remover">－</span>
+			<span v-if="!typeMeta.required" @click="handleRemoverClick" class="remover">－</span>
 		</div>
-		<component :is="typeMeta.type" :options="typeMeta.options" :obj="activeItem.getObj(typeMeta.path)" class="value"></component>
+		<component :is="typeMeta.type" class="value"
+			:options="typeMeta.options"
+			:obj="rootObj.getObj(typeMeta.path)"
+			@change="onValueChange">
+		</component>
 	</div>
 </template>
 
@@ -13,7 +17,7 @@
 export default {
 	name: 'ComponentProperty',
 	props: {
-		activeItem: { type: Object },
+		rootObj: { type: Object },
 		typeMeta: { type: Object }
 	},
 	data() {
@@ -34,13 +38,18 @@ export default {
 			this.hidden = !this.hidden;
 		},
 		handleRemoverClick(ev) {
-			let obj = this.activeItem.getObj(this.typeMeta.path);
+			let obj = this.rootObj.getObj(this.typeMeta.path);
 			this.$store.commit({
 				type: 'layout/setDefined',
 				obj,
 				value: false
 			});
 			this.$emit('inactive', {
+				component: this.typeMeta
+			});
+		},
+		onValueChange(ev) {
+			this.$emit('change', {
 				component: this.typeMeta
 			});
 		}

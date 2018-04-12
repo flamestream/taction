@@ -1,30 +1,23 @@
 <template>
 	<div class="section-properties-content">
 		<ViewAssets v-if="activeMenu === 'assets'"></ViewAssets>
-		<ViewPropertiesActive v-else-if="activeItem" :activeItem="activeItem"></ViewPropertiesActive>
-		<div v-else>
-			<div class="add-button">Add Component</div>
-			<PropertyItem label="Global" type="global" :obj="layout"></PropertyItem>
-			<PropertyItem label="Global Button Style" type="button-style-set" :obj="layout.value['default-button-style']"></PropertyItem>
-		</div>
+		<!-- <ViewPropertiesActive v-else-if="activeItem" :activeItem="activeItem"></ViewPropertiesActive> -->
+		<ViewProperties v-else></ViewProperties>
 	</div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import PropertyItem from './PropertyItem'
 import ViewAssets from './ViewAssets'
-import ViewPropertiesActive from './ViewPropertiesActive'
+import ViewProperties from './ViewProperties'
 export default {
-	name: 'ViewProperties',
+	name: 'ViewDetails',
 	components: {
 		ViewAssets,
-		ViewPropertiesActive,
-		PropertyItem
+		ViewProperties
 	},
 	computed: {
-		...mapState('layout', ['layout']),
-		...mapState('ui', ['activeMenu', 'activeItem'])
+		...mapState('ui', ['activeMenu'])
 	}
 }
 </script>

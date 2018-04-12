@@ -10,12 +10,12 @@
 			</ListSelector>
 			<div v-else class="main">
 				<div v-if="inactiveComponents.length" class="add-button" @click.stop="focusSub">Add Component</div>
-				<PropertyItem label="Mandatory Properties" type="item" :obj="activeItem"></PropertyItem>
 				<div class="component-container">
 					<ComponentProperty v-for="c in activeComponents"
 						:typeMeta="c"
-						:activeItem="activeItem"
+						:rootObj="rootObj"
 						:key="c.name"
+						@change="onComponentChange"
 						@inactive="onComponentInactive">
 					</ComponentProperty>
 				</div>
@@ -26,19 +26,16 @@
 
 <script>
 import { get } from 'lodash'
+import { mapState } from 'vuex'
 import ComponentProperty from './ComponentProperty'
-import PropertyItem from './PropertyItem'
 import ListSelector from './ListSelector'
 import itemComponentDefinitions from '@/definitions/item-components';
+import globalComponentDefinitions from '@/definitions/global-components';
 export default {
-	name: 'ViewPropertiesActive',
+	name: 'ViewProperties',
 	components: {
-		PropertyItem,
 		ComponentProperty,
 		ListSelector
-	},
-	props: {
-		activeItem: { type: Object }
 	},
 	data() {
 		return {
@@ -49,6 +46,8 @@ export default {
 		}
 	},
 	computed: {
+		...mapState('layout', ['layout']),
+		...mapState('ui', ['activeItem']),
 		rootClassNames() {
 
 			return {
@@ -56,6 +55,12 @@ export default {
 				'section-details-scrollable': true,
 				scrollable: !this.isMenuTransitioning
 			}
+		},
+		rootObj() {
+			return this.activeItem || this.layout;
+		},
+		definitions() {
+			return this.activeItem ? itemComponentDefinitions : globalComponentDefinitions;
 		}
 	},
 	methods: {
@@ -67,7 +72,7 @@ export default {
 		},
 		setComponentDefined(c) {
 
-			let obj = this.activeItem.getObj(c.path, true);
+			let obj = this.rootObj.getObj(c.path, true);
 			this.$store.commit({
 				type: 'layout/setDefined',
 				obj,
@@ -82,12 +87,12 @@ export default {
 
 			this.activeComponents = [];
 			this.inactiveComponents = [];
-			for (let k in itemComponentDefinitions) {
 
-				let c = itemComponentDefinitions[k];
-				if (this.activeItem.getObj(c.path))
+			for (let c of this.definitions) {
+
+				if (this.rootObj.getObj(c.path))
 					this.activeComponents.push(c);
-				else
+				else if (!c.required)
 					this.inactiveComponents.push(c);
 			}
 		},
@@ -111,10 +116,18 @@ export default {
 			this.isMenuTransitioning = false;
 			if (typeof get(el, '__vue__.focus') === 'function')
 				el.__vue__.focus();
+		},
+		onComponentChange(ev) {
+
+			let { component } = ev;
+			if (!component.type)
+				return;
+
+			this.refreshComponents();
 		}
 	},
 	watch: {
-		activeItem() {
+		rootObj() {
 			this.refreshComponents();
 			this.focusMain();
 		}
