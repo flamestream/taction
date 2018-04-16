@@ -119,11 +119,8 @@ export default {
 	color: #FFF;
 }
 
-.command input {
+.command input[type=text] {
 	flex: 1 1 auto;
-	border: 0;
-	border-radius: 3px;
-	padding: 2px 4px;
 }
 
 .items {
@@ -137,7 +134,7 @@ export default {
 	padding: 4px 8px;
 	text-align: center;
 	overflow: hidden;
-	transition: all 0.2s;
+	transition: all 0.2s ease-out;
 }
 
 .item.selected {
@@ -149,7 +146,7 @@ export default {
 }
 
 .list-enter-active, .list-leave-active {
-	transition: all 0.2s;
+	transition: all 0.2s ease-out;
 }
 
 .list-enter, .list-leave-to {
@@ -163,7 +160,7 @@ export default {
 }
 
 .list-move {
-	transition: transform 0.2s;
+	transition: transform 0.2s ease-out;
 }
 
 </style>

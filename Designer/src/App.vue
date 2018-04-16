@@ -93,6 +93,33 @@ a:link {
 	text-decoration: none;
 }
 
+input[type=text], input[type=number], select {
+	border: 0;
+	border-radius: 3px;
+	padding: 2px 4px;
+}
+
+.button {
+	background-color: #DDD;
+	border: 0;
+	border-radius: 3px;
+	padding: 3px 6px;
+	cursor: pointer;
+	text-align: center;
+	color: #111;
+	transition: all 0.2s ease-out, left 0, top 0;
+}
+
+.button:hover {
+	background-color: #EEE;
+}
+
+.button:active {
+	position: relative;
+	left: 1px;
+	top: 1px;
+}
+
 .simplebar-scrollbar {
 	background-color: #fff;
 }

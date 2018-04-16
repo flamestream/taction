@@ -7,6 +7,7 @@ import InputOption from '@/components/InputOption';
 import InputNumber from '@/components/InputNumber';
 import InputText from '@/components/InputText';
 import TextStyleType from '@/types/TextStyleType';
+import InputKeyCommand from '@/components/InputKeyCommand';
 
 const fontWeightOptions = TextStyleType.prototype.$definition['font-weight'].data.options;
 
@@ -25,9 +26,9 @@ const component = [{
 		step: 1
 	}
 }, {
-	label: 'Command',
+	label: 'Key command',
 	path: 'command',
-	type: InputText,
+	type: InputKeyCommand,
 	required: true
 }, {
 	label: 'Content',

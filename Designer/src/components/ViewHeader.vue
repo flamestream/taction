@@ -114,16 +114,11 @@ export default {
 	padding-right: 16px;
 	color: #FFFFFFDD;
 	border-radius: 3px;
-	transition: all 0.2s ease-out;
+	background-color: inherit;
 }
 .button:hover {
 	color: #FFFFFF;
 	background-color: #2D3B4B;
-}
-.button:active {
-	position: relative;
-	left: 1px;
-	top: 1px;
 }
 
 .button, .button > label {

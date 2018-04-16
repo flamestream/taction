@@ -88,6 +88,11 @@ export default {
 
 .command {
 	margin-right: 8px;
+	transition: all 0.1s ease-out;
+}
+
+.command:hover {
+	color: #C00;
 }
 
 </style>
