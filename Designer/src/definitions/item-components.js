@@ -1,20 +1,19 @@
 import PropertyItemContent from '@/components/PropertyItemContent';
 import PropertyItemColor from '@/components/PropertyItemColor';
 import PropertyItemRectangle from '@/components/PropertyItemRectangle';
-import PropertyItemType from '@/components/PropertyItemType';
 import InputAsset from '@/components/InputAsset';
 import InputOption from '@/components/InputOption';
 import InputNumber from '@/components/InputNumber';
-import InputText from '@/components/InputText';
 import TextStyleType from '@/types/TextStyleType';
 import InputKeyCommand from '@/components/InputKeyCommand';
+import InputItemType from '@/components/InputItemType';
 
 const fontWeightOptions = TextStyleType.prototype.$definition['font-weight'].data.options;
 
 const component = [{
 	label: 'Type',
 	path: 'type',
-	type: PropertyItemType,
+	type: InputItemType,
 	required: true
 }, {
 	label: 'Size',

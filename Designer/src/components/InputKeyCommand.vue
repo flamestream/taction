@@ -13,14 +13,16 @@
 </template>
 
 <script>
-import InputText from './InputText'
 import keyDefinitions from '@/definitions/keys';
 import StringType from '@/types/StringType';
 
 let modifiers = [
-	'CONTROL', 'RCONTROL',
-	'MENU', 'RMENU',
-	'SHIFT', 'RSHIFT',
+	'CONTROL',
+	'RCONTROL',
+	'MENU',
+	'RMENU',
+	'SHIFT',
+	'RSHIFT'
 ];
 
 export default {
@@ -214,6 +216,4 @@ export default {
 	background-color: #E00;
 	color: #FFF;
 }
-
-
 </style>
