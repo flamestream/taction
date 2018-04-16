@@ -182,6 +182,7 @@ export default {
 
 	width: 60px;
 	margin: 0px 4px;
+	font-size: 16px;
 }
 
 .modifiers .button.inactive {

@@ -5,7 +5,8 @@
 			<span @click="handlePointerClick" class="text">{{ typeMeta.label }}</span>
 			<span v-if="!typeMeta.required" @click="handleRemoverClick" class="remover">－</span>
 		</div>
-		<component :is="typeMeta.type" class="value"
+		<component v-show="!hidden" :is="typeMeta.type"
+			class="value"
 			:options="typeMeta.options"
 			:obj="rootObj.getObj(typeMeta.path)"
 			@change="onValueChange">
@@ -84,11 +85,8 @@ export default {
 }
 
 .value {
-	overflow: hidden;
-}
-
-.hidden > .value {
-	max-height: 0px;
+	margin-top: 5px;
+	font-size: 14px;
 }
 
 .hidden .pointer {
@@ -108,10 +106,6 @@ export default {
 .label > .remover:hover {
 	color: #C00;
 	font-weight: bold;
-}
-
-.value {
-	margin-top: 5px;
 }
 
 </style>

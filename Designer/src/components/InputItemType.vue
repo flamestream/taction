@@ -83,12 +83,13 @@ export default {
 
 .types label {
 	margin: 2px;
+	font-size: 16px;
 }
 
 .types .button.inactive {
 	opacity: 0.3;
 }
 .description {
-	font-size: 14px;
+	color: #DDD;
 }
 </style>
