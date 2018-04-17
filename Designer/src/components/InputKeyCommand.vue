@@ -206,15 +206,19 @@ export default {
 	border-bottom-left-radius: 0;
 }
 
-.keyname .button:hover {
-	color: #E00;
-	background-color: #DDD;
-}
-
 .keyname .button:active {
 	top: 0;
 	left: 0;
-	background-color: #E00;
-	color: #FFF;
 }
+
+.keyname .button i {
+	font-size: 16px;
+}
+
+.button:active i {
+	position: relative;
+	top: 1px;
+	left: 1px;
+}
+
 </style>

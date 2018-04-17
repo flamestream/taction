@@ -2,7 +2,7 @@
 	<div :class="rootClassNames">
 		<div class="label">
 			<span @click="handlePointerClick" class="pointer">▼</span>
-			<span @click="handlePointerClick" class="text">{{ typeMeta.label }}</span>
+			<span ref="label" @click="handlePointerClick" class="text">{{ typeMeta.label }}</span>
 			<span v-if="!typeMeta.required" @click="handleRemoverClick" class="remover">－</span>
 		</div>
 		<component v-show="!hidden" :is="typeMeta.type"
@@ -53,7 +53,24 @@ export default {
 			this.$emit('change', {
 				component: this.typeMeta
 			});
+		},
+		adjustLabel() {
+
+			let { label } = this.$refs;
+			let letterSpacing = parseFloat(label.style.letterSpacing) || 0;
+
+			if (label.offsetHeight > 24) {
+
+				letterSpacing -= 0.2;
+				label.style.letterSpacing = letterSpacing + 'px';
+				this.$nextTick(() => this.adjustLabel());
+			}
 		}
+	},
+	mounted() {
+
+		this.$refs.label.style.letterSpacing = null;
+		this.adjustLabel();
 	}
 }
 </script>
@@ -96,6 +113,7 @@ export default {
 .label > .text {
 	flex: 1 1;
 	margin-left: 4px;
+	transition: letter-spacing 0S;
 }
 
 .label > .remover {

@@ -12,11 +12,11 @@ import StringType from '@/types/StringType';
 
 const descriptions = {
 	'move': 'This item lets you move the panel around by dragging it. It also collapses the panel with a click.',
-	'pivot': 'This item holds other items, changing their position orientation.',
+	'pivot': 'This item holds other items, changing their flow direction.',
 	'radial-menu': 'This item invokes a radial menu when tapped. Radial menu items send key commands.',
 	'tap': 'This item sends a key command. The specified key command is only active for as short as possible on item activation.',
 	'hold': 'This item sends a key command. The specified key command is active as long as the panel item is held down.',
-	'toggle': 'This item sends a key command. The specified key command is active when the item is toggled on by taping it.'
+	'toggle': 'This item sends a key command. The specified key command is active as long as the panel item is toggled on by tapping it.'
 };
 
 const labels = {
@@ -89,6 +89,7 @@ export default {
 .types .button.inactive {
 	opacity: 0.3;
 }
+
 .description {
 	color: #DDD;
 }

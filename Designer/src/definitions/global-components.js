@@ -5,11 +5,9 @@ import InputOption from '@/components/InputOption';
 import InputNumber from '@/components/InputNumber';
 import InputText from '@/components/InputText';
 import InputBoolean from '@/components/InputBoolean';
-import LayoutType from '@/types/LayoutType';
 import itemComponentDefinitions from './item-components';
 
 const globalButtonStylePrefix = 'default-button-'
-const orientationOptions = LayoutType.prototype.$definition.orientation.data.options;
 
 let components = [{
 	label: 'Name',
@@ -17,12 +15,15 @@ let components = [{
 	type: InputText,
 	required: true
 }, {
-	label: 'Orientation',
+	label: 'Flow direction',
 	path: 'orientation',
 	type: InputOption,
 	required: true,
 	options: {
-		options: orientationOptions
+		options: {
+			vertical: 'Vertical',
+			horizontal: 'Horizontal'
+		}
 	}
 }, {
 	label: 'Size',

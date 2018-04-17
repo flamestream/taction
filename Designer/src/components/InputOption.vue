@@ -2,7 +2,7 @@
 	<div>
 		<span v-if="label">{{ label }}</span>
 		<select v-model="value">
-			<option v-for="(value, label) in formattedOptions" :value="value" :key="value">{{ label }}</option>
+			<option v-for="(label, value) in formattedOptions" :value="value" :key="value">{{ label }}</option>
 		</select>
 	</div>
 </template>
@@ -60,9 +60,10 @@ export default {
 
 div {
 	display: flex;
+	flex-direction: row;
 }
 
-input {
+select {
 	flex: 1 1 auto;
 }
 

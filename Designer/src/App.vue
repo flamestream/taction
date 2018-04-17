@@ -99,19 +99,23 @@ input[type=text], input[type=number], select {
 	padding: 2px 4px;
 }
 
+#section-details input[type=text], #section-details input[type=number], #section-details select {
+	line-height: 18px;
+}
+
 .button {
-	background-color: #DDD;
+	background-color: #09B0EB;
 	border: 0;
 	border-radius: 3px;
 	padding: 3px 6px;
 	cursor: pointer;
 	text-align: center;
-	color: #111;
+	color: #FFF;
 	transition: all 0.2s ease-out, left 0, top 0;
 }
 
 .button:hover {
-	background-color: #EEE;
+	background-color: #38BEEA;
 }
 
 .button:active {
