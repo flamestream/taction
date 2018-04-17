@@ -1,10 +1,24 @@
 <template>
-	<div class="root">
+	<div class="property-item-content-root">
 		<div class="types">
 			<label v-for="type in types" :key="type" :class="typeClassNames(type)" @click="onTypeClick(type)">{{ label(type) }}</label>
 		</div>
 		<InputText v-if="type === 'text'" :obj="value.value"></InputText>
-		<InputAsset v-if="type === 'image'" :obj="value.source" :options="{exts: 'png'}"></InputAsset>
+		<div v-if="type === 'image'">
+			<InputAsset :obj="value.source" :options="{exts: 'png'}"></InputAsset>
+			<fieldset>
+				<legend>Opacity</legend>
+				<InputNumber :obj="value.opacity" :options="{ min: 0, max: 1, step: 0.001 }"></InputNumber>
+			</fieldset>
+			<fieldset>
+				<legend>Margin</legend>
+				<InputRectangle :obj="value.margin"></InputRectangle>
+			</fieldset>
+			<fieldset>
+				<legend>Colorize</legend>
+				<InputColorSolid :obj="value.colorize"></InputColorSolid>
+			</fieldset>
+		</div>
 	</div>
 </template>
 
@@ -12,6 +26,9 @@
 import ContentType from '../types/ContentType';
 import InputAsset from './InputAsset';
 import InputText from './InputText';
+import InputNumber from './InputNumber';
+import InputRectangle from './PropertyItemRectangle';
+import InputColorSolid from './InputColorSolid';
 
 const labels = {
 	'text': 'Text',
@@ -22,7 +39,10 @@ export default {
 	name: 'PropertyItemContent',
 	components: {
 		InputAsset,
-		InputText
+		InputText,
+		InputNumber,
+		InputRectangle,
+		InputColorSolid
 	},
 	props: {
 		obj: { type: ContentType }
@@ -62,7 +82,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.root {
+.property-item-content-root {
 	display: flex;
 	flex-direction: column;
 }
@@ -81,5 +101,16 @@ export default {
 
 .types .button.inactive {
 	opacity: 0.3;
+}
+
+fieldset {
+	border-width: 0;
+	padding: 8px 0 0;
+	margin: 8px 0 0;
+	border-top: 1px solid #FFFFFF77;
+}
+
+legend {
+	margin-left: 10px;
 }
 </style>

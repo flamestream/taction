@@ -1,14 +1,22 @@
 <template>
 	<div class="preview-item-container" :style="containerCss" @click.stop="handleClick">
 		<div class="preview-item-content" :style="contentCss">
-			<span v-if="contentText"><span :style="textCss" v-html="contentText"></span></span>
-			<img v-else-if="contentImage" :src="contentImage.url"/>
+			<span v-if="contentText"><span :style="contentTextCss" v-html="contentText"></span></span>
+			<span v-else-if="contentImage">
+				<svg v-if="contentImage.svg">
+					<filter :id="contentImage.svg.id" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+						<feColorMatrix type="matrix" :values="contentImage.svg.matrix" />
+					</filter>
+				</svg>
+				<img :src="contentImage.asset.url" :style="contentImage.css"/>
+			</span>
 		</div>
 	</div>
 </template>
 
 <script>
 /* eslint no-mixed-operators: 0 */
+import { get } from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 import ItemType from '@/types/ItemType'
 export default {
@@ -155,7 +163,7 @@ export default {
 
 			return style;
 		},
-		textCss() {
+		contentTextCss() {
 
 			let style = {
 				backgroundImage: this.cssTextImageColor
@@ -224,7 +232,32 @@ export default {
 			if (!asset)
 				return;
 
-			return asset;
+			let css = {};
+			let marginRect = get(content, 'margin.value');
+			if (marginRect) {
+				let value = marginRect.split(' ').map(el => el + 'px').join(' ');
+				css.margin = value;
+			}
+
+			let opacity = get(content, 'opacity.value');
+			if (opacity !== undefined)
+				css.opacity = opacity;
+
+			let svg;
+			let colorizeColor = get(content, 'colorize.value');
+			if (colorizeColor) {
+				svg = {
+					id: 'content-colorize-' + content.colorize.id,
+					matrix: colorizeColor.getColorizeMatrix()
+				}
+				css.filter = `url(#${svg.id})`;
+			}
+
+			return {
+				asset,
+				css,
+				svg
+			};
 		},
 		getCssOpacity(style) {
 
@@ -446,8 +479,7 @@ export default {
 }
 
 .preview-item-content img {
-	width: 100%;
-	height: 100%;
+	flex: 1 1 auto;
 	object-fit: contain;
 }
 
