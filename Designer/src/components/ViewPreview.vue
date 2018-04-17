@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<pre v-if="activeTab === 'code'" ref="code" class="line-numbers language-javascript"><code>{{ layoutJson }}</code></pre>
-			<div v-if="!activeTab || activeTab === 'ui'" class="tab-content" @click="handleClick">
+			<div v-if="!activeTab || activeTab === 'ui'" class="tab-content" @dblclick="handleDblClick">
 				<PreviewUI></PreviewUI>
 			</div>
 		</div>
@@ -49,7 +49,7 @@ export default {
 		...mapActions({
 			setActiveItem: 'ui/setActiveItem'
 		}),
-		handleClick(ev) {
+		handleDblClick(ev) {
 
 			this.setActiveItem();
 		},
