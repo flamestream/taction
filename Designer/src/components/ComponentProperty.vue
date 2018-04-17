@@ -70,7 +70,9 @@ export default {
 	mounted() {
 
 		this.$refs.label.style.letterSpacing = null;
-		this.adjustLabel();
+		this.$nextTick(() => {
+			this.adjustLabel();
+		});
 	}
 }
 </script>
@@ -113,7 +115,7 @@ export default {
 .label > .text {
 	flex: 1 1;
 	margin-left: 4px;
-	transition: letter-spacing 0S;
+	transition: letter-spacing 0s;
 }
 
 .label > .remover {
