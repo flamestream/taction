@@ -16,14 +16,37 @@
 import keyDefinitions from '@/definitions/keys';
 import StringType from '@/types/StringType';
 
-let modifiers = [
-	'CONTROL',
-	'RCONTROL',
-	'MENU',
-	'RMENU',
-	'SHIFT',
-	'RSHIFT'
-];
+const labelMap = {
+	'CONTROL': 'CTRL',
+	'LCONTROL': 'L-CTRL',
+	'RCONTROL': 'R-CTRL',
+	'MENU': 'ALT',
+	'LMENU': 'L-ALT',
+	'RMENU': 'R-ALT',
+	'SHIFT': 'SHIFT',
+	'LSHIFT': 'L-SHIFT',
+	'RSHIFT': 'R-SHIFT'
+};
+
+const ctrlStatusMap = {
+	1: 'CONTROL',
+	2: 'RCONTROL',
+	3: 'LCONTROL'
+};
+
+const altStatusMap = {
+	1: 'MENU',
+	2: 'RMENU',
+	3: 'LMENU'
+};
+
+const shiftStatusMap = {
+	1: 'SHIFT',
+	2: 'RSHIFT',
+	3: 'LSHIFT'
+};
+
+const modifiers = Object.keys(labelMap);
 
 export default {
 	name: 'InputKeyCommand',
@@ -58,7 +81,9 @@ export default {
 		},
 		ctrlStatus() {
 
-			if (this.keys.includes('RCONTROL'))
+			if (this.keys.includes('LCONTROL'))
+				return 3;
+			else if (this.keys.includes('RCONTROL'))
 				return 2;
 			else if (this.keys.includes('CONTROL'))
 				return 1;
@@ -67,7 +92,9 @@ export default {
 		},
 		altStatus() {
 
-			if (this.keys.includes('RMENU'))
+			if (this.keys.includes('LMENU'))
+				return 3;
+			else if (this.keys.includes('RMENU'))
 				return 2;
 			else if (this.keys.includes('MENU'))
 				return 1;
@@ -76,6 +103,8 @@ export default {
 		},
 		shiftStatus() {
 
+			if (this.keys.includes('LSHIFT'))
+				return 3;
 			if (this.keys.includes('RSHIFT'))
 				return 2;
 			else if (this.keys.includes('SHIFT'))
@@ -83,14 +112,23 @@ export default {
 
 			return 0;
 		},
+		ctrlKeyName() {
+			return ctrlStatusMap[this.ctrlStatus];
+		},
+		altKeyName() {
+			return altStatusMap[this.altStatus];
+		},
+		shiftKeyName() {
+			return shiftStatusMap[this.shiftStatus];
+		},
 		ctrlLabel() {
-			return this.ctrlStatus === 2 ? 'R-CTRL' : 'CTRL';
+			return labelMap[ctrlStatusMap[this.ctrlStatus || 1]];
 		},
 		altLabel() {
-			return this.altStatus === 2 ? 'R-ALT' : 'ALT';
+			return labelMap[altStatusMap[this.altStatus || 1]];
 		},
 		shiftLabel() {
-			return this.shiftStatus === 2 ? 'R-SHIFT' : 'SHIFT';
+			return labelMap[shiftStatusMap[this.shiftStatus || 1]];
 		},
 		ctrlClassNames() {
 			return {
@@ -122,9 +160,9 @@ export default {
 			}, updated);
 
 			let value = '';
-			newState.ctrlStatus && (value += (newState.ctrlStatus === 2) ? 'RCONTROL ' : 'CONTROL ');
-			newState.altStatus && (value += (newState.altStatus === 2) ? 'RMENU ' : 'MENU ');
-			newState.shiftStatus && (value += (newState.shiftStatus === 2) ? 'RSHIFT ' : 'SHIFT ');
+			newState.ctrlStatus && (value += ctrlStatusMap[newState.ctrlStatus] + ' ');
+			newState.altStatus && (value += altStatusMap[newState.altStatus] + ' ');
+			newState.shiftStatus && (value += shiftStatusMap[newState.shiftStatus] + ' ');
 			value += newState.keyName || '';
 
 			this.$store.commit({
@@ -146,15 +184,15 @@ export default {
 			this.updateValue({ keyName })
 		},
 		onCtrlClick() {
-			let ctrlStatus = (this.ctrlStatus + 1) % 3;
+			let ctrlStatus = (this.ctrlStatus + 1) % 4;
 			this.updateValue({ ctrlStatus });
 		},
 		onAltClick() {
-			let altStatus = (this.altStatus + 1) % 3;
+			let altStatus = (this.altStatus + 1) % 4;
 			this.updateValue({ altStatus });
 		},
 		onShiftClick() {
-			let shiftStatus = (this.shiftStatus + 1) % 3;
+			let shiftStatus = (this.shiftStatus + 1) % 4;
 			this.updateValue({ shiftStatus });
 		},
 		onClearClick() {
