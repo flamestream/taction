@@ -172,4 +172,8 @@ export default {
 	transform: translateX(100%);
 }
 
+.component-container:last-child {
+	margin-bottom: 100%;
+}
+
 </style>

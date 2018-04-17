@@ -289,4 +289,24 @@ input[type=number]::-webkit-inner-spin-button {
 	left: 1px;
 }
 
+.hover-scrollable {
+	overflow: hidden;
+}
+
+.hover-scrollable:hover {
+	overflow-y: auto;
+}
+
+.hover-scrollable::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #FFFFFF33;
+}
+
+.hover-scrollable::-webkit-scrollbar-thumb
+{
+	background-color: #FFFFFFAA;
+	border-radius: 10px;
+}
+
 </style>

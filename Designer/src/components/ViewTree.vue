@@ -1,5 +1,5 @@
 <template>
-	<div data-simplebar>
+	<div class="hover-scrollable">
 		<div v-if="layout" @click.stop="handleClick">
 			<div :class="{ 'menu-item': true, root: true, active: !activeMenu && !activeItem }">
 				<div class="label">

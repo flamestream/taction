@@ -1,8 +1,10 @@
 <template>
 	<div class="view-previewer">
 		<div class="asset-previewer" v-if="activeMenu === 'assets'">
-			<img v-if="activeAsset && activeAsset.ext === 'png'" :src="activeAsset.url"/>
-			<span v-else-if="activeAsset && activeAsset.ext === 'ttf'" :style="assetFontStyle">The quick brown fox jumps over the lazy dog</span>
+			<div class="asset-container">
+				<img v-if="activeAsset && activeAsset.ext === 'png'" :src="activeAsset.url"/>
+				<span v-else-if="activeAsset && activeAsset.ext === 'ttf'" :style="assetFontStyle">The quick brown fox jumps over the lazy dog</span>
+			</div>
 		</div>
 		<div v-else class="previewer-layout">
 			<div class="tabs">
@@ -81,8 +83,12 @@ export default {
 	font-size: 32px;
 }
 
-.asset-previewer > * {
+.asset-container {
 	margin: auto;
+}
+
+.asset-container > * {
+	margin: 10px;
 }
 
 .asset-previewer img {
@@ -93,6 +99,7 @@ export default {
 
 .asset-previewer span {
 	padding: 0 1em;
+	display: inline-block;
 }
 
 .tabs {

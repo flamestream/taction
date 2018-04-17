@@ -1,7 +1,6 @@
 <template>
 	<div class="section-properties-content">
 		<ViewAssets v-if="activeMenu === 'assets'"></ViewAssets>
-		<!-- <ViewPropertiesActive v-else-if="activeItem" :activeItem="activeItem"></ViewPropertiesActive> -->
 		<ViewProperties v-else></ViewProperties>
 	</div>
 </template>
@@ -27,5 +26,22 @@ export default {
 .section-properties-content {
 	flex: 1 1 auto;
 	display: flex;
+	overflow: hidden;
+}
+
+.section-properties-content:hover {
+	overflow-y: auto;
+}
+
+.section-properties-content::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #FFFFFF33;
+}
+
+.section-properties-content::-webkit-scrollbar-thumb
+{
+	background-color: #FFFFFFAA;
+	border-radius: 10px;
 }
 </style>

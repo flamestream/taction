@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div>
 		<div class="raw">
 			<span>Value</span><input :class="{error: hasError}" type="text" v-model="raw" @input="updateFromRaw()"/>
 		</div>
@@ -137,13 +137,6 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-.container {
-/*	margin: 5px;
-	background-color: #00000055;
-	padding: 10px;
-	border-radius: 5px*/
-}
-
 .raw {
 	display: flex;
 	justify-content: space-between;
@@ -152,6 +145,11 @@ export default {
 
 .raw > span {
 	display: inline-block;
+	margin-right: 6px;
+}
+
+.raw > input {
+	flex: 1 1 auto;
 }
 
 .units {
