@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import { get } from 'lodash';
 import ContentType from '../types/ContentType';
 import InputAsset from './InputAsset';
 import InputText from './InputText';
@@ -53,10 +54,10 @@ export default {
 			return obj.value;
 		},
 		types() {
-			return this.value.type.options;
+			return this.obj.types;
 		},
 		type() {
-			return this.value.type.value;
+			return get(this, 'value.type.value');
 		}
 	},
 	methods: {

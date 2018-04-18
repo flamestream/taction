@@ -38,7 +38,6 @@ export default {
 			return value;
 		},
 		types() {
-			console.log(this.obj);
 			return this.obj.types;
 		},
 		type() {

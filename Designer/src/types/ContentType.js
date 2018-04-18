@@ -16,7 +16,7 @@ ContentType.prototype.$typedDefinition = {
 		opacity: { cls: NumberType, data: { min: 0, max: 1, defaultValue: 1 } },
 		stretch: { cls: StringType, data: { options: ['uniform', 'none', 'fill', 'uniform-fill'] } },
 		margin: { cls: RectangleType },
-		colorize: { cls: SolidColorType },
+		colorize: { cls: SolidColorType, data: { defaultValue: '#FFF' } },
 		source: { cls: StringType, data: { defaultValue: '' } }
 	}
 }
