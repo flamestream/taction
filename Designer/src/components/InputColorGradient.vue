@@ -6,7 +6,6 @@
 				<div v-for="stopObj in stopObjs" :style="getStopStyle(stopObj)"
 						:class="getStopClassName(stopObj)"
 						draggable="true"
-						@dblclick="removeStop(stopObj)"
 						@mousedown="activeStop = stopObj"
 						@dragstart="handleStopDragStart"
 						@drag.prevent="(ev) => { handleStopDrag(ev, stopObj) }"
@@ -16,9 +15,14 @@
 			</div>
 		</div>
 		<div v-if="activeStop">
-			<input type="number" min="0" max="1" step="0.1" v-model="activeStopPosition" @change="handleInputNumberChange">
-			<input type="range" min="0" max="1" step="0.001" v-model="activeStopPosition">
-			<InputColorSolid :obj="activeStopColorObj"/>
+			<fieldset>
+				<legend>Active Stop<i class="material-icons" @click="removeStop(activeStop)">clear</i></legend>
+				<div class="active-stop-position">
+					<input type="number" min="0" max="1" step="0.1" v-model="activeStopPosition" @change="handleInputNumberChange">
+					<input type="range" min="0" max="1" step="0.001" v-model="activeStopPosition">
+				</div>
+				<InputColorSolid :obj="activeStopColorObj"/>
+			</fieldset>
 		</div>
 	</div>
 </template>
@@ -254,6 +258,44 @@ input[type=number] {
 
 .arrow_box.active {
 	opacity: 1;
+}
+
+fieldset {
+	padding: 0;
+	margin: 0;
+	border: 0;
+	border-top: 1px solid #FFFFFF77;
+}
+
+legend {
+	margin-left: 10px;
+	line-height: 20px;
+}
+
+i {
+	vertical-align: text-top;
+	font-size: 20px;
+	margin-left: 4px;
+	transition: color 0.2s ease-out;
+	cursor: pointer;
+}
+
+i:hover {
+	color: #CC0000;
+}
+
+.active-stop-position {
+	margin: 6px 0;
+	display: flex;
+	flex-direction: row;
+}
+
+.active-stop-position input[type=number] {
+	margin-right: 4px;
+}
+
+.active-stop-position input[type=range] {
+	flex: 1 1 auto;
 }
 
 </style>

@@ -146,16 +146,18 @@ export default {
 	overflow: hidden;
 	flex: 1 1 auto;
 	display: flex;
+	padding: 0 6px;
 }
 
 .slide-menu-container.scrollable:hover {
+	padding-right: 1px;
 	overflow-y: auto;
 }
 
 .slide-menu-container > div {
 	left: 0;
 	right: 0;
-	padding: 12px 6px 0;
+	padding: 12px 0 0;
 	flex: 1 1 auto;
 }
 

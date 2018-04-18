@@ -1,10 +1,8 @@
 <template>
-	<div>
-		<select v-model="type">
-			<option>solid</option>
-			<option>gradient</option>
-			<option>image</option>
-		</select>
+	<div class="property-item-color-root">
+		<div class="types">
+			<label v-for="type in types" :key="type" :class="typeClassNames(type)" @click="onTypeClick(type)">{{ label(type) }}</label>
+		</div>
 		<InputColorSolid v-if="type === 'solid'" :obj="value.value"/>
 		<InputColorGradient v-if="type === 'gradient'" :parent="obj" :obj="value.values"></InputColorGradient>
 		<InputAsset v-if="type === 'image'" :obj="value.source" :options="{exts: 'png'}"></InputAsset>
@@ -17,6 +15,13 @@ import ColorType from '../types/ColorType';
 import InputColorSolid from './InputColorSolid';
 import InputColorGradient from './InputColorGradient';
 import InputAsset from './InputAsset';
+
+const labels = {
+	'solid': 'Solid',
+	'gradient': 'Gradient',
+	'image': 'Image'
+}
+
 export default {
 	name: 'PropertyItemColor',
 	components: {
@@ -32,18 +37,29 @@ export default {
 			let value = get(this, ['obj', 'value']);
 			return value;
 		},
-		type: {
-			get() {
-				let type = get(this, ['value', 'type', 'value']);
-				return type;
-			},
-			set(value) {
-				this.$store.commit({
-					type: 'layout/changeType',
-					obj: this.obj,
-					value
-				});
+		types() {
+			return this.value.type.options;
+		},
+		type() {
+			return this.value.type.value;
+		}
+	},
+	methods: {
+		label(type) {
+			return labels[type]
+		},
+		typeClassNames(type) {
+			return {
+				button: true,
+				inactive: type !== this.type
 			}
+		},
+		onTypeClick(value) {
+			this.$store.commit({
+				type: 'layout/changeType',
+				obj: this.obj,
+				value
+			});
 		}
 	}
 }
@@ -51,4 +67,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.property-item-color-root {
+	display: flex;
+	flex-direction: column;
+}
+
+.types {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin-bottom: 8px;
+}
+
+.types label {
+	margin: 2px;
+	font-size: 16px;
+}
+
+.types .button.inactive {
+	opacity: 0.3;
+}
+
 </style>
