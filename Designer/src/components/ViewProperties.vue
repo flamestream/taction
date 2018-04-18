@@ -150,7 +150,7 @@ export default {
 }
 
 .slide-menu-container.scrollable:hover {
-	padding-right: 1px;
+
 	overflow-y: auto;
 }
 

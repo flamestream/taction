@@ -1,7 +1,16 @@
 <template>
 	<div class="preview-ui-container" :style="containerCss">
-		<div class="preview-ui-content" :style="contentCss">
-			<PreviewUIItem v-for="item in items" :obj="item" :global="global" :key="item.id"></PreviewUIItem>
+		<div class="preview-ui-content-container">
+			<label>Base</label>
+			<div class="preview-ui-content" :style="contentCss">
+				<PreviewUIItem v-for="item in items" :obj="item" :global="global" :key="item.id"></PreviewUIItem>
+			</div>
+		</div>
+		<div class="preview-ui-content-container">
+			<label>Active</label>
+			<div class="preview-ui-content" :style="contentCss">
+				<PreviewUIItem v-for="item in items" :obj="item" :global="global" :active="true" :key="item.id"></PreviewUIItem>
+			</div>
 		</div>
 	</div>
 </template>
@@ -163,7 +172,8 @@ export default {
 				padding: this.cssBorderWidth,
 				backgroundColor: this.cssBorderColor,
 				borderRadius: this.cssBorderRadius,
-				backgroundImage: this.cssBorderImage
+				backgroundImage: this.cssBorderImage,
+				flexDirection: this.horizontal ? 'column' : 'row'
 			};
 
 			return style;
@@ -201,15 +211,31 @@ export default {
 <style scoped>
 
 .preview-ui-container {
-	margin: auto;
+	flex: 1 1 auto;
 	display: flex;
-	align-items: stretch;
+	justify-content: space-equal;
+}
+
+.preview-ui-content-container {
+	margin: auto;
+	position: relative;
+}
+
+.preview-ui-content-container > label {
+	position: absolute;
+	border: 1px solid #1B283855;
+	display: inline-block;
+	padding: 2px 6px;
+	font-size: 10px;
+	background-color: #1B2838;
+	color: #FFFFFF;
+	border-radius: 3px;
+	left: 8px;
 }
 
 .preview-ui-content {
 	display: flex;
-	flex-direction: column;
-	align-items: stretch;
+	margin: 24px 8px 8px;
 }
 
 </style>

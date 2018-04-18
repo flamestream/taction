@@ -38,10 +38,11 @@ export default {
 			return value;
 		},
 		types() {
-			return this.value.type.options;
+			console.log(this.obj);
+			return this.obj.types;
 		},
 		type() {
-			return this.value.type.value;
+			return get(this, 'value.type.value');
 		}
 	},
 	methods: {

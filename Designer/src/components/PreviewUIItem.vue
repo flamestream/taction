@@ -23,7 +23,8 @@ export default {
 	name: 'PreviewUIItem',
 	props: {
 		obj: { type: ItemType },
-		global: { type: Object }
+		global: { type: Object },
+		active: { type: Boolean }
 	},
 	computed: {
 		...mapGetters({
@@ -41,7 +42,8 @@ export default {
 		baseContent() { return this.baseStyle.content && this.baseStyle.content.value; },
 		contentText() {
 
-			let out = this.getContentText(this.baseStyle) || this.getContentText(this.defaultBaseStyle);
+			let activeOut = this.getContentText(this.activeStyle);
+			let out = activeOut || this.getContentText(this.baseStyle) || this.getContentText(this.defaultBaseStyle);
 
 			// Special fallback
 			if (out === undefined && this.type === 'move')
@@ -51,7 +53,8 @@ export default {
 		},
 		contentImage() {
 
-			return this.getContentImage(this.baseStyle) || this.getContentImage(this.defaultBaseStyle);
+			let activeOut = this.getContentImage(this.activeStyle);
+			return activeOut || this.getContentImage(this.baseStyle) || this.getContentImage(this.defaultBaseStyle);
 		},
 		cssWidth() {
 
@@ -71,66 +74,81 @@ export default {
 		},
 		cssOpacity() {
 
-			return this.getCssOpacity(this.baseStyle) || this.getCssOpacity(this.defaultBaseStyle);
+			let activeOut = this.getCssOpacity(this.activeStyle);
+			return activeOut || this.getCssOpacity(this.baseStyle) || this.getCssOpacity(this.defaultBaseStyle);
 		},
 		cssBorderWidth() {
 
-			return this.getCssBorderWidth(this.baseStyle) || this.getCssBorderWidth(this.defaultBaseStyle);
+			let activeOut = this.getCssBorderWidth(this.activeStyle);
+			return activeOut || this.getCssBorderWidth(this.baseStyle) || this.getCssBorderWidth(this.defaultBaseStyle);
 		},
 		cssBorderColor() {
 
-			return this.getCssBorderColor(this.baseStyle) || this.getCssBorderColor(this.defaultBaseStyle);
+			let activeOut = this.getCssBorderColor(this.activeStyle);
+			return activeOut || this.getCssBorderColor(this.baseStyle) || this.getCssBorderColor(this.defaultBaseStyle);
 		},
 		cssBorderRadius() {
 
-			return this.getCssBorderRadius(this.baseStyle) || this.getCssBorderRadius(this.defaultBaseStyle);
+			let activeOut = this.getCssBorderRadius(this.activeStyle);
+			return activeOut || this.getCssBorderRadius(this.baseStyle) || this.getCssBorderRadius(this.defaultBaseStyle);
 		},
 		cssBorderImage() {
 
-			return this.getCssBorderImage(this.baseStyle) || this.getCssBorderImage(this.defaultBaseStyle);
+			let activeOut = this.getCssBorderImage(this.activeStyle);
+			return activeOut || this.getCssBorderImage(this.baseStyle) || this.getCssBorderImage(this.defaultBaseStyle);
 		},
 		cssBackgroundColor() {
 
-			return this.getCssBackgroundColor(this.baseStyle) || this.getCssBackgroundColor(this.defaultBaseStyle);
+			let activeOut = this.getCssBackgroundColor(this.activeStyle);
+			return activeOut || this.getCssBackgroundColor(this.baseStyle) || this.getCssBackgroundColor(this.defaultBaseStyle);
 		},
 		cssBackgroundImage() {
 
-			return this.getCssBackgroundImage(this.baseStyle) || this.getCssBackgroundImage(this.defaultBaseStyle);
+			let activeOut = this.getCssBackgroundImage(this.activeStyle);
+			return activeOut || this.getCssBackgroundImage(this.baseStyle) || this.getCssBackgroundImage(this.defaultBaseStyle);
 		},
 		cssMargin() {
 
-			return this.getCssMargin(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
+			let activeOut = this.getCssMargin(this.activeStyle);
+			return activeOut || this.getCssMargin(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
 		},
 		cssPadding() {
 
-			return this.getCssPadding(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
+			let activeOut = this.getCssPadding(this.activeStyle);
+			return activeOut || this.getCssPadding(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
 		},
 		cssBorderInnerRadius() {
 
 			if (!this.cssBorderRadius)
 				return;
 
-			return this.getCssBorderInnerRadius(this.baseStyle) || this.getCssBorderInnerRadius(this.defaultBaseStyle);
+			let activeOut = this.getCssBorderInnerRadius(this.activeStyle);
+			return activeOut || this.getCssBorderInnerRadius(this.baseStyle) || this.getCssBorderInnerRadius(this.defaultBaseStyle);
 		},
 		cssFontSize() {
 
-			return this.getCssFontSize(this.baseStyle) || this.getCssFontSize(this.defaultBaseStyle);
+			let activeOut = this.getCssFontSize(this.activeStyle);
+			return activeOut || this.getCssFontSize(this.baseStyle) || this.getCssFontSize(this.defaultBaseStyle);
 		},
 		cssFontWeight() {
 
-			return this.getCssFontWeight(this.baseStyle) || this.getCssFontWeight(this.defaultBaseStyle);
+			let activeOut = this.getCssFontWeight(this.activeStyle);
+			return activeOut || this.getCssFontWeight(this.baseStyle) || this.getCssFontWeight(this.defaultBaseStyle);
 		},
 		cssFontFamily() {
 
-			return this.getCssFontFamily(this.baseStyle) || this.getCssFontFamily(this.defaultBaseStyle);
+			let activeOut = this.getCssFontFamily(this.activeStyle);
+			return activeOut || this.getCssFontFamily(this.baseStyle) || this.getCssFontFamily(this.defaultBaseStyle);
 		},
 		cssColor() {
 
-			return this.getCssColor(this.baseStyle) || this.getCssColor(this.defaultBaseStyle);
+			let activeOut = this.getCssColor(this.activeStyle);
+			return activeOut || this.getCssColor(this.baseStyle) || this.getCssColor(this.defaultBaseStyle);
 		},
 		cssTextImageColor() {
 
-			return this.getCssTextImageColor(this.baseStyle) || this.getCssTextImageColor(this.defaultBaseStyle);
+			let activeOut = this.getCssTextImageColor(this.activeStyle);
+			return activeOut || this.getCssTextImageColor(this.baseStyle) || this.getCssTextImageColor(this.defaultBaseStyle);
 		},
 		containerCss() {
 
@@ -444,7 +462,6 @@ export default {
 
 /* Default style */
 .preview-item-container {
-	flex: 1 1 auto;
 	display: flex;
 	align-items: stretch;
 	background-color: #707070;

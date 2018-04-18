@@ -20,11 +20,12 @@ class ComplexType extends Type {
 			definition = prototype.$typedDefinition[type];
 
 			// Auto-generate type field
+			let types = Object.keys(prototype.$typedDefinition);
 			if (definition && !definition.type) {
 
-				let types = Object.keys(prototype.$typedDefinition);
 				definition['type'] = { cls: StringType, data: { options: types, defaultValue: type } };
 			}
+			this.types = types;
 
 		} else if (prototype.$definition) {
 
