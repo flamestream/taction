@@ -109,8 +109,8 @@ export default {
 		},
 		cssPadding() {
 
-			let activeOut = this.active && (this.getCssPadding(this.activeStyle) || this.getCssMargin(this.defaultActiveStyle));
-			return activeOut || this.getCssPadding(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssPadding(this.activeStyle) || this.getCssPadding(this.defaultActiveStyle));
+			return activeOut || this.getCssPadding(this.baseStyle) || this.getCssPadding(this.defaultBaseStyle);
 		},
 		cssBorderInnerRadius() {
 
@@ -308,7 +308,7 @@ export default {
 			if (!rect)
 				return;
 
-			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 + 5) : el) + 'px').join(' ');
+			let value = rect.split(' ').map(el => el + 'px').join(' ');
 			return value;
 		},
 		getCssBorderImage(style) {
@@ -374,7 +374,7 @@ export default {
 			if (!rect)
 				return;
 
-			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 + 4) : el) + 'px').join(' ');
+			let value = rect.split(' ').map(el => el + 'px').join(' ');
 			return value;
 		},
 		getCssFontSize(style) {

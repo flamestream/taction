@@ -30,16 +30,16 @@ ItemType.prototype.$typedDefinition = {
 	move: {
 		size: { cls: NumberType, data: { min: 0.001, defaultValue: 40 } },
 		style: { cls: ButtonStyleSetType }
-	}
+	},
 	// pivot: {
 	// 	size: { cls: NumberType, data: { min: 0.001, defaultValue: 10 } },
 	// 	items: { cls: ItemType, array: true }
 	// }
-	// 'radial-menu': {
-	// 	size: { cls: NumberType, data: { min: 0.001, defaultValue: 10 } },
-	// 	'radial-menu': { cls: RadialMenuType, data: { required: true } },
-	// 	style: { cls: ButtonStyleSetType }
-	// }
+	'radial-menu': {
+		size: { cls: NumberType, data: { min: 0.001, defaultValue: 80 } },
+		// 'radial-menu': { cls: RadialMenuType, data: { required: true } },
+		style: { cls: ButtonStyleSetType }
+	}
 }
 
 export default ItemType;
