@@ -288,7 +288,7 @@ export default {
 	position: absolute;
 	top: 0;
 	left: 0;
-	border: 2px solid #FF0000;
+	border: 2px solid #09B0EB;
 	opacity: 0.6;
 }
 
