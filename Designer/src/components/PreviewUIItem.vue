@@ -173,8 +173,6 @@ export default {
 				fontFamily: this.cssFontFamily
 			};
 
-			console.log(style)
-
 			return style;
 		},
 		contentTextCss() {
@@ -337,18 +335,17 @@ export default {
 
 			let out;
 			switch (colorDef.type.value) {
+			case 'solid':
+				let color = colorDef.value.value;
+				out = color.getHex();
+				break;
 
-				case 'solid':
-					let color = colorDef.value.value;
-					out = color.getHex();
-					break;
-
-				case 'gradient':
-					let stops = colorDef.values.slice(0);
-					let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
-						.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
-					out = `linear-gradient(to top, ${values.join(', ')})`;
-					break;
+			case 'gradient':
+				let stops = colorDef.values.slice(0);
+				let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
+					.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
+				out = `linear-gradient(to top, ${values.join(', ')})`;
+				break;
 			}
 
 			return out;

@@ -1,16 +1,22 @@
 <template>
 	<div class="preview-ui-container" :style="containerCss">
-		<div class="preview-ui-content-container">
+		<div class="preview-ui-content-container" ref="contentContainer">
 			<label>Base</label>
 			<div class="preview-ui-content" :style="contentCss">
-				<PreviewUIItem v-for="item in items" :obj="item" :global="global" :key="item.id"></PreviewUIItem>
+				<PreviewUIItem v-for="item in items" ref="items" :obj="item" :global="global" :key="item.id"></PreviewUIItem>
 			</div>
+			<transition name="highlight" @after-enter="onHighlightAfterEnter">
+				<div v-show="highlightActive" class="highlight"></div>
+			</transition>
 		</div>
-		<div class="preview-ui-content-container">
+		<div class="preview-ui-content-container" ref="activeContentContainer">
 			<label>Active</label>
 			<div class="preview-ui-content" :style="contentCss">
-				<PreviewUIItem v-for="item in items" :obj="item" :global="global" :active="true" :key="item.id"></PreviewUIItem>
+				<PreviewUIItem v-for="item in items" ref="activeItems" :obj="item" :global="global" :active="true" :key="item.id"></PreviewUIItem>
 			</div>
+			<transition name="highlight">
+				<div v-show="highlightActive" class="highlight"></div>
+			</transition>
 		</div>
 	</div>
 </template>
@@ -23,10 +29,16 @@ export default {
 	components: {
 		PreviewUIItem
 	},
+	data() {
+		return {
+			highlightActive: false
+		}
+	},
 	computed: {
 		...mapState('layout', {
 			obj: 'layout'
 		}),
+		...mapState('ui', ['activeItem']),
 		value() {
 
 			return this.obj.value;
@@ -203,6 +215,40 @@ export default {
 
 			return out;
 		}
+	},
+	methods: {
+		onHighlightAfterEnter() {
+			this.highlightActive = false;
+		},
+		initHighlight(activeItem, itemElmGroup, containerElm) {
+
+			let target = itemElmGroup.find(i => { return i.obj === activeItem; });
+			if (!target)
+				return;
+
+			let targetRect = target.$el.getBoundingClientRect();
+			let containerRect = containerElm.getBoundingClientRect();
+			let top = targetRect.top - containerRect.top - 2;
+			let left = targetRect.left - containerRect.left - 2;
+
+			let highlight = containerElm.getElementsByClassName('highlight')[0];
+			highlight.style.top = top + 'px';
+			highlight.style.left = left + 'px';
+			highlight.style.width = targetRect.width + 'px';
+			highlight.style.height = targetRect.height + 'px';
+		}
+	},
+	watch: {
+		activeItem(value) {
+
+			console.log('activeitemchange', value, this.$refs.items);
+			if (!value)
+				return;
+
+			this.initHighlight(value, this.$refs.items, this.$refs.contentContainer);
+			this.initHighlight(value, this.$refs.activeItems, this.$refs.activeContentContainer);
+			this.highlightActive = true;
+		}
 	}
 }
 </script>
@@ -236,6 +282,26 @@ export default {
 .preview-ui-content {
 	display: flex;
 	margin: 24px 8px 8px;
+}
+
+.highlight {
+	position: absolute;
+	top: 0;
+	left: 0;
+	border: 2px solid #FF0000;
+	opacity: 0.6;
+}
+
+.highlight-enter-active {
+	transition: 0;
+}
+.highlight-leave-active {
+ 	transition: all 0.5s ease-out;
+}
+.highlight-leave-to {
+	transform: scale(1.5);
+	opacity: 0;
+	border-width: 0;
 }
 
 </style>
