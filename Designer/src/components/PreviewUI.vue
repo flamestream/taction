@@ -241,7 +241,6 @@ export default {
 	watch: {
 		activeItem(value) {
 
-			console.log('activeitemchange', value, this.$refs.items);
 			if (!value)
 				return;
 
@@ -293,15 +292,22 @@ export default {
 }
 
 .highlight-enter-active {
-	transition: 0;
+	transition: all 0.1s ease-out, top 0s, left 0s;
 }
 .highlight-leave-active {
- 	transition: all 0.5s ease-out;
+	transition: all 0.5s ease-out, top 0s, left 0s;
 }
-.highlight-leave-to {
-	transform: scale(1.5);
+
+.highlight-enter {
 	opacity: 0;
 	border-width: 0;
+	transform: scale(0.9);
+}
+
+.highlight-leave-to {
+	opacity: 0;
+	border-width: 0;
+	transform: scale(1.5);
 }
 
 </style>

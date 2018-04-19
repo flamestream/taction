@@ -1,0 +1,21 @@
+[{
+	"name": "Empty",
+	"previewImageUrl": "empty.png",
+	"description": "Only the minimal required fields are defined.",
+	"code": {}
+}, {
+	"name": "Default",
+	"previewImageUrl": "default.png",
+	"description": "The default layout loaded by the application.",
+	"url": "https://raw.githubusercontent.com/flamestream/taction/master/App/Resources/default.layout.json"
+}, {
+	"name": "FlameStream CSP",
+	"previewImageUrl": "flamestream-csp.png",
+	"description": "FlameStream's layout used with Clip Studio Paint.",
+	"url": "static/flamestream-csp.taction-bundle"
+}, {
+	"name": "Overwatch Demo",
+	"previewImageUrl": "overwatch.png",
+	"description": "Overwatch themed demo, showcasing custom font and image loading.",
+	"url": "static/overwatch.demo.taction-bundle"
+}]

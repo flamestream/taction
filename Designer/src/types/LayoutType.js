@@ -30,7 +30,7 @@ LayoutType.prototype.$definition = {
 	opacity: { cls: NumberType, data: { min: 0, max: 1, initValue: 1 } },
 	'opacity-hide': { cls: NumberType, data: { min: 0, max: 1, initValue: 0 } },
 	'fade-animation-time': { cls: IntegerType, data: { min: 0, initValue: 500 } },
-	size: { cls: NumberType, data: { defaultValue: 50, min: 0.001 } },
+	size: { cls: NumberType, data: { defaultValue: 80, min: 0.001 } },
 	'disable-fade-animation': { cls: BooleanType },
 	'disable-hide': { cls: BooleanType },
 	'disable-radial-menu-animation': { cls: BooleanType },

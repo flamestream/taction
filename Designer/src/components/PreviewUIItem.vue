@@ -390,6 +390,9 @@ export default {
 
 			let name = style && style['text-style'] && style['text-style'].value && style['text-style'].value['font-weight'] && style['text-style'].value['font-weight'].value;
 
+			if (name === undefined)
+				return;
+
 			// @TODO Move this
 			let fontWeightValue = {
 				'thin': 100,

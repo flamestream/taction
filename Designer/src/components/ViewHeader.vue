@@ -34,13 +34,16 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			setErrorMsg: 'ui/setErrorMsg'
+			setErrorMsg: 'ui/setErrorMsg',
+			setActiveOverlay: 'ui/setActiveOverlay'
 		}),
 		handleResetButtonClick(ev) {
 
-			this.$store.dispatch({
-				type: 'reset'
-			});
+			this.setActiveOverlay({id: 'reset'});
+
+			// this.$store.dispatch({
+			// 	type: 'reset'
+			// });
 		},
 		async handleExportButtonClick(ev) {
 

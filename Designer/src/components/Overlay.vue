@@ -6,14 +6,21 @@
 		<div v-else-if="activeOverlay === 'changelog'" class="center">
 			<div id="changelog"><span v-html="formattedAbout" @click.stop></span></div>
 		</div>
+		<div v-else-if="activeOverlay === 'reset'" class="center">
+			<ResetView @done="onOverlayDone"></ResetView>
+		</div>
 	</div>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 import changelog from '@/assets/changelog.md'
+import ResetView from './ResetView'
 export default {
 	name: 'Overlay',
+	components: {
+		ResetView
+	},
 	props: {
 		obj: { type: Object },
 		options: { type: Object }
@@ -46,6 +53,11 @@ export default {
 			setActiveOverlay: 'ui/setActiveOverlay'
 		}),
 		handleOverlayClick(ev) {
+
+			this.$el.classList.add('hidden');
+			setTimeout(() => this.setActiveOverlay(), 500);
+		},
+		onOverlayDone() {
 
 			this.$el.classList.add('hidden');
 			setTimeout(() => this.setActiveOverlay(), 500);
