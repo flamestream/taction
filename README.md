@@ -26,7 +26,7 @@ A touch panel intended for artists working on Windows Tablet PCs.
 
 You may use the designer to generate your own layout. It's currently in early development, but you may [give it a try](https://flamestream.github.io/taction/).
 
-<a href="https://flamestream.github.io/taction/">![Taction Designer](/docs/taction-designer.png)</a>
+<a href="https://flamestream.github.io/taction/">![Taction Designer](/docs/taction-designer-1.1.png)</a>
 
 ### Coding one yourself
 
