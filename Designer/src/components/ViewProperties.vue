@@ -147,11 +147,23 @@ export default {
 	flex: 1 1 auto;
 	display: flex;
 	padding: 0 6px;
+	padding-right: 1px; /*scrollbar*/
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
-.slide-menu-container.scrollable:hover {
-
-	overflow-y: auto;
+.slide-menu-container::-webkit-scrollbar
+{
+	background-color: transparent;
+}
+.section-details-scrollable::-webkit-scrollbar-thumb
+{
+	background-color: transparent;
+	transition: all 0.2s ease-out;
+}
+.section-details-scrollable:hover::-webkit-scrollbar-thumb
+{
+	background-color: #FFFFFFAA;
 }
 
 .slide-menu-container > div {

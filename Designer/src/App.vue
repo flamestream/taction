@@ -124,10 +124,6 @@ input[type=text], input[type=number], select {
 	top: 1px;
 }
 
-.simplebar-scrollbar {
-	background-color: #fff;
-}
-
 #top {
 	height: 100%;
 	font-family: 'Open Sans', sans-serif;
