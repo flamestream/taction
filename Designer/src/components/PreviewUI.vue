@@ -1,7 +1,22 @@
 <template>
 	<div class="preview-ui-container" :style="containerCss">
-		<div class="preview-ui-content" :style="contentCss">
-			<PreviewUIItem v-for="item in items" :obj="item" :global="global" :key="item.id"></PreviewUIItem>
+		<div class="preview-ui-content-container" ref="contentContainer">
+			<label>Base</label>
+			<div class="preview-ui-content" :style="contentCss">
+				<PreviewUIItem v-for="item in items" ref="items" :obj="item" :global="global" :key="item.id"></PreviewUIItem>
+			</div>
+			<transition name="highlight">
+				<div v-show="highlightItem" class="highlight"></div>
+			</transition>
+		</div>
+		<div class="preview-ui-content-container" ref="activeContentContainer">
+			<label>Active</label>
+			<div class="preview-ui-content" :style="contentCss">
+				<PreviewUIItem v-for="item in items" ref="activeItems" :obj="item" :global="global" :active="true" :key="item.id"></PreviewUIItem>
+			</div>
+			<transition name="highlight">
+				<div v-show="highlightItem" class="highlight"></div>
+			</transition>
 		</div>
 	</div>
 </template>
@@ -18,6 +33,7 @@ export default {
 		...mapState('layout', {
 			obj: 'layout'
 		}),
+		...mapState('ui', ['highlightItem']),
 		value() {
 
 			return this.obj.value;
@@ -163,7 +179,8 @@ export default {
 				padding: this.cssBorderWidth,
 				backgroundColor: this.cssBorderColor,
 				borderRadius: this.cssBorderRadius,
-				backgroundImage: this.cssBorderImage
+				backgroundImage: this.cssBorderImage,
+				flexDirection: this.horizontal ? 'column' : 'row'
 			};
 
 			return style;
@@ -193,6 +210,35 @@ export default {
 
 			return out;
 		}
+	},
+	methods: {
+		onHighlightAfterEnter() {
+			this.highlightActive = false;
+		},
+		initHighlight(activeItem, itemElmGroup, containerElm) {
+
+			let target = itemElmGroup.find(i => { return i.obj === activeItem; });
+			if (!target)
+				return;
+
+			let targetRect = target.$el.getBoundingClientRect();
+			let containerRect = containerElm.getBoundingClientRect();
+			let top = targetRect.top - containerRect.top;
+			let left = targetRect.left - containerRect.left;
+
+			let highlight = containerElm.getElementsByClassName('highlight')[0];
+			highlight.style.top = top + 'px';
+			highlight.style.left = left + 'px';
+			highlight.style.width = targetRect.width + 'px';
+			highlight.style.height = targetRect.height + 'px';
+		}
+	},
+	watch: {
+		highlightItem(value) {
+
+			this.initHighlight(value, this.$refs.items, this.$refs.contentContainer);
+			this.initHighlight(value, this.$refs.activeItems, this.$refs.activeContentContainer);
+		}
 	}
 }
 </script>
@@ -201,15 +247,57 @@ export default {
 <style scoped>
 
 .preview-ui-container {
-	margin: auto;
+	flex: 1 1 auto;
 	display: flex;
-	align-items: stretch;
+	justify-content: space-equal;
+}
+
+.preview-ui-content-container {
+	margin: auto;
+	position: relative;
+}
+
+.preview-ui-content-container > label {
+	position: absolute;
+	border: 1px solid #1B283855;
+	display: inline-block;
+	padding: 2px 6px;
+	font-size: 10px;
+	background-color: #1B2838;
+	color: #FFFFFF;
+	border-radius: 3px;
+	left: 8px;
 }
 
 .preview-ui-content {
 	display: flex;
-	flex-direction: column;
-	align-items: stretch;
+	margin: 24px 8px 8px;
+}
+
+.highlight {
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #09B0EB;
+	opacity: 0.4;
+	transition: all 0.2s ease-out;
+	animation: flash linear 1s infinite;
+}
+
+@keyframes flash {
+	0% { opacity: 0.4; }
+	50% { opacity: 0; }
+	100% { opacity: 0.4; }
+}
+
+.highlight-enter-active, .highlight-leave-active {
+	animation: none;
+}
+
+.highlight-enter, .highlight-leave-to {
+	opacity: 0;
+	border-width: 0;
+	transform: scale(1.5);
 }
 
 </style>

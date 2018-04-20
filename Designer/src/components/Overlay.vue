@@ -1,19 +1,30 @@
 <template>
-	<div :class="classNames" @click.stop="handleOverlayClick">
-		<div v-if="activeOverlay === 'error'" class="error upper">
-			<span>{{ errorMsg }}</span>
+	<transition name="overlay">
+		<div v-show="activeOverlay" class="overlay" @click.stop="handleOverlayClick">
+			<transition name="overlay-item">
+				<div v-if="activeOverlay === 'error'" class="error upper">
+					<span>{{ errorMsg }}</span>
+				</div>
+				<div v-else-if="activeOverlay === 'changelog'" class="center">
+					<div id="changelog"><span v-html="formattedAbout" @click.stop></span></div>
+				</div>
+				<div v-else-if="activeOverlay === 'reset'" class="center">
+					<ResetView></ResetView>
+				</div>
+			</transition>
 		</div>
-		<div v-else-if="activeOverlay === 'changelog'" class="center">
-			<div id="changelog"><span v-html="formattedAbout" @click.stop></span></div>
-		</div>
-	</div>
+	</transition>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex'
 import changelog from '@/assets/changelog.md'
+import ResetView from './ResetView'
 export default {
 	name: 'Overlay',
+	components: {
+		ResetView
+	},
 	props: {
 		obj: { type: Object },
 		options: { type: Object }
@@ -23,17 +34,6 @@ export default {
 			activeOverlay: 'activeOverlay',
 			errorMsg: 'errorMsg'
 		}),
-		hidden() {
-
-			return !this.activeOverlay
-		},
-		classNames() {
-
-			return {
-				overlay: true,
-				hidden: this.hidden
-			}
-		},
 		formattedAbout() {
 
 			/* eslint no-undef: 0 */
@@ -46,9 +46,7 @@ export default {
 			setActiveOverlay: 'ui/setActiveOverlay'
 		}),
 		handleOverlayClick(ev) {
-
-			this.$el.classList.add('hidden');
-			setTimeout(() => this.setActiveOverlay(), 500);
+			this.setActiveOverlay();
 		}
 	}
 }
@@ -64,12 +62,23 @@ export default {
 	background-color: #000000AA;
 	z-index: 100;
 	color: #FFF;
+}
+
+.overlay-enter-active, .overlay-leave-active {
 	transition: all 0.5s;
 }
 
-.overlay.hidden {
+.overlay-leave-to, .overlay-enter {
 	background-color: transparent;
-	visibility: hidden;
+}
+
+.overlay-item-enter-active, .overlay-item-leave-active {
+	transition: all 0.2s;
+}
+
+.overlay-item-leave-to, .overlay-item-enter {
+	opacity: 0;
+	transform: scaleY(0);
 }
 
 .upper {

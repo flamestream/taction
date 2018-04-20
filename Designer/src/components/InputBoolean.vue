@@ -70,11 +70,10 @@ export default {
 .checkbox {
 	width: 80px;
 	height: 26px;
-	background: #1B2838;
+	background: #FFF;
 	margin: 20px auto;
 	position: relative;
 	border-radius: 50px;
-	-webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
 	box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
 	cursor: pointer;
 }
@@ -90,7 +89,7 @@ export default {
 }
 .checkbox:before {
 	content: 'ON';
-	color: #27ae60;
+	color: #09B0EB;
 	position: absolute;
 	left: 10px;
 	z-index: 0;
@@ -106,13 +105,9 @@ export default {
 	top: 3px;
 	left: 3px;
 	z-index: 1;
-	background: #fcfff4;
-	background: -webkit-gradient(linear, left top, left bottom, from(#fcfff4), color-stop(40%, #dfe5d7), to(#b3bead));
-	background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+	background: #09B0EB;
 	border-radius: 50px;
-	-webkit-transition: all 0.4s ease;
-	transition: all 0.4s ease;
-	-webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+	transition: all 0.3s ease-out;
 	box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
 }
 .checkbox input[type=checkbox] {

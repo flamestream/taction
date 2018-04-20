@@ -8,6 +8,8 @@ import ColorType from './ColorType';
 import ButtonStyleSetType from './ButtonStyleSetType';
 import ItemType from './ItemType';
 import BorderType from './BorderType';
+import RadialMenuCentralItemStyleSetType from './RadialMenuCentralItemStyleSetType';
+import RadialMenuItemStyleSetType from './RadialMenuItemStyleSetType';
 
 class LayoutType extends ComplexType {
 
@@ -27,10 +29,10 @@ class LayoutType extends ComplexType {
 LayoutType.prototype.$definition = {
 	name: { cls: StringType },
 	version: { cls: IntegerType, data: { defaultValue: 4, value: 4 } },
-	opacity: { cls: NumberType, data: { min: 0, max: 1, fallbackValue: 1 } },
-	'opacity-hide': { cls: NumberType, data: { min: 0, max: 1, fallbackValue: 0 } },
-	'fade-animation-time': { cls: IntegerType, data: { min: 0, fallbackValue: 500 } },
-	size: { cls: NumberType, data: { defaultValue: 10, min: 0.001 } },
+	opacity: { cls: NumberType, data: { min: 0, max: 1, initValue: 1 } },
+	'opacity-hide': { cls: NumberType, data: { min: 0, max: 1, initValue: 0 } },
+	'fade-animation-time': { cls: IntegerType, data: { min: 0, initValue: 500 } },
+	size: { cls: NumberType, data: { defaultValue: 80, min: 0.001 } },
 	'disable-fade-animation': { cls: BooleanType },
 	'disable-hide': { cls: BooleanType },
 	'disable-radial-menu-animation': { cls: BooleanType },
@@ -39,6 +41,8 @@ LayoutType.prototype.$definition = {
 	orientation: { cls: StringType, data: { defaultValue: 'vertical', options: ['vertical', 'horizontal'] } },
 	color: { cls: ColorType },
 	'default-button-style': { cls: ButtonStyleSetType },
+	'default-radial-menu-central-item-style': { cls: RadialMenuCentralItemStyleSetType },
+	'default-radial-menu-item-style': { cls: RadialMenuItemStyleSetType },
 	items: { cls: ItemType, array: true }
 };
 

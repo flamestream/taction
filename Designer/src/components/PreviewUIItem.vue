@@ -1,21 +1,30 @@
 <template>
 	<div class="preview-item-container" :style="containerCss" @click.stop="handleClick">
 		<div class="preview-item-content" :style="contentCss">
-			<span v-if="contentText"><span :style="textCss" v-html="contentText"></span></span>
-			<img v-else-if="contentImage" :src="contentImage.url"/>
+			<span v-if="contentText"><span :style="contentTextCss" v-html="contentText"></span></span>
+			<span v-else-if="contentImage">
+				<svg v-if="contentImage.svg">
+					<filter :id="contentImage.svg.id" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+						<feColorMatrix type="matrix" :values="contentImage.svg.matrix" />
+					</filter>
+				</svg>
+				<img :src="contentImage.asset.url" :style="contentImage.css"/>
+			</span>
 		</div>
 	</div>
 </template>
 
 <script>
 /* eslint no-mixed-operators: 0 */
+import { get } from 'lodash'
 import { mapGetters, mapActions } from 'vuex'
 import ItemType from '@/types/ItemType'
 export default {
 	name: 'PreviewUIItem',
 	props: {
 		obj: { type: ItemType },
-		global: { type: Object }
+		global: { type: Object },
+		active: { type: Boolean }
 	},
 	computed: {
 		...mapGetters({
@@ -33,7 +42,8 @@ export default {
 		baseContent() { return this.baseStyle.content && this.baseStyle.content.value; },
 		contentText() {
 
-			let out = this.getContentText(this.baseStyle) || this.getContentText(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getContentText(this.activeStyle) || this.getContentText(this.defaultActiveStyle));
+			let out = activeOut || this.getContentText(this.baseStyle) || this.getContentText(this.defaultBaseStyle);
 
 			// Special fallback
 			if (out === undefined && this.type === 'move')
@@ -43,7 +53,8 @@ export default {
 		},
 		contentImage() {
 
-			return this.getContentImage(this.baseStyle) || this.getContentImage(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getContentImage(this.activeStyle) || this.getContentImage(this.defaultActiveStyle));
+			return activeOut || this.getContentImage(this.baseStyle) || this.getContentImage(this.defaultBaseStyle);
 		},
 		cssWidth() {
 
@@ -63,66 +74,76 @@ export default {
 		},
 		cssOpacity() {
 
-			return this.getCssOpacity(this.baseStyle) || this.getCssOpacity(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssOpacity(this.activeStyle) || this.getCssOpacity(this.defaultActiveStyle));
+			return activeOut || this.getCssOpacity(this.baseStyle) || this.getCssOpacity(this.defaultBaseStyle);
 		},
 		cssBorderWidth() {
 
-			return this.getCssBorderWidth(this.baseStyle) || this.getCssBorderWidth(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssBorderWidth(this.activeStyle) || this.getCssBorderWidth(this.defaultActiveStyle));
+			return activeOut || this.getCssBorderWidth(this.baseStyle) || this.getCssBorderWidth(this.defaultBaseStyle);
 		},
 		cssBorderColor() {
 
-			return this.getCssBorderColor(this.baseStyle) || this.getCssBorderColor(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssBorderColor(this.activeStyle) || this.getCssBorderColor(this.defaultActiveStyle));
+			return activeOut || this.getCssBorderColor(this.baseStyle) || this.getCssBorderColor(this.defaultBaseStyle);
 		},
 		cssBorderRadius() {
 
-			return this.getCssBorderRadius(this.baseStyle) || this.getCssBorderRadius(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssBorderRadius(this.activeStyle) || this.getCssBorderRadius(this.defaultActiveStyle));
+			return activeOut || this.getCssBorderRadius(this.baseStyle) || this.getCssBorderRadius(this.defaultBaseStyle);
 		},
 		cssBorderImage() {
 
-			return this.getCssBorderImage(this.baseStyle) || this.getCssBorderImage(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssBorderImage(this.activeStyle) || this.getCssBorderImage(this.defaultActiveStyle));
+			return activeOut || this.getCssBorderImage(this.baseStyle) || this.getCssBorderImage(this.defaultBaseStyle);
 		},
-		cssBackgroundColor() {
+		cssBackground() {
 
-			return this.getCssBackgroundColor(this.baseStyle) || this.getCssBackgroundColor(this.defaultBaseStyle);
-		},
-		cssBackgroundImage() {
-
-			return this.getCssBackgroundImage(this.baseStyle) || this.getCssBackgroundImage(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssBackground(this.activeStyle) || this.getCssBackground(this.defaultActiveStyle));
+			return activeOut || this.getCssBackground(this.baseStyle) || this.getCssBackground(this.defaultBaseStyle);
 		},
 		cssMargin() {
 
-			return this.getCssMargin(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssMargin(this.activeStyle) || this.getCssMargin(this.defaultActiveStyle));
+			return activeOut || this.getCssMargin(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
 		},
 		cssPadding() {
 
-			return this.getCssPadding(this.baseStyle) || this.getCssMargin(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssPadding(this.activeStyle) || this.getCssPadding(this.defaultActiveStyle));
+			return activeOut || this.getCssPadding(this.baseStyle) || this.getCssPadding(this.defaultBaseStyle);
 		},
 		cssBorderInnerRadius() {
 
 			if (!this.cssBorderRadius)
 				return;
 
-			return this.getCssBorderInnerRadius(this.baseStyle) || this.getCssBorderInnerRadius(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssBorderInnerRadius(this.activeStyle) || this.getCssBorderInnerRadius(this.defaultActiveStyle));
+			return activeOut || this.getCssBorderInnerRadius(this.baseStyle) || this.getCssBorderInnerRadius(this.defaultBaseStyle);
 		},
 		cssFontSize() {
 
-			return this.getCssFontSize(this.baseStyle) || this.getCssFontSize(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssFontSize(this.activeStyle) || this.getCssFontSize(this.defaultActiveStyle));
+			return activeOut || this.getCssFontSize(this.baseStyle) || this.getCssFontSize(this.defaultBaseStyle);
 		},
 		cssFontWeight() {
 
-			return this.getCssFontWeight(this.baseStyle) || this.getCssFontWeight(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssFontWeight(this.activeStyle) || this.getCssFontWeight(this.defaultActiveStyle));
+			return activeOut || this.getCssFontWeight(this.baseStyle) || this.getCssFontWeight(this.defaultBaseStyle);
 		},
 		cssFontFamily() {
 
-			return this.getCssFontFamily(this.baseStyle) || this.getCssFontFamily(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssFontFamily(this.activeStyle) || this.getCssFontFamily(this.defaultActiveStyle));
+			return activeOut || this.getCssFontFamily(this.baseStyle) || this.getCssFontFamily(this.defaultBaseStyle);
 		},
 		cssColor() {
 
-			return this.getCssColor(this.baseStyle) || this.getCssColor(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssColor(this.activeStyle) || this.getCssColor(this.defaultActiveStyle));
+			return activeOut || this.getCssColor(this.baseStyle) || this.getCssColor(this.defaultBaseStyle);
 		},
 		cssTextImageColor() {
 
-			return this.getCssTextImageColor(this.baseStyle) || this.getCssTextImageColor(this.defaultBaseStyle);
+			let activeOut = this.active && (this.getCssTextImageColor(this.activeStyle) || this.getCssTextImageColor(this.defaultActiveStyle));
+			return activeOut || this.getCssTextImageColor(this.baseStyle) || this.getCssTextImageColor(this.defaultBaseStyle);
 		},
 		containerCss() {
 
@@ -142,8 +163,7 @@ export default {
 
 			let style = {
 				flexDirection: this.cssflexDirection,
-				backgroundColor: this.cssBackgroundColor,
-				backgroundImage: this.cssBackgroundImage,
+				background: this.cssBackground,
 				borderRadius: this.cssBorderInnerRadius,
 				margin: this.cssBorderWidth,
 				padding: this.cssPadding,
@@ -155,7 +175,7 @@ export default {
 
 			return style;
 		},
-		textCss() {
+		contentTextCss() {
 
 			let style = {
 				backgroundImage: this.cssTextImageColor
@@ -224,7 +244,32 @@ export default {
 			if (!asset)
 				return;
 
-			return asset;
+			let css = {};
+			let marginRect = get(content, 'margin.value');
+			if (marginRect) {
+				let value = marginRect.split(' ').map(el => el + 'px').join(' ');
+				css.margin = value;
+			}
+
+			let opacity = get(content, 'opacity.value');
+			if (opacity !== undefined)
+				css.opacity = opacity;
+
+			let svg;
+			let colorizeColor = get(content, 'colorize.value');
+			if (colorizeColor) {
+				svg = {
+					id: 'content-colorize-' + content.colorize.id,
+					matrix: colorizeColor.getColorizeMatrix()
+				}
+				css.filter = `url(#${svg.id})`;
+			}
+
+			return {
+				asset,
+				css,
+				svg
+			};
 		},
 		getCssOpacity(style) {
 
@@ -263,7 +308,7 @@ export default {
 			if (!rect)
 				return;
 
-			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 + 5) : el) + 'px').join(' ');
+			let value = rect.split(' ').map(el => el + 'px').join(' ');
 			return value;
 		},
 		getCssBorderImage(style) {
@@ -282,32 +327,26 @@ export default {
 
 			return out;
 		},
-		getCssBackgroundColor(style) {
+		getCssBackground(style) {
 
 			let colorDef = style && style.color && style.color.value;
 			if (!colorDef)
 				return;
 
-			if (colorDef.type.value !== 'solid')
-				return;
+			let out;
+			switch (colorDef.type.value) {
+			case 'solid':
+				let color = colorDef.value.value;
+				out = color.getHex();
+				break;
 
-			let color = colorDef.value.value;
-
-			return color.getHex();
-		},
-		getCssBackgroundImage(style) {
-
-			let colorDef = style && style.color && style.color.value;
-			if (!colorDef)
-				return;
-
-			if (colorDef.type.value !== 'gradient')
-				return;
-
-			let stops = colorDef.values.slice(0);
-			let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
-				.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
-			let out = `linear-gradient(to top, ${values.join(', ')})`;
+			case 'gradient':
+				let stops = colorDef.values.slice(0);
+				let values = stops.sort((a, b) => a.value.position.value - b.value.position.value)
+					.map(el => `${el.value.color.value.getHex()} ${el.value.position.value * 100}%`);
+				out = `linear-gradient(to top, ${values.join(', ')})`;
+				break;
+			}
 
 			return out;
 		},
@@ -335,7 +374,7 @@ export default {
 			if (!rect)
 				return;
 
-			let value = rect.split(' ').map(el => (el * 1 ? (el * 1 + 4) : el) + 'px').join(' ');
+			let value = rect.split(' ').map(el => el + 'px').join(' ');
 			return value;
 		},
 		getCssFontSize(style) {
@@ -350,6 +389,9 @@ export default {
 		getCssFontWeight(style) {
 
 			let name = style && style['text-style'] && style['text-style'].value && style['text-style'].value['font-weight'] && style['text-style'].value['font-weight'].value;
+
+			if (name === undefined)
+				return;
 
 			// @TODO Move this
 			let fontWeightValue = {
@@ -411,7 +453,6 @@ export default {
 
 /* Default style */
 .preview-item-container {
-	flex: 1 1 auto;
 	display: flex;
 	align-items: stretch;
 	background-color: #707070;
@@ -446,8 +487,7 @@ export default {
 }
 
 .preview-item-content img {
-	width: 100%;
-	height: 100%;
+	flex: 1 1 auto;
 	object-fit: contain;
 }
 

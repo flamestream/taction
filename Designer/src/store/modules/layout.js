@@ -104,7 +104,7 @@ const actions = {
 
 		return true;
 	},
-	removeItem({state, commit}, {item, parent}) {
+	removeItem({state, commit, rootState}, {item, parent}) {
 
 		let obj = parent || state.layout;
 
@@ -114,9 +114,9 @@ const actions = {
 			obj
 		});
 
-		let activeItem = state.activeItem;
+		let activeItem = rootState.ui.activeItem;
 		if (activeItem === item)
-			commit('ui/setActiveItem', undefined, {root: true});
+			commit('ui/setActiveItem', {}, {root: true});
 
 		return true;
 	}

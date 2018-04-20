@@ -1,5 +1,5 @@
 <template>
-	<div v-if="value" :class="{ 'menu-item': true, active }" :data-id="obj.id">
+	<div v-if="value" :class="{ 'menu-item': true, active }" :data-id="obj.id" @mouseenter="handleMouseEnter">
 		<div class="label">
 			<span v-for="i in depth" class="spacer" :key="i"></span>
 			<span class="text">
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import MenuItemLayoutItem from './MenuItemLayoutItem'
 import ItemType from '../types/ItemType';
 export default {
@@ -42,6 +42,9 @@ export default {
 		}
 	},
 	methods: {
+		...mapActions({
+			setHighlightItem: 'ui/setHighlightItem'
+		}),
 		handleRemoverClick(ev) {
 
 			this.$store.dispatch({
@@ -60,6 +63,11 @@ export default {
 				},
 				active: true
 			});
+		},
+		handleMouseEnter(ev) {
+
+			let { id } = this.obj;
+			this.setHighlightItem({id});
 		}
 	}
 }
@@ -88,6 +96,11 @@ export default {
 
 .command {
 	margin-right: 8px;
+	transition: all 0.1s ease-out;
+}
+
+.command:hover {
+	color: #C00;
 }
 
 </style>

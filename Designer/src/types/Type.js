@@ -2,10 +2,12 @@ import registry from './registry';
 
 class Type {
 
-	constructor({value, defaultValue, array} = {}) {
+	constructor({value, defaultValue, initValue, array} = {}) {
 
 		// If set, undefined value fallback (acts as required flag)
 		this.defaultValue = defaultValue;
+		// Value taken when defined and no value yet
+		this.initValue = initValue;
 		// Constructor name
 		this.type = this.constructor.name;
 
@@ -16,6 +18,8 @@ class Type {
 		// Flag indicating if the field is undefined
 		// @NOTE has to be after init, since init will generate containers
 		this.notDefined = value === undefined;
+
+		this.parent = null;
 
 		registry.$register(this.type, this);
 	}
@@ -37,6 +41,21 @@ class Type {
 			return;
 
 		this._notDefined = v;
+
+		// Update parent
+		let { parent } = this;
+		if (!parent || parent.notDefined === v) return;
+
+		if (v) {
+			for (let k in parent._value) {
+
+				let c = parent._value[k];
+				if (!c.notDefined)
+					return;
+			}
+		}
+
+		parent.notDefined = v;
 	}
 
 	get value() {
@@ -44,28 +63,53 @@ class Type {
 		if (this.notDefined)
 			return;
 
-		return this._value;
+		let out = this._value;
+		if (out === undefined)
+			out = (this.initValue !== undefined) ? this.initValue : this.defaultValue;
+
+		return out;
 	}
 
 	set value(v) {
 
-		if (v === undefined) {
+		this._notDefined = false;
+		this._value = v;
 
-			if (!this.required) {
+		// Set parent
+		if (typeof v === 'object') {
 
-				this.notDefined = true;
-				return;
+			for (let k in v) {
+
+				let c = v[k];
+				if (c instanceof Type)
+					c.parent = this;
 			}
+		}
+	}
 
-			if (this.defaultValue === undefined)
+	getObj(path, getEvenIfNotDefined) {
+
+		if (!path)
+			path = [];
+		else if (!Array.isArray(path))
+			path = path.split('.');
+
+		let current = this;
+		for (let segment of path) {
+
+			let value = current._value;
+			if (!value)
 				return;
 
-			this.value = this.defaultValue;
-			return;
+			current = value[segment];
+			if (!current)
+				return;
 		}
 
-		this.notDefined = false;
-		this._value = v;
+		if (current.notDefined && !getEvenIfNotDefined)
+			return;
+
+		return current;
 	}
 
 	toJSON() {

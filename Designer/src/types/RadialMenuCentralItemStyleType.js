@@ -6,18 +6,17 @@ import TextStyleType from './TextStyleType';
 import ColorType from './ColorType';
 import BorderType from './BorderType';
 
-class ButtonStyleType extends ComplexType {
+class RadialMenuCentralItemStyleType extends ComplexType {
 
 }
 
-ButtonStyleType.prototype.$definition = {
+RadialMenuCentralItemStyleType.prototype.$definition = {
+	size: { cls: NumberType, data: { min: 0 } },
 	content: { cls: ContentType },
 	'text-style': { cls: TextStyleType },
 	color: { cls: ColorType },
-	margin: { cls: RectangleType },
-	padding: { cls: RectangleType },
 	border: { cls: BorderType },
-	opacity: { cls: NumberType, data: { min: 0, max: 1, initValue: 1 } }
+	padding: { cls: RectangleType }
 };
 
-export default ButtonStyleType;
+export default RadialMenuCentralItemStyleType;

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="input-color-solid-root">
 		<input type="text" :value="hexColor" @change="handleInputChange"/>
 		<ColorPicker :value="color" @colorChange="handleColorChange"/>
 	</div>
@@ -67,5 +67,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.input-color-solid-root {
+	display: flex;
+}
 
+input {
+	flex: 1 1 auto;
+	margin-right: 4px;
+}
 </style>

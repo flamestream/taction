@@ -1,12 +1,14 @@
 <template>
-	<div data-simplebar>
+	<div class="hover-scrollable">
 		<div v-if="layout" @click.stop="handleClick">
 			<div :class="{ 'menu-item': true, root: true, active: !activeMenu && !activeItem }">
 				<div class="label">
 					<span class="text">Root</span>
 					<span class="command" @click.stop="handleAdderClick">＋</span>
 				</div>
-				<MenuItemLayoutItem v-for="item in value.items" :obj="item" :key="item.id" :parent="layout" :depth="1"></MenuItemLayoutItem>
+				<div @mouseleave="handleMouseLeave">
+					<MenuItemLayoutItem v-for="item in value.items" :obj="item" :key="item.id" :parent="layout" :depth="1"></MenuItemLayoutItem>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -32,6 +34,7 @@ export default {
 		...mapActions({
 			setActiveMenu: 'ui/setActiveMenu',
 			setActiveItem: 'ui/setActiveItem',
+			setHighlightItem: 'ui/setHighlightItem',
 			addItem: 'layout/addItem'
 		}),
 		handleClick(ev) {
@@ -51,10 +54,22 @@ export default {
 			this.addItem({
 				parent: this.layout,
 				value: {
-					type: 'hold'
+					type: 'hold',
+					style: {
+						base: {
+							content: {
+								type: 'text',
+								value: 'New Button'
+							}
+						}
+					}
 				},
 				active: true
 			});
+		},
+		handleMouseLeave(ev) {
+
+			this.setHighlightItem();
 		}
 	}
 }
@@ -74,6 +89,11 @@ export default {
 
 .command {
 	margin-right: 8px;
+	transition: all 0.1s;
+}
+
+.command:hover {
+	color: #0C0;
 }
 
 </style>

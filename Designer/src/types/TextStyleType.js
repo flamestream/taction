@@ -8,7 +8,7 @@ class TextStyleType extends ComplexType {
 }
 
 TextStyleType.prototype.$definition = {
-	'font-size': { cls: NumberType, data: { min: 0.001 } },
+	'font-size': { cls: NumberType, data: { min: 1, initValue: 12 } },
 	'font-family': { cls: StringType },
 	'font-weight': { cls: StringType, data: { options: ['normal', 'thin', 'bold', 'heavy'] } },
 	color: { cls: ColorType }

@@ -34,13 +34,16 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			setErrorMsg: 'ui/setErrorMsg'
+			setErrorMsg: 'ui/setErrorMsg',
+			setActiveOverlay: 'ui/setActiveOverlay'
 		}),
 		handleResetButtonClick(ev) {
 
-			this.$store.dispatch({
-				type: 'reset'
-			});
+			this.setActiveOverlay({id: 'reset'});
+
+			// this.$store.dispatch({
+			// 	type: 'reset'
+			// });
 		},
 		async handleExportButtonClick(ev) {
 
@@ -114,15 +117,12 @@ export default {
 	padding-right: 16px;
 	color: #FFFFFFDD;
 	border-radius: 3px;
+	background-color: inherit;
+	transition: all 0.2s ease-out;
 }
 .button:hover {
 	color: #FFFFFF;
 	background-color: #2D3B4B;
-}
-.button:active {
-	position: relative;
-	left: 1px;
-	top: 1px;
 }
 
 .button, .button > label {

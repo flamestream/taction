@@ -1,8 +1,10 @@
 <template>
 	<div class="view-previewer">
 		<div class="asset-previewer" v-if="activeMenu === 'assets'">
-			<img v-if="activeAsset && activeAsset.ext === 'png'" :src="activeAsset.url"/>
-			<span v-else-if="activeAsset && activeAsset.ext === 'ttf'">The quick brown fox jumps over the lazy dog</span>
+			<div class="asset-container">
+				<img v-if="activeAsset && activeAsset.ext === 'png'" :src="activeAsset.url"/>
+				<span v-else-if="activeAsset && activeAsset.ext === 'ttf'" :style="assetFontStyle">The quick brown fox jumps over the lazy dog</span>
+			</div>
 		</div>
 		<div v-else class="previewer-layout">
 			<div class="tabs">
@@ -16,7 +18,7 @@
 				</div>
 			</div>
 			<pre v-if="activeTab === 'code'" ref="code" class="line-numbers language-javascript"><code>{{ layoutJson }}</code></pre>
-			<div v-if="!activeTab || activeTab === 'ui'" class="tab-content" @click="handleClick">
+			<div v-if="!activeTab || activeTab === 'ui'" class="tab-content" @dblclick="handleDblClick">
 				<PreviewUI></PreviewUI>
 			</div>
 		</div>
@@ -33,7 +35,8 @@ export default {
 	},
 	data() {
 		return {
-			activeTab: undefined
+			activeTab: undefined,
+			assetFontStyle: { fontFamily: '"./Active Font"' }
 		};
 	},
 	computed: {
@@ -46,7 +49,7 @@ export default {
 		...mapActions({
 			setActiveItem: 'ui/setActiveItem'
 		}),
-		handleClick(ev) {
+		handleDblClick(ev) {
 
 			this.setActiveItem();
 		},
@@ -77,12 +80,15 @@ export default {
 	display: flex;
 	align-items: center;
 	/*justify-content: safe center;*/
-	font-family: './Active Font';
 	font-size: 32px;
 }
 
-.asset-previewer > * {
+.asset-container {
 	margin: auto;
+}
+
+.asset-container > * {
+	margin: 10px;
 }
 
 .asset-previewer img {
@@ -93,6 +99,7 @@ export default {
 
 .asset-previewer span {
 	padding: 0 1em;
+	display: inline-block;
 }
 
 .tabs {
@@ -114,6 +121,7 @@ export default {
 	font-size: 14px;
 	border-radius: 2px 2px 0 0;
 	cursor: pointer;
+	transition: none;
 }
 .tab:hover {
 	color: #FFF;
@@ -127,6 +135,7 @@ export default {
 
 .tab i {
 	margin-right: 4px;
+	transition: none;
 }
 
 pre {

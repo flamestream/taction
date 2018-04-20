@@ -1,10 +1,10 @@
 <template>
-	<div>
+	<div class="root">
 		<div :class="getInputClassNames()">
 			<input ref="input" type="file" label="Add asset" id="file-asset" @change="handleFileChange" multiple/>
-			<label for="file-asset" @click="handleFileClick">{{ fileButtonLabel }}</label>
+			<label class="add-button" for="file-asset" @click="handleFileClick">{{ fileButtonLabel }}</label>
 		</div>
-		<div class="asset-list">
+		<div class="assets">
 			<div class="menu-item" v-for="name in names" :class="getAssetClassNames(name)" @click="handleAssetClick" :data-id="name" :key="name">
 				<span class="label">{{ name }}</span>
 				<span v-if="isActive(name)" class="command" @click.stop="handleRemoverClick">－</span>
@@ -106,6 +106,15 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+.root {
+	flex: 1 1 auto;
+	padding-top: 12px;
+}
+
+.input {
+	flex: 1 1 auto;
+}
+
 .input input[type=file] {
 	display: none;
 }
@@ -117,7 +126,7 @@ export default {
 	display: block;
 	cursor: pointer;
 	padding: 4px;
-	margin: 0 10px 10px;
+	margin: 0 16px 10px;
 	border-radius: 3px;
 }
 .input label:hover {
@@ -131,6 +140,13 @@ export default {
 
 .input.error label {
 	background-color: #c10707;
+}
+
+.assets {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	margin-bottom: 100%;
 }
 
 .menu-item {

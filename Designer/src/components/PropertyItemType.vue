@@ -7,15 +7,13 @@
 <script>
 import PropertyItem from './PropertyItem'
 import StringType from '../types/StringType'
-import ItemType from '../types/ItemType'
 export default {
 	name: 'PropertyItemType',
 	components: {
 		PropertyItem
 	},
 	props: {
-		obj: { type: StringType },
-		parent: { type: ItemType }
+		obj: { type: StringType }
 	},
 	computed: {
 		value() {
@@ -33,12 +31,12 @@ export default {
 				return this.value;
 			},
 			set(value) {
-
 				this.$store.commit({
 					type: 'layout/changeType',
-					obj: this.parent,
+					obj: this.obj.parent,
 					value
 				});
+				this.$emit('change', { value });
 			}
 		}
 	}

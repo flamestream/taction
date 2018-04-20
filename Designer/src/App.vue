@@ -8,8 +8,8 @@
 					<ViewTree id="view-tree-menu"></ViewTree>
 					<ViewSpecialMenu id="view-special-menu"></ViewSpecialMenu>
 				</div>
-				<div id="section-properties" data-simplebar>
-					<ViewProperties></ViewProperties>
+				<div id="section-details">
+					<ViewDetails></ViewDetails>
 				</div>
 				<div id="section-preview">
 					<ViewPreview></ViewPreview>
@@ -23,7 +23,7 @@
 import ViewPreview from './components/ViewPreview'
 import ViewTree from './components/ViewTree'
 import ViewSpecialMenu from './components/ViewSpecialMenu'
-import ViewProperties from './components/ViewProperties'
+import ViewDetails from './components/ViewDetails'
 import ViewHeader from './components/ViewHeader'
 import Overlay from './components/Overlay'
 import { mapState, mapActions } from 'vuex'
@@ -34,7 +34,7 @@ export default {
 		ViewPreview,
 		ViewTree,
 		ViewSpecialMenu,
-		ViewProperties,
+		ViewDetails,
 		ViewHeader,
 		Overlay
 	},
@@ -93,8 +93,35 @@ a:link {
 	text-decoration: none;
 }
 
-.simplebar-scrollbar {
-	background-color: #fff;
+input[type=text], input[type=number], select {
+	border: 0;
+	border-radius: 3px;
+	padding: 2px 4px;
+}
+
+#section-details input[type=text], #section-details input[type=number], #section-details select {
+	line-height: 18px;
+}
+
+.button {
+	background-color: #09B0EB;
+	border: 0;
+	border-radius: 3px;
+	padding: 3px 6px;
+	cursor: pointer;
+	text-align: center;
+	color: #FFF;
+	transition: all 0.2s ease-out, left 0, top 0;
+}
+
+.button:hover {
+	background-color: #38BEEA;
+}
+
+.button:active {
+	position: relative;
+	left: 1px;
+	top: 1px;
 }
 
 #top {
@@ -167,6 +194,7 @@ a:link {
 	padding-left: 16px;
 	display: flex;
 	align-items: center;
+	transition: all 0.2s ease-out;
 }
 
 #section-menu .menu-item > .label > i {
@@ -200,7 +228,7 @@ a:link {
 	padding-bottom: 20px;
 }
 
-#section-properties {
+#section-details {
 	display: flex;
 	width: 300px;
 	flex-shrink: 0;
@@ -208,12 +236,16 @@ a:link {
 	color: #ddd;
 }
 
-.section-properties-content {
-	margin: 12px 0;
+.section-details-scrollable::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #FFFFFF33;
 }
 
-.view-properties {
-	margin: 0 10px;
+.section-details-scrollable::-webkit-scrollbar-thumb
+{
+	background-color: #FFFFFFAA;
+	border-radius: 10px;
 }
 
 .view-previewer {
@@ -230,6 +262,47 @@ input[type=number]::-webkit-inner-spin-button {
 	-webkit-appearance: none;
 	appearance: none;
 	margin: 0;
+}
+
+.add-button {
+	background-color: #09B0EB;
+	text-align: center;
+	font-weight: 600;
+	display: block;
+	cursor: pointer;
+	padding: 4px;
+	margin: 0 10px 10px;
+	border-radius: 3px;
+	border: 0;
+	color: #FFF;
+}
+.add-button:hover {
+	background-color: #38beea;
+}
+.add-button:active {
+	position: relative;
+	top: 1px;
+	left: 1px;
+}
+
+.hover-scrollable {
+	overflow: hidden;
+}
+
+.hover-scrollable:hover {
+	overflow-y: auto;
+}
+
+.hover-scrollable::-webkit-scrollbar
+{
+	width: 5px;
+	background-color: #FFFFFF33;
+}
+
+.hover-scrollable::-webkit-scrollbar-thumb
+{
+	background-color: #FFFFFFAA;
+	border-radius: 10px;
 }
 
 </style>
