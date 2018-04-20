@@ -279,8 +279,19 @@ export default {
 	top: 0;
 	left: 0;
 	background-color: #09B0EB;
-	opacity: 0.3;
+	opacity: 0.4;
 	transition: all 0.2s ease-out;
+	animation: flash linear 1s infinite;
+}
+
+@keyframes flash {
+	0% { opacity: 0.4; }
+	50% { opacity: 0; }
+	100% { opacity: 0.4; }
+}
+
+.highlight-enter-active, .highlight-leave-active {
+	animation: none;
 }
 
 .highlight-enter, .highlight-leave-to {
