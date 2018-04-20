@@ -34,7 +34,7 @@ export default {
 			if (item.code) {
 
 				this.reset({ layout: item.code });
-				this.$emit('done');
+				this.setActiveOverlay();
 
 			} else if (item.url) {
 
@@ -52,7 +52,7 @@ export default {
 					let zip = imported.zip;
 
 					this.reset({layout, zip});
-					this.$emit('done');
+					this.setActiveOverlay();
 
 				} catch (err) {
 
@@ -60,6 +60,7 @@ export default {
 					this.setActiveOverlay({id: 'error'});
 				}
 			}
+
 		}
 	},
 	mounted() {
