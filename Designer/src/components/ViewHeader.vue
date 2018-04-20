@@ -118,6 +118,7 @@ export default {
 	color: #FFFFFFDD;
 	border-radius: 3px;
 	background-color: inherit;
+	transition: all 0.2s ease-out;
 }
 .button:hover {
 	color: #FFFFFF;
