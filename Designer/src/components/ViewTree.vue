@@ -6,7 +6,9 @@
 					<span class="text">Root</span>
 					<span class="command" @click.stop="handleAdderClick">＋</span>
 				</div>
-				<MenuItemLayoutItem v-for="item in value.items" :obj="item" :key="item.id" :parent="layout" :depth="1"></MenuItemLayoutItem>
+				<div @mouseleave="handleMouseLeave">
+					<MenuItemLayoutItem v-for="item in value.items" :obj="item" :key="item.id" :parent="layout" :depth="1"></MenuItemLayoutItem>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -32,6 +34,7 @@ export default {
 		...mapActions({
 			setActiveMenu: 'ui/setActiveMenu',
 			setActiveItem: 'ui/setActiveItem',
+			setHighlightItem: 'ui/setHighlightItem',
 			addItem: 'layout/addItem'
 		}),
 		handleClick(ev) {
@@ -63,6 +66,10 @@ export default {
 				},
 				active: true
 			});
+		},
+		handleMouseLeave(ev) {
+
+			this.setHighlightItem();
 		}
 	}
 }

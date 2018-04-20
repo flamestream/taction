@@ -5,6 +5,7 @@ const state = {
 	activeItem: undefined,
 	activeAsset: undefined,
 	activeOverlay: undefined,
+	highlightItem: undefined,
 	errorMsg: undefined
 };
 
@@ -46,6 +47,10 @@ const mutations = {
 	setErrorMsg(state, {msg}) {
 
 		state.errorMsg = msg;
+	},
+	setHighlightItem(state, {item}) {
+
+		state.highlightItem = item;
 	}
 };
 
@@ -72,6 +77,11 @@ const actions = {
 
 		commit('setErrorMsg', {msg});
 		commit('setActiveOverlay', {id: 'error'});
+	},
+	setHighlightItem({commit, rootGetters}, {id} = {}) {
+
+		let item = rootGetters.registered({type: ItemType.name, id});
+		commit('setHighlightItem', {item});
 	}
 };
 

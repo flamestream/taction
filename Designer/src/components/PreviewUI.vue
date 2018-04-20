@@ -5,8 +5,8 @@
 			<div class="preview-ui-content" :style="contentCss">
 				<PreviewUIItem v-for="item in items" ref="items" :obj="item" :global="global" :key="item.id"></PreviewUIItem>
 			</div>
-			<transition name="highlight" @after-enter="onHighlightAfterEnter">
-				<div v-show="highlightActive" class="highlight"></div>
+			<transition name="highlight">
+				<div v-show="highlightItem" class="highlight"></div>
 			</transition>
 		</div>
 		<div class="preview-ui-content-container" ref="activeContentContainer">
@@ -15,7 +15,7 @@
 				<PreviewUIItem v-for="item in items" ref="activeItems" :obj="item" :global="global" :active="true" :key="item.id"></PreviewUIItem>
 			</div>
 			<transition name="highlight">
-				<div v-show="highlightActive" class="highlight"></div>
+				<div v-show="highlightItem" class="highlight"></div>
 			</transition>
 		</div>
 	</div>
@@ -29,16 +29,11 @@ export default {
 	components: {
 		PreviewUIItem
 	},
-	data() {
-		return {
-			highlightActive: false
-		}
-	},
 	computed: {
 		...mapState('layout', {
 			obj: 'layout'
 		}),
-		...mapState('ui', ['activeItem']),
+		...mapState('ui', ['highlightItem']),
 		value() {
 
 			return this.obj.value;
@@ -228,8 +223,8 @@ export default {
 
 			let targetRect = target.$el.getBoundingClientRect();
 			let containerRect = containerElm.getBoundingClientRect();
-			let top = targetRect.top - containerRect.top - 2;
-			let left = targetRect.left - containerRect.left - 2;
+			let top = targetRect.top - containerRect.top;
+			let left = targetRect.left - containerRect.left;
 
 			let highlight = containerElm.getElementsByClassName('highlight')[0];
 			highlight.style.top = top + 'px';
@@ -239,14 +234,10 @@ export default {
 		}
 	},
 	watch: {
-		activeItem(value) {
-
-			if (!value)
-				return;
+		highlightItem(value) {
 
 			this.initHighlight(value, this.$refs.items, this.$refs.contentContainer);
 			this.initHighlight(value, this.$refs.activeItems, this.$refs.activeContentContainer);
-			this.highlightActive = true;
 		}
 	}
 }
@@ -287,24 +278,12 @@ export default {
 	position: absolute;
 	top: 0;
 	left: 0;
-	border: 2px solid #09B0EB;
-	opacity: 0.6;
+	background-color: #09B0EB;
+	opacity: 0.3;
+	transition: all 0.2s ease-out;
 }
 
-.highlight-enter-active {
-	transition: all 0.1s ease-out, top 0s, left 0s;
-}
-.highlight-leave-active {
-	transition: all 0.5s ease-out, top 0s, left 0s;
-}
-
-.highlight-enter {
-	opacity: 0;
-	border-width: 0;
-	transform: scale(0.9);
-}
-
-.highlight-leave-to {
+.highlight-enter, .highlight-leave-to {
 	opacity: 0;
 	border-width: 0;
 	transform: scale(1.5);
