@@ -1,7 +1,7 @@
 <template>
 	<div class="root">
 		<div class="types">
-			<label v-for="type in types" :key="type" :class="typeClassNames(type)" @click="onTypeClick(type)">{{ label(type) }}</label>
+			<label v-for="type in types" v-show="type !== 'radial-menu' || value === 'radial-menu'" :key="type" :class="typeClassNames(type)" @click="onTypeClick(type)">{{ label(type) }}</label>
 		</div>
 		<div class="description">{{ description }}</div>
 	</div>

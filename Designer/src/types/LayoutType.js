@@ -8,6 +8,8 @@ import ColorType from './ColorType';
 import ButtonStyleSetType from './ButtonStyleSetType';
 import ItemType from './ItemType';
 import BorderType from './BorderType';
+import RadialMenuCentralItemStyleSetType from './RadialMenuCentralItemStyleSetType';
+import RadialMenuItemStyleSetType from './RadialMenuItemStyleSetType';
 
 class LayoutType extends ComplexType {
 
@@ -39,6 +41,8 @@ LayoutType.prototype.$definition = {
 	orientation: { cls: StringType, data: { defaultValue: 'vertical', options: ['vertical', 'horizontal'] } },
 	color: { cls: ColorType },
 	'default-button-style': { cls: ButtonStyleSetType },
+	'default-radial-menu-central-item-style': { cls: RadialMenuCentralItemStyleSetType },
+	'default-radial-menu-item-style': { cls: RadialMenuItemStyleSetType },
 	items: { cls: ItemType, array: true }
 };
 
