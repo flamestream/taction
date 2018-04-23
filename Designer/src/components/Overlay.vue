@@ -9,7 +9,7 @@
 					<div id="changelog"><span v-html="formattedAbout" @click.stop></span></div>
 				</div>
 				<div v-else-if="activeOverlay === 'reset'" class="center">
-					<ResetView></ResetView>
+					<NewView></NewView>
 				</div>
 			</transition>
 		</div>
@@ -19,11 +19,11 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import changelog from '@/assets/changelog.md'
-import ResetView from './ResetView'
+import NewView from './NewView'
 export default {
 	name: 'Overlay',
 	components: {
-		ResetView
+		NewView
 	},
 	props: {
 		obj: { type: Object },

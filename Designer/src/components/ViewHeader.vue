@@ -2,8 +2,8 @@
 	<div id="view-header">
 		<span class="title">{{ title }}</span>
 		<span class="button" @click.prevent="handleResetButtonClick">
-			<i class="material-icons">clear</i>
-			Reset
+			<i class="material-icons">insert_drive_file</i>
+			New
 		</span>
 		<span class="input-file button">
 			<input type="file" accept=".json, .taction-bundle" id="file-layout" @click="handleFileClick" @change="handleFileChange"/>

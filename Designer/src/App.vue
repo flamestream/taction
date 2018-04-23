@@ -224,7 +224,7 @@ input[type=text], input[type=number], select {
 }
 
 #view-special-menu {
-	height: 120px;
+	height: 150px;
 	padding-bottom: 20px;
 }
 

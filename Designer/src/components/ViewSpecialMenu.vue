@@ -12,6 +12,12 @@
 				<span class="text">Change Log</span>
 			</div>
 		</div>
+		<a class="menu-item" href="https://github.com/flamestream/taction/releases">
+			<div class="label github">
+				<i class="material-icons">get_app</i>
+				<span class="text">Download app</span>
+			</div>
+		</a>
 		<a class="menu-item" href="https://github.com/flamestream/taction">
 			<div class="label github">
 				<i class="zmdi zmdi-github"></i>

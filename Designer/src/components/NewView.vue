@@ -17,7 +17,7 @@ import { mapActions } from 'vuex'
 import layouts from '@/definitions/layouts.json'
 import importAsync from '@/helpers/import-async'
 export default {
-	name: 'ResetView',
+	name: 'NewView',
 	data() {
 		return {
 			layouts
@@ -46,7 +46,20 @@ export default {
 						throw new Error('Could not fetch layout file');
 
 					let blob = await resp.blob();
-					let file = new File([blob], resp.url);
+
+					let file;
+					try {
+
+						file = new File([blob], resp.url);
+
+					} catch (e) { // Assume msedge issue
+
+						file = blob;
+						file.lastModifiedDate = new Date();
+						file.name = resp.url;
+						file.__proto__ = File.prototype;
+					}
+
 					let imported = await importAsync({file});
 					let layout = imported.layout;
 					let zip = imported.zip;
