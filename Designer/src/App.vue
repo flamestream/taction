@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import config from '@/config'
 import ViewPreview from './components/ViewPreview'
 import ViewTree from './components/ViewTree'
 import ViewSpecialMenu from './components/ViewSpecialMenu'
@@ -27,7 +28,6 @@ import ViewDetails from './components/ViewDetails'
 import ViewHeader from './components/ViewHeader'
 import Overlay from './components/Overlay'
 import { mapState, mapActions } from 'vuex'
-import firstTimerLayout from '@/layouts/first-timer'
 export default {
 	name: 'App',
 	components: {
@@ -57,16 +57,20 @@ export default {
 	methods: {
 		...mapActions({
 			setActiveOverlay: 'ui/setActiveOverlay',
-			reset: 'layout/reset'
+			loadTemplateLayout: 'loadTemplateLayout'
 		})
 	},
 	mounted() {
 
 		let lastVisit = localStorage.lastVisit;
+		if (lastVisit)
+			lastVisit = new Date(parseInt(lastVisit));
 
-		if (!lastVisit) {
+		let lastChangeDate = new Date(config.lastChangeDate);
+		if (!lastVisit || lastVisit < lastChangeDate) {
+
+			this.loadTemplateLayout({name: 'Default'});
 			this.setActiveOverlay({id: 'changelog'});
-			this.reset({layout: firstTimerLayout});
 		}
 
 		// @TODO use async storage
