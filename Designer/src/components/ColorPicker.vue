@@ -46,6 +46,8 @@ export default {
 				if (Number.isNaN(value)) value = 1;
 				value *= 255;
 				this.color.alpha = value >> 0;
+
+				this.handleColorChange();
 			}
 		},
 		name: {
@@ -55,7 +57,10 @@ export default {
 			set(v) {
 
 				let color = Color.fromHex(v, false) || Color.fromName(v);
+
+				// Does not trigger change event
 				this.picker.set(color.getSimpleHex());
+				this.$emit('colorChange', color);
 			}
 		}
 	},
@@ -65,9 +70,9 @@ export default {
 		}
 	},
 	methods: {
-		handleColorChange() {
+		handleColorChange(color = this.color) {
 
-			this.$emit('colorChange', this.color);
+			this.$emit('colorChange', color);
 		},
 		handleColorInputClick(ev) {
 			ev.preventDefault();
@@ -87,6 +92,8 @@ export default {
 			let newColor = Color.fromHex(`#${hex}`);
 			newColor.alpha = this.color.alpha;
 			this.color = newColor;
+
+			this.handleColorChange();
 		},
 		syncInputValue() {
 

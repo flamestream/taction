@@ -1,5 +1,11 @@
 <template>
-	<div class="preview-item-container" :style="containerCss" @click.stop="handleClick">
+	<div class="preview-item-container"
+		:style="containerCss"
+		@click.stop="handleClick"
+		@touchstart="onTouchStart"
+		@touchend="onTouchEnd"
+		@mouseenter="onMouseEnter"
+	>
 		<div class="preview-item-content" :style="contentCss">
 			<span v-if="contentText"><span :style="contentTextCss" v-html="contentText"></span></span>
 			<span v-else-if="contentImage">
@@ -24,12 +30,19 @@ export default {
 	props: {
 		obj: { type: ItemType },
 		global: { type: Object },
-		active: { type: Boolean }
+		interactive: { type: Boolean },
+		forceActive: { type: Boolean }
+	},
+	data() {
+		return {
+			isActive: false
+		}
 	},
 	computed: {
 		...mapGetters({
 			assetItem: 'assets/item'
 		}),
+		active() { return this.forceActive || this.isActive; },
 		value() { return this.obj && this.obj.value; },
 		type() { return this.value.type.value; },
 		size() { return this.value.size.value; },
@@ -154,7 +167,8 @@ export default {
 				backgroundColor: this.cssBorderColor,
 				borderRadius: this.cssBorderRadius,
 				backgroundImage: this.cssBorderImage,
-				margin: this.cssMargin
+				margin: this.cssMargin,
+				cursor: this.cursorCss
 			};
 
 			return style;
@@ -190,6 +204,10 @@ export default {
 			}
 
 			return style;
+		},
+		cursorCss() {
+
+			return this.type === 'move' ? 'move' : 'auto';
 		}
 	},
 	methods: {
@@ -208,6 +226,39 @@ export default {
 
 			let {id} = this.obj;
 			this.setActiveItem({id});
+		},
+		onMouseEnter(ev) {
+
+			this.$emit('mouseenter', { obj: this.obj });
+		},
+		onTouchStart() {
+
+			/* eslint no-fallthrough: 0 */
+			if (!this.interactive) return;
+
+			switch (this.type) {
+			case 'tap':
+			case 'radial-menu':
+				setTimeout(() => { this.isActive = false; }, 0);
+			case 'hold':
+			case 'move':
+				this.isActive = true;
+				break;
+			case 'toggle':
+				this.isActive = !this.isActive;
+				break;
+			}
+		},
+		onTouchEnd() {
+
+			if (!this.interactive) return;
+
+			switch (this.type) {
+			case 'hold':
+			case 'move':
+				this.isActive = false;
+				break;
+			}
 		},
 		getContentText(style) {
 
@@ -443,6 +494,18 @@ export default {
 			let out = `linear-gradient(to top, ${values.join(', ')})`;
 
 			return out;
+		}
+	},
+	watch: {
+		isActive(value) {
+
+			let command = this.obj.getObj('command');
+			if (!command)
+				return;
+
+			command = command.value;
+			let eventName = value ? 'activecommand' : 'inactivecommand';
+			this.$emit(eventName, { command });
 		}
 	}
 }

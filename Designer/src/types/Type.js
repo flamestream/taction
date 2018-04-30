@@ -87,7 +87,7 @@ class Type {
 		}
 	}
 
-	getObj(path, getEvenIfNotDefined) {
+	getObj(path, getEvenIfNotDefined, getValue) {
 
 		if (!path)
 			path = [];
@@ -109,7 +109,14 @@ class Type {
 		if (current.notDefined && !getEvenIfNotDefined)
 			return;
 
-		return current;
+		if (!getValue)
+			return current;
+
+		let value = current.value;
+		if (value === undefined)
+			value = (current.initValue !== undefined) ? current.initValue : current.defaultValue;
+
+		return value;
 	}
 
 	toJSON() {

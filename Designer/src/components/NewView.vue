@@ -31,6 +31,7 @@ export default {
 		}),
 		async onItemClick(item) {
 
+			/* eslint no-proto: 0 */
 			if (item.code) {
 
 				this.reset({ layout: item.code });

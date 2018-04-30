@@ -1,25 +1,30 @@
 <template>
-	<div class="view-previewer">
+	<div class="area-workspace">
 		<div class="asset-previewer" v-if="activeMenu === 'assets'">
 			<div class="asset-container">
 				<img v-if="activeAsset && activeAsset.ext === 'png'" :src="activeAsset.url"/>
 				<span v-else-if="activeAsset && activeAsset.ext === 'ttf'" :style="assetFontStyle">The quick brown fox jumps over the lazy dog</span>
 			</div>
 		</div>
-		<div v-else class="previewer-layout">
+		<div v-else class="area-tabbed-workspace">
 			<div class="tabs">
-				<div :class="getTabClassNames('ui', true)" @click="setActiveTab('ui')">
+				<div :class="getTabClassNames('preview', true)" @click="setActiveTab('preview')">
 					<i class="material-icons">dashboard</i>
-					Visual Interface
+					Preview
+				</div>
+				<div :class="getTabClassNames('test')" @click="setActiveTab('test')">
+					<i class="material-icons">view_stream</i>
+					Test
 				</div>
 				<div :class="getTabClassNames('code')" @click="setActiveTab('code')">
 					<i class="material-icons">code</i>
 					Code
 				</div>
 			</div>
-			<pre v-if="activeTab === 'code'" ref="code" class="line-numbers language-javascript"><code>{{ layoutJson }}</code></pre>
-			<div v-if="!activeTab || activeTab === 'ui'" class="tab-content" @dblclick="handleDblClick">
-				<PreviewUI></PreviewUI>
+			<div class="area-tabbed-workspace-content">
+				<code v-if="activeTab === 'code'" ref="code">{{ layoutJson }}</code>
+				<TabContentTest v-if="activeTab === 'test'" class="tab-content"></TabContentTest>
+				<TabContentPreview v-if="!activeTab || activeTab === 'preview'" class="tab-content"></TabContentPreview>
 			</div>
 		</div>
 	</div>
@@ -27,11 +32,13 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex';
-import PreviewUI from './PreviewUI';
+import TabContentPreview from './TabContentPreview';
+import TabContentTest from './TabContentTest';
 export default {
 	name: 'ViewPreview',
 	components: {
-		PreviewUI
+		TabContentPreview,
+		TabContentTest
 	},
 	data() {
 		return {
@@ -49,10 +56,6 @@ export default {
 		...mapActions({
 			setActiveItem: 'ui/setActiveItem'
 		}),
-		handleDblClick(ev) {
-
-			this.setActiveItem();
-		},
 		getTabClassNames(name, isDefault) {
 
 			/* eslint no-mixed-operators: 0 */
@@ -79,7 +82,6 @@ export default {
 	vertical-align: middle;
 	display: flex;
 	align-items: center;
-	/*justify-content: safe center;*/
 	font-size: 32px;
 }
 
@@ -138,28 +140,28 @@ export default {
 	transition: none;
 }
 
-pre {
-	overflow: auto;
-	margin: 0;
-	padding: 1em;
-}
-
 code {
+	margin: 12px;
+	flex: 1 1 auto;
 	user-select: text;
+	white-space: pre;
 }
 
-.previewer-layout {
+.area-tabbed-workspace {
 	flex: 1 1 auto;
 	display: flex;
 	flex-direction: column;
+	overflow: auto;
+}
+
+.area-tabbed-workspace-content {
+	flex: 1 1 auto;
+	display: flex;
+	overflow: auto;
 }
 
 .tab-content {
 	flex: 1 1 auto;
-	display: flex;
-	/*align-items: center;*/
-	/*justify-content: safe center;*/
-	padding: 10px;
 	overflow: auto;
 }
 

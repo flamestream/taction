@@ -12,7 +12,7 @@
 					<ViewDetails></ViewDetails>
 				</div>
 				<div id="section-preview">
-					<ViewPreview></ViewPreview>
+					<AreaWorkspace></AreaWorkspace>
 				</div>
 			</div>
 		</div>
@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import ViewPreview from './components/ViewPreview'
+import AreaWorkspace from './components/AreaWorkspace'
 import ViewTree from './components/ViewTree'
 import ViewSpecialMenu from './components/ViewSpecialMenu'
 import ViewDetails from './components/ViewDetails'
@@ -31,7 +31,7 @@ import firstTimerLayout from '@/layouts/first-timer'
 export default {
 	name: 'App',
 	components: {
-		ViewPreview,
+		AreaWorkspace,
 		ViewTree,
 		ViewSpecialMenu,
 		ViewDetails,
@@ -167,7 +167,7 @@ input[type=text], input[type=number], select {
 
 #section-preview {
 	flex-grow: 1;
-	overflow: auto;
+	overflow: hidden;
 	display: flex;
 	background-color: #FFF;
 }
@@ -248,9 +248,10 @@ input[type=text], input[type=number], select {
 	border-radius: 10px;
 }
 
-.view-previewer {
+.area-workspace {
 	flex: 1 1 auto;
 	display: flex;
+	overflow: auto;
 }
 
 input[type=number] {

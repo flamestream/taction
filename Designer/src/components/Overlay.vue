@@ -73,7 +73,7 @@ export default {
 }
 
 .overlay-item-enter-active, .overlay-item-leave-active {
-	transition: all 0.2s;
+	transition: all 0.5s;
 }
 
 .overlay-item-leave-to, .overlay-item-enter {
