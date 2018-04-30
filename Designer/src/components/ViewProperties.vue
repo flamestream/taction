@@ -52,8 +52,8 @@ export default {
 
 			return {
 				'slide-menu-container': true,
-				'section-details-scrollable': true,
-				scrollable: !this.isMenuTransitioning
+				'section-details-scrollable': !this.isMenuTransitioning,
+				'slide-menu-container-transition': this.isMenuTransitioning
 			}
 		},
 		rootObj() {
@@ -152,13 +152,22 @@ export default {
 	overflow-y: scroll;
 }
 
+.slide-menu-container::-webkit-scrollbar {
+	background-color: transparent;
+}
+
+.slide-menu-container-transition {
+	margin-left: 6px; /* innerWidth padding */
+	padding: 0;
+}
+
 .slide-menu-container::-webkit-scrollbar
 {
 	background-color: transparent;
 }
 .section-details-scrollable::-webkit-scrollbar-thumb
 {
-	background-color: transparent;
+	/*background-color: transparent;*/
 	transition: all 0.2s ease-out;
 }
 .section-details-scrollable:hover::-webkit-scrollbar-thumb

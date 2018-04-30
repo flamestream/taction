@@ -92,16 +92,6 @@ export default {
 			while (keys.length > 5)
 				keys.pop();
 		},
-		adjustLabels() {
-			let rootRect = this.$el.getBoundingClientRect();
-			let baseRect = this.$refs.baseArea.getBoundingClientRect();
-			let activeRect = this.$refs.activeArea.getBoundingClientRect();
-
-			this.$refs.baseLabel.style.left = baseRect.x - rootRect.x + 5 + 'px';
-			this.$refs.baseLabel.style.top = baseRect.y - rootRect.y + 5 + 'px';
-			this.$refs.activeLabel.style.left = activeRect.x - rootRect.x + 5 + 'px';
-			this.$refs.activeLabel.style.top = activeRect.y - rootRect.y + 5 + 'px';
-		},
 		onHighlightAfterEnter() {
 
 			this.highlightActive = false;
