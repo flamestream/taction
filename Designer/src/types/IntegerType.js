@@ -12,19 +12,22 @@ class IntegerType extends Type {
 
 	init(v) {
 
-		if (typeof v === 'string')
-			v = Number.parseInt(v);
+		if (v !== undefined) {
 
-		if (!isFinite(v))
-			v = this.defaultValue || 0;
+			if (typeof v === 'string')
+				v = Number.parseInt(v);
 
-		v = v >> 0;
+			if (!isFinite(v))
+				v = this.defaultValue || 0;
 
-		let { min, max } = this;
-		if (min !== undefined && v < min)
-			v = min;
-		else if (max !== undefined && v > max)
-			v = max;
+			v = v >> 0;
+
+			let { min, max } = this;
+			if (min !== undefined && v < min)
+				v = min;
+			else if (max !== undefined && v > max)
+				v = max;
+		}
 
 		this.value = v;
 	}

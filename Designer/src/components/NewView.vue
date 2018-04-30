@@ -15,7 +15,6 @@
 <script>
 import { mapActions } from 'vuex'
 import layouts from '@/definitions/layouts.json'
-import importAsync from '@/helpers/import-async'
 export default {
 	name: 'NewView',
 	data() {
@@ -25,56 +24,24 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			reset: 'reset',
+			loadTemplateLayout: 'loadTemplateLayout',
 			setErrorMsg: 'ui/setErrorMsg',
 			setActiveOverlay: 'ui/setActiveOverlay'
 		}),
 		async onItemClick(item) {
 
-			/* eslint no-proto: 0 */
-			if (item.code) {
+			try {
 
-				this.reset({ layout: item.code });
+				await this.loadTemplateLayout({
+					name: item.name
+				});
 				this.setActiveOverlay();
 
-			} else if (item.url) {
+			} catch (err) {
 
-				try {
-
-					// @TODO Progress/wait
-					let resp = await fetch(item.url);
-					if (resp.status !== 200)
-						throw new Error('Could not fetch layout file');
-
-					let blob = await resp.blob();
-
-					let file;
-					try {
-
-						file = new File([blob], resp.url);
-
-					} catch (e) { // Assume msedge issue
-
-						file = blob;
-						file.lastModifiedDate = new Date();
-						file.name = resp.url;
-						file.__proto__ = File.prototype;
-					}
-
-					let imported = await importAsync({file});
-					let layout = imported.layout;
-					let zip = imported.zip;
-
-					this.reset({layout, zip});
-					this.setActiveOverlay();
-
-				} catch (err) {
-
-					this.setErrorMsg({msg: 'Error loading layout: ' + err.message});
-					this.setActiveOverlay({id: 'error'});
-				}
+				this.setErrorMsg({msg: 'Error loading layout: ' + err.message});
+				this.setActiveOverlay({id: 'error'});
 			}
-
 		}
 	},
 	mounted() {
@@ -121,6 +88,7 @@ export default {
 	flex-direction: column;
 	border-radius: 4px;
 	transition: all 0.2s ease-out;
+	cursor: pointer;
 }
 .item:last-child {
 	margin-right: 0;
@@ -153,6 +121,7 @@ label {
 	text-overflow: ellipsis;
 	white-space: nowrap;
 	margin-top: 4px;
+	cursor: pointer;
 }
 
 i {

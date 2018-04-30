@@ -2,7 +2,7 @@
 
 Welcome to the Taction Panel Designer!
 
-This is an early version of the application. As such, not all supported features are implemented yet.
+This is an early version of the application. As such, not all supported features are implemented yet. Also, please note that it is currently only designed to be used with Google Chrome.
 
 ### What's New
 

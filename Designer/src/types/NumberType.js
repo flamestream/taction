@@ -11,6 +11,7 @@ class NumberType extends Type {
 	}
 
 	init(v) {
+
 		if (v !== undefined) {
 
 			if (typeof v === 'string')

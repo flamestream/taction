@@ -88,6 +88,13 @@ let components = [{
 		invert: true
 	}
 }, {
+	label: 'Fade animation time',
+	path: 'fade-animation-time',
+	type: InputNumber,
+	options: {
+		min: 0
+	}
+}, {
 	label: 'Radial menu animation',
 	path: 'disable-radial-menu-animation',
 	type: InputBoolean,

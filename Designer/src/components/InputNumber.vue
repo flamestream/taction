@@ -58,6 +58,7 @@ export default {
 			let {min, max} = this;
 			if (min === undefined) min = this.value - this.step * 100;
 			if (max === undefined) max = this.value + this.step * 100;
+
 			this.changeRangeBounds(min, max);
 		},
 		handleNumberChange(ev) {

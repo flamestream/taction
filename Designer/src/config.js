@@ -1,9 +1,7 @@
 export default {
 	name: 'Taction Panel Designer',
 	version: '1.2',
-	defaultLayout: {
-		name: 'My Touch Panel'
-	},
+	lastChangeDate: '2018-04-23',
 	supportedImportExts: ['png', 'ttf'],
 	supportedLayoutVersion: 4,
 	maximumExportFileNameLength: 64,
