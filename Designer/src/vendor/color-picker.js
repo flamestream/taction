@@ -371,7 +371,8 @@ var CP;
             P_W = 0,
             P_H = 0,
             v = HSV2HEX(HSV),
-            set;
+            set,
+            down_in;
 
         // on update ...
         function trigger_(k, x) {
@@ -445,6 +446,7 @@ var CP;
                 }
                 off(on_down, H, down_H);
                 off(on_down, SV, down_SV);
+                off(on_down, doc, out_chk);
                 off(on_move, doc, move);
                 off(on_up, doc, stop);
                 off(on_resize, win, fit);
@@ -494,6 +496,12 @@ var CP;
                 start_H = 0,
                 start_SV = 0;
             }
+            function out_chk(e) {
+                var t = e.target,
+                    is_target = t === target || closest(t, target) === target,
+                    is_picker = t === picker || closest(t, picker) === picker;
+                down_in = is_picker || is_target;
+            }
             function stop(e) {
                 var t = e.target,
                     k = drag_H ? "h" : "sv",
@@ -502,7 +510,7 @@ var CP;
                     is_picker = t === picker || closest(t, picker) === picker;
                 if (!is_target && !is_picker) {
                     // click outside the target or picker element to exit
-                    if (visible() && events !== false) $.exit(), trigger("exit", [$]), trigger_(0, a);
+                    if (!down_in && visible() && events !== false) $.exit(), trigger("exit", [$]), trigger_(0, a);
                 } else {
                     if (is_picker) {
                         trigger("stop:" + k, a);
@@ -532,6 +540,7 @@ var CP;
             if (!first) {
                 on(on_down, H, down_H);
                 on(on_down, SV, down_SV);
+                on(on_down, doc, out_chk);
                 on(on_move, doc, move);
                 on(on_up, doc, stop);
                 on(on_resize, win, fit);

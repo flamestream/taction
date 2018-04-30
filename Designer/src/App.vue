@@ -93,10 +93,16 @@ a:link {
 	text-decoration: none;
 }
 
-input[type=text], input[type=number], select {
+input[type=text], input[type=number], input[type=color], select {
 	border: 0;
 	border-radius: 3px;
 	padding: 2px 4px;
+}
+
+input[type=color] {
+	background-color: #FFF;
+	padding: 2px 3px;
+	width: 32px;
 }
 
 #section-details input[type=text], #section-details input[type=number], #section-details select {
