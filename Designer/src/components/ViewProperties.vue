@@ -152,7 +152,7 @@ export default {
 	overflow-y: scroll;
 }
 
-.slide-menu-container::-webkit-scrollbar {
+.slide-menu-container::-webkit-scrollbar-thumb {
 	background-color: transparent;
 }
 
