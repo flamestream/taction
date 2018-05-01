@@ -15,6 +15,8 @@ A touch panel intended for artists working on Windows Tablet PCs.
 * Fairly customizable with little requirement
   * A full layout can be made with a single JSON file. If images or custom font is wanted, they can be grouped into a bundle file for simple distribution.
 
+Download links can found at the [releases page](https://github.com/flamestream/taction/releases).
+
 ## Known Minimum Requirement
 
 * Touch device
